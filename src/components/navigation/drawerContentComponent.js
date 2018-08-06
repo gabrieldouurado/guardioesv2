@@ -10,13 +10,13 @@ import * as Imagem from '../../imgs/imageConst'
 
 export default class drawerContentComponents extends Component {
 
-    navigateToScreen = ( route ) =>(
-        () => {
-        const navigateAction = NavigationActions.navigate({
-            routeName: route
-        });
-        this.props.navigation.dispatch(navigateAction);
-    })
+    // navigateToScreen = ( route ) =>(
+    //     () => {
+    //     const navigateAction = NavigationActions.navigate({
+    //         routeName: route
+    //     });
+    //     this.props.navigation.dispatch(navigateAction);
+    // })
 
   render() {
     return (

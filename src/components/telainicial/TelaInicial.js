@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     botoes: {
-        flex: 1,
+        flex: 0.65,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 9,

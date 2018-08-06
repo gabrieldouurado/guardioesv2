@@ -7,16 +7,16 @@ import Home from '../principal/Home';
 import drawerContentComponents from './drawerContentComponent';
 
 export const Stack = createStackNavigator({
-  TelaInicial: { screen: TelaInicial},
+  TelaInicial: { screen: TelaInicial },
   Registrar: { screen: Registrar },
   Login: { screen: Login },
   Home: { screen: Home },  
 },{
-  initialRouteName: 'TelaInicial'
+  initialRouteName: 'Home'
 })
 
 export const Drawer = createDrawerNavigator({
-	Item1: { screen: Stack },
+	Stacks: { screen: Stack, navigationOptions: { drawerLockMode: 'locked-closed' } },
 }, {
-	contentComponent: props => <drawerContentComponents {...props} />
+  contentComponent: drawerContentComponents
 })
