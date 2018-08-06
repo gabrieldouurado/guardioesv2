@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { createStackNavigator } from 'react-navigation';
-import TelaInicial from './src/components/telainicial/TelaInicial';
-import Registrar from './src/components/telainicial/Registrar';
-import Login from './src/components/telainicial/Login';
+import * as Navegar from './src/components/navigation/navigator';
 
-const Guardioes = createStackNavigator({
-  TelaInicial: { screen: TelaInicial},
-  Registrar: { screen: Registrar },
-  Login: { screen: Login }
-},{
-  initialRouteName: 'TelaInicial'
-})
+class Guardioes extends Component {
+  render() {
+    return (
+      <Navegar.Drawer />
+    );
+  }
+}
+
 
 export default Guardioes;

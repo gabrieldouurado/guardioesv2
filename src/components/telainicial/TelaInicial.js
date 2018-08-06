@@ -1,8 +1,7 @@
-//import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-
-const imageFundo = require('../../imgs/fundo.png')
+import * as Imagem from '../../imgs/imageConst';
+import CarouselImagens from '../carousel/Carousel';
 
 class TelaInicial extends Component {
     static navigationOptions = {
@@ -14,11 +13,14 @@ class TelaInicial extends Component {
           color: 'white',
           fontWeight: 'normal',
         },
-      }
+    }
     render() {
         const { navigate } = this.props.navigation
         return (
-            <ImageBackground style={styles.container} source={imageFundo} imageStyle={{ resizeMode: 'stretch' }}>
+            <ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
+                <View style={{ flex: 9 }}>
+                    <CarouselImagens  />
+                </View>
                 <View style={styles.botoes}>
                     <TouchableOpacity
                         onPress={() => navigate('Registrar')}
@@ -47,13 +49,13 @@ const styles = StyleSheet.create({
     botoes: {
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'flex-end',
         justifyContent: 'space-between',
-        marginBottom: '2.7%',
+        paddingBottom: 9,
     },
     estiloBotao1: {
         backgroundColor: '#3B8686',
-        height: '8%', width: '48%', 
+        height: '100%', 
+        width: '48%', 
         borderTopRightRadius: 180, 
         borderBottomRightRadius: 180,
         alignItems: 'center',
@@ -61,7 +63,8 @@ const styles = StyleSheet.create({
     },
     estiloBotao2: {
         backgroundColor: '#3B8686',
-        height: '8%', width: '48%', 
+        height: '100%', 
+        width: '48%', 
         borderTopLeftRadius: 180, 
         borderBottomLeftRadius: 180,
         alignItems: 'center',
@@ -73,5 +76,4 @@ const styles = StyleSheet.create({
     }
 });
 
-//make this component available to the app
 export default TelaInicial;

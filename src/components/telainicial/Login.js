@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as Imagem from '../../imgs/imageConst'
 
-const imageLogo = require('../../imgs/logo.png')
-const imageFundo = require('../../imgs/fundo.png')
-
-// create a component
 class Login extends Component {
     static navigationOptions = {
         title: 'Login'
@@ -22,10 +19,10 @@ class Login extends Component {
     render() {
         const back = (<Ionicons name='md-arrow-round-back' size={30} />)
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={imageFundo}>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
 
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={imageLogo} />
+                    <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                 </View>
                 <View style={styles.viewForm}>
                     <Text style={styles.commomText}>E-mail:</Text>
@@ -50,14 +47,17 @@ class Login extends Component {
                         <Text>Esqueceu sua Senha?</Text>
                     </TouchableOpacity>
                     <View style={styles.buttonView}>
-                        <Button style={styles.button} title="Entrar" onPress={() => {
-                            if (this.state.emailValidate === this.state.email && this.state.senhaValidate === this.state.senha) {
-                                this.props.navigation.navigate('Report')
+                        <Button 
+                            style={styles.button} 
+                            title="Entrar" 
+                            onPress={() => {
+                                if (this.state.emailValidate === this.state.email && this.state.senhaValidate === this.state.senha) {
+                                    this.props.navigation.navigate('Home')
+                                }
+                                else {
+                                    alert("USUARIO OU SENHA INCORRETA")
+                                }
                             }
-                            else {
-                                alert("USUARIO OU SENHA INCORRETA")
-                            }
-                        }
                         } />
                     </View>
                 </View>
