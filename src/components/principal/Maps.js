@@ -4,6 +4,19 @@ import { View, Text, StyleSheet } from 'react-native';
 
 // create a component
 class Maps extends Component {
+    static navigationOptions = {
+        title: 'Notícias',
+        headerStyle: {
+            backgroundColor: '#3B8686',
+            elevation: 0
+        },
+        headerTitleStyle: {
+            color: 'white',
+        },
+        headerBackTitleStyle: {
+            color: 'white'
+        },
+    }
     render() {
         return (
             <View style={styles.container}>

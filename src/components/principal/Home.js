@@ -5,21 +5,19 @@ import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
 
-class Reportar extends Component {
+class Home extends Component {
     navOptions // rolê para acessar a drawer em uma função estática
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
         const { params = {} } = navigation.state;
         return {
             title: 'Guardioes da Saude',
-            drawerLockMode: 'unlocked',
             headerStyle: {
                 backgroundColor: '#3B8686',
                 elevation: 0
             },
             headerTitleStyle: {
                 color: 'white',
-                fontWeight: 'normal'
             },
             headerBackTitleStyle: {
                 color: 'white'
@@ -67,7 +65,7 @@ class Reportar extends Component {
                     <TouchableOpacity
                         style={{ borderRadius: 180 }}
                         onPress={() => {
-                            navigate('')
+                            navigate('Reportar')
                         }}
                     >
                         <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
@@ -75,20 +73,35 @@ class Reportar extends Component {
                 </View>
 
                 <View style={inferior}>
-                        <TouchableOpacity style={styles.inferiorBotoes}>
-                            <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45), alignSelf: 'flex-start' }}/>
-                            <Text style= {{ textAlign: 'center', textAlignVertical: 'center' }}>
+                        <TouchableOpacity 
+                            style={styles.inferiorBotoes}
+                            onPress={() => navigate('Noticias')}>
+                            <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }}/>
+                            <Text style={styles.BotoesTexto}>
                                 Notícias
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ justifyContent: 'center', backgroundColor: 'rgba(123,123,123, 0.3)', flex: 0.155, width: '80%', borderBottomLeftRadius: 181, borderTopLeftRadius: 181 }}>
+                        <TouchableOpacity 
+                            style={styles.inferiorBotoes}
+                            onPress={() => navigate('Conselho')}>
                             <Image source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }}/>
+                            <Text style={styles.BotoesTexto}>
+                                Conselho de Saúde
+                            </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ justifyContent: 'center', backgroundColor: 'rgba(123,123,123, 0.3)', flex: 0.155, width: '80%', borderBottomLeftRadius: 181, borderTopLeftRadius: 181 }}>
+                        <TouchableOpacity 
+                            style={styles.inferiorBotoes}
+                            onPress={ () => navigate('Diario')}>
                             <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }}/>
+                            <Text style={styles.BotoesTexto}>
+                                Diário de Saúde
+                            </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ justifyContent: 'center', backgroundColor: 'rgba(123,123,123, 0.3)', flex: 0.155, width: '80%', borderBottomLeftRadius: 181, borderTopLeftRadius: 181 }}>
+                        <TouchableOpacity style={styles.inferiorBotoes}>
                             <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }}/>
+                            <Text style={styles.BotoesTexto}>
+                                Mapa da Saúde
+                            </Text>
                         </TouchableOpacity>
 
                 </View>
@@ -132,13 +145,24 @@ const styles = StyleSheet.create({
     inferiorBotoes: {
         flex: 0.155,
         flexDirection: 'row',
-        backgroundColor: 'rgba(123,123,123, 0.3)', 
+        backgroundColor: 'rgba(123,123,123, 0.15)', 
         width: '80%', 
         borderBottomLeftRadius: 181, 
         borderTopLeftRadius: 181,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+    },
+    BotoesTexto: {
+        // borderWidth: 1,
+        // borderColor: 'red',
+        alignSelf: 'center',
+        width: '50%',
+        textAlign: 'justify',
+        marginLeft: 70,
+        fontSize: 16,
+        color: 'black',
+        fontWeight: '300'
     }
 });
 
 //make this component available to the app
-export default Reportar;
+export default Home;

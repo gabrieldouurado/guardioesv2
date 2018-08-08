@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 // create a component
-class Diario extends Component {
+class Reportar extends Component {
     static navigationOptions = {
-        title: 'Notícias',
+        title: "Reportar",
         headerStyle: {
             backgroundColor: '#3B8686',
             elevation: 0
@@ -15,12 +15,12 @@ class Diario extends Component {
         },
         headerBackTitleStyle: {
             color: 'white'
-        },
+        }
     }
     render() {
         return (
             <View style={styles.container}>
-                <Text>Diario</Text>
+                <Text></Text>
             </View>
         );
     }
@@ -32,9 +32,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2c3e50',
     },
 });
 
 //make this component available to the app
-export default Diario;
+export default Reportar;
