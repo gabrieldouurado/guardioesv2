@@ -1,7 +1,8 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as Imagem from '../../imgs/imageConst';
 
 const nome = (<Icon name='heartbeat' size={30} color='red' />)
 const hospital = (<Icon name='hospital' size={30} color='red' />)
@@ -27,16 +28,7 @@ class Conselho extends Component {
     }
     render() {
         return (
-            <ImageBackground source={require('../img/FUNDO.png')} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
-                <View style={styles.margTop} >
-
-                    <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.goBack()}>
-                        {back}
-                    </TouchableOpacity>
-                    <Text style={styles.titulo}>Conselhos de saúde</Text>
-                </View>
-                <View style={styles.margTop1}>
-                </View>
+            <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
                 <ScrollView>
                     <TouchableOpacity style={styles.selector} onPress={() => this.props.navigation.navigate('Prevencao')}>
                         <Text style={styles.textoSelector}>Prevenção</Text>

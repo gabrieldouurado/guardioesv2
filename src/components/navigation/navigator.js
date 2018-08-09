@@ -7,6 +7,7 @@ import Diario from '../principal/Diario';
 import Conselho from '../principal/Conselho';
 import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
+import Request from '../principal/request'
 import drawerContentComponents from './drawerContentComponent';
 
 export const Stack = createStackNavigator({
@@ -17,9 +18,10 @@ export const Stack = createStackNavigator({
   Diario: { screen: Diario },
   Conselho: { screen: Conselho },
   Noticias: { screen: Noticias },
-  Reportar: { screen: Reportar }
+  Reportar: { screen: Reportar },
+  Request: { screen: Request }
 },{
-  initialRouteName: 'TelaInicial'
+  initialRouteName: 'Request'
 })
 
 export const Drawer = createDrawerNavigator({

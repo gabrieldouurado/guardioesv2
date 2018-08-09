@@ -30,7 +30,8 @@ class Home extends Component {
         
         }
     }
-
+        
+    
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
