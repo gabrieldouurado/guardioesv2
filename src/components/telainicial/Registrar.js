@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet, 
-  Text, 
-  View, 
-  ImageBackground, 
-  Image, 
-  TextInput, 
-  ScrollView, 
-  Button, 
-  TouchableOpacity, 
-  Picker
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+  TextInput,
+  ScrollView,
+  Button,
+  TouchableOpacity,
+  Picker,
+  AsyncStorage,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
@@ -23,9 +24,26 @@ class Registrar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sexo: 'masculino',
-      raca: 'branco',
-      cca2: 'BR',
+      userFirstName: '',
+      userLastName: '',
+      userEmail: '',
+      userPwd: '',
+      userGender: '',
+      userCountry: 'Brasil',
+      userRace: '',
+      userDob: '',
+      userApp: 'd41d8cd98f00b204e9800998ecf8427e',
+      cca2: 'BR'
+    }
+  }
+  componentDidMount(){
+    this._loadInitialState().done();
+  }
+
+  _loadInitialState = async () => {
+    let value = await AsyncStorage.getItem('user');
+    if (value !== null) {
+      this.props.navigation.navigate('Reportar')
     }
   }
   render() {
@@ -48,9 +66,9 @@ class Registrar extends Component {
             <View style={styles.viewChildSexoRaca}>
               <Text style={styles.commomTextView}>Sexo:</Text>
               <Picker
-                selectedValue={this.state.sexo}
+                selectedValue={this.state.userGender}
                 style={styles.selectSexoRaca}
-                onValueChange={(itemValue, itemIndex) => this.setState({ sexo: itemValue })}>
+                onValueChange={(itemValue, itemIndex) => this.setState({ userGender: itemValue })}>
                 <Picker.Item label="Masculino" value="masculino" />
                 <Picker.Item label="Feminino" value="feminino" />
               </Picker>
@@ -58,10 +76,10 @@ class Registrar extends Component {
             <View style={styles.viewChildSexoRaca}>
               <Text style={styles.commomTextView}>Raça:</Text>
               <Picker
-                selectedValue={this.state.raca}
+                selectedValue={this.state.userRace}
                 style={styles.selectSexoRaca}
-                onValueChange={(itemValue, itemIndex) => this.setState({ raca: itemValue })}>
-                <Picker.Item label="Branco" value="branco" />
+                onValueChange={(itemValue, itemIndex) => this.setState({ userRace: itemValue })}>
+                <Picker.Item label="Branco" value="Blanco" />
                 <Picker.Item label="Indigena" value="indigena" />
                 <Picker.Item label="Mestiço" value="mestico" />
                 <Picker.Item label="Negro, mulato ou afrodescendente" value="negro" />
@@ -70,10 +88,10 @@ class Registrar extends Component {
           </View>
           <View style={styles.viewRow}>
             <View style={styles.viewChildData}>
-              
+
               <DatePicker
                 style={{ width: '80%' }}
-                date={this.state.date}
+                date={this.state.userDob}
                 androidMode='spinner'
                 mode="date"
                 placeholder="Nascimento"
@@ -93,7 +111,7 @@ class Registrar extends Component {
                     marginLeft: 36
                   }
                 }}
-                onDateChange={(date) => { this.setState({ date: date }) }}
+                onDateChange={(date) => { this.setState({ userDob: date }) }}
               />
             </View>
             <View style={styles.viewChildPais}>
@@ -101,6 +119,7 @@ class Registrar extends Component {
               <View><CountryPicker
                 onChange={value => {
                   this.setState({ cca2: value.cca2, country: value })
+                  // this.setState({ userCountry: this.state.country.name })
                 }}
                 cca2={this.state.cca2}
                 translation="eng"
@@ -116,13 +135,48 @@ class Registrar extends Component {
             <TextInput style={styles.formInput} secureTextEntry={true} />
           </View>
           <View style={styles.buttonView}>
-            <Button title="Cadastrar" onPress={() => {
-              alert('E pau, negao!')
-            }} />
+            <Button title="Cadastrar" onPress={this.create}
+            />
           </View>
+          <TouchableOpacity onPress={this.create}>
+            <Text>Send</Text>
+          </TouchableOpacity>
         </ScrollView>
       </ImageBackground>
     );
+
+  }
+
+  create = () => {
+    fetch('http://guardianes.centeias.net/user/create', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstname: this.state.userFirstName,
+        lastname: this.state.userLastName,
+        email: this.state.email,
+        password: this.state.userPwd,
+        gender: this.state.userGender,
+        country: this.state.userCountry,
+        race: this.state.userRace,
+        dob: this.state.userDob,
+        app: this.state.userApp
+      })
+    })
+    .then( (response) => response.json())
+    .then( (responseJson) => {
+      if (responseJson.error === false) {
+        AsyncStorage.setItem('user', responseJson.user);
+        this.props.navigation.navigate('Reportar');
+        alert(responseJson.token)
+      } else {
+          alert(responseJson.error)
+      }
+    })
+    .done()
   }
 }
 

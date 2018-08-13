@@ -1,47 +1,78 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TextInput, AsyncStorage, TouchableOpacity, Alert } from 'react-native';
 
 // create a component
 class RequestData extends Component {
+
     constructor(props){
         super(props)
         this.state = {
-            isLoading: true
+            userEmail: 'cabeceira@gmail.com',
+            userPwd: '123456',
         }
     }
     componentDidMount(){
-        return fetch('https://facebook.github.io/react-native/movies.json')
-                .then( response => response.json())
-                .then( responseJson => {
-                    this.setState({
-                        isLoading: false,
-                        dataSource: responseJson.movies,
-                    }, function(){
+      this._loadInitialState().done();
+    }
 
-                    }
-                );
-                })
-                .catch( error => console.error(error))
+    _loadInitialState = async () => {
+      let value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        this.props.navigation.navigate
+      }
     }
     render() {
-        if(this.state.isLoading) {
-            return(
-                <View style={{ flex: 1, padding: 20 }}>
-                    <ActivityIndicator />
-                </View>
-            )
-        }
-        return (
-            <View style={{flex: 1, paddingTop:20}}>
-                <FlatList
-                data={this.state.dataSource}
-                renderItem={({item}) => <Text>{item.title}, {item.releaseYear}</Text>}
-                keyExtractor={(item, index) => index}
-                />
-          </View>
-        )
-        
+      return (
+        <View style={{ flex: 1, justifyContent: 'space-evenly' }}>
+          <TextInput
+            style={{height: 40, borderColor: 'blue', borderWidth: 1, backgroundColor: 'rgba(232,232,232,0.8)'  }}
+            onChangeText={ (text) => this.setState({ userEmail: text }) }
+            value={this.state.text}
+            placeholder='Email'
+          />
+          <Text style={{ height: 100 ,backgroundColor: 'gray', justifyContent: 'center' }}>
+          {this.state.userEmail}
+          </Text>
+          <TextInput
+            style={{height: 40, borderColor: 'blue', borderWidth: 1, backgroundColor: 'rgba(232,232,232,0.8)' }}
+            onChangeText={(text) => this.setState({ userPwd: text }) }
+            value={this.state.text}
+            placeholder='Password'
+          />
+          <Text style={{ height: 100, backgroundColor: 'gray', justifyContent: 'center' }}>
+          {this.state.userPwd}
+          </Text>
+          <TouchableOpacity
+            onPress={this.login}>
+            <Text>Login</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+    login = () => {
+      fetch('https://guardianes.centeias.net/user/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: this.state.userEmail,
+          password: this.state.userPwd
+        })
+      })
+      .then( (response) => response.json())
+      .then( (responseJson) => {
+          if (responseJson.error === false) {
+            AsyncStorage.setItem('user', responseJson.user);
+            this.props.navigation.navigate('Reportar');
+            alert(responseJson.token)
+          } else {
+              alert(responseJson.error)
+          }
+      })
+      .done();
     }
 }
 
