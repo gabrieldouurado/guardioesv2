@@ -8,8 +8,8 @@ class RequestData extends Component {
     constructor(props){
         super(props)
         this.state = {
-            userEmail: 'cabeceira@gmail.com',
-            userPwd: '123456',
+            userEmail: '',
+            userPwd: '',
         }
     }
     componentDidMount(){

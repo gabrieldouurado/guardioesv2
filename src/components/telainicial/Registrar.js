@@ -50,12 +50,7 @@ class Registrar extends Component {
     const back = (<Ionicons name='md-arrow-round-back' size={30} />)
     return (
       <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
-        <View style={styles.viewLogo}>
-          <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
-        </View>
         <ScrollView style={styles.scroll}>
-
-
 
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Nome:</Text>
@@ -65,7 +60,6 @@ class Registrar extends Component {
             />
           </View>
 
-
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Sobrenome:</Text>
             <TextInput
@@ -73,7 +67,6 @@ class Registrar extends Component {
                 onChangeText={text => this.setState({userLastName: text})}
             />
           </View>
-
 
           <View style={styles.viewRow}>
             <View style={styles.viewChildSexoRaca}>
@@ -86,8 +79,6 @@ class Registrar extends Component {
                 <Picker.Item label="Feminino" value="Femenino" />
               </Picker>
             </View>
-
-
 
             <View style={styles.viewChildSexoRaca}>
               <Text style={styles.commomTextView}>Raça:</Text>
@@ -106,8 +97,6 @@ class Registrar extends Component {
             </View>
 
           </View>
-
-
 
           <View style={styles.viewRow}>
             <View style={styles.viewChildData}>
@@ -138,8 +127,6 @@ class Registrar extends Component {
               />
             </View>
 
-
-
             <View style={styles.viewChildPais}>
               <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
               <View><CountryPicker
@@ -152,8 +139,6 @@ class Registrar extends Component {
             </View>
           </View>
 
-
-
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Email:</Text>
             <TextInput
@@ -162,8 +147,6 @@ class Registrar extends Component {
                 onChangeText={email => this.setState({userEmail: email})}
             />
           </View>
-
-
 
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Senha:</Text>
@@ -174,10 +157,13 @@ class Registrar extends Component {
             />
           </View>
 
-
-
           <View style={styles.buttonView}>
-            <Button title="Cadastrar" onPress={() => {console.warn(this.state); this.create}} />
+            <TouchableOpacity
+              style={styles.enviar}
+              onPress={this.create}
+            >
+              <Text>Cadastrar</Text>
+            </TouchableOpacity>
           </View>
 
         </ScrollView>
@@ -196,18 +182,17 @@ class Registrar extends Component {
         firstname: this.state.userFirstName,
         lastname: this.state.userLastName,
         email: this.state.userEmail,
+        password: this.state.userPwd,
         gender: this.state.userGender,
         country: this.state.userCountry,
-        dob: this.state.userDob,
-        password: this.state.userPwd,
         race: this.state.userRace,
-        app: this.state.userApp
+        dob: this.state.userDob,
+        app: this.state.userApp,
       })
     })
     .then((response) => response.json())
     .then(response => {
       if (response.error === false) {
-        alert(response.message);
         this.props.navigation.navigate('Reportar');
       }
       else {
@@ -319,6 +304,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonView: {
+    height: '8%',
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 20,
@@ -329,6 +315,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '35%',
     resizeMode: 'center',
+  },
+  enviar: {
+    backgroundColor: 'skyblue',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8
   }
 });
 
