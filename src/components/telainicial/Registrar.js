@@ -28,9 +28,9 @@ class Registrar extends Component {
       userLastName: '',
       userEmail: '',
       userPwd: '',
-      userGender: '',
-      userCountry: 'Brasil',
-      userRace: '',
+      userGender: 'Masculino',
+      userCountry: 'Brazil',
+      userRace: 'Blanco',
       userDob: '',
       userApp: 'd41d8cd98f00b204e9800998ecf8427e',
       cca2: 'BR'
@@ -54,14 +54,27 @@ class Registrar extends Component {
           <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
         </View>
         <ScrollView style={styles.scroll}>
+
+
+
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Nome:</Text>
-            <TextInput style={styles.formInput} />
+            <TextInput
+                style={styles.formInput}
+                onChangeText={text => this.setState({userFirstName: text})}
+            />
           </View>
+
+
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Sobrenome:</Text>
-            <TextInput style={styles.formInput} />
+            <TextInput
+                style={styles.formInput}
+                onChangeText={text => this.setState({userLastName: text})}
+            />
           </View>
+
+
           <View style={styles.viewRow}>
             <View style={styles.viewChildSexoRaca}>
               <Text style={styles.commomTextView}>Sexo:</Text>
@@ -69,10 +82,13 @@ class Registrar extends Component {
                 selectedValue={this.state.userGender}
                 style={styles.selectSexoRaca}
                 onValueChange={(itemValue, itemIndex) => this.setState({ userGender: itemValue })}>
-                <Picker.Item label="Masculino" value="masculino" />
-                <Picker.Item label="Feminino" value="feminino" />
+                <Picker.Item label="Masculino" value="Masculino" />
+                <Picker.Item label="Feminino" value="Femenino" />
               </Picker>
             </View>
+
+
+
             <View style={styles.viewChildSexoRaca}>
               <Text style={styles.commomTextView}>Raça:</Text>
               <Picker
@@ -80,12 +96,19 @@ class Registrar extends Component {
                 style={styles.selectSexoRaca}
                 onValueChange={(itemValue, itemIndex) => this.setState({ userRace: itemValue })}>
                 <Picker.Item label="Branco" value="Blanco" />
-                <Picker.Item label="Indigena" value="indigena" />
-                <Picker.Item label="Mestiço" value="mestico" />
-                <Picker.Item label="Negro, mulato ou afrodescendente" value="negro" />
+                <Picker.Item label="Indigena" value="Indígena" />
+                <Picker.Item label="Mestiço" value="Mestizo" />
+                <Picker.Item label="Negro, mulato ou afrodescendente" value="Negro, mulato o afrodescendiente" />
+                <Picker.Item label="Palenquero" value="Palenquero" />
+                <Picker.Item label="Raizal" value="Raizal" />
+                <Picker.Item label="Rom-Gitano" value="Rom-Gitano" />
               </Picker>
             </View>
+
           </View>
+
+
+
           <View style={styles.viewRow}>
             <View style={styles.viewChildData}>
 
@@ -111,44 +134,59 @@ class Registrar extends Component {
                     marginLeft: 36
                   }
                 }}
-                onDateChange={(date) => { this.setState({ userDob: date }) }}
+                onDateChange={ date => this.setState({ userDob: date }) }
               />
             </View>
+
+
+
             <View style={styles.viewChildPais}>
               <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
               <View><CountryPicker
                 onChange={value => {
-                  this.setState({ cca2: value.cca2, country: value })
-                  // this.setState({ userCountry: this.state.country.name })
+                  this.setState({ cca2: value.cca2, userCountry: value.name })
                 }}
                 cca2={this.state.cca2}
                 translation="eng"
               /></View>
             </View>
           </View>
+
+
+
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Email:</Text>
-            <TextInput style={styles.formInput} keyboardType='email-address' />
-          </View>
-          <View style={styles.viewCommom}>
-            <Text style={styles.commomText}>Senha:</Text>
-            <TextInput style={styles.formInput} secureTextEntry={true} />
-          </View>
-          <View style={styles.buttonView}>
-            <Button title="Cadastrar" onPress={this.create}
+            <TextInput
+                style={styles.formInput}
+                keyboardType='email-address'
+                onChangeText={email => this.setState({userEmail: email})}
             />
           </View>
-          <TouchableOpacity onPress={this.create}>
-            <Text>Send</Text>
-          </TouchableOpacity>
+
+
+
+          <View style={styles.viewCommom}>
+            <Text style={styles.commomText}>Senha:</Text>
+            <TextInput
+                style={styles.formInput}
+                secureTextEntry={true}
+                onChangeText={ password => this.setState({userPwd: password})}
+            />
+          </View>
+
+
+
+          <View style={styles.buttonView}>
+            <Button title="Cadastrar" onPress={() => {console.warn(this.state); this.create}} />
+          </View>
+
         </ScrollView>
       </ImageBackground>
     );
 
   }
-
   create = () => {
-    fetch('http://guardianes.centeias.net/user/create', {
+    fetch('https://guardianes.centeias.net/user/create', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -157,26 +195,25 @@ class Registrar extends Component {
       body: JSON.stringify({
         firstname: this.state.userFirstName,
         lastname: this.state.userLastName,
-        email: this.state.email,
-        password: this.state.userPwd,
+        email: this.state.userEmail,
         gender: this.state.userGender,
         country: this.state.userCountry,
-        race: this.state.userRace,
         dob: this.state.userDob,
+        password: this.state.userPwd,
+        race: this.state.userRace,
         app: this.state.userApp
       })
     })
-    .then( (response) => response.json())
-    .then( (responseJson) => {
-      if (responseJson.error === false) {
-        AsyncStorage.setItem('user', responseJson.user);
+    .then((response) => response.json())
+    .then(response => {
+      if (response.error === false) {
+        alert(response.message);
         this.props.navigation.navigate('Reportar');
-        alert(responseJson.token)
-      } else {
-          alert(responseJson.error)
+      }
+      else {
+        alert(response.message);
       }
     })
-    .done()
   }
 }
 
