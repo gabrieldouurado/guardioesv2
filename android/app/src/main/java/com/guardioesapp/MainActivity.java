@@ -1,4 +1,4 @@
-package com.GuardioesApp;
+package com.guardioesapp;
 
 import android.content.Intent;
 import com.facebook.react.ReactActivity;
@@ -11,7 +11,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "GuardioesApp";
+        return "guardioesapp";
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

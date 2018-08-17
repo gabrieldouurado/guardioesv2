@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -15,8 +15,24 @@ class Login extends Component {
             senha: "",
             emailValidate: '',
             senhaValidate: '',
+            userFirst_name: '',
+            userLast_name: '',
+            userEmail: ''
         }
     }
+
+    _responseInfoCallback = (error, result) => {
+        if (error) {
+            alert('Error fetching data: ' + error.toString());
+        } else {
+            alert('First Name: ' + result.first_name + ' Last Name: ' + result.last_name + ' Email: ' + result.email);
+            this.setState({ userFirst_name: result.first_name })
+            this.setState({ userLast_name: result.last_name })
+            this.setState({ userEmail: result.email })
+        }
+    }
+
+
     render() {
         const back = (<Ionicons name='md-arrow-round-back' size={30} />)
         return (
@@ -27,7 +43,12 @@ class Login extends Component {
                 </View>
                 <View style={styles.viewForm}>
                     <Text style={styles.commomText}>E-mail:</Text>
-                    <TextInput style={styles.formInput} keyboardType='email-address' multiline={false} maxLength={33}
+                    <TextInput
+                        style={styles.formInput}
+                        returnKeyType='next'
+                        keyboardType='email-address'
+                        multiline={false} maxLength={33}
+                        onSubmitEditing={() => this.passwordInput.focus()}
                         onChangeText={text => {
                             if (text === this.state.email) {
                                 this.setState({ emailValidate: this.state.email })
@@ -36,7 +57,12 @@ class Login extends Component {
                         }
                     />
                     <Text style={styles.commomText}>Senha:</Text>
-                    <TextInput style={styles.formInput} secureTextEntry={true} multiline={false} maxLength={15}
+                    <TextInput
+                        style={styles.formInput}
+                        secureTextEntry={true}
+                        multiline={false}
+                        maxLength={15}
+                        ref={(input) => this.passwordInput = input}
                         onChangeText={text => {
                             if (text === this.state.senha) {
                                 this.setState({ senhaValidate: this.state.senha })
@@ -48,9 +74,9 @@ class Login extends Component {
                         <Text>Esqueceu sua Senha?</Text>
                     </TouchableOpacity>
                     <View style={styles.buttonView}>
-                        <Button 
-                            style={styles.button} 
-                            title="Entrar" 
+                        <Button
+                            style={styles.button}
+                            title="Entrar"
                             onPress={() => {
                                 if (this.state.emailValidate === this.state.email && this.state.senhaValidate === this.state.senha) {
                                     this.props.navigation.navigate('Home')
@@ -58,8 +84,35 @@ class Login extends Component {
                                 else {
                                     alert("USUARIO OU SENHA INCORRETA")
                                 }
+                                Keyboard.dismiss()
                             }
-                        } />
+                            } />
+                    </View>
+                    <View style={{ paddingTop: 20 }}>
+                        <LoginButton
+                            readPermissions={['public_profile', 'email']}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        alert("login has error: " + result.error);
+                                    } else if (result.isCancelled) {
+                                        alert("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                const infoRequest = new GraphRequest(
+                                                    '/me?fields=first_name,last_name,email',
+                                                    null,
+                                                    this._responseInfoCallback
+                                                );
+                                                // Start the graph request.
+                                                new GraphRequestManager().addRequest(infoRequest).start();
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            onLogoutFinished={() => { }} />
                     </View>
                 </View>
             </ImageBackground>

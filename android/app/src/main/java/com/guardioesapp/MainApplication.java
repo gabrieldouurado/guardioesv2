@@ -1,4 +1,4 @@
-package com.GuardioesApp;
+package com.guardioesapp;
 
 import android.app.Application;
 
