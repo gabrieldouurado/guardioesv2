@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Picker,
   AsyncStorage,
+  Keyboard
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
@@ -172,6 +173,7 @@ class Registrar extends Component {
 
   }
   create = () => {
+    Keyboard.dismiss()
     fetch('https://guardianes.centeias.net/user/create', {
       method: 'POST',
       headers: {
@@ -199,6 +201,7 @@ class Registrar extends Component {
         alert(response.message);
       }
     })
+
   }
 }
 
