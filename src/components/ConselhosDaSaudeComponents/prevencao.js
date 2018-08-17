@@ -34,11 +34,13 @@ class Prevencao extends Component {
         title: 'Prevenção'
     }
 
-    showObjectjQuery(obj) {
+    showObject(obj) {
         var result = "";
-        $.each(obj, function(k, v) {
-          result += k + " , " + v + "\n";
-        });
+        for (var p in obj) {
+          if( obj.hasOwnProperty(p) ) {
+            result += obj[p] + "\n";
+          } 
+        }              
         return result;
       }
     render(){
@@ -53,12 +55,7 @@ class Prevencao extends Component {
        if(this.state.dataSource){
            return(
                <View style={styles.container}>
-                    
-                    <FlatList
-                        data = {this.showObjectjQuery(this.state.dataSource)}
-                        renderItem={({item}) => <Text style={styles.texto}> {item.body} </Text>}
-                        keyExtractor={(item, id) => id}
-                    />
+                        <Text style={styles.texto}> {JSON.stringify(this.showObject(this.state.dataSource))}</Text>
                </View>
            )
        }

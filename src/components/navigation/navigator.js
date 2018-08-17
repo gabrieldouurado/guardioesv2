@@ -9,7 +9,7 @@ import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
 import Request from '../principal/request'
 import drawerContentComponents from './drawerContentComponent';
-
+import Prevencao from '../ConselhosDaSaudeComponents/prevencao';
 export const Stack = createStackNavigator({
   TelaInicial: { screen: TelaInicial },
   Registrar: { screen: Registrar },
@@ -19,9 +19,10 @@ export const Stack = createStackNavigator({
   Conselho: { screen: Conselho },
   Noticias: { screen: Noticias },
   Reportar: { screen: Reportar },
-  Request: { screen: Request }
+  Request: { screen: Request },
+  Prevencao: {screen: Prevencao},
 },{
-  initialRouteName: 'Request'
+  initialRouteName: 'Prevencao'
 })
 
 export const Drawer = createDrawerNavigator({
