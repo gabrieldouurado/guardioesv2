@@ -21,7 +21,7 @@ export const Stack = createStackNavigator({
   Reportar: { screen: Reportar },
   Request: { screen: Request }
 },{
-  initialRouteName: 'Request'
+  initialRouteName: 'TelaInicial'
 })
 
 export const Drawer = createDrawerNavigator({
