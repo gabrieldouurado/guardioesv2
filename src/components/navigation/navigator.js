@@ -10,6 +10,8 @@ import Reportar from '../principal/Reportar';
 import Request from '../principal/request'
 import drawerContentComponents from './drawerContentComponent';
 import Prevencao from '../ConselhosDaSaudeComponents/prevencao';
+import mapTest from '../principal/mapTest';
+import badReport from '../principal/badReport';
 export const Stack = createStackNavigator({
   TelaInicial: { screen: TelaInicial },
   Registrar: { screen: Registrar },
@@ -21,8 +23,10 @@ export const Stack = createStackNavigator({
   Reportar: { screen: Reportar },
   Request: { screen: Request },
   Prevencao: {screen: Prevencao},
+  mapTest: {screen: mapTest},
+  badReport: {screen: badReport},
 },{
-  initialRouteName: 'Prevencao'
+  initialRouteName: 'TelaInicial'
 })
 
 export const Drawer = createDrawerNavigator({

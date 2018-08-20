@@ -54,8 +54,9 @@ class Prevencao extends Component {
           
        if(this.state.dataSource){
            return(
+               dataparse = this.showObject(this.state.dataSource),
                <View style={styles.container}>
-                        <Text style={styles.texto}> {JSON.stringify(this.showObject(this.state.dataSource))}</Text>
+                        <Text style={styles.texto}> {this.showObject(dataparse)}</Text>
                </View>
            )
        }

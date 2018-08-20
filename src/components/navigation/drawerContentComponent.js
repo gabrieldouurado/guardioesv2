@@ -28,7 +28,7 @@ export default class drawerContentComponents extends Component {
                 </ImageBackground>
             </View>
 
-            <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate()}>
+            <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Home')}>
                 <FontAwesome name='home' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
                 <Text style={styles.drawerItemsTxt}>Início</Text>
             </TouchableOpacity>
