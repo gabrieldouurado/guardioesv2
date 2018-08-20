@@ -1,20 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-  StyleSheet, 
-  Text, 
-  View, 
-  ImageBackground, 
-  Image, 
-  TextInput, 
-  ScrollView, 
-  Button, 
-  TouchableOpacity, 
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+  TextInput,
+  ScrollView,
+  Button,
+  TouchableOpacity,
   Picker
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
 import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
+
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
+
+let today = d + "-" + m + "-" + y;
 
 class Registrar extends Component {
   static navigationOptions = {
@@ -26,6 +33,8 @@ class Registrar extends Component {
       sexo: 'masculino',
       raca: 'branco',
       cca2: 'BR',
+      password: null,
+      passwordConfirm: null
     }
   }
   render() {
@@ -36,13 +45,18 @@ class Registrar extends Component {
           <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
         </View>
         <ScrollView style={styles.scroll}>
-          <View style={styles.viewCommom}>
+        <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Nome:</Text>
-            <TextInput style={styles.formInput} />
+            <TextInput style={styles.formInput}
+              returnKeyType='next'
+              onSubmitEditing={() => this.sobrenomeInput.focus()}
+            />
           </View>
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Sobrenome:</Text>
-            <TextInput style={styles.formInput} />
+            <TextInput style={styles.formInput}
+              ref={(input) => this.sobrenomeInput = input}
+            />
           </View>
           <View style={styles.viewRow}>
             <View style={styles.viewChildSexoRaca}>
@@ -70,7 +84,7 @@ class Registrar extends Component {
           </View>
           <View style={styles.viewRow}>
             <View style={styles.viewChildData}>
-              
+
               <DatePicker
                 style={{ width: '80%' }}
                 date={this.state.date}
@@ -79,7 +93,7 @@ class Registrar extends Component {
                 placeholder="Nascimento"
                 format="DD-MM-YYYY"
                 minDate="01-01-1918"
-                maxDate="01-01-2019"
+                maxDate={today}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
@@ -113,11 +127,30 @@ class Registrar extends Component {
           </View>
           <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Senha:</Text>
-            <TextInput style={styles.formInput} secureTextEntry={true} />
+            <TextInput style={styles.formInput}
+              returnKeyType='next'
+              secureTextEntry={true}
+              onChangeText={text => this.setState({ password: text })}
+              ref={(input) => this.passwordInput = input}
+              onSubmitEditing={() => this.passwordConfirmInput.focus()}
+            />
+          </View>
+          <View style={styles.viewCommom}>
+            <Text style={styles.commomText}>Confirme sua Senha:</Text>
+            <TextInput style={styles.formInput}
+              secureTextEntry={true}
+              onChangeText={text => this.setState({ passwordConfirm: text })}
+              ref={(input) => this.passwordConfirmInput = input}
+            />
           </View>
           <View style={styles.buttonView}>
             <Button title="Cadastrar" onPress={() => {
-              alert('E pau, negao!')
+              if (this.state.password === this.state.passwordConfirm) {
+                console.warn("SENHA", this.state.passwordConfirm)
+              }
+              else {
+                console.warn("SENHA INCORRETA")
+              }
             }} />
           </View>
         </ScrollView>
@@ -130,8 +163,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    height: 680
   },
   margTop: {
     width: '100%',
