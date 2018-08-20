@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, Keyboard, AsyncStorage } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -11,13 +11,22 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
-            senha: "",
-            emailValidate: '',
-            senhaValidate: '',
-            userFirst_name: '',
-            userLast_name: '',
-            userEmail: ''
+            userEmail: "exemplo@dominio.com",
+            userPwd: "123456",
+            userFirst_name: null,
+            userLast_name: null,
+            userEmailFB: null
+        }
+    }
+
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+        let value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+            this.props.navigation.navigate
         }
     }
 
@@ -28,13 +37,12 @@ class Login extends Component {
             alert('First Name: ' + result.first_name + ' Last Name: ' + result.last_name + ' Email: ' + result.email);
             this.setState({ userFirst_name: result.first_name })
             this.setState({ userLast_name: result.last_name })
-            this.setState({ userEmail: result.email })
+            this.setState({ userEmailFB: result.email })
         }
     }
 
 
     render() {
-        const back = (<Ionicons name='md-arrow-round-back' size={30} />)
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
 
@@ -49,12 +57,7 @@ class Login extends Component {
                         keyboardType='email-address'
                         multiline={false} maxLength={33}
                         onSubmitEditing={() => this.passwordInput.focus()}
-                        onChangeText={text => {
-                            if (text === this.state.email) {
-                                this.setState({ emailValidate: this.state.email })
-                            }
-                        }
-                        }
+                        onChangeText={(text) => this.setState({ userEmail: text })}
                     />
                     <Text style={styles.commomText}>Senha:</Text>
                     <TextInput
@@ -63,12 +66,7 @@ class Login extends Component {
                         multiline={false}
                         maxLength={15}
                         ref={(input) => this.passwordInput = input}
-                        onChangeText={text => {
-                            if (text === this.state.senha) {
-                                this.setState({ senhaValidate: this.state.senha })
-                            }
-                        }
-                        }
+                        onChangeText={(text) => this.setState({ userPwd: text })}
                     />
                     <TouchableOpacity onPress={() => { alert("ESQUECEU SUA SENHA") }}>
                         <Text>Esqueceu sua Senha?</Text>
@@ -78,12 +76,7 @@ class Login extends Component {
                             style={styles.button}
                             title="Entrar"
                             onPress={() => {
-                                if (this.state.emailValidate === this.state.email && this.state.senhaValidate === this.state.senha) {
-                                    this.props.navigation.navigate('Home')
-                                }
-                                else {
-                                    alert("USUARIO OU SENHA INCORRETA")
-                                }
+                                this.props.navigation.navigate('Home')
                                 Keyboard.dismiss()
                             }
                             } />
@@ -118,6 +111,32 @@ class Login extends Component {
             </ImageBackground>
         );
     }
+
+    login = () => {
+        fetch('https://guardianes.centeias.net/user/login', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: this.state.userEmail,
+            password: this.state.userPwd
+          })
+        })
+        .then( (response) => response.json())
+        .then( (responseJson) => {
+            if (responseJson.error === false) {
+              AsyncStorage.setItem('user', responseJson.user);
+              this.props.navigation.navigate('Home');
+              alert(responseJson.token)
+            } else {
+                alert(responseJson.message)
+            }
+        })
+        .done();
+      }
+  
 }
 
 // define your styles
