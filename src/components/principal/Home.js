@@ -47,7 +47,7 @@ class Home extends Component {
     openDrawer() {// rolê para acessar a drawer em uma função estática
         this.props.navigation.openDrawer();
     }// rolê para acessar a drawer em uma função estática
-
+z
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;

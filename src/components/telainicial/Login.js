@@ -35,9 +35,8 @@ class Login extends Component {
             alert('Error fetching data: ' + error.toString());
         } else {
             alert('First Name: ' + result.first_name + ' Last Name: ' + result.last_name + ' Email: ' + result.email);
-            this.setState({ userFirst_name: result.first_name })
-            this.setState({ userLast_name: result.last_name })
-            this.setState({ userEmailFB: result.email })
+            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email, pic: result.picture.data.url });
+            this.props.navigation.navigate('Home')
         }
     }
 
@@ -94,7 +93,7 @@ class Login extends Component {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
                                                 const infoRequest = new GraphRequest(
-                                                    '/me?fields=first_name,last_name,email',
+                                                    '/me?fields=first_name,last_name,email,picture',
                                                     null,
                                                     this._responseInfoCallback
                                                 );
