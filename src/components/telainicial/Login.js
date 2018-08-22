@@ -35,7 +35,8 @@ class Login extends Component {
             alert('Error fetching data: ' + error.toString());
         } else {
             alert('First Name: ' + result.first_name + ' Last Name: ' + result.last_name + ' Email: ' + result.email);
-            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email, pic: result.picture.data.url });
+            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email });
+            AsyncStorage.setItem('avatar', result.picture.data.url);
             this.props.navigation.navigate('Home')
         }
     }
@@ -74,10 +75,10 @@ class Login extends Component {
                         <Button
                             style={styles.button}
                             title="Entrar"
-                            onPress={() => {
-                                this.props.navigation.navigate('Home')
-                                Keyboard.dismiss()
-                            }
+                            onPress={
+                                //this.props.navigation.navigate('Home')
+                                this.login
+                                
                             } />
                     </View>
                     <View style={{ paddingTop: 20 }}>
@@ -127,6 +128,7 @@ class Login extends Component {
         .then( (responseJson) => {
             if (responseJson.error === false) {
               AsyncStorage.setItem('user', responseJson.user);
+              Keyboard.dismiss()
               this.props.navigation.navigate('Home');
               alert(responseJson.token)
             } else {

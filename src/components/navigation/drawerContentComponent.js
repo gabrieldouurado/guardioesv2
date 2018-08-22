@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {NavigationActions} from 'react-navigation';
-import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { moderateScale, verticalScale } from '../scallingUtils'
+import { Avatar } from 'react-native-elements'
 import * as Imagem from '../../imgs/imageConst'
 
 export default class drawerContentComponents extends Component {
@@ -17,63 +18,87 @@ export default class drawerContentComponents extends Component {
     //     });
     //     this.props.navigation.dispatch(navigateAction);
     // })
+    constructor(props) {
+        super(props);
+        this.state = {
+            pic: null
+        }
+    }  
 
-  render() {
-    return (
-        <ScrollView style={styles.container}>
-            <View style={styles.headerContainer}>
-                <ImageBackground source={Imagem.imagemDrawer} style={{flex: 1, width: moderateScale(280), justifyContent: 'center'}} >
-                    <Text style={styles.headerText}>Header Portion</Text>
-                    <Text style={styles.headerText}>You can display here logo or profile image</Text>
-                </ImageBackground>
-            </View>
+    componentDidMount() {
+        this._getAvatar()
+    }
+    _getAvatar = async () => {
+        let value = await AsyncStorage.getItem('avatar');
+        this.setState({pic: value})
+        //console.warn(this.state.pic)
+    }
 
-            <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate()}>
-                <FontAwesome name='home' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Início</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer} onPress={() => Linking.openURL('https://google.com')}>
-                <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray'  style={[styles.iconStyle, {paddingRight: '13%'}]}/>
-                <Text style={styles.drawerItemsTxt}>Publicações</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Perfil</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <Entypo name='open-book' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, {paddingRight: '13%'}]}/>
-                <Text style={styles.drawerItemsTxt}>EAD</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <Feather name='message-circle' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Mensagens</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <Entypo name='facebook' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Facebook</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer}>
-                <Feather name='help-circle' size={verticalScale(30)} color='gray'  style={styles.iconStyle}/>
-                <Text style={styles.drawerItemsTxt}>Ajuda</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Sobre')}>
-                <FontAwesome name='home' size={verticalScale(30)} color='gray'  style={[styles.iconStyle, {paddingRight: '16%'}]}/>
-                <Text style={styles.drawerItemsTxt}>Sobre</Text>
-            </TouchableOpacity>
+    render() {
+        return (
+            <ScrollView style={styles.container}>
+                <View style={styles.headerContainer}>
+                    <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
+                        <View style={styles.shadowAvatar}>
+                            <Avatar
+                                xlarge
+                                rounded
+                                source={{ uri: this.state.pic }}
+                                onPress={this._getAvatar}
+                                activeOpacity={0.7}
+                            />
+                        </View>
+                        <Text style={styles.headerText}>Header Portion</Text>
+                        <Text style={styles.headerText}>You can display here logo or profile image</Text>
+                    </ImageBackground>
+                </View>
 
-            <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
+                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate()}>
+                    <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Início</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer} onPress={() => Linking.openURL('https://google.com')}>
+                    <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
+                    <Text style={styles.drawerItemsTxt}>Publicações</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Perfil</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
+                    <Text style={styles.drawerItemsTxt}>EAD</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Mensagens</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Facebook</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer}>
+                    <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                    <Text style={styles.drawerItemsTxt}>Ajuda</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Sobre')}>
+                    <FontAwesome name='home' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
+                    <Text style={styles.drawerItemsTxt}>Sobre</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={[{flexDirection: 'row', marginTop: 10,padding: 8, backgroundColor: 'red', justifyContent: 'center', paddingRight: '15%', paddingLeft: '8%', }]}>
+                <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
+
+                <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10, padding: 8, backgroundColor: 'red', justifyContent: 'center', paddingRight: '15%', paddingLeft: '8%', }]}>
                     <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={null}>Sair</Text>
-            </TouchableOpacity>
-        </ScrollView>
-    
-    )
-  }
+                </TouchableOpacity>
+            </ScrollView>
+
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -84,6 +109,16 @@ const styles = StyleSheet.create({
     },
     headerText: {
         color: '#fff8f8',
+    },
+    shadowAvatar:{
+        borderBottomRightRadius: 90,
+        borderTopRightRadius: 90,
+        width:'75%',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        backgroundColor: '#465F6C',
+        borderColor: '#465F6C',
+        borderWidth: 1
     },
     itemsContainer: {
         flexDirection: 'row',
@@ -100,7 +135,7 @@ const styles = StyleSheet.create({
     drawerItemsTxt: {
         textAlignVertical: 'center',
         fontSize: verticalScale(21.5),
-        
+
     },
 
 });
