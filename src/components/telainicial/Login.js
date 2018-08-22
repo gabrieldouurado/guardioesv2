@@ -22,7 +22,11 @@ class Login extends Component {
     _loadInitialState = async () => {
       let value = await AsyncStorage.getItem('user');
       if (value !== null) {
-        this.props.navigation.navigate
+        alert('sdfsd')
+        this.props.navigation.navigate('Home')
+      }
+      else {
+          alert('nao')
       }
     }
 
@@ -82,8 +86,7 @@ class Login extends Component {
       .then( (responseJson) => {
           if (responseJson.error === false) {
             AsyncStorage.setItem('user', responseJson.user);
-            this.props.navigation.navigate('Reportar');
-            alert(responseJson.token)
+            this.props.navigation.navigate('Home');
           } else {
               alert(responseJson.message)
           }
