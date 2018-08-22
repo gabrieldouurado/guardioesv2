@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, AsyncStorage, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Imagem from '../../imgs/imageConst';
 
@@ -86,6 +86,7 @@ class Login extends Component {
       .then( (responseJson) => {
           if (responseJson.error === false) {
             AsyncStorage.setItem('user', responseJson.user);
+            Keyboard.dismiss();
             this.props.navigation.navigate('Home');
           } else {
               alert(responseJson.message)
