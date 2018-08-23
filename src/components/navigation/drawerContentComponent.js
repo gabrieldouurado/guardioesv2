@@ -24,17 +24,20 @@ export default class drawerContentComponents extends Component {
         super(props);
         this.state = {
             pic: null,
-            loginOnFB: null
+            loginOnFB: null,
+            loginOnApp: null
         }
     }
+
     //Funcao responsavel por pegar as variaveis do Facebook e salva-las em variaveis de estado 
     _getInfoFB = async () => {
         let valueAvatar = await AsyncStorage.getItem('avatar');
         let valueFB = await AsyncStorage.getItem('loginOnFB');
-        this.setState({ pic: valueAvatar, loginOnFB: valueFB })
+        let valueApp = await AsyncStorage.getItem('loginOnApp');
+        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp })
     }
 
-    //Funcao responsavel por v
+    //Funcao responsavel por apagar as variaveis de do facebook salvas no celular ao encerrar uma sessão
     _logoutFacebook = async () => {
         AsyncStorage.removeItem('userNameFB');
         AsyncStorage.removeItem('loginOnFB');
@@ -45,14 +48,22 @@ export default class drawerContentComponents extends Component {
 
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
     _logoutApp = async () => {
-        AsyncStorage.removeItem('user');
+        AsyncStorage.removeItem('userID');
+        AsyncStorage.removeItem('userToken');
+        AsyncStorage.removeItem('loginOnApp');
+        this.setState({ loginOnApp: null })
         this.props.navigation.navigate('TelaInicial')
     }
 
 
     render() {
         //Funcoes declaradas dentro do render pois ficam em loop para serem atualizadas automaticamente
-        this._getInfoFB()
+        if (this.state.loginOnApp == null) {
+            if (this.state.loginOnFB == null || this.state.pic == null) {
+                //Laco para parar de executar a funcao no momento em que as variaveis forem gravadas
+                this._getInfoFB()
+            }
+        }
 
         const loggedOnFacebook = (
             <LoginButton onLogoutFinished={this._logoutFacebook} />
@@ -126,9 +137,9 @@ export default class drawerContentComponents extends Component {
 
                 <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
 
-                <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10, padding: 8, backgroundColor: 'red', justifyContent: 'center', paddingRight: '15%', paddingLeft: '8%', }]}>
+                <View style={[{ flexDirection: 'row', padding: 8, justifyContent: 'center' }]}>
                     {loginType}
-                </TouchableOpacity>
+                </View>
             </ScrollView>
 
         )

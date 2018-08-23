@@ -17,7 +17,8 @@ class Login extends Component {
             userLast_name: null,
             userEmailFB: null,
             userNameFB: null,
-            loginOnFB: null
+            loginOnFB: null,
+            loginOnApp: null
         }
     }
 
@@ -118,8 +119,10 @@ class Login extends Component {
             .then((responseJson) => {
                 if (responseJson.error === false) {
                     Keyboard.dismiss()
-                    AsyncStorage.setItem('user', this.state.userEmail);
-                    AsyncStorage.setItem('userToken', responseJson.toke);
+                    this.setState({loginOnApp: 'true'})
+                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                    AsyncStorage.setItem('userID', responseJson.user.id);
+                    AsyncStorage.setItem('userToken', responseJson.token);
                     this.props.navigation.navigate('Home');
                     alert(responseJson.token)
                 } else {
