@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, AsyncStorage } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import CarouselImagens from '../carousel/Carousel';
 
@@ -7,19 +7,37 @@ class TelaInicial extends Component {
     static navigationOptions = {
         title: 'Guardiões da Saúde',
         headerStyle: {
-          backgroundColor: '#3B8686',
+            backgroundColor: '#3B8686',
         },
         headerTitleStyle: {
-          color: 'white',
-          fontWeight: 'normal',
+            color: 'white',
+            fontWeight: 'normal',
         },
     }
+
+    componentDidMount() {
+        this._loadInitialState()
+    }
+
+    //Funcao responsavel por verificar se o usuario está logado e ser redirecionado automaticamente para Home
+    _loadInitialState = async () => {
+        let valueUserFB = await AsyncStorage.getItem('userNameFB');
+        let valueUser = await AsyncStorage.getItem('user');
+        if (valueUserFB !== null || valueUser !== null) {
+            this.props.navigation.navigate('Home')
+        }
+        else {
+
+        }
+    }
+
+
     render() {
         const { navigate } = this.props.navigation
         return (
             <ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
                 <View style={{ flex: 9 }}>
-                    <CarouselImagens  />
+                    <CarouselImagens />
                 </View>
                 <View style={styles.botoes}>
                     <TouchableOpacity
@@ -54,18 +72,18 @@ const styles = StyleSheet.create({
     },
     estiloBotao1: {
         backgroundColor: '#3B8686',
-        height: '100%', 
-        width: '48%', 
-        borderTopRightRadius: 180, 
+        height: '100%',
+        width: '48%',
+        borderTopRightRadius: 180,
         borderBottomRightRadius: 180,
         alignItems: 'center',
         justifyContent: 'center',
     },
     estiloBotao2: {
         backgroundColor: '#3B8686',
-        height: '100%', 
-        width: '48%', 
-        borderTopLeftRadius: 180, 
+        height: '100%',
+        width: '48%',
+        borderTopLeftRadius: 180,
         borderBottomLeftRadius: 180,
         alignItems: 'center',
         justifyContent: 'center',

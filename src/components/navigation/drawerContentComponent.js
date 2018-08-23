@@ -7,6 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
 import { moderateScale, verticalScale } from '../scallingUtils'
 import { Avatar } from 'react-native-elements'
+import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst'
 
 export default class drawerContentComponents extends Component {
@@ -18,23 +19,57 @@ export default class drawerContentComponents extends Component {
     //     });
     //     this.props.navigation.dispatch(navigateAction);
     // })
+
     constructor(props) {
         super(props);
         this.state = {
-            pic: null
+            pic: null,
+            loginOnFB: null
         }
-    }  
+    }
+    //Funcao responsavel por pegar as variaveis do Facebook e salva-las em variaveis de estado 
+    _getInfoFB = async () => {
+        let valueAvatar = await AsyncStorage.getItem('avatar');
+        let valueFB = await AsyncStorage.getItem('loginOnFB');
+        this.setState({ pic: valueAvatar, loginOnFB: valueFB })
+    }
 
-    componentDidMount() {
-        this._getAvatar()
+    //Funcao responsavel por v
+    _logoutFacebook = async () => {
+        AsyncStorage.removeItem('userNameFB');
+        AsyncStorage.removeItem('loginOnFB');
+        AsyncStorage.removeItem('avatar');
+        this.setState({ pic: null })
+        this.props.navigation.navigate('TelaInicial')
     }
-    _getAvatar = async () => {
-        let value = await AsyncStorage.getItem('avatar');
-        this.setState({pic: value})
-        //console.warn(this.state.pic)
+
+    //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
+    _logoutApp = async () => {
+        AsyncStorage.removeItem('user');
+        this.props.navigation.navigate('TelaInicial')
     }
+
 
     render() {
+        //Funcoes declaradas dentro do render pois ficam em loop para serem atualizadas automaticamente
+        this._getInfoFB()
+
+        const loggedOnFacebook = (
+            <LoginButton onLogoutFinished={this._logoutFacebook} />
+        )
+
+        const loggedOnApp = (
+            <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>Sair</Text>
+        )
+
+        let loginType;
+        if (this.state.loginOnFB === 'true') {
+            loginType = loggedOnFacebook
+        }
+        else {
+            loginType = loggedOnApp
+        }
+
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.headerContainer}>
@@ -44,7 +79,6 @@ export default class drawerContentComponents extends Component {
                                 xlarge
                                 rounded
                                 source={{ uri: this.state.pic }}
-                                onPress={this._getAvatar}
                                 activeOpacity={0.7}
                             />
                         </View>
@@ -93,7 +127,7 @@ export default class drawerContentComponents extends Component {
                 <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
 
                 <TouchableOpacity style={[{ flexDirection: 'row', marginTop: 10, padding: 8, backgroundColor: 'red', justifyContent: 'center', paddingRight: '15%', paddingLeft: '8%', }]}>
-                    <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={null}>Sair</Text>
+                    {loginType}
                 </TouchableOpacity>
             </ScrollView>
 
@@ -110,10 +144,10 @@ const styles = StyleSheet.create({
     headerText: {
         color: '#fff8f8',
     },
-    shadowAvatar:{
+    shadowAvatar: {
         borderBottomRightRadius: 90,
         borderTopRightRadius: 90,
-        width:'75%',
+        width: '75%',
         justifyContent: 'flex-end',
         flexDirection: 'row',
         backgroundColor: '#465F6C',

@@ -15,18 +15,9 @@ class Login extends Component {
             userPwd: "123456",
             userFirst_name: null,
             userLast_name: null,
-            userEmailFB: null
-        }
-    }
-
-    componentDidMount() {
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        let value = await AsyncStorage.getItem('user');
-        if (value !== null) {
-            this.props.navigation.navigate
+            userEmailFB: null,
+            userNameFB: null,
+            loginOnFB: null
         }
     }
 
@@ -34,13 +25,14 @@ class Login extends Component {
         if (error) {
             alert('Error fetching data: ' + error.toString());
         } else {
-            alert('First Name: ' + result.first_name + ' Last Name: ' + result.last_name + ' Email: ' + result.email);
-            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email });
+            alert('Logado como: ' + result.name)
+            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email, userNameFB: result.name, loginOnFB: 'true' });
+            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
             AsyncStorage.setItem('avatar', result.picture.data.url);
+            AsyncStorage.setItem('userNameFB', result.name);
             this.props.navigation.navigate('Home')
         }
     }
-
 
     render() {
         return (
@@ -76,9 +68,7 @@ class Login extends Component {
                             style={styles.button}
                             title="Entrar"
                             onPress={
-                                //this.props.navigation.navigate('Home')
                                 this.login
-                                
                             } />
                     </View>
                     <View style={{ paddingTop: 20 }}>
@@ -94,7 +84,7 @@ class Login extends Component {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
                                                 const infoRequest = new GraphRequest(
-                                                    '/me?fields=first_name,last_name,email,picture',
+                                                    '/me?fields=name,first_name,last_name,email,picture',
                                                     null,
                                                     this._responseInfoCallback
                                                 );
@@ -114,30 +104,31 @@ class Login extends Component {
 
     login = () => {
         fetch('https://guardianes.centeias.net/user/login', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: this.state.userEmail,
-            password: this.state.userPwd
-          })
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this.state.userEmail,
+                password: this.state.userPwd
+            })
         })
-        .then( (response) => response.json())
-        .then( (responseJson) => {
-            if (responseJson.error === false) {
-              AsyncStorage.setItem('user', responseJson.user);
-              Keyboard.dismiss()
-              this.props.navigation.navigate('Home');
-              alert(responseJson.token)
-            } else {
-                alert(responseJson.message)
-            }
-        })
-        .done();
-      }
-  
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    Keyboard.dismiss()
+                    AsyncStorage.setItem('user', this.state.userEmail);
+                    AsyncStorage.setItem('userToken', responseJson.toke);
+                    this.props.navigation.navigate('Home');
+                    alert(responseJson.token)
+                } else {
+                    alert(responseJson.message)
+                }
+            })
+            .done();
+    }
+
 }
 
 // define your styles
