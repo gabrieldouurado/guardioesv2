@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
@@ -30,13 +30,12 @@ class Home extends Component {
         
         }
     }
-    
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
     }
 
-    componentDidMount() { 
+    componentDidMount() {
         this.props.navigation.setParams({// rolê para acessar a drawer em uma função estática
             _onHeaderEventControl: this.onHeaderEventControl,// rolê para acessar a drawer em uma função estática
             _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
@@ -47,6 +46,7 @@ class Home extends Component {
         this.props.navigation.openDrawer();
     }// rolê para acessar a drawer em uma função estática
 
+z
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
