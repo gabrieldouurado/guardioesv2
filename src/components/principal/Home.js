@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     inferiorBotoes: {
-        flex: 0.19,
         flexDirection: 'row',
         backgroundColor: 'rgba(123,123,123, 0.15)', 
         width: '80%', 
