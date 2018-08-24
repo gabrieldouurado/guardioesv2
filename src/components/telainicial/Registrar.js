@@ -161,7 +161,7 @@ class Registrar extends Component {
           <View style={styles.buttonView}>
             <TouchableOpacity
               style={styles.enviar}
-              onPress={ () => console.warn(this.state)}
+              onPress={this.create}
             >
               <Text>Cadastrar</Text>
             </TouchableOpacity>
