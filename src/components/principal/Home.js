@@ -30,8 +30,6 @@ class Home extends Component {
         
         }
     }
-      
-    
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
@@ -145,7 +143,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     inferiorBotoes: {
-        flex: 0.155,
+        flex: 0.19,
         flexDirection: 'row',
         backgroundColor: 'rgba(123,123,123, 0.15)', 
         width: '80%', 
@@ -154,8 +152,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     BotoesTexto: {
-        // borderWidth: 1,
-        // borderColor: 'red',
         alignSelf: 'center',
         width: '50%',
         textAlign: 'justify',

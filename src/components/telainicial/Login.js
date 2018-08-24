@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
+
 class Login extends Component {
     static navigationOptions = {
         title: 'Login'
@@ -60,6 +61,7 @@ class Login extends Component {
                         maxLength={15}
                         ref={(input) => this.passwordInput = input}
                         onChangeText={(text) => this.setState({ userPwd: text })}
+
                     />
                     <TouchableOpacity onPress={() => { alert("ESQUECEU SUA SENHA") }}>
                         <Text>Esqueceu sua Senha?</Text>
@@ -68,9 +70,7 @@ class Login extends Component {
                         <Button
                             style={styles.button}
                             title="Entrar"
-                            onPress={
-                                this.login
-                            } />
+                            onPress={ this.login } />
                     </View>
                     <View style={{ paddingTop: 20 }}>
                         <LoginButton
@@ -131,7 +131,6 @@ class Login extends Component {
             })
             .done();
     }
-
 }
 
 // define your styles
