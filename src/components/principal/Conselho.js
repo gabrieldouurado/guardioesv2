@@ -4,20 +4,21 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView }
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 
-const nome = (<Icon name='heartbeat' size={30} color='red' />)
-const hospital = (<Icon name='hospital' size={30} color='red' />)
+const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='red' />)
+const hospital = (<Icon name='hospital-o' type={'font-awesome'} size={30} color='red' />)
 const telefones = (<Icon name='phone' size={30} color='red' />)
-const viajante = (<Icon name='map-marked-alt' size={30} color='red'/>)
-const farmacia = (<Icon name='pillls' size={30} color='red' />)
-const ajuste = (<Icon name='medkit' size={30} color='red'/>)
+const viajante = (<Icon name='wallet-travel' type={'material-community'} size={30} color='red'/>)
+const farmacia = (<Icon name='pharmacy' type={'material-community'} size={30} color='red' />)
+const ajuste = (<Icon name='healing' size={30}  color='red'/>)
 
 // create a component
 class Conselho extends Component {
     static navigationOptions = {
-        title: 'Notícias',
+        title: 'Conselhos de Saúde',
         headerStyle: {
             backgroundColor: '#3B8686',
-            elevation: 0
+            elevation: 0,
+            textAlign: 'center',
         },
         headerTitleStyle: {
             color: 'white',
@@ -72,10 +73,46 @@ class Conselho extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#2c3e50',
     },
+    margTop: {
+        flexDirection: 'row',
+        backgroundColor: '#0084b4',
+        height: 50,
+        justifyContent: 'space-between'
+      },
+      margTop1: {
+        backgroundColor: '#CD853F',
+        height: 5,
+      },
+      titulo: {
+        color: '#CD853F',
+        justifyContent: 'center',
+        margin: 10,
+        fontWeight: 'bold',
+        fontSize: 30,
+        alignSelf: 'center',
+        marginRight: 65,
+      },
+      backButton: {
+          alignSelf: 'center',
+          marginLeft: 10,
+      },
+      selector: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          margin: 10,
+          elevation: 5,
+          backgroundColor: '#2c3e50',
+          padding: 10,
+      },
+      textoSelector: {
+          alignSelf: 'center',
+          color: '#e10531',
+          fontSize: 16,
+          fontWeight: 'bold',
+      },
+
 });
 
 //make this component available to the app
