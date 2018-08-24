@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, AsyncStorage, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as Imagem from '../../imgs/imageConst';
+import * as Imagem from '../../imgs/imageConst'
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+
 
 class Login extends Component {
     static navigationOptions = {
@@ -12,26 +14,29 @@ class Login extends Component {
         this.state = {
             userEmail: "exemplo@dominio.com",
             userPwd: "123456",
+            userFirst_name: null,
+            userLast_name: null,
+            userEmailFB: null,
+            userNameFB: null,
+            loginOnFB: null,
+            loginOnApp: null
         }
     }
 
-    componentDidMount() {
-      this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-      let value = await AsyncStorage.getItem('user');
-      if (value !== null) {
-        alert('sdfsd')
-        this.props.navigation.navigate('Home')
-      }
-      else {
-          alert('nao')
-      }
+    _responseInfoCallback = (error, result) => {
+        if (error) {
+            alert('Error fetching data: ' + error.toString());
+        } else {
+            alert('Logado como: ' + result.name)
+            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email, userNameFB: result.name, loginOnFB: 'true' });
+            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+            AsyncStorage.setItem('avatar', result.picture.data.url);
+            AsyncStorage.setItem('userNameFB', result.name);
+            this.props.navigation.navigate('Home')
+        }
     }
 
     render() {
-        const back = (<Ionicons name='md-arrow-round-back' size={30} />)
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
 
@@ -42,19 +47,21 @@ class Login extends Component {
                     <Text style={styles.commomText}>E-mail:</Text>
                     <TextInput
                         style={styles.formInput}
+                        returnKeyType='next'
                         keyboardType='email-address'
-                        multiline={false}
-                        maxLength={50}
-                        placeholder='exemplo@dominio.com'
-                        onChangeText={ (text) => this.setState({ userEmail: text }) }
+                        multiline={false} maxLength={33}
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                        onChangeText={(text) => this.setState({ userEmail: text })}
                     />
                     <Text style={styles.commomText}>Senha:</Text>
                     <TextInput
                         style={styles.formInput}
                         secureTextEntry={true}
                         multiline={false}
-                        maxLength={20}
-                        onChangeText={(text) => this.setState({ userPwd: text }) }
+                        maxLength={15}
+                        ref={(input) => this.passwordInput = input}
+                        onChangeText={(text) => this.setState({ userPwd: text })}
+
                     />
                     <TouchableOpacity onPress={() => { alert("ESQUECEU SUA SENHA") }}>
                         <Text>Esqueceu sua Senha?</Text>
@@ -63,7 +70,33 @@ class Login extends Component {
                         <Button
                             style={styles.button}
                             title="Entrar"
-                            onPress={this.login} />
+                            onPress={ this.login } />
+                    </View>
+                    <View style={{ paddingTop: 20 }}>
+                        <LoginButton
+                            readPermissions={['public_profile', 'email']}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        alert("login has error: " + result.error);
+                                    } else if (result.isCancelled) {
+                                        alert("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                const infoRequest = new GraphRequest(
+                                                    '/me?fields=name,first_name,last_name,email,picture',
+                                                    null,
+                                                    this._responseInfoCallback
+                                                );
+                                                // Start the graph request.
+                                                new GraphRequestManager().addRequest(infoRequest).start();
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            onLogoutFinished={() => { }} />
                     </View>
                 </View>
             </ImageBackground>
@@ -71,28 +104,32 @@ class Login extends Component {
     }
 
     login = () => {
-      fetch('https://guardianes.centeias.net/user/login', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: this.state.userEmail,
-          password: this.state.userPwd
+        fetch('https://guardianes.centeias.net/user/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this.state.userEmail,
+                password: this.state.userPwd
+            })
         })
-      })
-      .then( (response) => response.json())
-      .then( (responseJson) => {
-          if (responseJson.error === false) {
-            AsyncStorage.setItem('user', responseJson.user);
-            Keyboard.dismiss();
-            this.props.navigation.navigate('Home');
-          } else {
-              alert(responseJson.message)
-          }
-      })
-      .done();
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    Keyboard.dismiss()
+                    this.setState({loginOnApp: 'true'})
+                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                    AsyncStorage.setItem('userID', responseJson.user.id);
+                    AsyncStorage.setItem('userToken', responseJson.token);
+                    this.props.navigation.navigate('Home');
+                    alert(responseJson.token)
+                } else {
+                    alert(responseJson.message)
+                }
+            })
+            .done();
     }
 }
 

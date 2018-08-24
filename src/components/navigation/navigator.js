@@ -7,25 +7,32 @@ import Diario from '../principal/Diario';
 import Conselho from '../principal/Conselho';
 import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
-import Request from '../principal/request'
+import Request from '../principal/request';
+import BadReport from '../principal/badReport';
 import drawerContentComponents from './drawerContentComponent';
+import { Badge } from 'react-native-elements';
 
-export const Stack = createStackNavigator({
+export const Cadastro = createStackNavigator({
   TelaInicial: { screen: TelaInicial },
   Registrar: { screen: Registrar },
   Login: { screen: Login },
+})
+
+export const Stack = createStackNavigator({
   Home: { screen: Home },
   Diario: { screen: Diario },
   Conselho: { screen: Conselho },
   Noticias: { screen: Noticias },
   Reportar: { screen: Reportar },
-  Request: { screen: Request }
+  Request: { screen: Request },
+  BadReport: { screen: BadReport },
 },{
-  initialRouteName: 'TelaInicial'
+  initialRouteName: 'Home'
 })
 
 export const Drawer = createDrawerNavigator({
-	Stacks: { screen: Stack, navigationOptions: { drawerLockMode: 'locked-closed' } },
+  Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' }},
+	Stacks: { screen: Stack },
 }, {
   contentComponent: drawerContentComponents
 })
