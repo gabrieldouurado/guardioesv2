@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
 import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
+
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
+
+let today = d + "-" + m + "-" + y;
 
 class Registrar extends Component {
   static navigationOptions = {
@@ -52,20 +59,23 @@ class Registrar extends Component {
     return (
       <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
         <ScrollView style={styles.scroll}>
-
-          <View style={styles.viewCommom}>
+        <View style={styles.viewCommom}>
             <Text style={styles.commomText}>Nome:</Text>
-            <TextInput
-                style={styles.formInput}
-                onChangeText={text => this.setState({userFirstName: text})}
+            <TextInput style={styles.formInput}
+              returnKeyType='next'
+              onSubmitEditing={() => this.sobrenomeInput.focus()}
+              onChangeText={text => this.setState({userFirstName: text})}
+
             />
           </View>
 
           <View style={styles.viewCommom}>
+            
             <Text style={styles.commomText}>Sobrenome:</Text>
-            <TextInput
-                style={styles.formInput}
-                onChangeText={text => this.setState({userLastName: text})}
+
+            <TextInput style={styles.formInput}
+              ref={(input) => this.sobrenomeInput = input}
+              onChangeText={text => this.setState({userLastName: text})}
             />
           </View>
 
@@ -110,7 +120,7 @@ class Registrar extends Component {
                 placeholder="Nascimento"
                 format="DD-MM-YYYY"
                 minDate="01-01-1918"
-                maxDate="01-01-2019"
+                maxDate={today}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
@@ -150,21 +160,27 @@ class Registrar extends Component {
           </View>
 
           <View style={styles.viewCommom}>
+            
             <Text style={styles.commomText}>Senha:</Text>
-            <TextInput
-                style={styles.formInput}
-                secureTextEntry={true}
-                onChangeText={ password => this.setState({userPwd: password})}
+
+            <TextInput style={styles.formInput}
+              returnKeyType='next'
+              secureTextEntry={true}
+              onChangeText={text => this.setState({ userPwd: text })}
+              ref={(input) => this.passwordInput = input}
+              onSubmitEditing={() => this.passwordConfirmInput.focus()}
             />
           </View>
 
           <View style={styles.buttonView}>
+
             <TouchableOpacity
               style={styles.enviar}
               onPress={this.create}
             >
               <Text>Cadastrar</Text>
             </TouchableOpacity>
+
           </View>
 
         </ScrollView>
@@ -209,8 +225,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    height: 680
   },
   margTop: {
     width: '100%',

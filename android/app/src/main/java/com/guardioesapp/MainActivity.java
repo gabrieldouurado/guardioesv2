@@ -11,7 +11,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "GuardioesApp";
+        return "guardioesapp";
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
