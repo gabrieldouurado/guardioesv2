@@ -7,8 +7,10 @@ import Diario from '../principal/Diario';
 import Conselho from '../principal/Conselho';
 import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
-import Request from '../principal/request'
+import Request from '../principal/request';
+import BadReport from '../principal/badReport';
 import drawerContentComponents from './drawerContentComponent';
+import { Badge } from 'react-native-elements';
 
 export const Stack = createStackNavigator({
   TelaInicial: { screen: TelaInicial },
@@ -19,7 +21,8 @@ export const Stack = createStackNavigator({
   Conselho: { screen: Conselho },
   Noticias: { screen: Noticias },
   Reportar: { screen: Reportar },
-  Request: { screen: Request }
+  Request: { screen: Request },
+  BadReport: { screen: BadReport },
 },{
   initialRouteName: 'TelaInicial'
 })

@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {ImageBackground,  ScrollView, Platform, StyleSheet, Text, View, TouchableOpacity,Image, Button, AsyncStorage} from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -17,6 +18,7 @@ class Report extends Component {
             userLatitude: "",
             userLongitude: "",
         }
+
     }    
         static navigationOptions = {
             title: 'Reportar',
@@ -191,6 +193,7 @@ class Report extends Component {
               marginTop: '20%'
           },
     })
+
 
 //make this component available to the app
 export default Report;
