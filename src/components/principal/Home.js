@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     inferiorBotoes: {
-        flex: 0.155,
         flexDirection: 'row',
         backgroundColor: 'rgba(123,123,123, 0.15)', 
         width: '80%', 

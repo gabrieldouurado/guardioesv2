@@ -12,10 +12,13 @@ import BadReport from '../principal/badReport';
 import drawerContentComponents from './drawerContentComponent';
 import { Badge } from 'react-native-elements';
 
-export const Stack = createStackNavigator({
+export const Cadastro = createStackNavigator({
   TelaInicial: { screen: TelaInicial },
   Registrar: { screen: Registrar },
   Login: { screen: Login },
+})
+
+export const Stack = createStackNavigator({
   Home: { screen: Home },
   Diario: { screen: Diario },
   Conselho: { screen: Conselho },
@@ -24,11 +27,12 @@ export const Stack = createStackNavigator({
   Request: { screen: Request },
   BadReport: { screen: BadReport },
 },{
-  initialRouteName: 'TelaInicial'
+  initialRouteName: 'Home'
 })
 
 export const Drawer = createDrawerNavigator({
-	Stacks: { screen: Stack, navigationOptions: { drawerLockMode: 'locked-closed' } },
+  Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' }},
+	Stacks: { screen: Stack },
 }, {
   contentComponent: drawerContentComponents
 })
