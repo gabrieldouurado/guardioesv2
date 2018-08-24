@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, AsyncStorage, StatusBar } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import CarouselImagens from '../carousel/Carousel';
+
 
 class TelaInicial extends Component {
     static navigationOptions = {
@@ -31,8 +32,11 @@ class TelaInicial extends Component {
 
     render() {
         const { navigate } = this.props.navigation
+        const statusColor = (<StatusBar backgroundColor='#3B8686'/>)
+        
         return (
             <ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
+                {statusColor}
                 <View style={{ flex: 9 }}>
                     <CarouselImagens />
                 </View>
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     botoes: {
-        flex: 0.65,
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 9,

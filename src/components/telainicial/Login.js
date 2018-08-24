@@ -96,7 +96,7 @@ class Login extends Component {
                                     }
                                 }
                             }
-                            onLogoutFinished={() => { }} />
+                            onLogoutFinished={() => { null }} />
                     </View>
                 </View>
             </ImageBackground>
