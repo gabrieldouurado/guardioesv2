@@ -73,7 +73,6 @@ class Conselho extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#2c3e50',
     },
     margTop: {
         flexDirection: 'row',
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
           justifyContent: 'space-between',
           margin: 10,
           elevation: 5,
-          backgroundColor: '#2c3e50',
+          backgroundColor: '#fff',
           padding: 10,
       },
       textoSelector: {
