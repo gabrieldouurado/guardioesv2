@@ -161,7 +161,7 @@ class Registrar extends Component {
           <View style={styles.buttonView}>
             <TouchableOpacity
               style={styles.enviar}
-              onPress={this.create}
+              onPress={ () => console.warn(this.state)}
             >
               <Text>Cadastrar</Text>
             </TouchableOpacity>
@@ -194,7 +194,7 @@ class Registrar extends Component {
     .then((response) => response.json())
     .then(response => {
       if (response.error === false) {
-        this.props.navigation.navigate('Reportar');
+        this.props.navigation.navigate('Home');
       }
       else {
         alert(response.message);
