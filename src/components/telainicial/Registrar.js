@@ -51,7 +51,7 @@ class Registrar extends Component {
   _loadInitialState = async () => {
     let value = await AsyncStorage.getItem('user');
     if (value !== null) {
-      this.props.navigation.navigate('Reportar')
+      this.props.navigation.navigate('Home')
     }
   }
   render() {
@@ -189,7 +189,6 @@ class Registrar extends Component {
 
   }
   create = () => {
-    Keyboard.dismiss()
     fetch('https://guardianes.centeias.net/user/create', {
       method: 'POST',
       headers: {
@@ -211,7 +210,7 @@ class Registrar extends Component {
     .then((response) => response.json())
     .then(response => {
       if (response.error === false) {
-        this.props.navigation.navigate('Reportar');
+        this.props.navigation.navigate('Home');
       }
       else {
         alert(response.message);
