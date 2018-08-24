@@ -22,12 +22,11 @@ let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
-
 let today = d + "-" + m + "-" + y;
 
 class Registrar extends Component {
   static navigationOptions = {
-    title: 'Registrar-se'
+    header: null
   }
   constructor(props) {
     super(props);
@@ -55,7 +54,6 @@ class Registrar extends Component {
     }
   }
   render() {
-    const back = (<Ionicons name='md-arrow-round-back' size={30} />)
     return (
       <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
         <ScrollView style={styles.scroll}>

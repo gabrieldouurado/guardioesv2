@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
@@ -18,6 +18,7 @@ class Home extends Component {
             },
             headerTitleStyle: {
                 color: 'white',
+                fontFamily: 'miriadpro'
             },
             headerBackTitleStyle: {
                 color: 'white'
@@ -50,8 +51,10 @@ z
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
+
         return (
             <View style={styles.container}>
+                <StatusBar backgroundColor='#3B8686'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Ola Fulano!
