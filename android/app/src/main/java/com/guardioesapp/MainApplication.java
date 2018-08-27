@@ -17,6 +17,7 @@ import com.facebook.appevents.AppEventsLogger;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class MainApplication extends Application implements ReactApplication {
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
