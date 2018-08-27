@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 import * as Imagem from '../../imgs/imageConst'
 import { CheckBox } from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
@@ -10,7 +10,7 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = d + "-" + m + "-" + y;
+let today = y + "-" + m + "-" + d;
 
 class BadReport extends Component {
     static navigationOptions = {
@@ -19,16 +19,92 @@ class BadReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cca2: 'BR'
+            cca2: 'BR',
+            checked_20: false,
+            checked_21: false,
+            checked_22: false,
         }
     }
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+        (position) => {
+            this.setState({
+            userLatitude: position.coords.latitude,
+            userLongitude: position.coords.longitude,
+            error: null,
+            });
+        },
+        (error) => this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 50000 },
+        );
+    }
+
+    async requestFineLocationPermission(){
+        try {
+            const granted = await PermissionsAndroid.request(
+                android.permission.ACCESS_FINE_LOCATION,
+              {
+                'title': 'Permission for the app use the fine location',
+                'message': 'We want to use your fine location to make a report' 
+              }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.componentDidMount
+            } else {
+              console.log("Camera permission denied")
+            }
+          } catch (err) {
+            console.warn(err)
+          }
+    }
+
+     //Function that creates a requisition to send the survey to the API
+     sendSurvey = async () => {
+            
+        this.requestFineLocationPermission
+        
+        let UserID = await AsyncStorage.getItem('userID');
+        this.setState({ UserID: UserID })
+
+        fetch('https://guardianes.centeias.net/survey/create',{
+            method: 'POST',
+            body: JSON.stringify({
+                user_id:this.state.UserID,
+                houselhold_id:"",
+                lat: this.state.userLatitude,
+                lon: this.state.userLongitude,
+                no_symptom:"N",
+                week_of:this.state.date,
+                hadContagiousContact:this.state.checked_20,
+                hadHealthCare:this.state.checked_21,
+                hadTravlledAbroad:this.state.checked_22,
+                travelLocation:this.state.country,
+                app_token:"d41d8cd98f00b204e9800998ecf8427e",
+                platform:"",
+
+            })
+        })
+        .then( (response) => response.json())
+        .then( (responseJson) => {
+            if (responseJson.error === false) {
+              AsyncStorage.setItem('survey_id', responseJson.id);
+              this.props.navigation.navigate('Home');
+              alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
+            } else {
+              alert(responseJson.message)
+            }
+        })
+        .done();
+    }
+  
     render() {
         const viajou = (
             <View>
                 <View><Text style={styles.commomTextView}>Para qual país você viajou?</Text></View>
                 <CountryPicker
                     onChange={value => {
-                        this.setState({ cca2: value.cca2, country: value })
+                        this.setState({ cca2: value.cca2, country: value.name })
                     }}
                     cca2={this.state.cca2}
                     translation="por"
@@ -38,7 +114,7 @@ class BadReport extends Component {
         )
 
         let checked_22True;
-        if (this.state.checked_22 == false) {
+        if (this.state.checked_22 == true) {
             checked_22True = viajou
         }
         return (
@@ -51,8 +127,8 @@ class BadReport extends Component {
                         date={this.state.date}
                         mode="date"
                         placeholder="Desde quando está se sentindo mal?"
-                        format="DD-MM-YYYY"
-                        minDate="01-01-2018"
+                        format="YYYY-MM-DD"
+                        minDate="2018-01-01"
                         maxDate={today}
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
@@ -337,7 +413,7 @@ class BadReport extends Component {
                     </View>
                     <CheckBox
                         title='Teve contato com alguem que apresentava os mesmos sintomas?'
-                        checked={this.state.checked_20 == false}
+                        checked={this.state.checked_20}
                         onPress={() => {
                             if (this.state.checked_20 == false) {
                                 this.setState({ checked_20: true })
@@ -350,7 +426,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Procurou algum serviço hospitalar?'
-                        checked={this.state.checked_21 == false}
+                        checked={this.state.checked_21}
                         onPress={() => {
                             if (this.state.checked_21 == false) {
                                 this.setState({ checked_21: true })
@@ -363,7 +439,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Deixou seu local de residência nos ultimos 14 dias?'
-                        checked={this.state.checked_22 == false}
+                        checked={this.state.checked_22}
                         onPress={() => {
                             if (this.state.checked_22 == false) {
                                 this.setState({ checked_22: true })
@@ -376,7 +452,7 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" onPress={() => { alert("NÃO FOI POSSIVEL CONFIRMAR OS DADOS") }} />
+                        <Button title="Confirmar" onPress={() => this.sendSurvey()} />
                     </View>
                 </ScrollView>
             </ImageBackground>

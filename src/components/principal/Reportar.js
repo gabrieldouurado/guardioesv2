@@ -111,9 +111,9 @@ class Report extends Component {
                 if (responseJson.error === false) {
                   AsyncStorage.setItem('survey_id', responseJson.id);
                   this.props.navigation.navigate('Home');
-                //   alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
+                  alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
                 } else {
-                    // alert(responseJson.message)
+                  alert(responseJson.message)
                 }
             })
             .done();
