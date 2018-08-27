@@ -1,8 +1,8 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-// create a component
 class Maps extends Component {
     static navigationOptions = {
         title: 'Notícias',
@@ -17,10 +17,39 @@ class Maps extends Component {
             color: 'white'
         },
     }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: true
+        }
+    }
+
+    componentDidMount(){
+        return fetch('https://guardianes.centeias.net/surveys/a')
+          .then((response) => response.json())
+          .then((responseJson) => {
+    
+            this.setState({
+              isLoading: false,
+              dataSource: responseJson.data,
+            });
+    
+          })
+          .catch((error) =>{
+            console.error(error);
+          });
+      }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>Maps</Text>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                >
+                </MapView>
             </View>
         );
     }
@@ -28,12 +57,8 @@ class Maps extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    },
+    container: { ...StyleSheet.absoluteFillObject },
+    map: { ...StyleSheet.absoluteFillObject }
 });
 
 //make this component available to the app

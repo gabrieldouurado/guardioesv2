@@ -97,7 +97,10 @@ z
                                 Diário de Saúde
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.inferiorBotoes}>
+                        <TouchableOpacity 
+                            style={styles.inferiorBotoes}
+                            onPress={() => navigate('Mapa')}
+                        >
                             <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }}/>
                             <Text style={styles.BotoesTexto}>
                                 Mapa da Saúde
