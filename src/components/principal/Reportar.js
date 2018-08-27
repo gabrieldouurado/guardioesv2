@@ -10,8 +10,9 @@ let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
+let h = data.getHours();
 
-let today = y + "-" + m + "-" + d;
+let today = y + "-" + m + "-" + d + "T" + h;
 
 
 class Report extends Component {
@@ -26,7 +27,7 @@ class Report extends Component {
 
     }    
         static navigationOptions = {
-            title: 'Reportar',
+            title: 'Guardiões da saúde',
             headerStyle: {
                 backgroundColor: '#3B8686',
                 elevation: 0
@@ -55,7 +56,7 @@ class Report extends Component {
                 });
             },
             (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: true, timeout: 50000 },
             );
         }
 
@@ -64,13 +65,12 @@ class Report extends Component {
                 const granted = await PermissionsAndroid.request(
                     android.permission.ACCESS_FINE_LOCATION,
                   {
-                    'title': 'Cool Photo App Camera Permission',
-                    'message': 'Cool Photo App needs access to your camera ' +
-                               'so you can take awesome pictures.'
+                    'title': 'Permission for the app use the fine location',
+                    'message': 'We want to use your fine location to make a report' 
                   }
                 )
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                  this.componentDidMount
+                    this.componentDidMount
                 } else {
                   console.log("Camera permission denied")
                 }
@@ -84,8 +84,6 @@ class Report extends Component {
             
             this.requestFineLocationPermission
             
-            alert(this.state.userLatitude)
-
             let UserID = await AsyncStorage.getItem('userID');
             this.setState({ UserID: UserID })
 
@@ -98,7 +96,7 @@ class Report extends Component {
                     lat: this.state.userLatitude,
                     lon: this.state.userLongitude,
                     no_symptom:"Y",
-                    week_of:today,
+                    week_of:data,
                     hadContagiousContact:"none",
                     hadHealthCare:"none",
                     hadTravlledAbroad:"none",
