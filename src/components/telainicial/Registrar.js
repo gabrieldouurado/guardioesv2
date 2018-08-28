@@ -11,39 +11,93 @@ import {
   TouchableOpacity,
   Picker,
   AsyncStorage,
-  Keyboard
+  Animated
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import * as Imagem from '../../imgs/imageConst';
 
-let data = new Date();
-let d = data.getDate();
-let m = data.getMonth() + 1;
-let y = data.getFullYear();
-let today = d + "-" + m + "-" + y;
+class FloatingLabelInput extends Component {
+  state = {
+    isFocused: false
+  };
+
+  componentWillMount() {
+    this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0 : 1);
+  }
+
+  handleFocus = () => this.setState({ isFocused: true });
+  handleBlur = () => this.setState({ isFocused: false });
+
+  componentDidUpdate() {
+    Animated.timing(this._animatedIsFocused, {
+      toValue: (this.state.isFocused || this.props.value !== '') ? 1 : 0,
+      duration: 200
+    }).start();
+  }
+
+  render() {
+    const { label, ...props } = this.props;
+    const labelStyle = {
+      fontSize: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: [20, 15]
+      }),
+      color: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['#aaa', '#000']
+      }),
+      position: 'absolute',
+      top: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: [18, 0]
+      }),
+      left: 0,
+      alignSelf: 'flex-start',
+      textAlign: 'left',
+      paddingLeft: "5%",
+      fontWeight: 'bold',
+    };
+    return (
+      <View style={{paddingTop: 18, alignItems: 'center',}}>
+        <Animated.Text style={labelStyle}>{label}</Animated.Text>
+        <TextInput
+          {...props}
+          style={styles.formInput}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+        />
+      </View>
+    );
+  }
+}
 
 class Registrar extends Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      backgroundColor: 'transparent',
+    },
+    headerTintColor: '#3B8686'
   }
   constructor(props) {
     super(props);
     this.state = {
-      userFirstName: '',
-      userLastName: '',
-      userEmail: '',
-      userPwd: '',
-      userGender: 'Masculino',
-      userCountry: 'Brazil',
-      userRace: 'Blanco',
+      Nome: '',
+      Sobrenome: '',
+      Email: '',
+      Senha: '',
+      Sexo: 'Masculino',
+      País: 'Brazil',
+      Raça: 'Blanco',
       userDob: '',
       userApp: 'd41d8cd98f00b204e9800998ecf8427e',
-      cca2: 'BR'
+      cca2: 'BR',
     }
+
+    this.atualizaValor = this.atualizaValor.bind(this)
   }
-  componentDidMount(){
+  componentDidMount() {
     this._loadInitialState().done();
   }
 
@@ -53,29 +107,28 @@ class Registrar extends Component {
       this.props.navigation.navigate('Home')
     }
   }
+
+  atualizaValor(texto) {
+    console.log(texto)
+  }
+
   render() {
+    const back = (<Ionicons name='md-arrow-round-back' size={30} />)
     return (
       <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
         <ScrollView style={styles.scroll}>
-        <View style={styles.viewCommom}>
-            <Text style={styles.commomText}>Nome:</Text>
-            <TextInput style={styles.formInput}
-              returnKeyType='next'
-              onSubmitEditing={() => this.sobrenomeInput.focus()}
-              onChangeText={text => this.setState({userFirstName: text})}
 
-            />
-          </View>
-
-          <View style={styles.viewCommom}>
-            
-            <Text style={styles.commomText}>Sobrenome:</Text>
-
-            <TextInput style={styles.formInput}
-              ref={(input) => this.sobrenomeInput = input}
-              onChangeText={text => this.setState({userLastName: text})}
-            />
-          </View>
+          <FloatingLabelInput 
+            label='Nome'
+            value={this.state.Nome}
+            onChangeText={ text => this.setState({ Nome: text }) }
+          />
+          
+          <FloatingLabelInput 
+            label='Sobrenome'
+            value={this.state.Sobrenome}
+            onChangeText={ text => this.setState({ Sobrenome: text }) }
+          />
 
           <View style={styles.viewRow}>
             <View style={styles.viewChildSexoRaca}>
@@ -118,7 +171,7 @@ class Registrar extends Component {
                 placeholder="Nascimento"
                 format="DD-MM-YYYY"
                 minDate="01-01-1918"
-                maxDate={today}
+                maxDate="01-01-2019"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
@@ -132,7 +185,7 @@ class Registrar extends Component {
                     marginLeft: 36
                   }
                 }}
-                onDateChange={ date => this.setState({ userDob: date }) }
+                onDateChange={date => this.setState({ userDob: date })}
               />
             </View>
 
@@ -148,37 +201,29 @@ class Registrar extends Component {
             </View>
           </View>
 
-          <View style={styles.viewCommom}>
-            <Text style={styles.commomText}>Email:</Text>
-            <TextInput
-                style={styles.formInput}
-                keyboardType='email-address'
-                onChangeText={email => this.setState({userEmail: email})}
-            />
-          </View>
+          <FloatingLabelInput 
+            label='Email'
+            value={this.state.Email}
+            keyboardType='email-address'
+            onChangeText={ text => this.setState({ Email: text })}
+          />
 
-          <View style={styles.viewCommom}>
-            
-            <Text style={styles.commomText}>Senha:</Text>
-
-            <TextInput style={styles.formInput}
-              returnKeyType='next'
-              secureTextEntry={true}
-              onChangeText={text => this.setState({ userPwd: text })}
-              ref={(input) => this.passwordInput = input}
-              onSubmitEditing={() => this.passwordConfirmInput.focus()}
-            />
-          </View>
+          <FloatingLabelInput 
+            label='Senha'
+            secureTextEntry
+            value={this.state.Senha}
+            returnKeyType='next'
+            onChangeText={ text => this.setState({ Senha: text }) }
+            onSubmitEditing={this.create}
+          />
 
           <View style={styles.buttonView}>
-
             <TouchableOpacity
               style={styles.enviar}
               onPress={this.create}
             >
               <Text>Cadastrar</Text>
             </TouchableOpacity>
-
           </View>
 
         </ScrollView>
@@ -194,26 +239,26 @@ class Registrar extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstname: this.state.userFirstName,
-        lastname: this.state.userLastName,
-        email: this.state.userEmail,
-        password: this.state.userPwd,
-        gender: this.state.userGender,
-        country: this.state.userCountry,
-        race: this.state.userRace,
+        firstname: this.state.Nome,
+        lastname: this.state.Sobrenome,
+        email: this.state.Email,
+        password: this.state.Senha,
+        gender: this.state.Sexo,
+        country: this.state.País,
+        race: this.state.Raça,
         dob: this.state.userDob,
         app: this.state.userApp,
       })
     })
-    .then((response) => response.json())
-    .then(response => {
-      if (response.error === false) {
-        this.props.navigation.navigate('Home');
-      }
-      else {
-        alert(response.message);
-      }
-    })
+      .then((response) => response.json())
+      .then(response => {
+        if (response.error === false) {
+          this.props.navigation.navigate('Reportar');
+        }
+        else {
+          alert(response.message);
+        }
+      })
 
   }
 }
@@ -222,7 +267,8 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 680
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   margTop: {
     width: '100%',
@@ -251,6 +297,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
+    paddingTop: '10%',
     width: '100%',
   },
   viewCommom: {

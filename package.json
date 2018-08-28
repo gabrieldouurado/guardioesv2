@@ -1,6 +1,5 @@
 {
   "name": "guardioesapp",
-
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,6 +14,7 @@
     "react-native-elements": "^0.19.1",
     "react-native-fbsdk": "^0.7.0",
     "react-native-smart-carousel": "^1.1.0",
+    "react-native-textinput-effects": "^0.4.2",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.9.3"
   },
