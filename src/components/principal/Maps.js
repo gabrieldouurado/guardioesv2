@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
 class Maps extends Component {
     static navigationOptions = {
@@ -22,33 +22,59 @@ class Maps extends Component {
         super(props);
 
         this.state = {
-            isLoading: true
+            isLoading: true,
+            dataSource: [],
+            
         }
     }
 
-    componentDidMount(){
+    componentWillMount() {
         return fetch('https://guardianes.centeias.net/surveys/a')
-          .then((response) => response.json())
-          .then((responseJson) => {
-    
-            this.setState({
-              isLoading: false,
-              dataSource: responseJson.data,
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.warn(responseJson.data)
+                this.setState({
+                    isLoading: false,
+                    dataSource: responseJson.data,
+                });
+
+            })
+            .catch((error) => {
+                console.error(error);
             });
-    
-          })
-          .catch((error) =>{
-            console.error(error);
-          });
-      }
+    }
 
     render() {
+        let markers = this.state.dataSource;
         return (
             <View style={styles.container}>
                 <MapView
-                    provider={PROVIDER_GOOGLE}
                     style={styles.map}
                 >
+                    {markers.map((marker, index) => {
+                        let coordinates = {latitude: marker.lat, longitude: marker.lon}
+                        if (marker.no_symptom === "Y") {
+                            return (
+                                <Marker
+                                    key={index}
+                                    coordinate={coordinates}
+                                    title="Bem"
+                                    pinColor='rgba(136,196,37, 1)'
+                                />
+                            )
+                        }
+                        return (
+                            <Marker 
+                                key={index}
+                                coordinate={coordinates}
+                                title="Mal"
+                            />
+                        )
+                    }
+                    )}
+                    <Marker
+                        coordinate={{ latitude: -15, longitude: -20 }}
+                    />
                 </MapView>
             </View>
         );
