@@ -72,9 +72,6 @@ class Maps extends Component {
                         )
                     }
                     )}
-                    <Marker
-                        coordinate={{ latitude: -15, longitude: -20 }}
-                    />
                 </MapView>
             </View>
         );
