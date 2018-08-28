@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, Keyboard, AsyncStorage } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Imagem from '../../imgs/imageConst'
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 
 
 class Login extends Component {
@@ -12,27 +12,21 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userEmail: "exemplo@dominio.com",
-            userPwd: "123456",
-            userFirst_name: null,
-            userLast_name: null,
-            userEmailFB: null,
-            userNameFB: null,
+            userName: null,
+            userEmail: null,
+            userPwd: null,
             loginOnFB: null,
-            loginOnApp: null
+            loginOnApp: null,
+            pic: null
         }
     }
 
     _responseInfoCallback = (error, result) => {
         if (error) {
-            alert('Error fetching data: ' + error.toString());
+            console.warn('Error fetching data: ' + error.toString());
         } else {
-            alert('Logado como: ' + result.name)
-            this.setState({ userFirst_name: result.first_name, userLast_name: result.last_name, userEmailFB: result.email, userNameFB: result.name, loginOnFB: 'true' });
-            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-            AsyncStorage.setItem('avatar', result.picture.data.url);
-            AsyncStorage.setItem('userNameFB', result.name);
-            this.props.navigation.navigate('Home')
+            this.setState({ userName: result.name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
+            this.loginFacebook()
         }
     }
 
@@ -70,7 +64,7 @@ class Login extends Component {
                         <Button
                             style={styles.button}
                             title="Entrar"
-                            onPress={ this.login } />
+                            onPress={this.login} />
                     </View>
                     <View style={{ paddingTop: 20 }}>
                         <LoginButton
@@ -85,7 +79,7 @@ class Login extends Component {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
                                                 const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture',
+                                                    '/me?fields=name,first_name,last_name,email,picture,id',
                                                     null,
                                                     this._responseInfoCallback
                                                 );
@@ -119,7 +113,7 @@ class Login extends Component {
             .then((responseJson) => {
                 if (responseJson.error === false) {
                     Keyboard.dismiss()
-                    this.setState({loginOnApp: 'true'})
+                    this.setState({ loginOnApp: 'true' })
                     AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userToken', responseJson.token);
@@ -127,6 +121,35 @@ class Login extends Component {
                     alert(responseJson.token)
                 } else {
                     alert(responseJson.message)
+                }
+            })
+            .done();
+    }
+
+    loginFacebook = () => {
+        fetch('https://guardianes.centeias.net/user/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this.state.userEmail,
+                password: this.state.userPwd
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                    AsyncStorage.setItem('avatar', this.state.pic);
+                    AsyncStorage.setItem('userName', this.state.userName);
+                    this.props.navigation.navigate('Home');
+                    alert("Logado via Facebook")
+                } else {
+                    alert(responseJson.message)
+                    this.setState({ userName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                    LoginManager.logOut();                    
                 }
             })
             .done();

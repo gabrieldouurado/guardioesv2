@@ -39,7 +39,7 @@ export default class drawerContentComponents extends Component {
 
     //Funcao responsavel por apagar as variaveis de do facebook salvas no celular ao encerrar uma sessão
     _logoutFacebook = async () => {
-        AsyncStorage.removeItem('userNameFB');
+        AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('loginOnFB');
         AsyncStorage.removeItem('avatar');
         this.setState({ pic: null })

@@ -9,6 +9,7 @@ import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
 import Request from '../principal/request';
 import BadReport from '../principal/badReport';
+import Prevencao from '../conselhos/prevencao';
 import drawerContentComponents from './drawerContentComponent';
 import { Badge } from 'react-native-elements';
 
@@ -24,7 +25,7 @@ export const Stack = createStackNavigator({
   Conselho: { screen: Conselho },
   Noticias: { screen: Noticias },
   Reportar: { screen: Reportar },
-  Request: { screen: Request },
+  Prevencao: { screen: Prevencao},
   BadReport: { screen: BadReport },
 },{
   initialRouteName: 'Home'

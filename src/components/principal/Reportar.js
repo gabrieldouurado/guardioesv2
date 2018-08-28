@@ -4,6 +4,7 @@ import {ImageBackground,  ScrollView, Platform, StyleSheet, Text, View, Touchabl
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
+import BadReport from './badReport';
 
 let data = new Date();
 let d = data.getDate();
@@ -121,7 +122,7 @@ class Report extends Component {
                             <Image  style={{width: 150, height: 150}} source={Imagem.imagemGood}/>
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sendSurvey()}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BadReport')}>
                             <Image style={{width: 150, height: 150}} source={Imagem.imagemBad}/>
                             <Text style={styles.moodText}> MAL </Text>
                         </TouchableOpacity>

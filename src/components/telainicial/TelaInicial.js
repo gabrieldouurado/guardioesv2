@@ -21,7 +21,7 @@ class TelaInicial extends Component {
 
     //Funcao responsavel por verificar se o usuario está logado e ser redirecionado automaticamente para Home
     _loadInitialState = async () => {
-        let valueUserFB = await AsyncStorage.getItem('userNameFB');
+        let valueUserFB = await AsyncStorage.getItem('userName');
         let valueUserID = await AsyncStorage.getItem('userID');
         if (valueUserFB !== null || valueUserID !== null) {
             this.props.navigation.navigate('Home')

@@ -19,7 +19,8 @@ class BadReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cca2: 'BR'
+            cca2: 'BR',
+            checked_20: false,
         }
     }
     render() {
@@ -337,7 +338,7 @@ class BadReport extends Component {
                     </View>
                     <CheckBox
                         title='Teve contato com alguem que apresentava os mesmos sintomas?'
-                        checked={this.state.checked_20 == false}
+                        checked={this.state.checked_20}
                         onPress={() => {
                             if (this.state.checked_20 == false) {
                                 this.setState({ checked_20: true })
@@ -376,7 +377,7 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" onPress={() => { alert("NÃO FOI POSSIVEL CONFIRMAR OS DADOS") }} />
+                        <Button title="Confirmar" onPress={() => { alert(this.state.checked_20) }} />
                     </View>
                 </ScrollView>
             </ImageBackground>
