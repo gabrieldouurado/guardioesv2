@@ -106,7 +106,7 @@ export default class drawerContentComponents extends Component {
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Household')}>
                     <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
