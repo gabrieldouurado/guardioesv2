@@ -135,7 +135,6 @@ class Report extends Component {
                     </View>
                     <View style={styles.reportView}>
                         <TouchableOpacity onPress={() =>this.sendSurvey()}>
-                            {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
                             <Image  style={{width: 150, height: 150}} source={Imagem.imagemGood}/>
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>

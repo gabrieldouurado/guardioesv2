@@ -20,9 +20,29 @@ class BadReport extends Component {
         super(props);
         this.state = {
             cca2: 'BR',
+            checked_1: false,
+            checked_2: false,
+            checked_3: false,
+            checked_4: false,
+            checked_5: false,
+            checked_6: false,
+            checked_7: false,
+            checked_8: false,
+            checked_9: false,
+            checked_10: false,
+            checked_11: false,
+            checked_12: false,
+            checked_13: false,
+            checked_14: false,
+            checked_15: false,
+            checked_16: false,
+            checked_17: false,
+            checked_18: false,
+            checked_19: false,
             checked_20: false,
             checked_21: false,
             checked_22: false,
+            date: null,
         }
     }
 
@@ -82,7 +102,25 @@ class BadReport extends Component {
                 travelLocation:this.state.country,
                 app_token:"d41d8cd98f00b204e9800998ecf8427e",
                 platform:"",
-
+                bolhasNoPe: this.state.checked_1,
+                congestaoNasal: this.state.checked_2,
+                diarreia: this.state.checked_3,
+                dificuldadeDeRespirar: this.state.checked_4,
+                doNasArticulacoes: this.state.checked_5,
+                headache: this.state.checked_6,
+                dorEstomago: this.state.checked_7,
+                bodypain: this.state.checked_8,
+                dorOlhos: this.state.checked_9,
+                calafrio: this.state.checked_10,
+                fever: this.state.checked_11,
+                fatigue: this.state.checked_12,
+                manchasVermelhas: this.state.checked_13,
+                nauseas: this.state.checked_14,
+                olhosVermelhos: this.state.checked_15,
+                pesOlhosAmarelados: this.state.checked_16,
+                sangramento: this.state.checked_17,
+                tosse: this.state.checked_18,
+                vomito: this.state.checked_19,
             })
         })
         .then( (response) => response.json())
@@ -91,9 +129,10 @@ class BadReport extends Component {
               AsyncStorage.setItem('survey_id', responseJson.id);
               this.props.navigation.navigate('Home');
               alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
-            } else {
-              alert(responseJson.message)
-            }
+            } 
+            // else {
+            //   alert(responseJson.message)
+            // }
         })
         .done();
     }
@@ -163,7 +202,7 @@ class BadReport extends Component {
                     </View>
                     <CheckBox
                         title='Bolhas no Pé'
-                        checked={this.state.checked_1 == false}
+                        checked={this.state.checked_1}
                         onPress={() => {
                             if (this.state.checked_1 == false) {
                                 this.setState({ checked_1: true })
@@ -176,7 +215,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Congestão Nasal'
-                        checked={this.state.checked_2 == false}
+                        checked={this.state.checked_2}
                         onPress={() => {
                             if (this.state.checked_2 == false) {
                                 this.setState({ checked_2: true })
@@ -189,7 +228,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Diarreia'
-                        checked={this.state.checked_3 == false}
+                        checked={this.state.checked_3}
                         onPress={() => {
                             if (this.state.checked_3 == false) {
                                 this.setState({ checked_3: true })
@@ -202,7 +241,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dificuldade de Respirar'
-                        checked={this.state.checked_4 == false}
+                        checked={this.state.checked_4}
                         onPress={() => {
                             if (this.state.checked_4 == false) {
                                 this.setState({ checked_4: true })
@@ -215,7 +254,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dor nas Articulações'
-                        checked={this.state.checked_5 == false}
+                        checked={this.state.checked_5}
                         onPress={() => {
                             if (this.state.checked_5 == false) {
                                 this.setState({ checked_5: true })
@@ -228,7 +267,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dor de Cabeça'
-                        checked={this.state.checked_6 == false}
+                        checked={this.state.checked_6}
                         onPress={() => {
                             if (this.state.checked_6 == false) {
                                 this.setState({ checked_6: true })
@@ -241,7 +280,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dor no Estômago'
-                        checked={this.state.checked_7 == false}
+                        checked={this.state.checked_7}
                         onPress={() => {
                             if (this.state.checked_7 == false) {
                                 this.setState({ checked_7: true })
@@ -254,7 +293,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dor nos Músculos'
-                        checked={this.state.checked_8 == false}
+                        checked={this.state.checked_8}
                         onPress={() => {
                             if (this.state.checked_8 == false) {
                                 this.setState({ checked_8: true })
@@ -267,7 +306,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Dor nos Olhos'
-                        checked={this.state.checked_9 == false}
+                        checked={this.state.checked_9}
                         onPress={() => {
                             if (this.state.checked_9 == false) {
                                 this.setState({ checked_9: true })
@@ -280,7 +319,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Calafrios'
-                        checked={this.state.checked_10 == false}
+                        checked={this.state.checked_10}
                         onPress={() => {
                             if (this.state.checked_10 == false) {
                                 this.setState({ checked_10: true })
@@ -293,7 +332,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Febre'
-                        checked={this.state.checked_11 == false}
+                        checked={this.state.checked_11}
                         onPress={() => {
                             if (this.state.checked_11 == false) {
                                 this.setState({ checked_11: true })
@@ -306,7 +345,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Mal-estar'
-                        checked={this.state.checked_12 == false}
+                        checked={this.state.checked_12}
                         onPress={() => {
                             if (this.state.checked_12 == false) {
                                 this.setState({ checked_12: true })
@@ -319,7 +358,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Manchas Vermelhas no Corpo'
-                        checked={this.state.checked_13 == false}
+                        checked={this.state.checked_13}
                         onPress={() => {
                             if (this.state.checked_13 == false) {
                                 this.setState({ checked_13: true })
@@ -332,7 +371,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Náuseas'
-                        checked={this.state.checked_14 == false}
+                        checked={this.state.checked_14}
                         onPress={() => {
                             if (this.state.checked_14 == false) {
                                 this.setState({ checked_14: true })
@@ -345,7 +384,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Olhos Avermelhados'
-                        checked={this.state.checked_15 == false}
+                        checked={this.state.checked_15}
                         onPress={() => {
                             if (this.state.checked_15 == false) {
                                 this.setState({ checked_15: true })
@@ -358,7 +397,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Pés e Olhos Amarelados'
-                        checked={this.state.checked_16 == false}
+                        checked={this.state.checked_16}
                         onPress={() => {
                             if (this.state.checked_16 == false) {
                                 this.setState({ checked_16: true })
@@ -371,7 +410,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Sangramentos'
-                        checked={this.state.checked_17 == false}
+                        checked={this.state.checked_17}
                         onPress={() => {
                             if (this.state.checked_17 == false) {
                                 this.setState({ checked_17: true })
@@ -384,7 +423,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Tosse'
-                        checked={this.state.checked_18 == false}
+                        checked={this.state.checked_18}
                         onPress={() => {
                             if (this.state.checked_18 == false) {
                                 this.setState({ checked_18: true })
@@ -397,7 +436,7 @@ class BadReport extends Component {
                     />
                     <CheckBox
                         title='Vômitos'
-                        checked={this.state.checked_19 == false}
+                        checked={this.state.checked_19}
                         onPress={() => {
                             if (this.state.checked_19 == false) {
                                 this.setState({ checked_19: true })
@@ -452,7 +491,14 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" onPress={() => this.sendSurvey()} />
+                        <Button title="Confirmar" onPress={() => {if (this.state.date !== null) {
+                          this.sendSurvey()  
+                        }
+                        else{
+                            alert("A data deve ser preenchida");
+                        }
+                        }
+                        }/>
                     </View>
                 </ScrollView>
             </ImageBackground>
