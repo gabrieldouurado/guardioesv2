@@ -19,12 +19,6 @@ import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 
-let data = new Date();
-let d = data.getDate();
-let m = data.getMonth() + 1;
-let y = data.getFullYear();
-let today = d + "-" + m + "-" + y;
-
 class Registrar extends Component {
     static navigationOptions = {
         header: null

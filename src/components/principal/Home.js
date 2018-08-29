@@ -67,7 +67,7 @@ class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor='#3B8686'/>
+                <StatusBar backgroundColor='#347777'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Ola {this.state.userFirstName}!
@@ -112,11 +112,14 @@ class Home extends Component {
                         <Text style={styles.BotoesTexto}>
                             Diário de Saúde
                             </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.inferiorBotoes}>
-                        <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
-                        <Text style={styles.BotoesTexto}>
-                            Mapa da Saúde
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.inferiorBotoes}
+                            onPress={() => navigate('Mapa')}
+                        >
+                            <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }}/>
+                            <Text style={styles.BotoesTexto}>
+                                Mapa da Saúde
                             </Text>
                     </TouchableOpacity>
 

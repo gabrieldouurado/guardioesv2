@@ -17,15 +17,11 @@ class Conselho extends Component {
         title: 'Conselhos de Saúde',
         headerStyle: {
             backgroundColor: '#3B8686',
-            elevation: 0,
-            textAlign: 'center',
         },
         headerTitleStyle: {
             color: 'white',
         },
-        headerBackTitleStyle: {
-            color: 'white'
-        },
+        headerTintColor: '#fff'
     }
     render() {
         return (

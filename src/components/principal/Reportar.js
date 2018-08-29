@@ -1,6 +1,6 @@
 
-import React, {Component} from 'react';
-import {ImageBackground,  ScrollView, Platform, StyleSheet, Text, View, TouchableOpacity,Image, Button, AsyncStorage} from 'react-native';
+import React, { Component } from 'react';
+import { ImageBackground, ScrollView, Platform, StyleSheet, Text, View, TouchableOpacity, Image, Button, AsyncStorage } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
@@ -25,7 +25,6 @@ class Report extends Component {
             UserID:"",
             error: null,
         }
-
     }    
         static navigationOptions = {
             title: 'Guardiões da saúde',
@@ -105,10 +104,10 @@ class Report extends Component {
                     app_token:"d41d8cd98f00b204e9800998ecf8427e",
                     platform:"",
 
-                })
             })
-            .then( (response) => response.json())
-            .then( (responseJson) => {
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
                 if (responseJson.error === false) {
                   AsyncStorage.setItem('survey_id', responseJson.id);
                   this.props.navigation.navigate('Home');
@@ -118,25 +117,25 @@ class Report extends Component {
                 }
             })
             .done();
-        }
-      
+    }
 
-        render(){
-            return(
-                <View style={styles.container}>
-                    
-                    <View style={styles.textoInicialView}>
-                        <Text  style={styles.textoInicial}>
+
+    render() {
+        return (
+            <View style={styles.container}>
+
+                <View style={styles.textoInicialView}>
+                    <Text style={styles.textoInicial}>
                         Nos ajude a prevenir riscos para a saúde durante ou após 8 dias, relatando sintomas que ocorrem durante ou depois de participar de um evento massivo.
                         </Text>
-                    </View>
-                    <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{resizeMode:'stretch'}}>
+                </View>
+                <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
                     <View style={styles.reportView}>
-                        <TouchableOpacity onPress={() =>this.sendSurvey()}>
-                            <Image  style={{width: 150, height: 150}} source={Imagem.imagemGood}/>
+                        <TouchableOpacity onPress={() => this.sendSurvey()}>
+                            <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('BadReport')}>
@@ -146,71 +145,71 @@ class Report extends Component {
                     </View>
                     <View>
                         <Text style={styles.reportFooter}>
-                        Se a opção escolhida foi MAL poderá selecionar os sintomas na seguinte tela.      
+                            Se a opção escolhida foi MAL poderá selecionar os sintomas na seguinte tela.
                         </Text>
                     </View>
-                    </ImageBackground>
-                </View>
-        
-            );
+                </ImageBackground>
+            </View>
+
+        );
     }
 }
 
-    const styles = StyleSheet.create({
-        container: {
-          flex: 1,
-          height: '100%',
-        },
-          titulo: {
-            
-          },
-          backButton: {
-              alignSelf: 'center',
-              marginLeft: '1%',
-          },
-          textoInicialView: {
-            backgroundColor: '#0084b4',
-            height: '12%',
-          },
-          textoInicial: {
-              justifyContent: 'center',
-              fontWeight: 'bold',
-              margin: '1.5%',
-              fontSize: 16,
-              textAlign:'center',
-              color: '#ffffff'
-          },
-          textoPerguntaView: {
-              marginTop: '15%',
-              alignItems: 'center',
-          },
-          textoPergunta: {
-            justifyContent: 'center',
-            fontWeight: 'bold',
-            fontSize: 36,
-            textAlign: 'center',
-            color: '#0084b4',
-          },
-          reportView: {
-              flex: 1,
-              marginTop: '10%',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-          },
-          reportFooter: {
-              justifyContent: 'center',
-              fontWeight: 'bold',
-              margin: '1%',
-              fontSize: 14,
-              textAlign:'center',
-          },
-          moodText: {
-              textAlign: 'center',
-              fontSize: 18,
-              fontWeight: 'bold',
-              marginTop: '20%'
-          },
-    })
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        height: '100%',
+    },
+    titulo: {
+
+    },
+    backButton: {
+        alignSelf: 'center',
+        marginLeft: '1%',
+    },
+    textoInicialView: {
+        backgroundColor: '#0084b4',
+        height: '12%',
+    },
+    textoInicial: {
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        margin: '1.5%',
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#ffffff'
+    },
+    textoPerguntaView: {
+        marginTop: '15%',
+        alignItems: 'center',
+    },
+    textoPergunta: {
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        fontSize: 36,
+        textAlign: 'center',
+        color: '#0084b4',
+    },
+    reportView: {
+        flex: 1,
+        marginTop: '10%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    reportFooter: {
+        justifyContent: 'center',
+        fontWeight: 'bold',
+        margin: '1%',
+        fontSize: 14,
+        textAlign: 'center',
+    },
+    moodText: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: '20%'
+    },
+})
 
 
 //make this component available to the app
