@@ -12,12 +12,12 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: null,
+            userFirstName: null,
             userEmail: null,
             userPwd: null,
             loginOnFB: null,
             loginOnApp: null,
-            pic: null
+            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
         }
     }
 
@@ -25,7 +25,7 @@ class Login extends Component {
         if (error) {
             console.warn('Error fetching data: ' + error.toString());
         } else {
-            this.setState({ userName: result.name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
+            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
             this.loginFacebook()
         }
     }
@@ -117,6 +117,8 @@ class Login extends Component {
                     AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userToken', responseJson.token);
+                    AsyncStorage.setItem('userName', responseJson.user.firstname);
+                    AsyncStorage.setItem('avatar', this.state.pic);
                     this.props.navigation.navigate('Home');
                     alert(responseJson.token)
                 } else {
@@ -143,12 +145,12 @@ class Login extends Component {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                     AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userName);
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
                     this.props.navigation.navigate('Home');
                     alert("Logado via Facebook")
                 } else {
                     alert(responseJson.message)
-                    this.setState({ userName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                    this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
                     LoginManager.logOut();                    
                 }
             })

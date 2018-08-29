@@ -23,9 +23,9 @@ export default class drawerContentComponents extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pic: null,
             loginOnFB: null,
-            loginOnApp: null
+            loginOnApp: null,
+            userFirstName: null
         }
     }
 
@@ -34,7 +34,8 @@ export default class drawerContentComponents extends Component {
         let valueAvatar = await AsyncStorage.getItem('avatar');
         let valueFB = await AsyncStorage.getItem('loginOnFB');
         let valueApp = await AsyncStorage.getItem('loginOnApp');
-        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp })
+        let valueName = await AsyncStorage.getItem('userName');
+        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp, userFirstName: valueName })
     }
 
     //Funcao responsavel por apagar as variaveis de do facebook salvas no celular ao encerrar uma sessão
@@ -42,12 +43,13 @@ export default class drawerContentComponents extends Component {
         AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('loginOnFB');
         AsyncStorage.removeItem('avatar');
-        this.setState({ pic: null })
+        this.setState({ pic: null, loginOnFB: null })
         this.props.navigation.navigate('TelaInicial')
     }
 
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
     _logoutApp = async () => {
+        AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('loginOnApp');
@@ -91,10 +93,10 @@ export default class drawerContentComponents extends Component {
                                 rounded
                                 source={{ uri: this.state.pic }}
                                 activeOpacity={0.7}
+                                onPress={() => alert(this.state.pic)}
                             />
                         </View>
-                        <Text style={styles.headerText}>Header Portion</Text>
-                        <Text style={styles.headerText}>You can display here logo or profile image</Text>
+                        <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </ImageBackground>
                 </View>
 
@@ -153,7 +155,11 @@ const styles = StyleSheet.create({
         height: moderateScale(300),
     },
     headerText: {
-        color: '#fff8f8',
+        fontSize: 30,
+        fontFamily: 'myriadpro',
+        marginTop: 10,
+        marginLeft: 25,
+        color: '#465F6C'
     },
     shadowAvatar: {
         borderBottomRightRadius: 90,

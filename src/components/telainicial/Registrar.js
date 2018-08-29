@@ -32,7 +32,6 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: null,
             userFirstName: null,
             userLastName: null,
             userEmail: null,
@@ -45,7 +44,7 @@ class Registrar extends Component {
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
-            pic: null
+            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
         }
     }
 
@@ -53,7 +52,7 @@ class Registrar extends Component {
         if (error) {
             alert('Error fetching data: ' + error.toString());
         } else {
-            this.setState({ userName: result.name, userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
+            this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
             this.createFacebook()
         }
     }
@@ -245,6 +244,8 @@ class Registrar extends Component {
                 if (response.error === false) {
                     this.setState({ loginOnApp: 'true' })
                     AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
+                    AsyncStorage.setItem('avatar', this.state.pic);
                     this.props.navigation.navigate('Home');
                 }
                 else {
@@ -278,13 +279,13 @@ class Registrar extends Component {
                 if (response.error === false) {
                     AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                     AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userName);
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
                     alert("Registrado via Facebook")
                     this.props.navigation.navigate('Home');
                 }
                 else {
                     alert(response.message);
-                    this.setState({ userName: null, userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                    this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
                     LoginManager.logOut();
                 }
             })
