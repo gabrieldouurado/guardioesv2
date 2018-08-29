@@ -42,8 +42,9 @@ export default class drawerContentComponents extends Component {
     _logoutFacebook = async () => {
         AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('loginOnFB');
+        AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('avatar');
-        this.setState({ pic: null, loginOnFB: null })
+        this.setState({ pic: null })
         this.props.navigation.navigate('TelaInicial')
     }
 
@@ -93,7 +94,6 @@ export default class drawerContentComponents extends Component {
                                 rounded
                                 source={{ uri: this.state.pic }}
                                 activeOpacity={0.7}
-                                onPress={() => alert(this.state.pic)}
                             />
                         </View>
                         <Text style={styles.headerText}>{this.state.userFirstName}</Text>

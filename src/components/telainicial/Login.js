@@ -143,6 +143,7 @@ class Login extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
+                    AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                     AsyncStorage.setItem('avatar', this.state.pic);
                     AsyncStorage.setItem('userName', this.state.userFirstName);

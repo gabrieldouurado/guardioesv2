@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
