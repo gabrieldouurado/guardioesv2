@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 
@@ -11,7 +11,6 @@ const viajante = (<Icon name='wallet-travel' type={'material-community'} size={3
 const farmacia = (<Icon name='pharmacy' type={'material-community'} size={30} color='red' />)
 const ajuste = (<Icon name='healing' size={30}  color='red'/>)
 
-// create a component
 class Conselho extends Component {
     static navigationOptions = {
         title: 'Conselhos de Saúde',
@@ -51,11 +50,11 @@ class Conselho extends Component {
                         <Text style={styles.textoSelector}>Telefones uteis</Text>
                         {telefones}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.selector} onPress={() => this.props.navigation.navigate('InstituicoesSaude')}>
+                    <TouchableOpacity style={styles.selector} onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=hospitais')}>
                         <Text style={styles.textoSelector}>Instituições de saúde</Text>
                         {hospital}
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.selector} onPress={() => this.props.navigation.navigate('Farmacia')}>
+                    <TouchableOpacity style={styles.selector} onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=farmacias')}>
                         <Text style={styles.textoSelector}>Farmácias</Text>
                         {farmacia}
                     </TouchableOpacity>

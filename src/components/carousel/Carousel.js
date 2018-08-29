@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Carousel from 'react-native-smart-carousel';
-import * as Imagem from '../../imgs/imageConst'
+import { Dimensions } from 'react-native';
+import * as Imagem from '../../imgs/imageConst';
+import { verticalScale } from '../scallingUtils';
+
+let {height, width} = Dimensions.get('window');
 
 const dataCarousel = [
     {

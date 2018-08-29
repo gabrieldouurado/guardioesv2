@@ -19,6 +19,14 @@ import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 
+
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
+
+let today = y + "-" + m + "-" + d;
+
 class Registrar extends Component {
     static navigationOptions = {
         header: null
@@ -391,7 +399,7 @@ const styles = StyleSheet.create({
         height: '8%',
         alignSelf: 'center',
         marginTop: 20,
-        marginBottom: 20,
+        marginBottom: 40,
         width: "60%",
     },
     imageLogo: {
@@ -402,7 +410,7 @@ const styles = StyleSheet.create({
     },
     enviar: {
         backgroundColor: 'skyblue',
-        flex: 1,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8
