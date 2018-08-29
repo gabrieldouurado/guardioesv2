@@ -26,7 +26,7 @@ export const Stack = createStackNavigator({
     Noticias: { screen: Noticias },
     Reportar: { screen: Reportar },
     BadReport: { screen: BadReport },
-    Mapa: { screen: Maps }
+    Mapa: { screen: Maps },
     Prevencao: { screen: Prevencao},
     Household: { screen: Household},
 },{

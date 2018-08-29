@@ -6,3 +6,5 @@ export const imagemConselho = require('./conselho.png');
 export const imagemDiarioSaude = require('./diariosaude.png');
 export const imagemMapaSaude = require('./mapasaude.png');
 export const imagemNoticias = require('./noticias.png');
+export const imagemGood = require('./GoodReport.png');
+export const imagemBad = require('./BadReport.png');
