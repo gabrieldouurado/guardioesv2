@@ -8,11 +8,11 @@ class Noticias extends Component {
         title: 'Notícias',
         headerStyle: {
             backgroundColor: '#3B8686',
-            elevation: 0
         },
         headerTitleStyle: {
             color: 'white',
-        }
+        },
+        headerTintColor: '#fff'
     }
     render() {
         return (

@@ -23,9 +23,9 @@ export default class drawerContentComponents extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pic: null,
             loginOnFB: null,
-            loginOnApp: null
+            loginOnApp: null,
+            userFirstName: null
         }
     }
 
@@ -34,13 +34,15 @@ export default class drawerContentComponents extends Component {
         let valueAvatar = await AsyncStorage.getItem('avatar');
         let valueFB = await AsyncStorage.getItem('loginOnFB');
         let valueApp = await AsyncStorage.getItem('loginOnApp');
-        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp })
+        let valueName = await AsyncStorage.getItem('userName');
+        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp, userFirstName: valueName })
     }
 
     //Funcao responsavel por apagar as variaveis de do facebook salvas no celular ao encerrar uma sessão
     _logoutFacebook = async () => {
-        AsyncStorage.removeItem('userNameFB');
+        AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('loginOnFB');
+        AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('avatar');
         this.setState({ pic: null })
         this.props.navigation.navigate('TelaInicial')
@@ -48,6 +50,7 @@ export default class drawerContentComponents extends Component {
 
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
     _logoutApp = async () => {
+        AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('loginOnApp');
@@ -93,8 +96,7 @@ export default class drawerContentComponents extends Component {
                                 activeOpacity={0.7}
                             />
                         </View>
-                        <Text style={styles.headerText}>Header Portion</Text>
-                        <Text style={styles.headerText}>You can display here logo or profile image</Text>
+                        <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </ImageBackground>
                 </View>
 
@@ -106,7 +108,7 @@ export default class drawerContentComponents extends Component {
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Household')}>
                     <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
@@ -153,7 +155,11 @@ const styles = StyleSheet.create({
         height: moderateScale(300),
     },
     headerText: {
-        color: '#fff8f8',
+        fontSize: 30,
+        fontFamily: 'myriadpro',
+        marginTop: 10,
+        marginLeft: 25,
+        color: '#465F6C'
     },
     shadowAvatar: {
         borderBottomRightRadius: 90,

@@ -42,7 +42,7 @@ class CarouselImagens extends Component {
             navigatioType={'dots'}
             navigationColor={'#CD853F'}
             data={dataCarousel}
-            height={verticalScale(540)}
+            height={460}
         />
     );
   }
