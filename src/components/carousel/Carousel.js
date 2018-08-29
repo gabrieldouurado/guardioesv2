@@ -38,7 +38,7 @@ class CarouselImagens extends Component {
             navigatioType={'dots'}
             navigationColor={'#CD853F'}
             data={dataCarousel}
-            height='100%'
+            height={460}
         />
     );
   }
