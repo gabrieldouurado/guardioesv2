@@ -111,9 +111,9 @@ class Report extends Component {
                 if (responseJson.error === false) {
                   AsyncStorage.setItem('survey_id', responseJson.id);
                   this.props.navigation.navigate('Home');
-                //   alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
+                  alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
                 } else {
-                    // alert(responseJson.message)
+                  alert(responseJson.message)
                 }
             })
             .done();
@@ -135,7 +135,6 @@ class Report extends Component {
                     </View>
                     <View style={styles.reportView}>
                         <TouchableOpacity onPress={() =>this.sendSurvey()}>
-                            {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
                             <Image  style={{width: 150, height: 150}} source={Imagem.imagemGood}/>
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
