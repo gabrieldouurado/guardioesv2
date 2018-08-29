@@ -54,7 +54,7 @@ z
 
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor='#3B8686'/>
+                <StatusBar backgroundColor='#347777'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Ola Fulano!

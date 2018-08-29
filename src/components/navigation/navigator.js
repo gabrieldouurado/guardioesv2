@@ -12,26 +12,26 @@ import drawerContentComponents from './drawerContentComponent';
 import Maps from '../principal/Maps';
 
 export const Cadastro = createStackNavigator({
-  TelaInicial: { screen: TelaInicial },
-  Registrar: { screen: Registrar },
-  Login: { screen: Login },
+    TelaInicial: { screen: TelaInicial },
+    Registrar: { screen: Registrar },
+    Login: { screen: Login },
 })
 
 export const Stack = createStackNavigator({
-  Home: { screen: Home },
-  Diario: { screen: Diario },
-  Conselho: { screen: Conselho },
-  Noticias: { screen: Noticias },
-  Reportar: { screen: Reportar },
-  BadReport: { screen: BadReport },
-  Mapa: { screen: Maps }
-},{
-  initialRouteName: 'Home'
-})
+    Home: { screen: Home },
+    Diario: { screen: Diario },
+    Conselho: { screen: Conselho },
+    Noticias: { screen: Noticias },
+    Reportar: { screen: Reportar },
+    BadReport: { screen: BadReport },
+    Mapa: { screen: Maps }
+}, {
+        initialRouteName: 'Home'
+    })
 
 export const Drawer = createDrawerNavigator({
-  Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' }},
-	Stacks: { screen: Stack },
+    Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
+    Stacks: { screen: Stack },
 }, {
-  contentComponent: drawerContentComponents
-})
+        contentComponent: drawerContentComponents
+    })

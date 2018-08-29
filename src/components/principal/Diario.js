@@ -8,14 +8,11 @@ class Diario extends Component {
         title: 'Notícias',
         headerStyle: {
             backgroundColor: '#3B8686',
-            elevation: 0
         },
         headerTitleStyle: {
             color: 'white',
         },
-        headerBackTitleStyle: {
-            color: 'white'
-        },
+        headerTintColor: '#fff'
     }
     render() {
         return (

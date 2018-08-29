@@ -5,17 +5,11 @@ import MapView, { Marker } from 'react-native-maps';
 
 class Maps extends Component {
     static navigationOptions = {
-        title: 'Notícias',
+        title: 'Mapa da Saúde',
         headerStyle: {
             backgroundColor: '#3B8686',
-            elevation: 0
         },
-        headerTitleStyle: {
-            color: 'white',
-        },
-        headerBackTitleStyle: {
-            color: 'white'
-        },
+        headerTintColor: '#fff' //changes backbutton color
     }
 
     constructor(props) {
@@ -24,15 +18,19 @@ class Maps extends Component {
         this.state = {
             isLoading: true,
             dataSource: [],
-            
+            region: {
+                latitude: -15.76855881, 
+                longitude: -47.86667418,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001
+            }
         }
     }
 
-    componentWillMount() {
-        return fetch('https://guardianes.centeias.net/surveys/a')
+    componentDidMount() {
+        fetch('https://guardianes.centeias.net/surveys/a')
             .then((response) => response.json())
             .then((responseJson) => {
-                console.warn(responseJson.data)
                 this.setState({
                     isLoading: false,
                     dataSource: responseJson.data,
@@ -42,6 +40,7 @@ class Maps extends Component {
             .catch((error) => {
                 console.error(error);
             });
+     
     }
 
     render() {
@@ -49,10 +48,11 @@ class Maps extends Component {
         return (
             <View style={styles.container}>
                 <MapView
+                    initialRegion={this.state.region}
                     style={styles.map}
                 >
                     {markers.map((marker, index) => {
-                        let coordinates = {latitude: marker.lat, longitude: marker.lon}
+                        let coordinates = { latitude: marker.lat, longitude: marker.lon }
                         if (marker.no_symptom === "Y") {
                             return (
                                 <Marker
@@ -64,7 +64,7 @@ class Maps extends Component {
                             )
                         }
                         return (
-                            <Marker 
+                            <Marker
                                 key={index}
                                 coordinate={coordinates}
                                 title="Mal"
