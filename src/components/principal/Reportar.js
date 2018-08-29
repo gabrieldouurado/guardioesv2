@@ -4,91 +4,116 @@ import { ImageBackground, ScrollView, Platform, StyleSheet, Text, View, Touchabl
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
+import BadReport from './badReport';
+
 
 let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
+let h = data.getHours();
 
-let today = y + "-" + m + "-" + d;
+let today = y + "-" + m + "-" + d + "T" + h;
+
+
 class Report extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userLatitude: "",
-            userLongitude: "",
+            userLatitude: 'unknown',
+            userLongitude: 'unknown',
+            UserID:"",
+            error: null,
+        }
+    }    
+        static navigationOptions = {
+            title: 'Guardiões da saúde',
+            headerStyle: {
+                backgroundColor: '#3B8686',
+                elevation: 0
+            },
+            headerTitleStyle: {
+                color: 'white',
+                margin: '8%',
+                fontWeight: 'bold',
+                fontSize: 30,
+                alignSelf: 'center',
+                marginRight: '10%',
+            },
+            headerBackTitleStyle: {
+                color: 'white'
+            },
         }
 
-    }
-    static navigationOptions = {
-        title: 'Reportar',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTitleStyle: {
-            color: 'white',
-        },
-        headerTintColor: '#fff'
-    }
 
-    async  requestLocationPermission() {
-        try {
-            const granted = await PermissionsAndroid.request(
-                android.permission.ACCESS_FINE_LOCATION,
-                {
-                    'title': 'Cool Photo App Camera Permission',
-                    'message': 'Cool Photo App needs access to your camera ' +
-                        'so you can take awesome pictures.'
+        componentDidMount() {
+            navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                userLatitude: position.coords.latitude,
+                userLongitude: position.coords.longitude,
+                error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
+            );
+        }
+
+        async requestFineLocationPermission(){
+            try {
+                const granted = await PermissionsAndroid.request(
+                    android.permission.ACCESS_FINE_LOCATION,
+                  {
+                    'title': 'Permission for the app use the fine location',
+                    'message': 'We want to use your fine location to make a report' 
+                  }
+                )
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    this.componentDidMount
+                } else {
+                  console.log("Camera permission denied")
                 }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("You can use the camera")
-            } else {
-                console.log("Camera permission denied")
-            }
-        } catch (err) {
-            console.warn(err)
+              } catch (err) {
+                console.warn(err)
+              }
         }
-    }
-    //Function that creates a requisition to send the survey to the API
-    sendSurvey = () => {
+    
+        //Function that creates a requisition to send the survey to the API
+        sendSurvey = async () => {
+            
+            this.requestFineLocationPermission
+            
+            let UserID = await AsyncStorage.getItem('userID');
+            this.setState({ UserID: UserID })
 
-        this.requestLocationPermission()
-        // navigator.geolocation.getCurrentPosition((position) => {
-        //     var lat = parseFloat(position.coords.latitude)
-        //     var lon = parseFloat(position.coords.longitude)
-        //     this.setState({userLatitude: lat})
-        //     this.setState({userLongitude: lon})
-        // }, (error) => alert(JSON.stringify(error)),
-        // {enableHighAccuracy:true, timeout: 20000, maximumAge:1000})
-        // alert(this.state.userLatitude)
-        fetch('https://guardianes.centeias.net/survey/create', {
-            method: 'POST',
-            body: JSON.stringify({
-                user_id: "5b6db008abbd4916002b97f0",
-                houselhold_id: "",
-                lat: this.state.userLatitude,
-                lon: this.state.userLongitude,
-                no_symptom: "Y",
-                week_of: "2020-05-20",
-                hadContagiousContact: "none",
-                hadHealthCare: "none",
-                hadTravlledAbroad: "none",
-                travelLocation: "none",
-                app_token: "d41d8cd98f00b204e9800998ecf8427e",
-                platform: "",
+
+            fetch('https://guardianes.centeias.net/survey/create',{
+                method: 'POST',
+                body: JSON.stringify({
+                    user_id:this.state.UserID,
+                    houselhold_id:"",
+                    lat: this.state.userLatitude,
+                    lon: this.state.userLongitude,
+                    no_symptom:"Y",
+                    week_of:data,
+                    hadContagiousContact:"none",
+                    hadHealthCare:"none",
+                    hadTravlledAbroad:"none",
+                    travelLocation:"none",
+                    app_token:"d41d8cd98f00b204e9800998ecf8427e",
+                    platform:"",
 
             })
         })
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    AsyncStorage.setItem('survey_id', responseJson.id);
-                    this.props.navigation.navigate('Home');
-                    alert(this.state.userLatitude)
-                    alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
+                  AsyncStorage.setItem('survey_id', responseJson.id);
+                  this.props.navigation.navigate('Home');
+                  alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
                 } else {
-                    alert(responseJson.message)
+                  alert(responseJson.message)
                 }
             })
             .done();
@@ -113,8 +138,8 @@ class Report extends Component {
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.sendSurvey()}>
-                            <Image style={{ width: 150, height: 150 }} source={Imagem.imagemBad} />
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BadReport')}>
+                            <Image style={{width: 150, height: 150}} source={Imagem.imagemBad}/>
                             <Text style={styles.moodText}> MAL </Text>
                         </TouchableOpacity>
                     </View>

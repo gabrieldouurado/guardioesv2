@@ -11,124 +11,98 @@ import {
     TouchableOpacity,
     Picker,
     AsyncStorage,
-    Animated
+    Keyboard
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal';
-import DatePicker from 'react-native-datepicker';
-import * as Imagem from '../../imgs/imageConst';
-
-class FloatingLabelInput extends Component {
-    state = {
-        isFocused: false
-    };
-
-    componentWillMount() {
-        this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0 : 1);
-    }
-
-    handleFocus = () => this.setState({ isFocused: true });
-    handleBlur = () => this.setState({ isFocused: false });
-
-    componentDidUpdate() {
-        Animated.timing(this._animatedIsFocused, {
-            toValue: (this.state.isFocused || this.props.value !== '') ? 1 : 0,
-            duration: 200
-        }).start();
-    }
-
-    render() {
-        const { label, ...props } = this.props;
-        const labelStyle = {
-            fontSize: this._animatedIsFocused.interpolate({
-                inputRange: [0, 1],
-                outputRange: [20, 15]
-            }),
-            color: this._animatedIsFocused.interpolate({
-                inputRange: [0, 1],
-                outputRange: ['#aaa', '#000']
-            }),
-            position: 'absolute',
-            top: this._animatedIsFocused.interpolate({
-                inputRange: [0, 1],
-                outputRange: [18, 0]
-            }),
-            left: 0,
-            alignSelf: 'flex-start',
-            textAlign: 'left',
-            paddingLeft: "5%",
-            fontWeight: 'bold',
-        };
-        return (
-            <View style={{ paddingTop: 18, alignItems: 'center', }}>
-                <Animated.Text style={labelStyle}>{label}</Animated.Text>
-                <TextInput
-                    {...props}
-                    style={styles.formInput}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                />
-            </View>
-        );
-    }
-}
+import CountryPicker from 'react-native-country-picker-modal'
+import DatePicker from 'react-native-datepicker'
+import * as Imagem from '../../imgs/imageConst'
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 
 class Registrar extends Component {
     static navigationOptions = {
-        headerStyle: {
-            backgroundColor: 'transparent',
-        },
-        headerTintColor: '#3B8686'
+        header: null
     }
     constructor(props) {
         super(props);
         this.state = {
-            Nome: '',
-            Sobrenome: '',
-            Email: '',
-            Senha: '',
-            Sexo: 'Masculino',
-            País: 'Brazil',
-            Raça: 'Blanco',
-            userDob: '',
+            userFirstName: null,
+            userLastName: null,
+            userEmail: null,
+            userPwd: null,
+            userGender: 'Masculino',
+            userCountry: 'Brazil',
+            userRace: 'Blanco',
+            userDob: '01-01-1918',
             userApp: 'd41d8cd98f00b204e9800998ecf8427e',
             cca2: 'BR',
-        }
-
-        this.atualizaValor = this.atualizaValor.bind(this)
-    }
-    componentDidMount() {
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        let value = await AsyncStorage.getItem('user');
-        if (value !== null) {
-            this.props.navigation.navigate('Home')
+            loginOnFB: null,
+            loginOnApp: null,
+            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
         }
     }
 
-    atualizaValor(texto) {
-        console.log(texto)
+    _responseInfoCallback = (error, result) => {
+        if (error) {
+            alert('Error fetching data: ' + error.toString());
+        } else {
+            this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
+            this.createFacebook()
+        }
     }
 
     render() {
-        const back = (<Ionicons name='md-arrow-round-back' size={30} />)
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
+                    <View style={styles.viewCommom}>
+                        <Text style={{ fontSize: 15, paddingBottom: 10, paddingTop: 10 }}>
+                            Cadastar com Facebook
+                        </Text>
+                        <LoginButton
+                            readPermissions={['public_profile', 'email']}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        alert("login has error: " + result.error);
+                                    } else if (result.isCancelled) {
+                                        alert("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                const infoRequest = new GraphRequest(
+                                                    '/me?fields=name,first_name,last_name,email,picture,id',
+                                                    null,
+                                                    this._responseInfoCallback
+                                                );
+                                                // Start the graph request.
+                                                new GraphRequestManager().addRequest(infoRequest).start();
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            onLogoutFinished={() => { }} />
+                    </View>
+                    <View style={{ paddingTop: 10 }}></View>
+                    <View style={styles.viewCommom}>
+                        <Text style={styles.commomText}>Nome:</Text>
+                        <TextInput style={styles.formInput}
+                            returnKeyType='next'
+                            onSubmitEditing={() => this.sobrenomeInput.focus()}
+                            onChangeText={text => this.setState({ userFirstName: text })}
 
-                    <FloatingLabelInput
-                        label='Nome'
-                        value={this.state.Nome}
-                        onChangeText={text => this.setState({ Nome: text })}
-                    />
+                        />
+                    </View>
+                    <View style={styles.viewCommom}>
 
-                    <FloatingLabelInput
-                        label='Sobrenome'
-                        value={this.state.Sobrenome}
-                        onChangeText={text => this.setState({ Sobrenome: text })}
-                    />
+                        <Text style={styles.commomText}>Sobrenome:</Text>
+
+                        <TextInput style={styles.formInput}
+                            ref={(input) => this.sobrenomeInput = input}
+                            onChangeText={text => this.setState({ userLastName: text })}
+                        />
+                    </View>
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
@@ -171,7 +145,7 @@ class Registrar extends Component {
                                 placeholder="Nascimento"
                                 format="DD-MM-YYYY"
                                 minDate="01-01-1918"
-                                maxDate="01-01-2019"
+                                maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
                                 customStyles={{
@@ -201,29 +175,37 @@ class Registrar extends Component {
                         </View>
                     </View>
 
-                    <FloatingLabelInput
-                        label='Email'
-                        value={this.state.Email}
-                        keyboardType='email-address'
-                        onChangeText={text => this.setState({ Email: text })}
-                    />
+                    <View style={styles.viewCommom}>
+                        <Text style={styles.commomText}>Email:</Text>
+                        <TextInput
+                            style={styles.formInput}
+                            keyboardType='email-address'
+                            onChangeText={email => this.setState({ userEmail: email })}
+                            onSubmitEditing={() => this.passwordInput.focus()}
+                        />
+                    </View>
 
-                    <FloatingLabelInput
-                        label='Senha'
-                        secureTextEntry
-                        value={this.state.Senha}
-                        returnKeyType='next'
-                        onChangeText={text => this.setState({ Senha: text })}
-                        onSubmitEditing={this.create}
-                    />
+                    <View style={styles.viewCommom}>
+
+                        <Text style={styles.commomText}>Senha:</Text>
+
+                        <TextInput style={styles.formInput}
+                            returnKeyType='next'
+                            secureTextEntry={true}
+                            onChangeText={text => this.setState({ userPwd: text })}
+                            ref={(input) => this.passwordInput = input}
+                        />
+                    </View>
 
                     <View style={styles.buttonView}>
+
                         <TouchableOpacity
                             style={styles.enviar}
                             onPress={this.create}
                         >
                             <Text>Cadastrar</Text>
                         </TouchableOpacity>
+
                     </View>
 
                 </ScrollView>
@@ -232,6 +214,7 @@ class Registrar extends Component {
 
     }
     create = () => {
+        Keyboard.dismiss()
         fetch('https://guardianes.centeias.net/user/create', {
             method: 'POST',
             headers: {
@@ -239,13 +222,13 @@ class Registrar extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                firstname: this.state.Nome,
-                lastname: this.state.Sobrenome,
-                email: this.state.Email,
-                password: this.state.Senha,
-                gender: this.state.Sexo,
-                country: this.state.País,
-                race: this.state.Raça,
+                firstname: this.state.userFirstName,
+                lastname: this.state.userLastName,
+                email: this.state.userEmail,
+                password: this.state.userPwd,
+                gender: this.state.userGender,
+                country: this.state.userCountry,
+                race: this.state.userRace,
                 dob: this.state.userDob,
                 app: this.state.userApp,
             })
@@ -253,10 +236,51 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    this.props.navigation.navigate('Reportar');
+                    this.setState({ loginOnApp: 'true' })
+                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
+                    AsyncStorage.setItem('avatar', this.state.pic);
+                    this.props.navigation.navigate('Home');
                 }
                 else {
                     alert(response.message);
+                }
+            })
+
+    }
+
+    createFacebook = () => {
+        fetch('https://guardianes.centeias.net/user/create', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstname: this.state.userFirstName,
+                lastname: this.state.userLastName,
+                email: this.state.userEmail,
+                password: this.state.userPwd,
+                gender: this.state.userGender,
+                country: this.state.userCountry,
+                race: this.state.userRace,
+                dob: this.state.userDob,
+                app: this.state.userApp,
+            })
+        })
+            .then((response) => response.json())
+            .then(response => {
+                if (response.error === false) {
+                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                    AsyncStorage.setItem('avatar', this.state.pic);
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
+                    alert("Registrado via Facebook")
+                    this.props.navigation.navigate('Home');
+                }
+                else {
+                    alert(response.message);
+                    this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                    LoginManager.logOut();
                 }
             })
 
@@ -267,8 +291,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        height: 680
     },
     margTop: {
         width: '100%',
@@ -297,7 +320,6 @@ const styles = StyleSheet.create({
     },
     scroll: {
         flex: 1,
-        paddingTop: '10%',
         width: '100%',
     },
     viewCommom: {
