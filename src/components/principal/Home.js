@@ -28,9 +28,17 @@ class Home extends Component {
 
                 </Icon.Button>
             )
-        
+
         }
     }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            userFirstName: null
+        }
+    }
+
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
@@ -41,13 +49,18 @@ class Home extends Component {
             _onHeaderEventControl: this.onHeaderEventControl,// rolê para acessar a drawer em uma função estática
             _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
         })
+        this._getInfos()
     }
 
     openDrawer() {// rolê para acessar a drawer em uma função estática
         this.props.navigation.openDrawer();
     }// rolê para acessar a drawer em uma função estática
 
-z
+    _getInfos = async () => {
+        let valueName = await AsyncStorage.getItem('userName');
+        this.setState({ userFirstName: valueName })
+    }
+    
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
@@ -57,7 +70,7 @@ z
                 <StatusBar backgroundColor='#3B8686'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
-                        Ola Fulano!
+                        Ola {this.state.userFirstName}!
                     </Text>
                     <Text style={topoTexto2}>
                         Agora voce e um guardiao da saude!
@@ -76,36 +89,36 @@ z
                 </View>
 
                 <View style={inferior}>
-                        <TouchableOpacity 
-                            style={styles.inferiorBotoes}
-                            onPress={() => navigate('Noticias')}>
-                            <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }}/>
-                            <Text style={styles.BotoesTexto}>
-                                Notícias
+                    <TouchableOpacity
+                        style={styles.inferiorBotoes}
+                        onPress={() => navigate('Noticias')}>
+                        <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
+                        <Text style={styles.BotoesTexto}>
+                            Notícias
                             </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={styles.inferiorBotoes}
-                            onPress={() => navigate('Conselho')}>
-                            <Image source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }}/>
-                            <Text style={styles.BotoesTexto}>
-                                Conselho de Saúde
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.inferiorBotoes}
+                        onPress={() => navigate('Conselho')}>
+                        <Image source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
+                        <Text style={styles.BotoesTexto}>
+                            Conselho de Saúde
                             </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            style={styles.inferiorBotoes}
-                            onPress={ () => navigate('Diario')}>
-                            <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }}/>
-                            <Text style={styles.BotoesTexto}>
-                                Diário de Saúde
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.inferiorBotoes}
+                        onPress={() => navigate('Diario')}>
+                        <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
+                        <Text style={styles.BotoesTexto}>
+                            Diário de Saúde
                             </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.inferiorBotoes}>
-                            <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }}/>
-                            <Text style={styles.BotoesTexto}>
-                                Mapa da Saúde
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.inferiorBotoes}>
+                        <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
+                        <Text style={styles.BotoesTexto}>
+                            Mapa da Saúde
                             </Text>
-                        </TouchableOpacity>
+                    </TouchableOpacity>
 
                 </View>
             </View>
@@ -147,9 +160,9 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(123,123,123, 0.15)', 
-        width: '80%', 
-        borderBottomLeftRadius: 181, 
+        backgroundColor: 'rgba(123,123,123, 0.15)',
+        width: '80%',
+        borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
     },

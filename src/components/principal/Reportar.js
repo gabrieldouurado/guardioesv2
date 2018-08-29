@@ -4,6 +4,7 @@ import {ImageBackground,  ScrollView, Platform, StyleSheet, Text, View, Touchabl
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
+import BadReport from './badReport';
 
 
 let data = new Date();
