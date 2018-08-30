@@ -248,15 +248,15 @@ class Registrar extends Component {
                         AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
                         AsyncStorage.setItem('avatar', this.state.pic);
-                        alert("Registrado via Facebook")
-                        this.props.navigation.navigate('Home');
+                        alert("Registrado via Facebook");
+                        this.loginAfterCreate();
                     } else{
                         this.setState({ loginOnApp: 'true' })
                         AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
                         AsyncStorage.setItem('avatar', this.state.pic);
                         alert("Registrado com Sucesso")
-                        this.props.navigation.navigate('Home');
+                        this.loginAfterCreate();
                     }                    
                 }
                 else {
@@ -270,6 +270,30 @@ class Registrar extends Component {
                 }
             })
 
+    }
+
+    loginAfterCreate = () => {
+        fetch('https://guardianes.centeias.net/user/login', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this.state.userEmail,
+                password: this.state.userPwd
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    AsyncStorage.setItem('userID', responseJson.user.id);
+                    this.props.navigation.navigate('Home');
+                } else {
+                    alert(responseJson.message)
+                }
+            })
+            .done();
     }
 }
 
