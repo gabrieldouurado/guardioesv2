@@ -24,8 +24,8 @@ class Login extends Component {
         if (error) {
             console.warn('Error fetching data: ' + error.toString());
         } else {
-            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
-            this.loginFacebook()
+            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
+            this.login()
         }
     }
 
@@ -78,7 +78,7 @@ class Login extends Component {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
                                                 const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
+                                                    '/me?fields=first_name,email,picture,id',
                                                     null,
                                                     this._responseInfoCallback
                                                 );
@@ -111,47 +111,33 @@ class Login extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    Keyboard.dismiss()
-                    this.setState({ loginOnApp: 'true' })
-                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                    AsyncStorage.setItem('userID', responseJson.user.id);
-                    AsyncStorage.setItem('userToken', responseJson.token);
-                    AsyncStorage.setItem('userName', responseJson.user.firstname);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    this.props.navigation.navigate('Home');
-                    alert(responseJson.token)
-                } else {
-                    alert(responseJson.message)
-                }
-            })
-            .done();
-    }
+                    if (this.state.loginOnFB === 'true') {
+                        AsyncStorage.setItem('userID', responseJson.user.id);
+                        AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        this.props.navigation.navigate('Home');
+                        alert("Logado via Facebook")
+                    } else {
+                        Keyboard.dismiss()
+                        this.setState({ loginOnApp: 'true' })
+                        AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                        AsyncStorage.setItem('userID', responseJson.user.id);
+                        AsyncStorage.setItem('userToken', responseJson.token);
+                        AsyncStorage.setItem('userName', responseJson.user.firstname);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        this.props.navigation.navigate('Home');
+                        alert(responseJson.token)
+                    }
 
-    loginFacebook = () => {
-        fetch('https://guardianes.centeias.net/user/login', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: this.state.userEmail,
-                password: this.state.userPwd
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    AsyncStorage.setItem('userID', responseJson.user.id);
-                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    this.props.navigation.navigate('Home');
-                    alert("Logado via Facebook")
                 } else {
-                    alert(responseJson.message)
-                    this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
-                    LoginManager.logOut();                    
+                    if (this.state.loginOnFB === 'true') {
+                        alert(responseJson.message)
+                        this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
+                        LoginManager.logOut();
+                    } else {
+                        alert(responseJson.message)
+                    }
                 }
             })
             .done();

@@ -55,7 +55,7 @@ class Registrar extends Component {
             alert('Error fetching data: ' + error.toString());
         } else {
             this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            this.createFacebook()
+            this.create()
         }
     }
 
@@ -244,51 +244,29 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    this.setState({ loginOnApp: 'true' })
-                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    this.props.navigation.navigate('Home');
+                    if(this.state.loginOnFB === 'true'){
+                        AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        alert("Registrado via Facebook")
+                        this.props.navigation.navigate('Home');
+                    } else{
+                        this.setState({ loginOnApp: 'true' })
+                        AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        alert("Registrado com Sucesso")
+                        this.props.navigation.navigate('Home');
+                    }                    
                 }
                 else {
-                    alert(response.message);
-                }
-            })
-
-    }
-
-    createFacebook = () => {
-        fetch('https://guardianes.centeias.net/user/create', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstname: this.state.userFirstName,
-                lastname: this.state.userLastName,
-                email: this.state.userEmail,
-                password: this.state.userPwd,
-                gender: this.state.userGender,
-                country: this.state.userCountry,
-                race: this.state.userRace,
-                dob: this.state.userDob,
-                app: this.state.userApp,
-            })
-        })
-            .then((response) => response.json())
-            .then(response => {
-                if (response.error === false) {
-                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    alert("Registrado via Facebook")
-                    this.props.navigation.navigate('Home');
-                }
-                else {
-                    alert(response.message);
-                    this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
-                    LoginManager.logOut();
+                    if(this.state.loginOnFB === 'true'){
+                        alert(response.message);
+                        this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                        LoginManager.logOut();
+                    } else{
+                        alert(response.message);
+                    }
                 }
             })
 
