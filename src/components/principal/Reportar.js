@@ -25,24 +25,9 @@ class Report extends Component {
             UserID:"",
             error: null,
         }
-    }    
+    }
         static navigationOptions = {
             title: 'Guardiões da saúde',
-            headerStyle: {
-                backgroundColor: '#3B8686',
-                elevation: 0
-            },
-            headerTitleStyle: {
-                color: 'white',
-                margin: '8%',
-                fontWeight: 'bold',
-                fontSize: 30,
-                alignSelf: 'center',
-                marginRight: '10%',
-            },
-            headerBackTitleStyle: {
-                color: 'white'
-            },
         }
 
 
@@ -66,7 +51,7 @@ class Report extends Component {
                     android.permission.ACCESS_FINE_LOCATION,
                   {
                     'title': 'Permission for the app use the fine location',
-                    'message': 'We want to use your fine location to make a report' 
+                    'message': 'We want to use your fine location to make a report'
                   }
                 )
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -78,12 +63,12 @@ class Report extends Component {
                 console.warn(err)
               }
         }
-    
+
         //Function that creates a requisition to send the survey to the API
         sendSurvey = async () => {
-            
+
             this.requestFineLocationPermission
-            
+
             let UserID = await AsyncStorage.getItem('userID');
             this.setState({ UserID: UserID })
 

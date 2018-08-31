@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(123,123,123, 0.15)',
+        backgroundColor: 'rgba(223,223,208, 1)',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
