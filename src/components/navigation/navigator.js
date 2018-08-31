@@ -34,13 +34,13 @@ export const Stack = createStackNavigator({
     navigationOptions: {
       headerTintColor: '#9B6525',
       headerStyle: {
-          backgroundColor: '#dfdfd0',
-          elevation: 0,
-          borderBottomWidth: 5,
-          borderColor: '#9B6525'
+        backgroundColor: '#dfdfd0',
+        elevation: 0,
+        borderBottomWidth: 5,
+        borderColor: '#9B6525'
       },
       headerTitleStyle: {
-        fontFamily: 'poiretone'
+        fontFamily: 'myriadpro'
       }
     }
 })
