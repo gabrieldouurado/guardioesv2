@@ -6,7 +6,10 @@ import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManag
 
 class Login extends Component {
     static navigationOptions = {
-        title: 'Login'
+        headerStyle: {
+          backgroundColor: 'transparent'
+        },
+        headerTintColor: '#3B8686'
     }
     constructor(props) {
         super(props);
