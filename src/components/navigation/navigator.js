@@ -32,7 +32,6 @@ export const Stack = createStackNavigator({
 },{
     initialRouteName: 'Home'
 })
-
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },

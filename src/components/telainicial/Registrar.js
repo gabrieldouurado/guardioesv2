@@ -29,7 +29,10 @@ let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
-        header: null
+        headerStyle: {
+          backgroundColor: 'transparent'
+        },
+        headerTintColor: '#3B8686'
     }
     constructor(props) {
         super(props);

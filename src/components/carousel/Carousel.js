@@ -37,12 +37,12 @@ const dataCarousel = [
 class CarouselImagens extends Component {
   render() {
     return (
-        <Carousel 
+        <Carousel
     	    navigation={true}
             navigatioType={'dots'}
             navigationColor={'#CD853F'}
             data={dataCarousel}
-            height={460}
+            height={height - verticalScale(150)}
         />
     );
   }

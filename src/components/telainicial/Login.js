@@ -6,7 +6,10 @@ import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManag
 
 class Login extends Component {
     static navigationOptions = {
-        title: 'Login'
+        headerStyle: {
+          backgroundColor: 'transparent'
+        },
+        headerTintColor: '#3B8686'
     }
     constructor(props) {
         super(props);
@@ -151,7 +154,7 @@ class Login extends Component {
                 } else {
                     alert(responseJson.message)
                     this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
-                    LoginManager.logOut();                    
+                    LoginManager.logOut();
                 }
             })
             .done();
