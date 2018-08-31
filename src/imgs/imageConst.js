@@ -1,6 +1,6 @@
 export const imagemFundo = require('./fundo.png');
 export const imagemLogo = require('./logo.png');
-export const imagemReportar = require('./reportar.png');
+export const imagemReportar = require('/home/marcos/Documents/programming/guardioesv2/src/imgs/Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
 export const imagemConselho = require('./conselho.png');
 export const imagemDiarioSaude = require('./diariosaude.png');

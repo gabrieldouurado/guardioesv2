@@ -30,11 +30,23 @@ export const Stack = createStackNavigator({
     Prevencao: { screen: Prevencao},
     Household: { screen: Household},
 },{
-    initialRouteName: 'Home'
+    initialRouteName: 'Home',
+    navigationOptions: {
+      headerTintColor: '#9B6525',
+      headerStyle: {
+          backgroundColor: '#dfdfd0',
+          elevation: 0,
+          borderBottomWidth: 5,
+          borderColor: '#9B6525'
+      },
+      headerTitleStyle: {
+        fontFamily: 'poiretone'
+      }
+    }
 })
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },
 }, {
-        contentComponent: drawerContentComponents
+        contentComponent: drawerContentComponents,
     })

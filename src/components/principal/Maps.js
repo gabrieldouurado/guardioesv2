@@ -6,10 +6,6 @@ import MapView, { Marker } from 'react-native-maps';
 class Maps extends Component {
     static navigationOptions = {
         title: 'Mapa da Saúde',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTintColor: '#fff' //changes backbutton color
     }
 
     constructor(props) {
@@ -19,7 +15,7 @@ class Maps extends Component {
             isLoading: true,
             dataSource: [],
             region: {
-                latitude: -15.76855881, 
+                latitude: -15.76855881,
                 longitude: -47.86667418,
                 latitudeDelta: 0.001,
                 longitudeDelta: 0.001
@@ -40,7 +36,6 @@ class Maps extends Component {
             .catch((error) => {
                 console.error(error);
             });
-     
     }
 
     render() {

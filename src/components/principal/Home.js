@@ -1,4 +1,3 @@
-//import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
@@ -12,21 +11,8 @@ class Home extends Component {
         const { params = {} } = navigation.state;
         return {
             title: 'Guardioes da Saude',
-            headerStyle: {
-                backgroundColor: '#3B8686',
-                elevation: 0
-            },
-            headerTitleStyle: {
-                color: 'white',
-                fontFamily: 'miriadpro'
-            },
-            headerBackTitleStyle: {
-                color: 'white'
-            },
             headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} backgroundColor='transparent' onPress={() => params._onHeaderEventControl()}>
-
-                </Icon.Button>
+                <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
             )
 
         }
@@ -60,7 +46,7 @@ class Home extends Component {
         let valueName = await AsyncStorage.getItem('userName');
         this.setState({ userFirstName: valueName })
     }
-    
+
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
@@ -113,7 +99,7 @@ class Home extends Component {
                             Diário de Saúde
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.inferiorBotoes}
                             onPress={() => navigate('Mapa')}
                         >

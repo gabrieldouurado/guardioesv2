@@ -14,14 +14,8 @@ const ajuste = (<Icon name='healing' size={30}  color='red'/>)
 class Conselho extends Component {
     static navigationOptions = {
         title: 'Conselhos de Saúde',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTitleStyle: {
-            color: 'white',
-        },
-        headerTintColor: '#fff'
     }
+    
     render() {
         return (
             <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>

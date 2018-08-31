@@ -7,13 +7,6 @@ import CarouselImagens from '../carousel/Carousel';
 class TelaInicial extends Component {
     static navigationOptions = {
         title: 'Guardiões da Saúde',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTitleStyle: {
-            color: 'white',
-            fontWeight: 'normal',
-        },
     }
 
     componentDidMount() {
@@ -33,7 +26,7 @@ class TelaInicial extends Component {
     render() {
         const { navigate } = this.props.navigation
         const statusColor = (<StatusBar backgroundColor='#3B8686'/>)
-        
+
         return (
             <ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
                 {statusColor}

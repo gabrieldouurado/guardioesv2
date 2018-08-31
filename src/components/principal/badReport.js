@@ -16,6 +16,7 @@ class BadReport extends Component {
     static navigationOptions = {
         title: 'Bad Report'
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -66,7 +67,7 @@ class BadReport extends Component {
                 android.permission.ACCESS_FINE_LOCATION,
               {
                 'title': 'Permission for the app use the fine location',
-                'message': 'We want to use your fine location to make a report' 
+                'message': 'We want to use your fine location to make a report'
               }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -81,9 +82,9 @@ class BadReport extends Component {
 
      //Function that creates a requisition to send the survey to the API
      sendSurvey = async () => {
-            
+
         this.requestFineLocationPermission
-        
+
         let UserID = await AsyncStorage.getItem('userID');
         this.setState({ UserID: UserID })
 
@@ -129,14 +130,14 @@ class BadReport extends Component {
               AsyncStorage.setItem('survey_id', responseJson.id);
               this.props.navigation.navigate('Home');
               alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
-            } 
+            }
             // else {
             //   alert(responseJson.message)
             // }
         })
         .done();
     }
-  
+
     render() {
         const viajou = (
             <View>
@@ -492,7 +493,7 @@ class BadReport extends Component {
                     {checked_22True}
                     <View style={styles.buttonView}>
                         <Button title="Confirmar" onPress={() => {if (this.state.date !== null) {
-                          this.sendSurvey()  
+                          this.sendSurvey()
                         }
                         else{
                             alert("A data deve ser preenchida");
