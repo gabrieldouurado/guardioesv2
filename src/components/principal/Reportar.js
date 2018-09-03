@@ -27,7 +27,7 @@ class Report extends Component {
         }
     }
         static navigationOptions = {
-            title: 'Guardiões da saúde',
+            title: 'Relato',
         }
 
 
