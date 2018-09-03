@@ -57,7 +57,7 @@ class Report extends Component {
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     this.componentDidMount
                 } else {
-                  console.log("Camera permission denied")
+                  console.log("Location permission denied")
                 }
               } catch (err) {
                 console.warn(err)

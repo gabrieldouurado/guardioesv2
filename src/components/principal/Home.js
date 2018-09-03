@@ -53,7 +53,7 @@ class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor='#347777'/>
+                <StatusBar backgroundColor='#babaae'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Ola {this.state.userFirstName}!

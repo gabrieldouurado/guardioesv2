@@ -24,7 +24,7 @@ class TelaInicial extends Component {
 
     render() {
         const { navigate } = this.props.navigation
-        const statusColor = (<StatusBar backgroundColor='#3B8686'/>)
+        const statusColor = (<StatusBar backgroundColor='#babaae'/>)
 
         return (
             <ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>

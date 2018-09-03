@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { PermissionsAndroid, AsyncStorage } from 'react-native';
 
 class Maps extends Component {
     static navigationOptions = {
@@ -12,14 +13,11 @@ class Maps extends Component {
         super(props);
 
         this.state = {
+            userLatitude: null,
+            userLongitude: null,
             isLoading: true,
             dataSource: [],
-            region: {
-                latitude: -15.76855881,
-                longitude: -47.86667418,
-                latitudeDelta: 0.001,
-                longitudeDelta: 0.001
-            }
+            
         }
     }
 
@@ -36,9 +34,48 @@ class Maps extends Component {
             .catch((error) => {
                 console.error(error);
             });
+        this.getLocation();
+    }
+
+    getLocation() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    region: {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: 0.001,
+                        longitudeDelta: 0.001
+                    },
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
+        );
+    }
+
+    async requestFineLocationPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                android.permission.ACCESS_FINE_LOCATION,
+                {
+                    'title': 'Permission for the app use the fine location',
+                    'message': 'We want to use your fine location to make a report'
+                }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.getLocation
+            } else {
+                console.warn("Location permission denied")
+            }
+        } catch (err) {
+            console.warn(err)
+        }
     }
 
     render() {
+        this.requestFineLocationPermission;
         let markers = this.state.dataSource;
         return (
             <View style={styles.container}>
