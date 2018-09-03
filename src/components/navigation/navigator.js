@@ -15,6 +15,8 @@ import Maps from '../principal/Maps';
 import Perfil from '../principal/Perfil';
 import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
+import { Botao1 } from '../principal/AjudaBtn1';
+import { Botao2 } from '../principal/AjudaBtn2';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -41,7 +43,9 @@ export const Stack = createStackNavigator({
     Household,
     Perfil,
     Ajuda,
-    Sobre
+    Sobre,
+    Botao1,
+    Botao2
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
