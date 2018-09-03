@@ -8,3 +8,4 @@ export const imagemMapaSaude = require('./mapasaude.png');
 export const imagemNoticias = require('./noticias.png');
 export const imagemGood = require('./GoodReport.png');
 export const imagemBad = require('./BadReport.png');
+export const imagemUnb = require('./unb.png');
