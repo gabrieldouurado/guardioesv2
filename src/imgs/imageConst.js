@@ -1,5 +1,5 @@
 export const imagemFundo = require('./fundo.png');
-export const imagemLogo = require('./logo.png');
+export const imagemLogo = require('./Icones/300ppi/Fundo-logo/logo.png');
 export const imagemReportar = require('./Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
 export const imagemConselho = require('./conselho.png');
