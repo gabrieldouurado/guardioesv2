@@ -10,10 +10,14 @@ class Home extends Component {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
         const { params = {} } = navigation.state;
         return {
-            title: 'Guardioes da Saude',
+            title: 'Guardiões da Saúde',
             headerLeft: (
                 <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
-            )
+            ),
+            headerTitleStyle: {
+                fontFamily: 'poiretOne',
+                fontWeight: '400' //fontWeight can't be higher than 400
+            }
 
         }
     }
@@ -56,10 +60,10 @@ class Home extends Component {
                 <StatusBar backgroundColor='#347777'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
-                        Ola {this.state.userFirstName}!
+                        Olá {this.state.userFirstName}!
                     </Text>
                     <Text style={topoTexto2}>
-                        Agora voce e um guardiao da saude!
+                        Agora você é um guardião da saúde!
                     </Text>
                 </View>
 
@@ -129,11 +133,11 @@ const styles = StyleSheet.create({
     },
     topoTexto1: {
         fontSize: 30,
-        fontFamily: 'myriadpro'
+        fontFamily: 'poiretOne'
     },
     topoTexto2: {
         fontSize: 18,
-        fontFamily: 'myriadpro'
+        fontFamily: 'poiretOne',
     },
     corpo: {
         flex: 1.5,

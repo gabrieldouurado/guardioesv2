@@ -60,6 +60,7 @@ export default class drawerContentComponents extends Component {
 
 
     render() {
+        const { navigate } = this.props.navigation;
         //Funcoes declaradas dentro do render pois ficam em loop para serem atualizadas automaticamente
         if (this.state.loginOnApp == null) {
             if (this.state.loginOnFB == null || this.state.pic == null) {
@@ -100,39 +101,74 @@ export default class drawerContentComponents extends Component {
                     </ImageBackground>
                 </View>
 
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate()}>
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Home')}
+                >
                     <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Início</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => Linking.openURL('https://google.com')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => Linking.openURL('https://google.com')}
+                >
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Household')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Perfil')}
+                >
                     <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>EAD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Mensagens</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => Linking.openURL('https://facebook.com')}
+                >
                     <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Facebook</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => navigate('Ajuda')}
+                >
                     <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Ajuda</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Sobre')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Sobre')}
+                >
                     <FontAwesome name='home' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
                     <Text style={styles.drawerItemsTxt}>Sobre</Text>
                 </TouchableOpacity>

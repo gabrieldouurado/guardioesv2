@@ -12,41 +12,55 @@ import Prevencao from '../conselhos/prevencao';
 import Household from '../principal/Household';
 import drawerContentComponents from './drawerContentComponent';
 import Maps from '../principal/Maps';
+import Perfil from '../principal/Perfil';
+import Ajuda from '../principal/Ajuda';
+import Sobre from '../principal/Sobre';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
     Login: { screen: Login },
-})
+}, {
+        navigationOptions: {
+            headerTitleStyle: {
+                fontFamily: 'poiretOne', // FontWeight can't be > 400 and fontFamily WON'T WORK without it
+                fontWeight: '400'
+            }
+        }
+    })
 
 export const Stack = createStackNavigator({
-    Home: { screen: Home },
-    Diario: { screen: Diario },
-    Conselho: { screen: Conselho },
-    Noticias: { screen: Noticias },
-    Reportar: { screen: Reportar },
-    BadReport: { screen: BadReport },
-    Mapa: { screen: Maps },
-    Prevencao: { screen: Prevencao},
-    Household: { screen: Household},
-},{
-    initialRouteName: 'Home',
-    navigationOptions: {
-      headerTintColor: '#9B6525',
-      headerStyle: {
-        backgroundColor: '#dfdfd0',
-        elevation: 0,
-        borderBottomWidth: 5,
-        borderColor: '#9B6525'
-      },
-      headerTitleStyle: {
-        fontFamily: 'myriadpro'
-      }
-    }
-})
+    Home,
+    Diario,
+    Conselho,
+    Noticias,
+    Reportar,
+    BadReport,
+    Maps,
+    Prevencao,
+    Household,
+    Perfil,
+    Ajuda,
+    Sobre
+}, {
+        initialRouteName: 'Home',
+        navigationOptions: {
+            headerTintColor: '#9B6525',
+            headerStyle: {
+                backgroundColor: '#dfdfd0',
+                elevation: 0,
+                borderBottomWidth: 5,
+                borderColor: '#9B6525',
+            },
+            headerTitleStyle: {
+                fontFamily: 'poiretOne',
+                fontWeight: '400',
+            }
+        }
+    })
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },
 }, {
-        contentComponent: drawerContentComponents,
+        contentComponent: drawerContentComponents
     })
