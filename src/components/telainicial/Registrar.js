@@ -141,13 +141,16 @@ class Registrar extends Component {
 
                         <View style={styles.viewChildPais}>
                             <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
-                            <View><CountryPicker
-                                onChange={value => {
-                                    this.setState({ cca2: value.cca2, userCountry: value.name })
-                                }}
-                                cca2={this.state.cca2}
-                                translation="eng"
-                            /></View>
+                            <View>
+                                <CountryPicker
+                                    onChange={value => {
+                                        this.setState({ cca2: value.cca2, userCountry: value.name })
+                                    }}
+                                    cca2={this.state.cca2}
+                                    translation="eng"
+                                />
+                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -207,7 +210,7 @@ class Registrar extends Component {
                             }
                             onLogoutFinished={() => { }} />
                     </View>
-                    
+
                 </ScrollView>
             </ImageBackground>
         );
@@ -378,6 +381,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 20,
         marginBottom: 10
+    },
+    textCountry:{
+        fontSize: 15,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
     }
 });
 
