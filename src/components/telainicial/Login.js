@@ -119,6 +119,7 @@ class Login extends Component {
                     AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userToken', responseJson.token);
+                    AsyncStorage.setItem('userHousehold', responseJson.household);
                     AsyncStorage.setItem('userName', responseJson.user.firstname);
                     AsyncStorage.setItem('avatar', this.state.pic);
                     this.props.navigation.navigate('Home');

@@ -12,6 +12,7 @@ import Prevencao from '../conselhos/prevencao';
 import Household from '../principal/Household';
 import drawerContentComponents from './drawerContentComponent';
 import Maps from '../principal/Maps';
+import ChooseReporter from '../principal/ChooseReporter';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -29,6 +30,7 @@ export const Stack = createStackNavigator({
     Mapa: { screen: Maps },
     Prevencao: { screen: Prevencao},
     Household: { screen: Household},
+    ChooseReporter: { screen: ChooseReporter},
 },{
     initialRouteName: 'Home'
 })
