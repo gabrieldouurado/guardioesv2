@@ -84,11 +84,11 @@ const textos = [
     {
         tituloBtnUnb: 'Universidade de Brasilia',
         mensagemBtnUnb: 'Deseja ser redirecionado ao website da UnB?',
-        linkBtnUnb: 'http://www.unb.br' 
+        linkBtnUnb: 'https://www.unb.br' 
     },
     {
         tituloBtnCenteias: 'Universidade de Brasilia',
-        mensagemBtnCenteias: 'Deseja ser redirecionado ao website da Centeias?',
+        mensagemBtnCenteias: 'Deseja ser redirecionado ao website do Centeias?',
         linkBtnCenteias: 'https://fs.unb.br/centeias/'
     }
 ]
