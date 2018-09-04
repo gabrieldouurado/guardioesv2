@@ -183,7 +183,7 @@ class Registrar extends Component {
 
                     <View style={styles.buttonView}>
                         <Button
-                            title="Entrar"
+                            title="Registrar"
                             color="#9B6525"
                             onPress={this.create} />
                     </View>
