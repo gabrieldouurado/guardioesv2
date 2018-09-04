@@ -29,10 +29,7 @@ let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
-        headerStyle: {
-          backgroundColor: 'transparent'
-        },
-        headerTintColor: '#3B8686'
+        title: "Registro"
     }
     constructor(props) {
         super(props);
@@ -66,35 +63,6 @@ class Registrar extends Component {
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
-                    <View style={styles.viewCommom}>
-                        <Text style={{ fontSize: 15, paddingBottom: 10, paddingTop: 10 }}>
-                            Cadastar com Facebook
-                        </Text>
-                        <LoginButton
-                            readPermissions={['public_profile', 'email']}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        alert("login has error: " + result.error);
-                                    } else if (result.isCancelled) {
-                                        alert("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
-                                                    null,
-                                                    this._responseInfoCallback
-                                                );
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => { }} />
-                    </View>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>Nome:</Text>
@@ -102,13 +70,11 @@ class Registrar extends Component {
                             returnKeyType='next'
                             onSubmitEditing={() => this.sobrenomeInput.focus()}
                             onChangeText={text => this.setState({ userFirstName: text })}
-
                         />
                     </View>
+
                     <View style={styles.viewCommom}>
-
                         <Text style={styles.commomText}>Sobrenome:</Text>
-
                         <TextInput style={styles.formInput}
                             ref={(input) => this.sobrenomeInput = input}
                             onChangeText={text => this.setState({ userLastName: text })}
@@ -147,7 +113,6 @@ class Registrar extends Component {
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildData}>
-
                             <DatePicker
                                 style={{ width: '80%' }}
                                 date={this.state.userDob}
@@ -176,13 +141,16 @@ class Registrar extends Component {
 
                         <View style={styles.viewChildPais}>
                             <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
-                            <View><CountryPicker
-                                onChange={value => {
-                                    this.setState({ cca2: value.cca2, userCountry: value.name })
-                                }}
-                                cca2={this.state.cca2}
-                                translation="eng"
-                            /></View>
+                            <View>
+                                <CountryPicker
+                                    onChange={value => {
+                                        this.setState({ cca2: value.cca2, userCountry: value.name })
+                                    }}
+                                    cca2={this.state.cca2}
+                                    translation="eng"
+                                />
+                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -197,9 +165,7 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewCommom}>
-
                         <Text style={styles.commomText}>Senha:</Text>
-
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
                             secureTextEntry={true}
@@ -209,14 +175,40 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.buttonView}>
+                        <Button
+                            title="Entrar"
+                            color="#9B6525"
+                            onPress={this.create} />
+                    </View>
 
-                        <TouchableOpacity
-                            style={styles.enviar}
-                            onPress={this.create}
-                        >
-                            <Text>Cadastrar</Text>
-                        </TouchableOpacity>
-
+                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
+                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            Cadastar com Facebook
+                        </Text>
+                        <LoginButton
+                            readPermissions={['public_profile', 'email']}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        alert("login has error: " + result.error);
+                                    } else if (result.isCancelled) {
+                                        alert("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                const infoRequest = new GraphRequest(
+                                                    '/me?fields=name,first_name,last_name,email,picture,id',
+                                                    null,
+                                                    this._responseInfoCallback
+                                                );
+                                                // Start the graph request.
+                                                new GraphRequestManager().addRequest(infoRequest).start();
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            onLogoutFinished={() => { }} />
                     </View>
 
                 </ScrollView>
@@ -247,27 +239,27 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    if(this.state.loginOnFB === 'true'){
+                    if (this.state.loginOnFB === 'true') {
                         AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
                         AsyncStorage.setItem('avatar', this.state.pic);
                         alert("Registrado via Facebook");
                         this.loginAfterCreate();
-                    } else{
+                    } else {
                         this.setState({ loginOnApp: 'true' })
                         AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
                         AsyncStorage.setItem('avatar', this.state.pic);
                         alert("Registrado com Sucesso")
                         this.loginAfterCreate();
-                    }                    
+                    }
                 }
                 else {
-                    if(this.state.loginOnFB === 'true'){
+                    if (this.state.loginOnFB === 'true') {
                         alert(response.message);
-                        this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
+                        this.setState({ userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
                         LoginManager.logOut();
-                    } else{
+                    } else {
                         alert(response.message);
                     }
                 }
@@ -306,13 +298,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 680
     },
-    margTop: {
-        width: '100%',
-        flexDirection: 'row',
-        backgroundColor: '#4169E1',
-        height: 50,
-        justifyContent: 'space-between'
-    },
     titulo: {
         color: 'white',
         justifyContent: 'center',
@@ -321,10 +306,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignSelf: 'center',
         marginRight: '30%',
-    },
-    backButton: {
-        alignSelf: 'center',
-        marginLeft: 10,
     },
     viewLogo: {
         flex: 0.5,
@@ -370,55 +351,41 @@ const styles = StyleSheet.create({
     },
     formInput: {
         width: "90%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
-        paddingTop: 2,
-    },
-    formData: {
-        width: "80%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#9B6525',
+        paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: "5%",
-        fontWeight: 'bold',
     },
     commomTextView: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: '10%',
-        fontWeight: 'bold',
     },
     buttonView: {
-        height: '8%',
+        width: "60%",
         alignSelf: 'center',
         marginTop: 20,
-        marginBottom: 40,
-        width: "60%",
+        marginBottom: 10
     },
-    imageLogo: {
-        flex: 1,
-        marginTop: 20,
-        width: '35%',
-        resizeMode: 'center',
-    },
-    enviar: {
-        backgroundColor: 'skyblue',
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8
+    textCountry:{
+        fontSize: 15,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
     }
 });
 
