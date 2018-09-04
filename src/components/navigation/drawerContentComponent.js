@@ -90,17 +90,19 @@ export default class drawerContentComponents extends Component {
                 <View style={styles.headerContainer}>
                     <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
                         <View style={styles.shadowAvatar}>
+                            <View style={{borderWidth: 3.5, borderColor: '#C19036', borderRadius: 180}}>
                             <Avatar
                                 xlarge
                                 rounded
                                 source={{ uri: this.state.pic }}
                                 activeOpacity={0.7}
                             />
+                            </View>
                         </View>
                         <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </ImageBackground>
                 </View>
-
+                    <View style={{backgroundColor: '#C19036', height: 10}}></View>
                 <TouchableOpacity 
                     style={styles.itemsContainer} 
                     onPress={() => navigate('Home')}
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     container: {
     },
     headerContainer: {
-        height: moderateScale(300),
+        height: moderateScale(293),
     },
     headerText: {
         fontSize: 30,
@@ -203,9 +205,7 @@ const styles = StyleSheet.create({
         width: '75%',
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        backgroundColor: '#465F6C',
-        borderColor: '#465F6C',
-        borderWidth: 1
+        backgroundColor: 'rgba(70, 95, 108, 0.85)'
     },
     itemsContainer: {
         flexDirection: 'row',
@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
     },
     drawerItemsTxt: {
         textAlignVertical: 'center',
+        fontFamily: 'poiretOne',
         fontSize: verticalScale(21.5),
 
     },
