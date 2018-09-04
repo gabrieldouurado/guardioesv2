@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 30,
-        fontFamily: 'myriadpro',
+        fontFamily: 'poiretOne',
         marginTop: 10,
         marginLeft: 25,
         color: '#465F6C'

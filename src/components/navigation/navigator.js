@@ -43,7 +43,7 @@ export const Stack = createStackNavigator({
     Noticias,
     Reportar,
     BadReport,
-    Maps,
+    Mapa: { screen: Maps },
     Prevencao,
     Household,
     Perfil,

@@ -25,7 +25,7 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = y + "-" + m + "-" + d;
+let today = d + "-" + m + "-" + y;
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -41,7 +41,7 @@ class Registrar extends Component {
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
-            userDob: '01-01-1918',
+            userDob: "01-01-2000",
             userApp: 'd41d8cd98f00b204e9800998ecf8427e',
             cca2: 'BR',
             loginOnFB: null,
@@ -61,7 +61,7 @@ class Registrar extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -112,27 +112,34 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewRow}>
-                        <View style={styles.viewChildData}>
+                        <View style={styles.viewChildSexoRaca}>
+                            <Text style={styles.commomTextView}>Nascimento:</Text>
                             <DatePicker
-                                style={{ width: '80%' }}
+                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5}}
+                                showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="Nascimento"
+                                placeholder="DD/MM/AAA"
                                 format="DD-MM-YYYY"
                                 minDate="01-01-1918"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateIcon: {
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 4,
-                                        marginLeft: 0
-                                    },
+                                customStyles={{                                    
                                     dateInput: {
-                                        marginLeft: 36
+                                        borderWidth: 0
+                                    },
+                                    dateText: {
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 17
+                                    },
+                                    placeholderText:{
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 15,
+                                        color: 'black'
                                     }
                                 }}
                                 onDateChange={date => this.setState({ userDob: date })}
@@ -296,7 +303,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680
+        height: 550
     },
     titulo: {
         color: 'white',

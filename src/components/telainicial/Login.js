@@ -31,7 +31,7 @@ class Login extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={styles.viewImage}>
                     <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                 </View>
@@ -146,7 +146,7 @@ class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680,
+        height: 550,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },

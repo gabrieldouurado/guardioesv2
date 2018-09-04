@@ -1,4 +1,4 @@
-export const imagemFundo = require('./fundo.png');
+export const imagemFundo = require('./Icones/300ppi/Fundo-logo/logo-marca-dagua.png');
 export const imagemLogo = require('./Icones/300ppi/Fundo-logo/logo.png');
 export const imagemReportar = require('./Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
