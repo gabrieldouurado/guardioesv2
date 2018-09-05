@@ -16,6 +16,7 @@ import Perfil from '../principal/Perfil';
 import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
 
+
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
