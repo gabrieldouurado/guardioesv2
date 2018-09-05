@@ -4,12 +4,12 @@ import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Linkin
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 
-const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='red' />)
-const hospital = (<Icon name='hospital-o' type={'font-awesome'} size={30} color='red' />)
-const telefones = (<Icon name='phone' size={30} color='red' />)
-const viajante = (<Icon name='wallet-travel' type={'material-community'} size={30} color='red'/>)
-const farmacia = (<Icon name='pharmacy' type={'material-community'} size={30} color='red' />)
-const ajuste = (<Icon name='healing' size={30}  color='red'/>)
+const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
+const hospital = (<Icon name='hospital-o' type={'font-awesome'} size={30} color='#C19036' />)
+const telefones = (<Icon name='phone' size={30} color='#C19036' />)
+const viajante = (<Icon name='wallet-travel' type={'material-community'} size={30} color='#C19036'/>)
+const farmacia = (<Icon name='pharmacy' type={'material-community'} size={30} color='#C19036' />)
+const ajuste = (<Icon name='healing' size={30}  color='#C19036'/>)
 
 class Conselho extends Component {
     static navigationOptions = {
@@ -18,7 +18,7 @@ class Conselho extends Component {
     
     render() {
         return (
-            <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
+            <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                 <ScrollView>
                     <TouchableOpacity style={styles.selector} onPress={() => this.props.navigation.navigate('Prevencao')}>
                         <Text style={styles.textoSelector}>Prevenção</Text>
@@ -62,30 +62,8 @@ class Conselho extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: 550,
     },
-    margTop: {
-        flexDirection: 'row',
-        backgroundColor: '#0084b4',
-        height: 50,
-        justifyContent: 'space-between'
-      },
-      margTop1: {
-        backgroundColor: '#CD853F',
-        height: 5,
-      },
-      titulo: {
-        color: '#CD853F',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'center',
-        marginRight: 65,
-      },
-      backButton: {
-          alignSelf: 'center',
-          marginLeft: 10,
-      },
       selector: {
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -96,10 +74,11 @@ const styles = StyleSheet.create({
           padding: 10,
       },
       textoSelector: {
+          fontFamily: 'poiretOne',
+          fontSize: 18,
+          marginLeft: 12,
           alignSelf: 'center',
-          color: '#e10531',
-          fontSize: 16,
-          fontWeight: 'bold',
+          color: '#465F6C',
       },
 
 });
