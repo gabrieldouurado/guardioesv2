@@ -20,6 +20,26 @@ let m = data.getMonth() + 1;
 let y = data.getFullYear();
 let today = d + "-" + m + "-" + y;
 
+const fetchData = () => {
+    fetch("https://guardianes.centeias.net/user/household/5b6db008abbd4916002b97f0", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then( (response) => {
+            if (!response.ok) {
+                throw Error(response.error);
+            }
+            return response;
+        }).then( (response) => {
+            console.log(response);
+        }).catch( (error) => {
+            console.log(error);
+        });
+}
+
 class Household extends Component {
     static navigationOptions = {
         header: null
@@ -39,13 +59,13 @@ class Household extends Component {
     }
 
     _TesteVariaveis() {
-        console.warn("Nome: "+this.state.householdFirstName)
-        console.warn("Sobrenome: "+this.state.householdLastName)
-        console.warn("Parentesco: "+this.state.parentesco)
-        console.warn("Genero: "+this.state.householdGender)
-        console.warn("Raça: "+this.state.householdRace)
-        console.warn("Data de Nascimento: "+this.state.householdDob)
-        console.warn("Pais: "+this.state.householdCountry)
+        console.warn("Nome: " + this.state.householdFirstName)
+        console.warn("Sobrenome: " + this.state.householdLastName)
+        console.warn("Parentesco: " + this.state.parentesco)
+        console.warn("Genero: " + this.state.householdGender)
+        console.warn("Raça: " + this.state.householdRace)
+        console.warn("Data de Nascimento: " + this.state.householdDob)
+        console.warn("Pais: " + this.state.householdCountry)
         Keyboard.dismiss()
     }
 
@@ -55,7 +75,7 @@ class Household extends Component {
                 <View style={styles.marginTop}>
                     <Text style={styles.titulo}>Preencha todos os campos abaixo para adicionar um novo membro</Text>
                 </View>
-                <View style={{ width: '100%', height: 6, backgroundColor: '#C19036'}} />
+                <View style={{ width: '100%', height: 6, backgroundColor: '#C19036' }} />
 
                 <ScrollView style={styles.scroll}>
                     <View style={styles.viewCommom}>
@@ -174,7 +194,7 @@ class Household extends Component {
                     </View>
 
                     <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.enviar} onPress={() => this._TesteVariaveis()}>
+                        <TouchableOpacity style={styles.enviar} onPress={  fetchData/*() => this._TesteVariaveis() */}>
                             <Text>Cadastrar</Text>
                         </TouchableOpacity>
                     </View>
