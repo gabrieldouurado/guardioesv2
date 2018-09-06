@@ -4,16 +4,12 @@ import {
     Text,
     View,
     ImageBackground,
-    Image,
     TextInput,
     ScrollView,
-    Button,
     TouchableOpacity,
     Picker,
-    AsyncStorage,
     Keyboard
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
 import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
