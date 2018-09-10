@@ -29,7 +29,9 @@ class diario extends Component {
     return fetch('https://guardianes.centeias.net/user/calendar/month', {
         method: 'GET',
         headers: {
-            user_id: this.state.UserID,
+          Accept: 'application.json',
+          ContentType: 'application.json',
+                user_id: UserID,
         }})
     .then((response) => response.json())
     .then((responseJson) => {

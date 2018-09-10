@@ -154,7 +154,7 @@ class Registrar extends Component {
                                 androidMode='spinner'
                                 mode="date"
                                 placeholder="Nascimento"
-                                format="DD-MM-YYYY"
+                                format="YYYY-MM-DD"
                                 minDate="01-01-1918"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
