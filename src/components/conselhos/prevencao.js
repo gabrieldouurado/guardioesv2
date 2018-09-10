@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FlatList, ImageBackground, ScrollView, Platform, StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
-import * as Imagem from '../../imgs/imageConst';
+import imagemFundo from '../../imgs/imageConst';
 
-class Prevencao extends Component {
+class Prevention extends Component {
 
 
 	constructor(props) {
@@ -12,49 +12,20 @@ class Prevencao extends Component {
 
 	}
 
-	componentDidMount() {
-		return fetch('https://guardianes.centeias.net/content/app/d41d8cd98f00b204e9800998ecf8427e')
-			.then((response) => response.json())
-			.then((responseJson) => {
-
-				this.setState({
-					isLoading: false,
-					dataSource: responseJson.pages,
-				}, function () {
-
-				});
-
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}
-
-
-
 	static navigationOptions = {
 		title: 'Prevenção'
 	}
 
 	render() {
-		if (this.state.isLoading) {
-			return (
-				<View style={{ flex: 1, padding: 20 }}>
-					<ActivityIndicator />
-				</View>
-			)
-		}
-
-
+		const { navigation } = this.props;
+		const pages = navigation.getParam('pages', 'Sorry, nothig to show now.');
 		return (
 			// let data = (this.state.dataSource)
 			<View style={styles.container} >
-				<ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
-					<FlatList
-						data={this.state.dataSource}
-						renderItem={({ item }) => <Text style={styles.titulo}>{item.title}</Text>}
-						keyExtractor={(item, index) => index}
-					/>
+				<ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
+					<Text>
+						{JSON.stringify(pages)}
+					</Text>
 				</ImageBackground>
 			</View>
 		);
@@ -103,4 +74,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Prevencao;
+export default Prevention;

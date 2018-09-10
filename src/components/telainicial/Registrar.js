@@ -4,20 +4,18 @@ import {
     Text,
     View,
     ImageBackground,
-    Image,
     TextInput,
     ScrollView,
     Button,
-    TouchableOpacity,
     Picker,
     AsyncStorage,
     Keyboard
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import imagemFundo from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import app_token from '../../constUtils';
 
 
 let data = new Date();
@@ -42,7 +40,7 @@ class Registrar extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: "01-01-2000",
-            userApp: 'd41d8cd98f00b204e9800998ecf8427e',
+            userApp: {app_token},
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
@@ -61,7 +59,7 @@ class Registrar extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
