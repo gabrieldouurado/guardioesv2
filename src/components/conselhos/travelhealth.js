@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'reac
 
 import imagemFundo from '../../imgs/imageConst';
 
-class Prevention extends Component {
+class TravelHealth extends Component {
 
 
 	constructor(props) {
@@ -13,12 +13,12 @@ class Prevention extends Component {
 	}
 
 	static navigationOptions = {
-		title: 'Prevenção'
+		title: 'Saúde do Viajante'
 	}
 
 	render() {
 		const { navigation } = this.props;
-		const incomePages = navigation.getParam('body', 'Sorry, nothig to show now.');
+        const incomePages = navigation.getParam('body', 'Sorry, nothig to show now.');
 		return (
 			<View style={styles.container} >
 				<ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Prevention;
+export default TravelHealth;

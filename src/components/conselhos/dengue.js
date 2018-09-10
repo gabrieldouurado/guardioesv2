@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'reac
 
 import imagemFundo from '../../imgs/imageConst';
 
-class Prevention extends Component {
+class Dengue extends Component {
 
 
 	constructor(props) {
@@ -13,7 +13,7 @@ class Prevention extends Component {
 	}
 
 	static navigationOptions = {
-		title: 'Prevenção'
+		title: 'Duengue'
 	}
 
 	render() {
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Prevention;
+export default Dengue;

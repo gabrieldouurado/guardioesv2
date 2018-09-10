@@ -18,21 +18,6 @@ const fetchData = () => {
 }
 
 class Conselhos extends Component {
-
-  // componentDidMount() {
-  //   return fetch('https://guardianes.centeias.net/content/get', {
-  //     headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //         'app_token': {app_token}
-  //     }
-  // })
-  // .then(response => response.json())
-  // .then(responseJson => console.log(responseJson))
-
-  // .catch(error => console.error(error))
-  // }
-
   constructor(props) {
     super(props);
     this.state = {

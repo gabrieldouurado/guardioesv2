@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Linking, ActivityIndicator } from 'react-native';
+import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import imagemFundo from '../../imgs/imageConst';
 import app_token from '../../constUtils';
@@ -21,7 +21,7 @@ class Conselho extends Component {
         super(props);
 
         this.state = {
-            isLoading: false,
+            isLoading: true,
             contentData: []
         }
     }
@@ -32,6 +32,7 @@ class Conselho extends Component {
             .then(responseJson => {
                 console.log(responseJson.pages)
                 this.setState({
+                    isLoading: false,
                     contentData: responseJson.pages
                 })
             })
@@ -55,7 +56,9 @@ class Conselho extends Component {
                 <ScrollView>
                     {contentObj.map((content, key) => {
                         return (
-                            <TouchableOpacity index={key} style={styles.selector} onPress={() => this.props.navigation.navigate(`${content.title}`, {pages: content.pages})}>
+                            <TouchableOpacity index={key} style={styles.selector} onPress={() => this.props.navigation.navigate(`${content.title}`, {
+                                body: `${content.body}`
+                            })}>
                                 <Text style={styles.textoSelector}>{content.title}</Text>
                                 {/* {nome} */}
                             </TouchableOpacity>
@@ -66,8 +69,6 @@ class Conselho extends Component {
         );
     }
 }
-
-// define your styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,

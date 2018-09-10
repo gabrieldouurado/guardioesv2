@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
 import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -11,14 +10,6 @@ import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst'
 
 export default class drawerContentComponents extends Component {
-
-    // navigateToScreen = ( route ) =>(
-    //     () => {
-    //     const navigateAction = NavigationActions.navigate({
-    //         routeName: route
-    //     });
-    //     this.props.navigation.dispatch(navigateAction);
-    // })
 
     constructor(props) {
         super(props);

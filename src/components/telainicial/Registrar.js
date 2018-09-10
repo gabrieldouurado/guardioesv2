@@ -23,7 +23,7 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = d + "-" + m + "-" + y;
+let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -39,7 +39,7 @@ class Registrar extends Component {
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
-            userDob: "01-01-2000",
+            userDob: "1919-01-01",
             userApp: {app_token},
             cca2: 'BR',
             loginOnFB: null,
@@ -119,8 +119,8 @@ class Registrar extends Component {
                                 androidMode='spinner'
                                 mode="date"
                                 placeholder="DD/MM/AAA"
-                                format="DD-MM-YYYY"
-                                minDate="01-01-1918"
+                                format="YYYY-MM-DD"
+                                minDate="1900-01-01"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
