@@ -13,13 +13,13 @@ class Prevencao extends Component {
 	}
 
 	componentDidMount() {
-		return fetch('https://guardianes.centeias.net/content/app/d41d8cd98f00b204e9800998ecf8427e')
+		return fetch('https://guardianes.centeias.net/household/')
 			.then((response) => response.json())
 			.then((responseJson) => {
 
 				this.setState({
 					isLoading: false,
-					dataSource: responseJson.pages,
+					dataSource: responseJson.data,
 				}, function () {
 
 				});
@@ -52,7 +52,7 @@ class Prevencao extends Component {
 				<ImageBackground style={styles.container} source={Imagem.imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
 					<FlatList
 						data={this.state.dataSource}
-						renderItem={({ item }) => <Text style={styles.titulo}>{item.title}</Text>}
+						renderItem={({ item }) => <Text style={styles.titulo}>{item.firstname}</Text>}
 						keyExtractor={(item, index) => index}
 					/>
 				</ImageBackground>

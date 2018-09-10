@@ -1,23 +1,10 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    ImageBackground,
-    Image,
-    TextInput,
-    ScrollView,
-    Button,
-    TouchableOpacity,
-    Picker,
-    AsyncStorage,
-    Keyboard
-} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TextInput, ScrollView, Button, TouchableOpacity, Picker, AsyncStorage, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
 import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import { LoginManager } from 'react-native-fbsdk';
 
 
 let data = new Date();
@@ -27,9 +14,9 @@ let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
 
-class Registrar extends Component {
+class AddInfo extends Component {
     static navigationOptions = {
-        title: "Registro"
+        title: "Informações Adicionais"
     }
     constructor(props) {
         super(props);
@@ -45,47 +32,31 @@ class Registrar extends Component {
             userApp: 'd41d8cd98f00b204e9800998ecf8427e',
             cca2: 'BR',
             loginOnFB: null,
-            loginOnApp: null,
             pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
         }
     }
 
-    _responseInfoCallback = (error, result) => {
-        if (error) {
-            alert('Error fetching data: ' + error.toString());            
-        } else {
-            this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            //Salva as informações para ir parar proxima página
-            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-            AsyncStorage.setItem('userName', this.state.userFirstName);
-            AsyncStorage.setItem('userLastName', this.state.userLastName);
-            AsyncStorage.setItem('userEmail', this.state.userEmail);
-            AsyncStorage.setItem('userPwd', this.state.userPwd);
-            AsyncStorage.setItem('avatar', this.state.pic);
-            this.props.navigation.navigate('AddInfo');            
-        }
+    componentDidMount() {
+        this._getInfos()
+    }
+
+    _getInfos = async () => {
+        let valueAvatar = await AsyncStorage.getItem('avatar');
+        let valueFB = await AsyncStorage.getItem('loginOnFB');
+        let valueName = await AsyncStorage.getItem('userName');
+        let valueLastName = await AsyncStorage.getItem('userLastName');
+        let valueEmail = await AsyncStorage.getItem('userEmail');
+        let valuePwd = await AsyncStorage.getItem('userPwd');
+        this.setState({ pic: valueAvatar, loginOnFB: valueFB, userFirstName: valueName, userLastName: valueLastName, userEmail: valueEmail, userPwd: valuePwd });
     }
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <ScrollView style={styles.scroll}>
-                    <View style={{ paddingTop: 10 }}></View>
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Nome:</Text>
-                        <TextInput style={styles.formInput}
-                            returnKeyType='next'
-                            onSubmitEditing={() => this.sobrenomeInput.focus()}
-                            onChangeText={text => this.setState({ userFirstName: text })}
-                        />
-                    </View>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
 
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Sobrenome:</Text>
-                        <TextInput style={styles.formInput}
-                            ref={(input) => this.sobrenomeInput = input}
-                            onChangeText={text => this.setState({ userLastName: text })}
-                        />
+                    <View>
+                        <Text style={styles.titleText}>Olá {this.state.userFirstName} {this.state.userLastName}!</Text>
+                        <Text style={styles.subTitleText}>Precisamos de algumas informações adicionais para completar o cadastro</Text>
                     </View>
 
                     <View style={styles.viewRow}>
@@ -122,7 +93,7 @@ class Registrar extends Component {
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>Nascimento:</Text>
                             <DatePicker
-                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5}}
+                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
                                 showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
@@ -133,7 +104,7 @@ class Registrar extends Component {
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
-                                customStyles={{                                    
+                                customStyles={{
                                     dateInput: {
                                         borderWidth: 0
                                     },
@@ -142,7 +113,7 @@ class Registrar extends Component {
                                         fontFamily: 'poiretOne',
                                         fontSize: 17
                                     },
-                                    placeholderText:{
+                                    placeholderText: {
                                         marginBottom: 10,
                                         fontFamily: 'poiretOne',
                                         fontSize: 15,
@@ -163,75 +134,23 @@ class Registrar extends Component {
                                     cca2={this.state.cca2}
                                     translation="eng"
                                 />
-                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                                <Text style={styles.textCountry}>{this.state.userCountry}</Text>
                             </View>
                         </View>
                     </View>
 
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Email:</Text>
-                        <TextInput
-                            style={styles.formInput}
-                            keyboardType='email-address'
-                            onChangeText={email => this.setState({ userEmail: email })}
-                            onSubmitEditing={() => this.passwordInput.focus()}
-                        />
-                    </View>
-
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Senha:</Text>
-                        <TextInput style={styles.formInput}
-                            returnKeyType='next'
-                            secureTextEntry={true}
-                            onChangeText={text => this.setState({ userPwd: text })}
-                            ref={(input) => this.passwordInput = input}
-                        />
-                    </View>
-
                     <View style={styles.buttonView}>
                         <Button
-                            title="Registrar"
-                            color="#9B6525"
+                            title="Finalizar Cadastro"
+                            color="#3B5998"
                             onPress={this.create} />
                     </View>
-
-                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
-                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
-                            Cadastar com Facebook
-                        </Text>
-                        <LoginButton
-                            readPermissions={['public_profile', 'email']}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        alert("login has error: " + result.error);
-                                    } else if (result.isCancelled) {
-                                        alert("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
-                                                    null,
-                                                    this._responseInfoCallback
-                                                );
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => { }} />
-                    </View>
-
-                </ScrollView>
+                
             </ImageBackground>
         );
 
     }
     create = () => {
-        Keyboard.dismiss()
         fetch('https://guardianes.centeias.net/user/create', {
             method: 'POST',
             headers: {
@@ -253,13 +172,23 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                        this.setState({ loginOnApp: 'true' })
-                        AsyncStorage.setItem('userName', this.state.userFirstName);
-                        AsyncStorage.setItem('avatar', this.state.pic);                      
-                        alert("Registrado com Sucesso")
-                        this.loginAfterCreate();                    
-                }else {
+                    alert("Registrado com Sucesso")
+                    AsyncStorage.removeItem('userLastName');
+                    AsyncStorage.removeItem('userEmail');
+                    AsyncStorage.removeItem('userPwd');
+                    this.loginAfterCreate();
+                } else {
                     alert(response.message);
+                    //Apaga as informações Salvas
+                    AsyncStorage.removeItem('userName');
+                    AsyncStorage.removeItem('userLastName');
+                    AsyncStorage.removeItem('userEmail');
+                    AsyncStorage.removeItem('userPwd');
+                    AsyncStorage.removeItem('avatar');
+                    AsyncStorage.removeItem('loginOnFB');
+
+                    //Desloga do facebook                    
+                    LoginManager.logOut();
                 }
             })
 
@@ -295,20 +224,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 550
-    },
-    titulo: {
-        color: 'white',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'center',
-        marginRight: '30%',
-    },
-    viewLogo: {
-        flex: 0.5,
-        width: '100%',
-        alignItems: 'center',
     },
     scroll: {
         flex: 1,
@@ -365,6 +280,24 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         paddingLeft: "5%",
     },
+    titleText: {
+        fontSize: 23,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
+        alignSelf: 'center',
+        marginTop: 10,
+    },
+    subTitleText: {
+        fontSize: 21,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
+        alignSelf: 'center',
+        textAlign: 'center',
+        marginTop: 10,
+        marginBottom: 20
+    },
     commomTextView: {
         fontSize: 17,
         fontFamily: 'poiretOne',
@@ -380,7 +313,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10
     },
-    textCountry:{
+    textCountry: {
         fontSize: 15,
         fontFamily: 'poiretOne',
         fontWeight: '400',
@@ -388,4 +321,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Registrar;
+export default AddInfo;

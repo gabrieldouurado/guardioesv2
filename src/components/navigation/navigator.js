@@ -2,6 +2,7 @@ import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import TelaInicial from '../telainicial/TelaInicial';
 import Registrar from '../telainicial/Registrar';
 import Login from '../telainicial/Login';
+import AddInfo from '../telainicial/RegistrarFacebook';
 import Home from '../principal/Home';
 import Diario from '../principal/Diario';
 import Conselho from '../principal/Conselho';
@@ -20,6 +21,7 @@ export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
     Login: { screen: Login },
+    AddInfo: { screen: AddInfo },
 }, {
         navigationOptions: {
             headerTintColor: '#9B6525',
