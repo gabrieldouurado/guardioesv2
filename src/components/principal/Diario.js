@@ -20,33 +20,14 @@ class diario extends Component {
  
   componentDidMount() {
     this.GetMonthData();
+    console.warn(this.setState.SurveyUser);
   }
   
   GetMonthData = async () => {
     let UserID = await AsyncStorage.getItem('userID');
     this.setState({ UserID: UserID })
-    
-    return fetch('https://guardianes.centeias.net/user/calendar/month', {
-        method: 'GET',
-        headers: {
-          Accept: 'application.json',
-          ContentType: 'application.json',
-                user_id: UserID,
-        }})
-    .then((response) => response.json())
-    .then((responseJson) => {
-
-      this.setState({
-        isLoading: false,
-        dataSource: responseJson.data,
-      }, function(){
-
-      });
-
-    })
-    .catch((error) =>{
-      console.error(error);
-    });
+    let SurveyUser =  await AsyncStorage.getItem('userSurveys')
+    this.setState({ SurveyUser: SurveyUser});
   }
 
   render() {
