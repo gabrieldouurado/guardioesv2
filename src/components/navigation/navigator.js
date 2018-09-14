@@ -17,6 +17,8 @@ import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
 import { Botao1 } from '../principal/AjudaBtn1';
 import { Botao2 } from '../principal/AjudaBtn2';
+import ChooseReporter from '../principal/ChooseReporter';
+
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -52,7 +54,10 @@ export const Stack = createStackNavigator({
     Ajuda,
     Sobre,
     Botao1,
-    Botao2
+    Botao2,
+    Prevencao: { screen: Prevencao},
+    Household: { screen: Household},
+    ChooseReporter: { screen: ChooseReporter},
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
@@ -69,6 +74,11 @@ export const Stack = createStackNavigator({
             }
         }
     })
+    
+},{
+    initialRouteName: 'Home'
+})
+
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },
