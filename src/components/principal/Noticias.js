@@ -6,19 +6,12 @@ import { View, StyleSheet, WebView } from 'react-native';
 class Noticias extends Component {
     static navigationOptions = {
         title: 'Notícias',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTitleStyle: {
-            color: 'white',
-        },
-        headerTintColor: '#fff'
     }
     render() {
         return (
             <View style={styles.container}>
                 <WebView
-                source = {{ uri: 
+                source = {{ uri:
                 'https://mobile.twitter.com/minsaude' }}
                 />
             </View>

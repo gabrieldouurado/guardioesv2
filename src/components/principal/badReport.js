@@ -16,10 +16,12 @@ class BadReport extends Component {
     static navigationOptions = {
         title: 'Bad Report'
     }
+
     constructor(props) {
         super(props);
         this.state = {
             cca2: 'BR',
+            country: 'Brazil',
             checked_1: false,
             checked_2: false,
             checked_3: false,
@@ -66,7 +68,7 @@ class BadReport extends Component {
                 android.permission.ACCESS_FINE_LOCATION,
               {
                 'title': 'Permission for the app use the fine location',
-                'message': 'We want to use your fine location to make a report' 
+                'message': 'We want to use your fine location to make a report'
               }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -81,9 +83,9 @@ class BadReport extends Component {
 
      //Function that creates a requisition to send the survey to the API
      sendSurvey = async () => {
-            
+
         this.requestFineLocationPermission
-        
+
         let UserID = await AsyncStorage.getItem('userID');
         this.setState({ UserID: UserID })
 
@@ -129,14 +131,14 @@ class BadReport extends Component {
               AsyncStorage.setItem('survey_id', responseJson.id);
               this.props.navigation.navigate('Home');
               alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
-            } 
+            }
             // else {
             //   alert(responseJson.message)
             // }
         })
         .done();
     }
-  
+
     render() {
         const viajou = (
             <View>
@@ -148,6 +150,7 @@ class BadReport extends Component {
                     cca2={this.state.cca2}
                     translation="por"
                 />
+                <Text style={styles.textCountry}>{this.state.country}</Text>
                 <View><Text style={{ alignSelf: 'center', paddingTop: 2, fontSize: 13 }}>Aperte na bandeira para selecionar!</Text></View>
             </View>
         )
@@ -157,12 +160,11 @@ class BadReport extends Component {
             checked_22True = viajou
         }
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
-                <View style={styles.margTop}>
-                </View>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
                     <DatePicker
-                        style={{ width: '94%', marginLeft: '3%' }}
+                        style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
+                        //showIcon={false}
                         date={this.state.date}
                         mode="date"
                         placeholder="Desde quando está se sentindo mal?"
@@ -171,32 +173,25 @@ class BadReport extends Component {
                         maxDate={today}
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
-                        customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
+                        customStyles={{                                    
                             dateInput: {
-                                marginLeft: 36
-                            },
-                            placeholderText: {
-                                fontSize: 18,
-                                fontWeight: 'bold',
-                                color: 'gray'
+                                borderWidth: 0
                             },
                             dateText: {
+                                fontFamily: 'poiretOne',
+                                fontSize: 20
+                            },
+                            placeholderText:{
+                                marginLeft: 14,
+                                fontFamily: 'poiretOne',
                                 fontSize: 18,
-                                fontWeight: 'bold',
-                                color: 'gray'
+                                color: '#465F6C'
                             }
-                            // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(date) => { this.setState({ date: date }) }}
                     />
                 </View>
-                <ScrollView style={styles.sintomas}>
+                <ScrollView style={styles.scroll}>
                     <View style={styles.viewText}>
                         <Text style={styles.sintomasText}>Selecione abaixo os sintomas que voce está sentindo neste momento:</Text>
                     </View>
@@ -491,8 +486,8 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" onPress={() => {if (this.state.date !== null) {
-                          this.sendSurvey()  
+                        <Button title="Confirmar" color="#9B6525" onPress={() => {if (this.state.date !== null) {
+                          this.sendSurvey()
                         }
                         else{
                             alert("A data deve ser preenchida");
@@ -510,58 +505,42 @@ class BadReport extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: 550,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-start'
     },
-    margTop: {
-        backgroundColor: '#CD853F',
-        height: 5,
-    },
-    titulo: {
-        color: 'white',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 25,
-        alignSelf: 'center',
-        marginRight: 45,
-    },
-    formInput: {
-        width: '90%',
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
-        paddingTop: 2,
-        marginLeft: '5%'
+    scroll: {
+        paddingRight: '5%'
     },
     sintomasText: {
         textAlign: 'center',
-        marginLeft: '5%',
-        marginRight: '5%',
         marginTop: 5,
         marginBottom: 5,
-        alignItems: 'center',
         fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white',
+        fontFamily: 'poiretOne',
+        color: '#465F6C'
     },
     viewText: {
-        backgroundColor: '#0084b4',
+        backgroundColor: '#A0B1B2'
     },
     buttonView: {
         alignSelf: 'center',
-        marginTop: 20,
+        marginTop: 15,
         marginBottom: 20,
-        width: "60%",
+        width: "60%"
     },
     commomTextView: {
         fontSize: 15,
         alignSelf: 'center',
         paddingBottom: 4,
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
+    textCountry:{
+        alignSelf: 'center',
+        fontSize: 15,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+    }
 });
 
 //make this component available to the app

@@ -6,10 +6,7 @@ import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManag
 
 class Login extends Component {
     static navigationOptions = {
-        headerStyle: {
-          backgroundColor: 'transparent'
-        },
-        headerTintColor: '#3B8686'
+        title: "Login",
     }
     constructor(props) {
         super(props);
@@ -27,15 +24,14 @@ class Login extends Component {
         if (error) {
             console.warn('Error fetching data: ' + error.toString());
         } else {
-            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url,loginOnFB: 'true' });
-            this.loginFacebook()
+            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
+            this.login()
         }
     }
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
-
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={styles.viewImage}>
                     <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                 </View>
@@ -57,18 +53,17 @@ class Login extends Component {
                         maxLength={15}
                         ref={(input) => this.passwordInput = input}
                         onChangeText={(text) => this.setState({ userPwd: text })}
-
                     />
-                    <TouchableOpacity onPress={() => { alert("ESQUECEU SUA SENHA") }}>
-                        <Text>Esqueceu sua Senha?</Text>
-                    </TouchableOpacity>
                     <View style={styles.buttonView}>
                         <Button
-                            style={styles.button}
                             title="Entrar"
+                            color="#9B6525"
                             onPress={this.login} />
                     </View>
                     <View style={{ paddingTop: 20 }}>
+                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            Conectar Via Facebook
+                    </Text>
                         <LoginButton
                             readPermissions={['public_profile', 'email']}
                             onLoginFinished={
@@ -81,7 +76,7 @@ class Login extends Component {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
                                                 const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
+                                                    '/me?fields=first_name,email,picture,id',
                                                     null,
                                                     this._responseInfoCallback
                                                 );
@@ -114,49 +109,36 @@ class Login extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    Keyboard.dismiss()
-                    this.setState({ loginOnApp: 'true' })
-                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                    AsyncStorage.setItem('userID', responseJson.user.id);
-                    AsyncStorage.setItem('userToken', responseJson.token);
-                    AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                    AsyncStorage.setItem('userName', responseJson.user.firstname);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    this.props.navigation.navigate('Home');
-                    alert(responseJson.token)
-                } else {
-                    alert(responseJson.message)
-                }
-            })
-            .done();
-    }
+                    if (this.state.loginOnFB === 'true') {
+                        AsyncStorage.setItem('userID', responseJson.user.id);
+                        AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('userHousehold', this.state.userHousehold);
+                        this.props.navigation.navigate('Home');
+                        alert("Logado via Facebook")
+                    } else {
+                        Keyboard.dismiss()
+                        this.setState({ loginOnApp: 'true' })
+                        AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                        AsyncStorage.setItem('userID', responseJson.user.id);
+                        AsyncStorage.setItem('userToken', responseJson.token);
+                        AsyncStorage.setItem('userName', responseJson.user.firstname);
+                        AsyncStorage.setItem('userHousehold', this.state.userHousehold);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        this.props.navigation.navigate('Home');
+                        alert(responseJson.token)
+                    }
 
-    loginFacebook = () => {
-        fetch('https://guardianes.centeias.net/user/login', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: this.state.userEmail,
-                password: this.state.userPwd
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    AsyncStorage.setItem('userID', responseJson.user.id);
-                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    AsyncStorage.setItem('userHousehold', this.state.userHousehold);
-                    this.props.navigation.navigate('Home');
-                    alert("Logado via Facebook")
+
                 } else {
-                    alert(responseJson.message)
-                    this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
-                    LoginManager.logOut();
+                    if (this.state.loginOnFB === 'true') {
+                        alert(responseJson.message)
+                        this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
+                        LoginManager.logOut();
+                    } else {
+                        alert(responseJson.message)
+                    }
                 }
             })
             .done();
@@ -167,16 +149,9 @@ class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680,
+        height: 550,
         alignItems: 'center',
         justifyContent: 'flex-start',
-    },
-    margTop: {
-        width: '100%',
-        flexDirection: 'row',
-        backgroundColor: '#0084b4',
-        height: 50,
-        justifyContent: 'space-between'
     },
     titulo: {
         color: '#CD853F',
@@ -186,10 +161,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignSelf: 'center',
         marginRight: '40%',
-    },
-    backButton: {
-        alignSelf: 'center',
-        marginLeft: 10,
     },
     viewImage: {
         flex: 2.5,
@@ -203,33 +174,29 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     formInput: {
-        //height: 31,
         width: '90%',
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#9B6525',
+        paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontSize: 15,
-        alignSelf: 'flex-start',
-        textAlign: 'left',
-        paddingLeft: "5%",
-        fontWeight: 'bold',
-    },
-    button: {
-        //ESTILIZAR BOTÃO
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        fontSize: 20,
+        color: '#465F6C',
+        marginTop: '3%'
     },
     buttonView: {
-        marginTop: 20,
+        marginTop: 30,
         width: "60%",
     },
     imageLogo: {
         flex: 1,
-        marginTop: 20,
-        width: '50%',
+        marginTop: 9,
+        width: '40%',
         resizeMode: 'center',
     }
 });

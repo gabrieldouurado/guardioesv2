@@ -1,6 +1,6 @@
-export const imagemFundo = require('./fundo.png');
-export const imagemLogo = require('./logo.png');
-export const imagemReportar = require('./reportar.png');
+export const imagemFundo = require('./Icones/300ppi/Fundo-logo/logo-marca-dagua.png');
+export const imagemLogo = require('./Icones/300ppi/Fundo-logo/logo.png');
+export const imagemReportar = require('./Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
 export const imagemConselho = require('./conselho.png');
 export const imagemDiarioSaude = require('./diariosaude.png');
@@ -8,3 +8,6 @@ export const imagemMapaSaude = require('./mapasaude.png');
 export const imagemNoticias = require('./noticias.png');
 export const imagemGood = require('./GoodReport.png');
 export const imagemBad = require('./BadReport.png');
+export const imagemEntrar = require('./Icones/300ppi/icones-entrar/002.png');
+export const imagemRegistar = require('./Icones/300ppi/icones-entrar/001.png');
+export const imagemUnb = require('./unb.png');

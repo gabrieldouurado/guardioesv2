@@ -60,6 +60,7 @@ export default class drawerContentComponents extends Component {
 
 
     render() {
+        const { navigate } = this.props.navigation;
         //Funcoes declaradas dentro do render pois ficam em loop para serem atualizadas automaticamente
         if (this.state.loginOnApp == null) {
             if (this.state.loginOnFB == null || this.state.pic == null) {
@@ -89,50 +90,87 @@ export default class drawerContentComponents extends Component {
                 <View style={styles.headerContainer}>
                     <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
                         <View style={styles.shadowAvatar}>
+                            <View style={{borderWidth: 3.5, borderColor: '#C19036', borderRadius: 180}}>
                             <Avatar
                                 xlarge
                                 rounded
                                 source={{ uri: this.state.pic }}
                                 activeOpacity={0.7}
                             />
+                            </View>
                         </View>
                         <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </ImageBackground>
                 </View>
-
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate()}>
+                    <View style={{backgroundColor: '#C19036', height: 10}}></View>
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Home')}
+                >
                     <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Início</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => Linking.openURL('https://google.com')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => Linking.openURL('https://google.com')}
+                >
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Household')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Perfil')}
+                >
                     <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>EAD</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => null}
+                >
                     <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Mensagens</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => Linking.openURL('https://facebook.com')}
+                >
                     <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Facebook</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer}
+                    onPress={() => navigate('Ajuda')}
+                >
                     <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Ajuda</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.itemsContainer} onPress={() => this.props.navigation.navigate('Sobre')}>
+
+                <TouchableOpacity 
+                    style={styles.itemsContainer} 
+                    onPress={() => navigate('Sobre')}
+                >
                     <FontAwesome name='home' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
                     <Text style={styles.drawerItemsTxt}>Sobre</Text>
                 </TouchableOpacity>
@@ -152,11 +190,11 @@ const styles = StyleSheet.create({
     container: {
     },
     headerContainer: {
-        height: moderateScale(300),
+        height: moderateScale(293),
     },
     headerText: {
         fontSize: 30,
-        fontFamily: 'myriadpro',
+        fontFamily: 'poiretOne',
         marginTop: 10,
         marginLeft: 25,
         color: '#465F6C'
@@ -167,9 +205,7 @@ const styles = StyleSheet.create({
         width: '75%',
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        backgroundColor: '#465F6C',
-        borderColor: '#465F6C',
-        borderWidth: 1
+        backgroundColor: 'rgba(70, 95, 108, 0.85)'
     },
     itemsContainer: {
         flexDirection: 'row',
@@ -185,6 +221,7 @@ const styles = StyleSheet.create({
     },
     drawerItemsTxt: {
         textAlignVertical: 'center',
+        fontFamily: 'poiretOne',
         fontSize: verticalScale(21.5),
 
     },

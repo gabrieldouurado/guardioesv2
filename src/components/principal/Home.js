@@ -1,6 +1,5 @@
-//import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
@@ -11,23 +10,14 @@ class Home extends Component {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
         const { params = {} } = navigation.state;
         return {
-            title: 'Guardioes da Saude',
-            headerStyle: {
-                backgroundColor: '#3B8686',
-                elevation: 0
-            },
-            headerTitleStyle: {
-                color: 'white',
-                fontFamily: 'miriadpro'
-            },
-            headerBackTitleStyle: {
-                color: 'white'
-            },
+            title: 'Guardiões da Saúde',
             headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} backgroundColor='transparent' onPress={() => params._onHeaderEventControl()}>
-
-                </Icon.Button>
-            )
+                <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
+            ),
+            headerTitleStyle: {
+                fontFamily: 'poiretOne',
+                fontWeight: '400' //fontWeight can't be higher than 400
+            }
 
         }
     }
@@ -60,20 +50,20 @@ class Home extends Component {
         let valueName = await AsyncStorage.getItem('userName');
         this.setState({ userFirstName: valueName })
     }
-    
+
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
 
         return (
-            <View style={styles.container}>
-                <StatusBar backgroundColor='#347777'/>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+                <StatusBar backgroundColor='#babaae'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
-                        Ola {this.state.userFirstName}!
+                        Olá {this.state.userFirstName}!
                     </Text>
                     <Text style={topoTexto2}>
-                        Agora voce e um guardiao da saude!
+                        Agora você é um guardião da saúde!
                     </Text>
                 </View>
 
@@ -113,7 +103,7 @@ class Home extends Component {
                             Diário de Saúde
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.inferiorBotoes}
                             onPress={() => navigate('Mapa')}
                         >
@@ -124,7 +114,7 @@ class Home extends Component {
                     </TouchableOpacity>
 
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }
@@ -132,6 +122,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: 550,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -143,11 +134,11 @@ const styles = StyleSheet.create({
     },
     topoTexto1: {
         fontSize: 30,
-        fontFamily: 'myriadpro'
+        fontFamily: 'poiretOne'
     },
     topoTexto2: {
         fontSize: 18,
-        fontFamily: 'myriadpro'
+        fontFamily: 'poiretOne',
     },
     corpo: {
         flex: 1.5,
@@ -163,20 +154,19 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(123,123,123, 0.15)',
+        backgroundColor: 'rgba(135, 150, 151, 0.6)',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
     },
     BotoesTexto: {
+        fontFamily: 'poiretOne',
         alignSelf: 'center',
-        width: '50%',
         textAlign: 'justify',
-        marginLeft: 70,
-        fontSize: 16,
+        marginLeft: 40,
+        fontSize: 18,
         color: 'black',
-        fontWeight: '300'
     }
 });
 

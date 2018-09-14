@@ -25,14 +25,11 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = y + "-" + m + "-" + d;
+let today = d + "-" + m + "-" + y;
 
 class Registrar extends Component {
     static navigationOptions = {
-        headerStyle: {
-          backgroundColor: 'transparent'
-        },
-        headerTintColor: '#3B8686'
+        title: "Registro"
     }
     constructor(props) {
         super(props);
@@ -44,7 +41,7 @@ class Registrar extends Component {
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
-            userDob: '01-01-1918',
+            userDob: "01-01-2000",
             userApp: 'd41d8cd98f00b204e9800998ecf8427e',
             cca2: 'BR',
             loginOnFB: null,
@@ -58,43 +55,14 @@ class Registrar extends Component {
             alert('Error fetching data: ' + error.toString());
         } else {
             this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            this.createFacebook()
+            this.create()
         }
     }
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
-                    <View style={styles.viewCommom}>
-                        <Text style={{ fontSize: 15, paddingBottom: 10, paddingTop: 10 }}>
-                            Cadastar com Facebook
-                        </Text>
-                        <LoginButton
-                            readPermissions={['public_profile', 'email']}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        alert("login has error: " + result.error);
-                                    } else if (result.isCancelled) {
-                                        alert("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
-                                                    null,
-                                                    this._responseInfoCallback
-                                                );
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => { }} />
-                    </View>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>Nome:</Text>
@@ -102,13 +70,11 @@ class Registrar extends Component {
                             returnKeyType='next'
                             onSubmitEditing={() => this.sobrenomeInput.focus()}
                             onChangeText={text => this.setState({ userFirstName: text })}
-
                         />
                     </View>
+
                     <View style={styles.viewCommom}>
-
                         <Text style={styles.commomText}>Sobrenome:</Text>
-
                         <TextInput style={styles.formInput}
                             ref={(input) => this.sobrenomeInput = input}
                             onChangeText={text => this.setState({ userLastName: text })}
@@ -146,28 +112,34 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewRow}>
-                        <View style={styles.viewChildData}>
-
+                        <View style={styles.viewChildSexoRaca}>
+                            <Text style={styles.commomTextView}>Nascimento:</Text>
                             <DatePicker
-                                style={{ width: '80%' }}
+                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5}}
+                                showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="Nascimento"
+                                placeholder="DD/MM/AAA"
                                 format="DD-MM-YYYY"
                                 minDate="01-01-1918"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateIcon: {
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 4,
-                                        marginLeft: 0
-                                    },
+                                customStyles={{                                    
                                     dateInput: {
-                                        marginLeft: 36
+                                        borderWidth: 0
+                                    },
+                                    dateText: {
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 17
+                                    },
+                                    placeholderText:{
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 15,
+                                        color: 'black'
                                     }
                                 }}
                                 onDateChange={date => this.setState({ userDob: date })}
@@ -176,13 +148,16 @@ class Registrar extends Component {
 
                         <View style={styles.viewChildPais}>
                             <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
-                            <View><CountryPicker
-                                onChange={value => {
-                                    this.setState({ cca2: value.cca2, userCountry: value.name })
-                                }}
-                                cca2={this.state.cca2}
-                                translation="eng"
-                            /></View>
+                            <View>
+                                <CountryPicker
+                                    onChange={value => {
+                                        this.setState({ cca2: value.cca2, userCountry: value.name })
+                                    }}
+                                    cca2={this.state.cca2}
+                                    translation="eng"
+                                />
+                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -197,9 +172,7 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewCommom}>
-
                         <Text style={styles.commomText}>Senha:</Text>
-
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
                             secureTextEntry={true}
@@ -209,14 +182,40 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.buttonView}>
+                        <Button
+                            title="Registrar"
+                            color="#9B6525"
+                            onPress={this.create} />
+                    </View>
 
-                        <TouchableOpacity
-                            style={styles.enviar}
-                            onPress={this.create}
-                        >
-                            <Text>Cadastrar</Text>
-                        </TouchableOpacity>
-
+                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
+                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            Cadastar com Facebook
+                        </Text>
+                        <LoginButton
+                            readPermissions={['public_profile', 'email']}
+                            onLoginFinished={
+                                (error, result) => {
+                                    if (error) {
+                                        alert("login has error: " + result.error);
+                                    } else if (result.isCancelled) {
+                                        alert("login is cancelled.");
+                                    } else {
+                                        AccessToken.getCurrentAccessToken().then(
+                                            (data) => {
+                                                const infoRequest = new GraphRequest(
+                                                    '/me?fields=name,first_name,last_name,email,picture,id',
+                                                    null,
+                                                    this._responseInfoCallback
+                                                );
+                                                // Start the graph request.
+                                                new GraphRequestManager().addRequest(infoRequest).start();
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                            onLogoutFinished={() => { }} />
                     </View>
 
                 </ScrollView>
@@ -247,54 +246,56 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    this.setState({ loginOnApp: 'true' })
-                    AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    this.props.navigation.navigate('Home');
+                    if (this.state.loginOnFB === 'true') {
+                        AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        alert("Registrado via Facebook");
+                        this.loginAfterCreate();
+                    } else {
+                        this.setState({ loginOnApp: 'true' })
+                        AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                        AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('avatar', this.state.pic);
+                        alert("Registrado com Sucesso")
+                        this.loginAfterCreate();
+                    }
                 }
                 else {
-                    alert(response.message);
+                    if (this.state.loginOnFB === 'true') {
+                        alert(response.message);
+                        this.setState({ userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
+                        LoginManager.logOut();
+                    } else {
+                        alert(response.message);
+                    }
                 }
             })
 
     }
 
-    createFacebook = () => {
-        fetch('https://guardianes.centeias.net/user/create', {
+    loginAfterCreate = () => {
+        fetch('https://guardianes.centeias.net/user/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                firstname: this.state.userFirstName,
-                lastname: this.state.userLastName,
                 email: this.state.userEmail,
-                password: this.state.userPwd,
-                gender: this.state.userGender,
-                country: this.state.userCountry,
-                race: this.state.userRace,
-                dob: this.state.userDob,
-                app: this.state.userApp,
+                password: this.state.userPwd
             })
         })
             .then((response) => response.json())
-            .then(response => {
-                if (response.error === false) {
-                    AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    alert("Registrado via Facebook")
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    AsyncStorage.setItem('userID', responseJson.user.id);
                     this.props.navigation.navigate('Home');
-                }
-                else {
-                    alert(response.message);
-                    this.setState({userFirstName: null, userLastName: null, userEmail: null, userPwd: null, pic: null,loginOnFB: null });
-                    LoginManager.logOut();
+                } else {
+                    alert(responseJson.message)
                 }
             })
-
+            .done();
     }
 }
 
@@ -302,14 +303,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680
-    },
-    margTop: {
-        width: '100%',
-        flexDirection: 'row',
-        backgroundColor: '#4169E1',
-        height: 50,
-        justifyContent: 'space-between'
+        height: 550
     },
     titulo: {
         color: 'white',
@@ -319,10 +313,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignSelf: 'center',
         marginRight: '30%',
-    },
-    backButton: {
-        alignSelf: 'center',
-        marginLeft: 10,
     },
     viewLogo: {
         flex: 0.5,
@@ -368,55 +358,41 @@ const styles = StyleSheet.create({
     },
     formInput: {
         width: "90%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
-        paddingTop: 2,
-    },
-    formData: {
-        width: "80%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#9B6525',
+        paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: "5%",
-        fontWeight: 'bold',
     },
     commomTextView: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: '10%',
-        fontWeight: 'bold',
     },
     buttonView: {
-        height: '8%',
+        width: "60%",
         alignSelf: 'center',
         marginTop: 20,
-        marginBottom: 40,
-        width: "60%",
+        marginBottom: 10
     },
-    imageLogo: {
-        flex: 1,
-        marginTop: 20,
-        width: '35%',
-        resizeMode: 'center',
-    },
-    enviar: {
-        backgroundColor: 'skyblue',
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8
+    textCountry:{
+        fontSize: 15,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
     }
 });
 

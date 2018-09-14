@@ -2,17 +2,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-// create a component
 class Diario extends Component {
     static navigationOptions = {
-        title: 'Notícias',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-        },
-        headerTitleStyle: {
-            color: 'white',
-        },
-        headerTintColor: '#fff'
+        title: 'Diário',
     }
     render() {
         return (
@@ -23,7 +15,6 @@ class Diario extends Component {
     }
 }
 
-// define your styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -32,5 +23,4 @@ const styles = StyleSheet.create({
     },
 });
 
-//make this component available to the app
 export default Diario;
