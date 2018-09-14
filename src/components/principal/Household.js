@@ -22,7 +22,7 @@ let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
-let today = d + "-" + m + "-" + y;
+let today = y + "-" + m + "-" + d;
 
 class Household extends Component {
     static navigationOptions = {
@@ -150,7 +150,7 @@ class Household extends Component {
                                 mode="date"
                                 placeholder="Nascimento"
                                 format="YYYY-MM-DD"
-                                minDate="01-01-1918"
+                                minDate="1918-01-01"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
@@ -221,7 +221,7 @@ class Household extends Component {
         .then((response) => response.json())
         .then(response => {
           if (response.error === false) {
-            this.props.navigation.navigate('Reportar');
+            this.props.navigation.navigate('Home');
           }
           else {
             alert(response.message);

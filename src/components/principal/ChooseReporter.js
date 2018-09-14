@@ -28,6 +28,8 @@ class ChooseReporter extends Component{
             error: null,
             isLoading: true,
             url: "",
+            userHousehold:[],
+
         }
 
     }    
@@ -38,7 +40,7 @@ class ChooseReporter extends Component{
             elevation: 0
         },
         headerTitleStyle: {
-            color: 'white',
+            color: '#DFDFD0',
             margin: '8%',
             fontWeight: 'bold',
             fontSize: 30,
@@ -62,50 +64,43 @@ class ChooseReporter extends Component{
         this.GetHouseholds();
         
     }
-    GetHouseholds = () => {
-        return fetch('https://guardianes.centeias.net/user/household/${this.state.UserID}')
-        .then((response) => response.json())
-        .then((responseJson) => {
-  
-          this.setState({
-            isLoading: false,
-            dataSource: responseJson.data,
-          }, function(){
-          });
-        })
-        .catch((error) =>{
-          console.error(error);
-        });
+    GetHouseholds = async () => {
+        userHousehold = await AsyncStorage.getItem('userHousehold');
+        this.setState({ userHousehold: JSON.parse(userHousehold) });
+    }
+
+    reportUser(){
+        this.props.navigation.navigate('Reportar');
+        AsyncStorage.removeItem('HouseholdId');
     }
   
-    
-        render() {
-            if(this.state.isLoading){
-                return(
-                  <View style={{flex: 1, padding: 20}}>
-                    <ActivityIndicator/>
-                  </View>
-                )
-              }
+    setHouseholdReporter = async (id) =>{
+        AsyncStorage.setItem('HouseholdId', id);
+        this.props.navigation.navigate('Reportar');
 
-            familiar = this.state.dataSource.map((item) => {
-              return (
-                  <View key={item.firstname} style={ styles.container }>
-                    <Text style={styles.textoSelector}>
-                      {item.firstname}
-                    </Text>
-                  </View>
-                );
-             });
+    }
+        render() {
+            let HouseholdAux = this.state.userHousehold;
             return (
               <View style={styles.container}>
                      <Text style={styles.titulo}>Quem participará?</Text>
                      <Text style={styles.textoSelector}>Selecione o perfil que quer reportar</Text>
-                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Reportar')}>
+                     <TouchableOpacity onPress={() => this.reportUser()}>
                          <Text style={styles.titulo}>{this.state.UserName}</Text>
                      </TouchableOpacity>
                      <View style={styles.familiar}>
-                        {familiar}
+                        {   
+                           
+                            HouseholdAux.map((houseH , index) => {
+                                return(
+                                    <ScrollView style={styles.selector}>
+                                        <TouchableOpacity onPress={() => this.setHouseholdReporter(houseH.id)}>
+                                            <Text>{houseH.firstname}</Text>
+                                        </TouchableOpacity>
+                                    </ScrollView>
+                                )
+                            })
+                        }
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('Household')}>
                             {AdicionarFamiliar}
                         </TouchableOpacity>
@@ -144,7 +139,7 @@ const styles = StyleSheet.create({
       },
       selector: {
           flexDirection: 'row',
-          justifyContent: 'space-between',
+        //   justifyContent: 'space-between',
           margin: 10,
           elevation: 5,
 

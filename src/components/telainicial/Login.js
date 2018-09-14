@@ -150,6 +150,7 @@ class Login extends Component {
                     AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                     AsyncStorage.setItem('avatar', this.state.pic);
                     AsyncStorage.setItem('userName', this.state.userFirstName);
+                    AsyncStorage.setItem('userHousehold', this.state.userHousehold);
                     this.props.navigation.navigate('Home');
                     alert("Logado via Facebook")
                 } else {
