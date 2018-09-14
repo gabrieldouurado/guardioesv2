@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'reac
 
 import imagemFundo from '../../imgs/imageConst';
 
-class Dengue extends Component {
+class Phones extends Component {
 
 
 	constructor(props) {
@@ -13,7 +13,7 @@ class Dengue extends Component {
 	}
 
 	static navigationOptions = {
-		title: 'Dengue'
+		title: 'Telefones Úteis'
 	}
 
 	render() {
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Dengue;
+export default Phones;

@@ -102,13 +102,13 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Início</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer} 
                     onPress={() => Linking.openURL('https://google.com')}
                 >
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity 
                     style={styles.itemsContainer} 
@@ -118,29 +118,29 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>EAD</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Mensagens</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity 
                     style={styles.itemsContainer}

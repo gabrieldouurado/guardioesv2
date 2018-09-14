@@ -16,8 +16,11 @@ import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
 import { Botao1 } from '../principal/AjudaBtn1';
 import { Botao2 } from '../principal/AjudaBtn2';
-import Prevention from '../conselhos/prevencao';
+import Prevention from '../conselhos/prevention';
 import TravelHealth from '../conselhos/travelhealth';
+import Dengue from '../conselhos/dengue';
+import Deseases from '../conselhos/deseases';
+import Phones from '../conselhos/phones';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -54,7 +57,10 @@ export const Stack = createStackNavigator({
     Botao1,
     Botao2,
     Prevention,
-    TravelHealth
+    TravelHealth,
+    Dengue,
+    Deseases,
+    Phones
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
