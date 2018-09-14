@@ -35,21 +35,6 @@ class ChooseReporter extends Component{
     }    
     static navigationOptions = {
         title: 'Guardiões da saúde',
-        headerStyle: {
-            backgroundColor: '#3B8686',
-            elevation: 0
-        },
-        headerTitleStyle: {
-            color: '#DFDFD0',
-            margin: '8%',
-            fontWeight: 'bold',
-            fontSize: 30,
-            alignSelf: 'center',
-            marginRight: '10%',
-        },
-        headerBackTitleStyle: {
-            color: 'white'
-            },
     }
     
     getUserData = async () => {
@@ -82,10 +67,10 @@ class ChooseReporter extends Component{
         render() {
             let HouseholdAux = this.state.userHousehold;
             return (
-              <View style={styles.container}>
+              <ScrollView >
                      <Text style={styles.titulo}>Quem participará?</Text>
                      <Text style={styles.textoSelector}>Selecione o perfil que quer reportar</Text>
-                     <TouchableOpacity onPress={() => this.reportUser()}>
+                     <TouchableOpacity style={styles.selector} onPress={() => this.reportUser()}>
                          <Text style={styles.titulo}>{this.state.UserName}</Text>
                      </TouchableOpacity>
                      <View style={styles.familiar}>
@@ -93,20 +78,20 @@ class ChooseReporter extends Component{
                            
                             HouseholdAux.map((houseH , index) => {
                                 return(
-                                    <ScrollView style={styles.selector}>
-                                        <TouchableOpacity onPress={() => this.setHouseholdReporter(houseH.id)}>
-                                            <Text>{houseH.firstname}</Text>
+                                    
+                                        <TouchableOpacity style={styles.selector} onPress={() => this.setHouseholdReporter(houseH.id)}>
+                                            <Text style={styles.textoSelector}>{houseH.firstname}</Text>
                                         </TouchableOpacity>
-                                    </ScrollView>
+                                    
                                 )
                             })
                         }
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Household')}>
+                        <TouchableOpacity style={{padding: 10}} onPress={() => this.props.navigation.navigate('Household')}>
                             {AdicionarFamiliar}
                         </TouchableOpacity>
                         
                     </View>
-                </View>
+                    </ScrollView>
             );
           }
     }
@@ -137,9 +122,12 @@ const styles = StyleSheet.create({
           alignSelf: 'center',
           marginLeft: 10,
       },
+      scroll: {
+
+      },
       selector: {
           flexDirection: 'row',
-        //   justifyContent: 'space-between',
+          justifyContent: 'center',
           margin: 10,
           elevation: 5,
 
@@ -152,10 +140,6 @@ const styles = StyleSheet.create({
           fontSize: 16,
           fontWeight: 'bold',
       },
-      familiar: {
-          flexDirection: 'row',
-          justifyContent: 'space-between'
-      }
 
 });
 
