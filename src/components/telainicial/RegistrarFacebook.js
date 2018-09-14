@@ -32,12 +32,20 @@ class AddInfo extends Component {
             userApp: 'd41d8cd98f00b204e9800998ecf8427e',
             cca2: 'BR',
             loginOnFB: null,
+            sessionStart: null,
             pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
         }
     }
 
     componentDidMount() {
         this._getInfos()
+    }
+
+    componentWillUnmount() {
+        if (this.state.sessionStart === null ){
+        LoginManager.logOut();
+        alert("Cadastro Cancelado")
+        }
     }
 
     _getInfos = async () => {
@@ -172,10 +180,11 @@ class AddInfo extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    alert("Registrado com Sucesso")
+                    alert("Registrado via Facebook com Sucesso")
                     AsyncStorage.removeItem('userLastName');
                     AsyncStorage.removeItem('userEmail');
                     AsyncStorage.removeItem('userPwd');
+                    this.setState({sessionStart: 'true'})
                     this.loginAfterCreate();
                 } else {
                     alert(response.message);
@@ -218,7 +227,7 @@ class AddInfo extends Component {
             .done();
     }
 }
-
+ 
 // define your styles
 const styles = StyleSheet.create({
     container: {
