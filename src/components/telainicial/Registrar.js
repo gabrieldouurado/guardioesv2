@@ -4,20 +4,18 @@ import {
     Text,
     View,
     ImageBackground,
-    Image,
     TextInput,
     ScrollView,
     Button,
-    TouchableOpacity,
     Picker,
     AsyncStorage,
     Keyboard
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import imagemFundo from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import app_token from '../../constUtils';
 
 
 let data = new Date();
@@ -41,8 +39,8 @@ class Registrar extends Component {
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
-            userDob: '01-01-1918',
-            userApp: 'd41d8cd98f00b204e9800998ecf8427e',
+            userDob: "1919-01-01",
+            userApp: {app_token},
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
@@ -61,7 +59,7 @@ class Registrar extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -112,27 +110,34 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewRow}>
-                        <View style={styles.viewChildData}>
+                        <View style={styles.viewChildSexoRaca}>
+                            <Text style={styles.commomTextView}>Nascimento:</Text>
                             <DatePicker
-                                style={{ width: '80%' }}
+                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5}}
+                                showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="Nascimento"
-                                format="DD-MM-YYYY"
-                                minDate="01-01-1918"
+                                placeholder="DD/MM/AAA"
+                                format="YYYY-MM-DD"
+                                minDate="1900-01-01"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateIcon: {
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 4,
-                                        marginLeft: 0
-                                    },
+                                customStyles={{                                    
                                     dateInput: {
-                                        marginLeft: 36
+                                        borderWidth: 0
+                                    },
+                                    dateText: {
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 17
+                                    },
+                                    placeholderText:{
+                                        marginBottom: 10,
+                                        fontFamily: 'poiretOne',
+                                        fontSize: 15,
+                                        color: 'black'
                                     }
                                 }}
                                 onDateChange={date => this.setState({ userDob: date })}
@@ -176,7 +181,7 @@ class Registrar extends Component {
 
                     <View style={styles.buttonView}>
                         <Button
-                            title="Entrar"
+                            title="Registrar"
                             color="#9B6525"
                             onPress={this.create} />
                     </View>
@@ -296,7 +301,7 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680
+        height: 550
     },
     titulo: {
         color: 'white',

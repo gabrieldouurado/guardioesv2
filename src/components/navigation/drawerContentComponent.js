@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
 import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -11,14 +10,6 @@ import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst'
 
 export default class drawerContentComponents extends Component {
-
-    // navigateToScreen = ( route ) =>(
-    //     () => {
-    //     const navigateAction = NavigationActions.navigate({
-    //         routeName: route
-    //     });
-    //     this.props.navigation.dispatch(navigateAction);
-    // })
 
     constructor(props) {
         super(props);
@@ -90,17 +81,19 @@ export default class drawerContentComponents extends Component {
                 <View style={styles.headerContainer}>
                     <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
                         <View style={styles.shadowAvatar}>
+                            <View style={{borderWidth: 3.5, borderColor: '#C19036', borderRadius: 180}}>
                             <Avatar
                                 xlarge
                                 rounded
                                 source={{ uri: this.state.pic }}
                                 activeOpacity={0.7}
                             />
+                            </View>
                         </View>
                         <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </ImageBackground>
                 </View>
-
+                    <View style={{backgroundColor: '#C19036', height: 10}}></View>
                 <TouchableOpacity 
                     style={styles.itemsContainer} 
                     onPress={() => navigate('Home')}
@@ -109,13 +102,13 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Início</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer} 
                     onPress={() => Linking.openURL('https://google.com')}
                 >
                     <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity 
                     style={styles.itemsContainer} 
@@ -125,29 +118,29 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Perfil</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
                     <Text style={styles.drawerItemsTxt}>EAD</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
                     <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                     <Text style={styles.drawerItemsTxt}>Mensagens</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity 
                     style={styles.itemsContainer}
@@ -188,11 +181,11 @@ const styles = StyleSheet.create({
     container: {
     },
     headerContainer: {
-        height: moderateScale(300),
+        height: moderateScale(293),
     },
     headerText: {
         fontSize: 30,
-        fontFamily: 'myriadpro',
+        fontFamily: 'poiretOne',
         marginTop: 10,
         marginLeft: 25,
         color: '#465F6C'
@@ -203,9 +196,7 @@ const styles = StyleSheet.create({
         width: '75%',
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        backgroundColor: '#465F6C',
-        borderColor: '#465F6C',
-        borderWidth: 1
+        backgroundColor: 'rgba(70, 95, 108, 0.85)'
     },
     itemsContainer: {
         flexDirection: 'row',
@@ -221,6 +212,7 @@ const styles = StyleSheet.create({
     },
     drawerItemsTxt: {
         textAlignVertical: 'center',
+        fontFamily: 'poiretOne',
         fontSize: verticalScale(21.5),
 
     },

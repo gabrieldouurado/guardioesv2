@@ -1,33 +1,52 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native';
 import { imagemUnb } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
+
+const Redirect = (titulo, message, url) => {
+    Alert.alert(
+        `${titulo}`,
+        `${message}`,
+        [
+            { text: "Ok", onPress: () => Linking.openURL(`${url}`) }
+        ]
+    )
+}
 
 class Sobre extends Component {
     static navigationOptions = {
         title: 'Sobre',
     }
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+        };
+    }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        
-        <View style={styles.textView}>
-            <Text style={styles.text}> {texto} </Text>
-        </View>
-        
-        <View style={styles.imagesView}>
-            <Image source={imagemUnb} style={styles.imageOne}/>
-            <Image source={imagemUnb} style={styles.imageTwo}/>
-        </View>
-      </View>
-    );
-  }
+    render() {
+        return (
+            <View style={styles.container}>
+
+                <View style={styles.textView}>
+                    <Text style={styles.text}> {textos[0].textoGrande} </Text>
+                </View>
+
+                <View style={styles.imagesView}>
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageOne} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageTwo} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -58,10 +77,19 @@ const styles = StyleSheet.create({
     }
 })
 
-const texto = 'aaaa \n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-
+const textos = [
+    {
+        textoGrande: 'aaaaaaaaa'
+    },
+    {
+        tituloBtnUnb: 'Universidade de Brasilia',
+        mensagemBtnUnb: 'Deseja ser redirecionado ao website da UnB?',
+        linkBtnUnb: 'https://www.unb.br' 
+    },
+    {
+        tituloBtnCenteias: 'Universidade de Brasilia',
+        mensagemBtnCenteias: 'Deseja ser redirecionado ao website do Centeias?',
+        linkBtnCenteias: 'https://fs.unb.br/centeias/'
+    }
+]
 export default Sobre;

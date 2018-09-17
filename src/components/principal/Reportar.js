@@ -108,7 +108,7 @@ class Report extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
+                <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
@@ -137,7 +137,7 @@ class Report extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: '100%',
+        height: 550,
     },
     titulo: {
 
