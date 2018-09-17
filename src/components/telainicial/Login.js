@@ -114,6 +114,7 @@ class Login extends Component {
                         AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                         AsyncStorage.setItem('avatar', this.state.pic);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                         this.props.navigation.navigate('Home');
                         alert("Logado via Facebook")
                     } else {
@@ -123,8 +124,8 @@ class Login extends Component {
                         AsyncStorage.setItem('userID', responseJson.user.id);
                         AsyncStorage.setItem('userToken', responseJson.token);
                         AsyncStorage.setItem('userName', responseJson.user.firstname);
-                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                         AsyncStorage.setItem('avatar', this.state.pic);
+                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                         this.props.navigation.navigate('Home');
                     }
 

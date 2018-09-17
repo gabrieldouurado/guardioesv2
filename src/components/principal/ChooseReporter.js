@@ -55,7 +55,6 @@ class ChooseReporter extends Component{
     GetHouseholds = async () => {
         userHousehold = await AsyncStorage.getItem('userHousehold');
         this.setState({ userHousehold: JSON.parse(userHousehold) });
-        console.warn(this.state.userHousehold);
     }
 
     reportUser(){

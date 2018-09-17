@@ -279,6 +279,7 @@ class Registrar extends Component {
             .then((responseJson) => {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('userID', responseJson.user.id);
+                    AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                     this.props.navigation.navigate('Home');
                 } else {
                     alert(responseJson.message)

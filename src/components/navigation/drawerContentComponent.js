@@ -35,6 +35,7 @@ export default class drawerContentComponents extends Component {
         AsyncStorage.removeItem('loginOnFB');
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('avatar');
+        AsyncStorage.removeItem('userHousehold');
         this.setState({ pic: null })
         this.props.navigation.navigate('TelaInicial')
     }
@@ -42,9 +43,10 @@ export default class drawerContentComponents extends Component {
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
     _logoutApp = async () => {
         AsyncStorage.removeItem('userName');
+        AsyncStorage.removeItem('loginOnApp');
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('userToken');
-        AsyncStorage.removeItem('loginOnApp');
+        AsyncStorage.removeItem('userHousehold');
         this.setState({ loginOnApp: null })
         this.props.navigation.navigate('TelaInicial')
     }
