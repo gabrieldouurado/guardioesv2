@@ -55,9 +55,9 @@ export const Stack = createStackNavigator({
     Sobre,
     Botao1,
     Botao2,
-    Prevencao: { screen: Prevencao},
-    Household: { screen: Household},
-    ChooseReporter: { screen: ChooseReporter},
+    Prevencao: { screen: Prevencao },
+    Household: { screen: Household },
+    ChooseReporter: { screen: ChooseReporter },
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
@@ -73,11 +73,12 @@ export const Stack = createStackNavigator({
                 fontWeight: '400',
             }
         }
-    })
-    
-},{
-    initialRouteName: 'Home'
-})
+    }, {
+        initialRouteName: 'Home'
+    }
+
+
+)
 
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
