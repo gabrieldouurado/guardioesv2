@@ -21,6 +21,7 @@ import TravelHealth from '../conselhos/travelhealth';
 import Dengue from '../conselhos/dengue';
 import Deseases from '../conselhos/deseases';
 import Phones from '../conselhos/phones';
+import ChooseReporter from '../principal/ChooseReporter';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -60,7 +61,9 @@ export const Stack = createStackNavigator({
     TravelHealth,
     Dengue,
     Deseases,
-    Phones
+    Phones,
+    Household,
+    ChooseReporter,
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
@@ -76,7 +79,13 @@ export const Stack = createStackNavigator({
                 fontWeight: '400',
             }
         }
-    })
+    }, {
+        initialRouteName: 'Home'
+    }
+
+
+)
+
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },
