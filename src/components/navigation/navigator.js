@@ -9,13 +9,20 @@ import Conselho from '../principal/Conselho';
 import Noticias from '../principal/Noticias';
 import Reportar from '../principal/Reportar';
 import BadReport from '../principal/badReport';
-import Prevencao from '../conselhos/prevencao';
 import Household from '../principal/Household';
 import drawerContentComponents from './drawerContentComponent';
 import Maps from '../principal/Maps';
 import Perfil from '../principal/Perfil';
 import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
+import { Botao1 } from '../principal/AjudaBtn1';
+import { Botao2 } from '../principal/AjudaBtn2';
+import Prevention from '../conselhos/prevention';
+import TravelHealth from '../conselhos/travelhealth';
+import Dengue from '../conselhos/dengue';
+import Deseases from '../conselhos/deseases';
+import Phones from '../conselhos/phones';
+import ChooseReporter from '../principal/ChooseReporter';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -46,11 +53,19 @@ export const Stack = createStackNavigator({
     Reportar,
     BadReport,
     Mapa: { screen: Maps },
-    Prevencao,
     Household,
     Perfil,
     Ajuda,
-    Sobre
+    Sobre,
+    Botao1,
+    Botao2,
+    Prevention,
+    TravelHealth,
+    Dengue,
+    Deseases,
+    Phones,
+    Household,
+    ChooseReporter,
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
@@ -66,7 +81,13 @@ export const Stack = createStackNavigator({
                 fontWeight: '400',
             }
         }
-    })
+    }, {
+        initialRouteName: 'Home'
+    }
+
+
+)
+
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },

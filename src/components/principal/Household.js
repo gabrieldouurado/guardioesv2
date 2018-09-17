@@ -22,7 +22,7 @@ let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
-let today = d + "-" + m + "-" + y;
+let today = y + "-" + m + "-" + d;
 
 class Household extends Component {
     static navigationOptions = {
@@ -52,6 +52,10 @@ class Household extends Component {
         console.warn("Pais: "+this.state.householdCountry)
         Keyboard.dismiss()
     }
+
+
+
+
 
     render() {
         return (
@@ -145,8 +149,8 @@ class Household extends Component {
                                 androidMode='spinner'
                                 mode="date"
                                 placeholder="Nascimento"
-                                format="DD-MM-YYYY"
-                                minDate="01-01-1918"
+                                format="YYYY-MM-DD"
+                                minDate="1918-01-01"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
@@ -178,7 +182,7 @@ class Household extends Component {
                     </View>
 
                     <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.enviar} onPress={() => this._TesteVariaveis()}>
+                        <TouchableOpacity style={styles.enviar} onPress={() => this.create()}>
                             <Text>Cadastrar</Text>
                         </TouchableOpacity>
                     </View>
@@ -188,7 +192,45 @@ class Household extends Component {
         );
 
     }
+     create = async () => {
+
+        let UserID = await AsyncStorage.getItem('userID');
+        this.setState({ UserID: UserID })
+        Keyboard.dismiss()
+        fetch('https://guardianes.centeias.net/household/create', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user: this.state.UserID,
+            firstname: this.state.householdFirstName,
+            lastname: this.state.householdLastName,
+            relationship: this.state.parentesco,
+            gender: this.state.householdGender,
+            country: this.state.userCountry,
+            race: this.state.userRace,
+            dob: this.state.householdDob,
+            app: this.state.userApp,
+            race: this.state.householdRace,
+            country: this.state.householdCountry,
+            picture: "none",
+          })
+        })
+        .then((response) => response.json())
+        .then(response => {
+          if (response.error === false) {
+            this.props.navigation.navigate('Home');
+          }
+          else {
+            alert(response.message);
+          }
+        })
+    
+      }
 }
+
 
 // define your styles
 const styles = StyleSheet.create({
