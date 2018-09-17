@@ -4,20 +4,18 @@ import {
     Text,
     View,
     ImageBackground,
-    Image,
     TextInput,
     ScrollView,
     Button,
-    TouchableOpacity,
     Picker,
     AsyncStorage,
     Keyboard
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import imagemFundo from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import app_token from '../../constUtils';
 
 
 let data = new Date();
@@ -25,7 +23,7 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = d + "-" + m + "-" + y;
+let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -41,8 +39,8 @@ class Registrar extends Component {
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
-            userDob: "01-01-2000",
-            userApp: 'd41d8cd98f00b204e9800998ecf8427e',
+            userDob: "1919-01-01",
+            userApp: {app_token},
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
@@ -61,7 +59,7 @@ class Registrar extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -121,8 +119,8 @@ class Registrar extends Component {
                                 androidMode='spinner'
                                 mode="date"
                                 placeholder="DD/MM/AAA"
-                                format="DD-MM-YYYY"
-                                minDate="01-01-1918"
+                                format="YYYY-MM-DD"
+                                minDate="1900-01-01"
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
