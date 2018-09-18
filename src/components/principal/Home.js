@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
@@ -56,8 +56,8 @@ class Home extends Component {
         const { navigate } = this.props.navigation;
 
         return (
-            <View style={styles.container}>
-                <StatusBar backgroundColor='#347777'/>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+                <StatusBar backgroundColor='#babaae'/>
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Olá {this.state.userFirstName}!
@@ -71,7 +71,7 @@ class Home extends Component {
                     <TouchableOpacity
                         style={{ borderRadius: 180 }}
                         onPress={() => {
-                            navigate('Reportar')
+                            navigate('ChooseReporter')
                         }}
                     >
                         <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
@@ -114,7 +114,7 @@ class Home extends Component {
                     </TouchableOpacity>
 
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }
@@ -122,6 +122,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: 550,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -153,20 +154,19 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(223,223,208, 1)',
+        backgroundColor: 'rgba(135, 150, 151, 0.6)',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
     },
     BotoesTexto: {
+        fontFamily: 'poiretOne',
         alignSelf: 'center',
-        width: '50%',
         textAlign: 'justify',
-        marginLeft: 70,
-        fontSize: 16,
+        marginLeft: 40,
+        fontSize: 18,
         color: 'black',
-        fontWeight: '300'
     }
 });
 
