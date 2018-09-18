@@ -1,40 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { scale } from '../scallingUtils';
 
-const app_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YjZkYjAwOGFiYmQ0OTE2MDAyYjk3ZjAiLCJleHAiOjE1MzYzMjE5MjB9.fnZmdjQGNFiBlvu_CUu0Y0P2nN5Uzgvbh0ZeCdCk0mw'
-
-const fetchData = () => {
-    return fetch('https://guardianes.centeias.net/content/get', {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'app_token': {app_token}
-        }
-    })
-    .then(response => response.json())
-    .then(responseJson => console.log(responseJson.data[0]))
-
-    .catch(error => console.error(error))
-}
-
-class Conselhos extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  render() {
-    return (
-      <View>
-        <Text> textInComponent </Text>
-        <Button 
-          title="Fetch NOW!"
-          onPress={fetchData}
-        />
-      </View>
-    );
-  }
-}
-
-export default Conselhos;
+export const styles = StyleSheet.create({
+  container: {
+		flex: 1,
+		height: 550,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	scrollViewStyle: {
+		marginHorizontal: 25,
+		paddingTop: 15
+	},
+	imagesView: {
+		flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+		padding: 30
+    },
+    text: {
+        fontFamily: 'myriadpro',
+        fontSize: 18,
+        fontWeight: '300'
+    },
+    imageOne: {
+        height: scale(100),
+        width: scale(100)
+    },
+    imageTwo: {
+        height: scale(100),
+        width: scale(100)
+    }
+})

@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-
-import imagemFundo from '../../imgs/imageConst';
+import { ImageBackground, StyleSheet, ScrollView, Text, View, TouchableOpacity, Image } from 'react-native';
+import { imagemFundo, imagemUnb } from '../../imgs/imageConst';
+import { styles } from './Utils';
+import { Redirect, textos } from '../../constUtils';
 
 class Prevention extends Component {
-
-
-	constructor(props) {
-		super(props);
-		this.state = { isLoading: true }
-
-	}
-
 	static navigationOptions = {
 		title: 'Prevenção'
 	}
@@ -19,57 +12,30 @@ class Prevention extends Component {
 	render() {
 		const { navigation } = this.props;
 		const incomePages = navigation.getParam('body', 'Sorry, nothig to show now.');
+
 		return (
-			<View style={styles.container} >
-				<ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'stretch' }}>
+			<ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
+				<ScrollView contentContainerStyle={styles.scrollViewStyle}>
 					<Text>
 						{incomePages}
 					</Text>
-				</ImageBackground>
-			</View>
+					<View style={styles.imagesView}>
+						<TouchableOpacity
+							onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+						>
+							<Image source={imagemUnb} style={styles.imageOne} />
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+						>
+							<Image source={imagemUnb} style={styles.imageTwo} />
+						</TouchableOpacity>
+					</View>
+				</ScrollView>
+			</ImageBackground>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	margTop: {
-		flexDirection: 'row',
-		backgroundColor: '#0084b4',
-		height: 50,
-		justifyContent: 'space-between'
-	},
-	titulo: {
-		color: '#CD853F',
-		justifyContent: 'center',
-		margin: 10,
-		fontWeight: 'bold',
-		fontSize: 30,
-		alignSelf: 'center',
-		marginRight: 70,
-	},
-	texto: {
-		margin: 5,
-		textAlign: 'justify',
-		fontSize: 18,
-		fontWeight: 'bold',
-		color: 'black',
-		letterSpacing: 1,
-
-	},
-	logo: {
-		flex: 1,
-		width: 120,
-		height: 120,
-		alignSelf: 'center',
-	},
-	backButton: {
-		alignSelf: 'center',
-		marginLeft: 10,
-	},
-});
-
-//make this component available to the app
 export default Prevention;

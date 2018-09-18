@@ -2,16 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native';
 import { imagemUnb } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-
-const Redirect = (titulo, message, url) => {
-    Alert.alert(
-        `${titulo}`,
-        `${message}`,
-        [
-            { text: "Ok", onPress: () => Linking.openURL(`${url}`) }
-        ]
-    )
-}
+import { Redirect, textos } from '../../constUtils';
 
 class Sobre extends Component {
     static navigationOptions = {
@@ -77,19 +68,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const textos = [
-    {
-        textoGrande: 'aaaaaaaaa'
-    },
-    {
-        tituloBtnUnb: 'Universidade de Brasilia',
-        mensagemBtnUnb: 'Deseja ser redirecionado ao website da UnB?',
-        linkBtnUnb: 'https://www.unb.br' 
-    },
-    {
-        tituloBtnCenteias: 'Universidade de Brasilia',
-        mensagemBtnCenteias: 'Deseja ser redirecionado ao website do Centeias?',
-        linkBtnCenteias: 'https://fs.unb.br/centeias/'
-    }
-]
 export default Sobre;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-
+import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { styles } from './Utils';
 import imagemFundo from '../../imgs/imageConst';
 
 class Phones extends Component {
@@ -31,45 +31,4 @@ class Phones extends Component {
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	margTop: {
-		flexDirection: 'row',
-		backgroundColor: '#0084b4',
-		height: 50,
-		justifyContent: 'space-between'
-	},
-	titulo: {
-		color: '#CD853F',
-		justifyContent: 'center',
-		margin: 10,
-		fontWeight: 'bold',
-		fontSize: 30,
-		alignSelf: 'center',
-		marginRight: 70,
-	},
-	texto: {
-		margin: 5,
-		textAlign: 'justify',
-		fontSize: 18,
-		fontWeight: 'bold',
-		color: 'black',
-		letterSpacing: 1,
-
-	},
-	logo: {
-		flex: 1,
-		width: 120,
-		height: 120,
-		alignSelf: 'center',
-	},
-	backButton: {
-		alignSelf: 'center',
-		marginLeft: 10,
-	},
-});
-
-//make this component available to the app
 export default Phones;
