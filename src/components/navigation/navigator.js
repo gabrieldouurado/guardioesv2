@@ -24,6 +24,7 @@ import Deseases from '../conselhos/deseases';
 import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
 
+
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
