@@ -24,6 +24,7 @@ class Report extends Component {
             userLongitude: 'unknown',
             UserID:"",
             error: null,
+            HouseholdId:"",
         }
     }
         static navigationOptions = {
@@ -57,7 +58,7 @@ class Report extends Component {
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     this.componentDidMount
                 } else {
-                  console.log("Camera permission denied")
+                  console.log("Location permission denied")
                 }
               } catch (err) {
                 console.warn(err)
@@ -71,13 +72,15 @@ class Report extends Component {
 
             let UserID = await AsyncStorage.getItem('userID');
             this.setState({ UserID: UserID })
-
-
+            
+            let HouseholdId = await AsyncStorage.getItem('HouseholdId');
+            this.setState({ HouseholdId: HouseholdId })
+            
             fetch('https://guardianes.centeias.net/survey/create',{
                 method: 'POST',
                 body: JSON.stringify({
                     user_id:this.state.UserID,
-                    houselhold_id:"",
+                    houselhold_id:this.state.HouseholdId,
                     lat: this.state.userLatitude,
                     lon: this.state.userLongitude,
                     no_symptom:"Y",
@@ -108,13 +111,7 @@ class Report extends Component {
     render() {
         return (
             <View style={styles.container}>
-
-                <View style={styles.textoInicialView}>
-                    <Text style={styles.textoInicial}>
-                        Nos ajude a prevenir riscos para a saúde durante ou após 8 dias, relatando sintomas que ocorrem durante ou depois de participar de um evento massivo.
-                        </Text>
-                </View>
-                <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'stretch' }}>
+                <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
@@ -143,56 +140,43 @@ class Report extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: '100%',
+        height: 550,
     },
     titulo: {
 
     },
-    backButton: {
-        alignSelf: 'center',
-        marginLeft: '1%',
-    },
-    textoInicialView: {
-        backgroundColor: '#0084b4',
-        height: '12%',
-    },
-    textoInicial: {
-        justifyContent: 'center',
-        fontWeight: 'bold',
-        margin: '1.5%',
-        fontSize: 16,
-        textAlign: 'center',
-        color: '#ffffff'
-    },
     textoPerguntaView: {
-        marginTop: '15%',
+        marginTop: '7%',
         alignItems: 'center',
     },
     textoPergunta: {
         justifyContent: 'center',
-        fontWeight: 'bold',
         fontSize: 36,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
         textAlign: 'center',
-        color: '#0084b4',
+        color: '#465F6C',
     },
     reportView: {
         flex: 1,
-        marginTop: '10%',
+        marginTop: '19%',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-around'
     },
     reportFooter: {
         justifyContent: 'center',
-        fontWeight: 'bold',
-        margin: '1%',
-        fontSize: 14,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        fontSize: 16,
         textAlign: 'center',
+        margin: '2%'
     },
     moodText: {
         textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: '20%'
+        fontSize: 25,
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        marginTop: '9%'
     },
 })
 

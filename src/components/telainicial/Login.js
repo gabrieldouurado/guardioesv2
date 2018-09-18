@@ -6,10 +6,7 @@ import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManag
 
 class Login extends Component {
     static navigationOptions = {
-        headerStyle: {
-          backgroundColor: 'transparent'
-        },
-        headerTintColor: '#3B8686'
+        title: "Login",
     }
     constructor(props) {
         super(props);
@@ -34,8 +31,7 @@ class Login extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
-
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={styles.viewImage}>
                     <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                 </View>
@@ -57,18 +53,17 @@ class Login extends Component {
                         maxLength={15}
                         ref={(input) => this.passwordInput = input}
                         onChangeText={(text) => this.setState({ userPwd: text })}
-
                     />
-                    <TouchableOpacity onPress={() => { alert("ESQUECEU SUA SENHA") }}>
-                        <Text>Esqueceu sua Senha?</Text>
-                    </TouchableOpacity>
                     <View style={styles.buttonView}>
                         <Button
-                            style={styles.button}
                             title="Entrar"
+                            color="#9B6525"
                             onPress={this.login} />
                     </View>
                     <View style={{ paddingTop: 20 }}>
+                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            Conectar Via Facebook
+                    </Text>
                         <LoginButton
                             readPermissions={['public_profile', 'email']}
                             onLoginFinished={
@@ -119,6 +114,7 @@ class Login extends Component {
                         AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
                         AsyncStorage.setItem('avatar', this.state.pic);
                         AsyncStorage.setItem('userName', this.state.userFirstName);
+                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                         this.props.navigation.navigate('Home');
                         alert("Logado via Facebook")
                     } else {
@@ -130,9 +126,10 @@ class Login extends Component {
                         AsyncStorage.setItem('userName', responseJson.user.firstname);
                         AsyncStorage.setItem('userSurveys', responseJson.user.surveys);
                         AsyncStorage.setItem('avatar', this.state.pic);
+                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                         this.props.navigation.navigate('Home');
-                        alert(responseJson.token)
                     }
+
 
                 } else {
                     if (this.state.loginOnFB === 'true') {
@@ -152,16 +149,9 @@ class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680,
+        height: 550,
         alignItems: 'center',
         justifyContent: 'flex-start',
-    },
-    margTop: {
-        width: '100%',
-        flexDirection: 'row',
-        backgroundColor: '#0084b4',
-        height: 50,
-        justifyContent: 'space-between'
     },
     titulo: {
         color: '#CD853F',
@@ -171,10 +161,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignSelf: 'center',
         marginRight: '40%',
-    },
-    backButton: {
-        alignSelf: 'center',
-        marginLeft: 10,
     },
     viewImage: {
         flex: 2.5,
@@ -188,33 +174,29 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     formInput: {
-        //height: 31,
         width: '90%',
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#9B6525',
+        paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontSize: 15,
-        alignSelf: 'flex-start',
-        textAlign: 'left',
-        paddingLeft: "5%",
-        fontWeight: 'bold',
-    },
-    button: {
-        //ESTILIZAR BOTÃO
+        fontFamily: 'poiretOne',
+        fontWeight: '400',
+        fontSize: 20,
+        color: '#465F6C',
+        marginTop: '3%'
     },
     buttonView: {
-        marginTop: 20,
+        marginTop: 30,
         width: "60%",
     },
     imageLogo: {
         flex: 1,
-        marginTop: 20,
-        width: '50%',
+        marginTop: 9,
+        width: '40%',
         resizeMode: 'center',
     }
 });
