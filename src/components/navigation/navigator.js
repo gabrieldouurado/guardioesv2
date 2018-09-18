@@ -2,6 +2,7 @@ import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import TelaInicial from '../telainicial/TelaInicial';
 import Registrar from '../telainicial/Registrar';
 import Login from '../telainicial/Login';
+import AddInfo from '../telainicial/RegistrarFacebook';
 import Home from '../principal/Home';
 import Diario from '../principal/Diario';
 import Conselho from '../principal/Conselho';
@@ -19,13 +20,16 @@ import { Botao2 } from '../principal/AjudaBtn2';
 import Prevention from '../conselhos/prevention';
 import TravelHealth from '../conselhos/travelhealth';
 import Dengue from '../conselhos/dengue';
-import Deseases from '../conselhos/deseases';
+import Diseases from '../conselhos/diseases';
 import Phones from '../conselhos/phones';
+import ChooseReporter from '../principal/ChooseReporter';
+
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
     Login: { screen: Login },
+    AddInfo: { screen: AddInfo },
 }, {
         navigationOptions: {
             headerTintColor: '#9B6525',
@@ -59,8 +63,10 @@ export const Stack = createStackNavigator({
     Prevention,
     TravelHealth,
     Dengue,
-    Deseases,
-    Phones
+    Diseases,
+    Phones,
+    Household,
+    ChooseReporter,
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
@@ -76,7 +82,13 @@ export const Stack = createStackNavigator({
                 fontWeight: '400',
             }
         }
-    })
+    }, {
+        initialRouteName: 'Home'
+    }
+
+
+)
+
 export const Drawer = createDrawerNavigator({
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack },

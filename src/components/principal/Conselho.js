@@ -1,8 +1,7 @@
-//import liraries
 import React, { Component } from 'react';
 import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
-import imagemFundo from '../../imgs/imageConst';
+import * as Imagem from '../../imgs/imageConst';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#C19036' />)
@@ -10,7 +9,6 @@ const desease = (<Icon name='bug' type={'font-awesome'} size={30} color='#C19036
 const telefones = (<Icon name='phone' size={30} color='#C19036' />)
 const viajante = (<Icon name='airplane' type={'material-community'} size={30} color='#C19036' />)
 const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#C19036' />)
-const ajuste = (<Icon name='healing' size={30} color='#C19036' />)
 
 const tabs = [
     {title: 'Prevencão'},
@@ -61,13 +59,16 @@ class Conselho extends Component {
         }
 
         return (
-            <ImageBackground source={imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
+            <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
+            {/* It'd be a better approach if I create a Content Util function that receives the content and then renders what whould be inside the screen
+                and inside the screen I just call that function receiving the content that is passed inside the 'navigate' of these buttons here
+            */}
                 <ScrollView>
                     {/* Botao para prevencao */}
                     <TouchableOpacity
                         style={styles.selector}
                         onPress={() => navigate('Prevention', {
-                            body: `${contentObj[0].body}`
+                            body: `${contentObj[4].body}`
                         })}
                     >
                         <Text style={styles.textoSelector}>
@@ -80,7 +81,7 @@ class Conselho extends Component {
                     <TouchableOpacity
                         style={styles.selector}
                         onPress={() => navigate('TravelHealth', {
-                            body: `${contentObj[1].body}`
+                            body: `${contentObj[0].body}`
                         })}
                     >
                         <Text style={styles.textoSelector}>
@@ -93,7 +94,7 @@ class Conselho extends Component {
                     <TouchableOpacity
                         style={styles.selector}
                         onPress={() => navigate('Dengue', {
-                            body: `${contentObj[2].body}`
+                            body: `${contentObj[1].body}`
                         })}
                     >
                         <Text style={styles.textoSelector}>
@@ -105,8 +106,8 @@ class Conselho extends Component {
                     {/* Enfermidades Imunopreviniveis */}
                     <TouchableOpacity
                         style={styles.selector}
-                        onPress={() => navigate('Deseases', {
-                            body: `${contentObj[3].body}`
+                        onPress={() => navigate('Diseases' /* Deseases são as Doenças Imunopreviniveis */ , {
+                            body: `${contentObj[2].body}`
                         })}
                     >
                         <Text style={styles.textoSelector}>
@@ -119,7 +120,7 @@ class Conselho extends Component {
                     <TouchableOpacity
                         style={styles.selector}
                         onPress={() => navigate('Phones', {
-                            body: `${contentObj[4].body}`
+                            body: `${contentObj[3].body}`
                         })}
                     >
                         <Text style={styles.textoSelector}>

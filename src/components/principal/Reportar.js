@@ -24,6 +24,7 @@ class Report extends Component {
             userLongitude: 'unknown',
             UserID:"",
             error: null,
+            HouseholdId:"",
         }
     }
         static navigationOptions = {
@@ -71,13 +72,15 @@ class Report extends Component {
 
             let UserID = await AsyncStorage.getItem('userID');
             this.setState({ UserID: UserID })
-
-
+            
+            let HouseholdId = await AsyncStorage.getItem('HouseholdId');
+            this.setState({ HouseholdId: HouseholdId })
+            
             fetch('https://guardianes.centeias.net/survey/create',{
                 method: 'POST',
                 body: JSON.stringify({
                     user_id:this.state.UserID,
-                    houselhold_id:"",
+                    houselhold_id:this.state.HouseholdId,
                     lat: this.state.userLatitude,
                     lon: this.state.userLongitude,
                     no_symptom:"Y",
