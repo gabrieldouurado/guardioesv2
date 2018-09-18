@@ -44,8 +44,6 @@ export const styles = StyleSheet.create({
     scrollViewStyle: {
         marginHorizontal: 25,
         paddingTop: 15,
-        borderWidth: 1,
-        borderColor: 'red'
     },
     imagesView: {
         flex: 1,
