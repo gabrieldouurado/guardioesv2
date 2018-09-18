@@ -20,7 +20,7 @@ import { Botao2 } from '../principal/AjudaBtn2';
 import Prevention from '../conselhos/prevention';
 import TravelHealth from '../conselhos/travelhealth';
 import Dengue from '../conselhos/dengue';
-import Deseases from '../conselhos/deseases';
+import Diseases from '../conselhos/diseases';
 import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
 
@@ -63,7 +63,7 @@ export const Stack = createStackNavigator({
     Prevention,
     TravelHealth,
     Dengue,
-    Deseases,
+    Diseases,
     Phones,
     Household,
     ChooseReporter,

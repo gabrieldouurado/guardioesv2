@@ -106,7 +106,7 @@ class Conselho extends Component {
                     {/* Enfermidades Imunopreviniveis */}
                     <TouchableOpacity
                         style={styles.selector}
-                        onPress={() => navigate('Deseases', {
+                        onPress={() => navigate('Diseases' /* Deseases são as Doenças Imunopreviniveis */ , {
                             body: `${contentObj[2].body}`
                         })}
                     >

@@ -1,23 +1,57 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { scale } from '../scallingUtils';
+import { Redirect, textos } from '../../constUtils';
+import { imagemFundo, imagemUnb } from '../../imgs/imageConst';
+
+export const ConselhoContent = props => {
+    return (
+        <ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
+
+            <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+
+                <Text>
+                    {props.incomePages}
+                </Text>
+
+                <View style={styles.imagesView}>
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageOne} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageTwo} />
+                    </TouchableOpacity>
+                </View>
+
+            </ScrollView>
+
+        </ImageBackground>
+    )
+}
+
 
 export const styles = StyleSheet.create({
-  container: {
-		flex: 1,
-		height: 550,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	scrollViewStyle: {
-		marginHorizontal: 25,
-		paddingTop: 15
-	},
-	imagesView: {
-		flex: 1,
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    scrollViewStyle: {
+        marginHorizontal: 25,
+        paddingTop: 15,
+        borderWidth: 1,
+        borderColor: 'red'
+    },
+    imagesView: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-		padding: 30
+        padding: 30
     },
     text: {
         fontFamily: 'myriadpro',
