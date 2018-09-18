@@ -31,14 +31,7 @@ class diario extends Component {
   }
 
   render() {
-  
-    if(this.state.isLoading){
-        return(
-          <View style={{flex: 1, padding: 20}}>
-            <ActivityIndicator/>
-          </View>
-        )
-      }
+
   
     return (
       <View>

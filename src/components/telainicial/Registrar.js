@@ -125,15 +125,9 @@ class Registrar extends Component {
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-<<<<<<< HEAD
-                                placeholder="Nascimento"
-                                format="YYYY-MM-DD"
-                                minDate="01-01-1918"
-=======
                                 placeholder="DD/MM/AAAA"
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
->>>>>>> cd449cec980b18fc987d569d7562d98262058e71
                                 maxDate={today}
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"

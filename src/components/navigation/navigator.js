@@ -23,7 +23,7 @@ import Dengue from '../conselhos/dengue';
 import Deseases from '../conselhos/deseases';
 import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
-
+import requestTest from '../principal/requestTest';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -67,6 +67,7 @@ export const Stack = createStackNavigator({
     Phones,
     Household,
     ChooseReporter,
+    requestTest,
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
