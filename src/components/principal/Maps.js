@@ -1,4 +1,3 @@
-//import liraries
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';

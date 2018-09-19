@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native';
-import { imagemUnb } from '../../imgs/imageConst';
+import { StyleSheet, ImageBackground, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
+import { imagemFundo, imagemUnb } from '../../imgs/imageConst';
 
-class Sobre extends Component {
-    static navigationOptions = {
-        title: 'Sobre',
-    }
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+export const ConselhoContent = props => {
+    return (
+        <ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
 
-    render() {
-        return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollViewStyle}>
 
-                <View style={styles.textView}>
-                    <Text style={styles.text}> {textos[0].textoGrande} </Text>
-                </View>
+                <Text>
+                    {props.incomePages}
+                </Text>
 
                 <View style={styles.imagesView}>
                     <TouchableOpacity
@@ -35,28 +27,34 @@ class Sobre extends Component {
                         <Image source={imagemUnb} style={styles.imageTwo} />
                     </TouchableOpacity>
                 </View>
-            </View>
-        );
-    }
+
+            </ScrollView>
+
+        </ImageBackground>
+    )
 }
 
-const styles = StyleSheet.create({
+
+export const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    textView: {
-        flex: 3,
-        paddingHorizontal: '10%'
+    scrollViewStyle: {
+        marginHorizontal: 25,
+        paddingTop: 15,
     },
     imagesView: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
+        padding: 30
     },
     text: {
         fontFamily: 'myriadpro',
         fontSize: 18,
-        fontWeight: '300',
+        fontWeight: '300'
     },
     imageOne: {
         height: scale(100),
@@ -67,5 +65,3 @@ const styles = StyleSheet.create({
         width: scale(100)
     }
 })
-
-export default Sobre;
