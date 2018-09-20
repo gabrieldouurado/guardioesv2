@@ -1,36 +1,42 @@
-//import liraries
 import React, { Component } from 'react';
 import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
-import imagemFundo from '../../imgs/imageConst';
+import { imagemFundo } from '../../imgs/imageConst';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#C19036' />)
-const desease = (<Icon name='bug' type={'font-awesome'} size={30} color='#C19036' />)
+const disease = (<Icon name='bug' type={'font-awesome'} size={30} color='#C19036' />)
 const telefones = (<Icon name='phone' size={30} color='#C19036' />)
 const viajante = (<Icon name='airplane' type={'material-community'} size={30} color='#C19036' />)
 const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#C19036' />)
-const ajuste = (<Icon name='healing' size={30} color='#C19036' />)
 
-const tabs = [
-    {title: 'Prevencão'},
-    {title: 'Saúde do Viajante'},
-    {title: 'Dengue, Chicungunya e Zyca'},
-    {title: 'Enfermidades Imunopreviniveis'},
-    {title: 'Telefones Úteis'},
-]
+const DButtons = (props) => {
+    // const { navigate } = props.navigation;
+    return (
+        <TouchableOpacity
+            style={styles.selector}
+            onPress={() => props.navigation.navigate(props.route, {
+                body: `${props.content.body}`
+            })}
+        >
+            <Text style={styles.textoSelector}>
+                {props.title}
+        </Text>
+            {props.icon}
+        </TouchableOpacity>
+    )
+}
 
 class Conselho extends Component {
     static navigationOptions = {
         title: 'Conselhos de Saúde',
     }
-
     constructor(props) {
         super(props);
 
         this.state = {
             isLoading: true,
-            contentData: []
+            contentData: null
         }
     }
 
@@ -49,9 +55,8 @@ class Conselho extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         const contentObj = this.state.contentData;
-
+        
         if (this.state.isLoading) {
             return (
                 <View style={{ flex: 1, padding: 20 }}>
@@ -64,70 +69,37 @@ class Conselho extends Component {
             <ImageBackground source={imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                 <ScrollView>
                     {/* Botao para prevencao */}
-                    <TouchableOpacity
-                        style={styles.selector}
-                        onPress={() => navigate('Prevention', {
-                            body: `${contentObj[0].body}`
-                        })}
-                    >
-                        <Text style={styles.textoSelector}>
-                            {tabs[0].title}
-                        </Text>
-                        {nome}
-                    </TouchableOpacity>
+                    {
+                        contentObj.map(content => {
+                            switch (content.title) {
+                                case 'Prevencao':
+                                    return(
+                                        <DButtons content={content} title={'Prevenção'} icon={nome} route={'Prevention'} navigation={this.props.navigation} />
+                                    )
+
+                                case 'Saude do Viajante':
+                                    return (
+                                        <DButtons content={content} title={'Saúde do Viajante'} icon={viajante} route={'TravelHealth'} navigation={this.props.navigation} />
+                                    )
+                                
+                                case 'Dengue, Chicungunya e Zyca':
+                                    return (
+                                        <DButtons content={content} title={'Dengue, Chicungunya e Zyca'} icon={disease} route={'Dengue'} navigation={this.props.navigation} />
+                                    )
+                                
+                                case 'Enfermidades Imunopreviniveis':
+                                    return (
+                                        <DButtons content={content} title={'Enfermidades Imunopreviníveis'} icon={disease} route={'Diseases'} navigation={this.props.navigation} />
+                                    )
+                                
+                                case 'Telefones Uteis':
+                                    return (
+                                        <DButtons content={content} title={'Telefones Úteis'} icon={telefones} route={'Phones'} navigation={this.props.navigation} />
+                                    )
+                            }
+                        })
+                    }
                     
-                    {/* Botão para Saúde do Viajante */}
-                    <TouchableOpacity
-                        style={styles.selector}
-                        onPress={() => navigate('TravelHealth', {
-                            body: `${contentObj[1].body}`
-                        })}
-                    >
-                        <Text style={styles.textoSelector}>
-                            {tabs[1].title}
-                        </Text>
-                        {viajante}
-                    </TouchableOpacity>
-
-                    {/* Botão Dengue, Chicungunya e Zyka */}
-                    <TouchableOpacity
-                        style={styles.selector}
-                        onPress={() => navigate('Dengue', {
-                            body: `${contentObj[2].body}`
-                        })}
-                    >
-                        <Text style={styles.textoSelector}>
-                            {tabs[2].title}
-                        </Text>
-                        {desease}
-                    </TouchableOpacity>
-
-                    {/* Enfermidades Imunopreviniveis */}
-                    <TouchableOpacity
-                        style={styles.selector}
-                        onPress={() => navigate('Deseases', {
-                            body: `${contentObj[3].body}`
-                        })}
-                    >
-                        <Text style={styles.textoSelector}>
-                            {tabs[3].title}
-                        </Text>
-                        {desease}
-                    </TouchableOpacity>
-
-                    {/* Telefones Uteis */}
-                    <TouchableOpacity
-                        style={styles.selector}
-                        onPress={() => navigate('Phones', {
-                            body: `${contentObj[4].body}`
-                        })}
-                    >
-                        <Text style={styles.textoSelector}>
-                            {tabs[4].title}
-                        </Text>
-                        {telefones}
-                    </TouchableOpacity>
-
                     {/* Instituições de Saúde */}
                     <TouchableOpacity
                         style={styles.selector}

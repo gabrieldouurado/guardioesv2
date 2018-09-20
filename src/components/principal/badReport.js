@@ -74,7 +74,7 @@ class BadReport extends Component {
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 this.componentDidMount
             } else {
-              console.log("Camera permission denied")
+              console.warn("Location permission denied")
             }
           } catch (err) {
             console.warn(err)
@@ -130,7 +130,7 @@ class BadReport extends Component {
             if (responseJson.error === false) {
               AsyncStorage.setItem('survey_id', responseJson.id);
               this.props.navigation.navigate('Home');
-              alert('Obrigado por reportar que está bem no aplicativo Guardiões!!')
+              alert('Obrigado por reportar como está se sentindo no aplicativo Guardiões!!')
             }
             // else {
             //   alert(responseJson.message)

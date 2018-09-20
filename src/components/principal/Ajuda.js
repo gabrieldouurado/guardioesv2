@@ -21,10 +21,10 @@ class Ajuda extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.btnOne}
-          onPress={() => navigate('Botao1')}
+          onPress={() => navigate('TermosPoliticas')}
         >
           <Image source={imagemUnb} style={styles.btnOneImg}/>
-          <Text style={styles.btnOneTxt}>Botao 1</Text>
+          <Text style={styles.btnOneTxt}>Termos e Políticas</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
