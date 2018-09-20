@@ -147,7 +147,7 @@ export default class drawerContentComponents extends Component {
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
-                        onPress={() => Linking.openURL('https://facebook.com')}
+                        onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
                     >
                         <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Facebook</Text>
