@@ -71,7 +71,7 @@ class Home extends Component {
                     <TouchableOpacity
                         style={{ borderRadius: 180 }}
                         onPress={() => {
-                            navigate('Household')
+                            navigate('Reportar')
                         }}
                     >
                         <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
