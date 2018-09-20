@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Linking } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
@@ -18,9 +18,22 @@ class TermosPoliticas extends Component {
         return (
             <View style={styles.container}>
 
-                <View style={styles.textView}>
-                    <Text style={styles.text}>Estes são os termos e Potilica de pricaidade do plicativo guardiões da saude</Text>
-                </View>
+                <ScrollView style={styles.textView}>
+                    <Text style={styles.text}> {textos[3].textoTermosTitulo} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_1} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_2} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_3} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_4} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_5} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_6} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_7} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_8} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_9} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_10} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_11} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_12} </Text>
+                    <Text style={styles.text}> {textos[3].textoTermos_13} </Text>
+                </ScrollView>
 
                 <View style={styles.imagesView}>
                     <TouchableOpacity
@@ -42,14 +55,14 @@ class TermosPoliticas extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingBottom: '1.5%'
     },
     textView: {
-        flex: 3,
-        paddingHorizontal: '10%'
+        paddingHorizontal: '5%',
+        marginBottom: '1.5%'
     },
     imagesView: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
     },
@@ -57,6 +70,7 @@ const styles = StyleSheet.create({
         fontFamily: 'myriadpro',
         fontSize: 18,
         fontWeight: '300',
+        textAlign: 'center'
     },
     imageOne: {
         height: scale(100),
