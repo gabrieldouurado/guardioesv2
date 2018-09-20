@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
-import imagemFundo from '../../imgs/imageConst';
+import * as Imagem from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 import app_token from '../../constUtils';
 
@@ -66,7 +66,7 @@ class Registrar extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
