@@ -23,6 +23,8 @@ import Dengue from '../conselhos/dengue';
 import Diseases from '../conselhos/diseases';
 import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
+import TermosPoliticas from '../principal/TermosPoliticas';
+
 
 
 export const Cadastro = createStackNavigator({
@@ -67,6 +69,7 @@ export const Stack = createStackNavigator({
     Phones,
     Household,
     ChooseReporter,
+    TermosPoliticas,
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
