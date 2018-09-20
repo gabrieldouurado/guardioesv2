@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage, ScrollView, StyleSheet } from 'react-native';
-import { Calendar} from 'react-native-calendars';
+import { View, Text, AsyncStorage, ScrollView, StyleSheet, Image, ImageBackground } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
 import { Avatar } from 'react-native-elements'
+import { imagemBad, imagemGood, imagemFundo } from '../../imgs/imageConst';
 
 
 let data = new Date();
@@ -83,11 +84,13 @@ class Diario extends Component {
     this.setState({
       GoodPercent: GoodPercent,
       BadPercent: BadPercent,
-      totalReports: totalReports
+      totalReports: totalReports,
+      markedDateNo: markedDateNo.length,
+      markedDate: markedDate.length
     })
 
-    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'red' } }), {});
-    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'blue' } }), {});
+    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#64C2D4' } }), {});
+    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#C19036' } }), {});
 
     Object.assign(GoodReport, BadReport);
 
@@ -99,56 +102,120 @@ class Diario extends Component {
 
     return (
       <ScrollView>
-        <View style={styles.Top}>
-        <View style={styles.UserData}>
-          <Avatar
-            large
-            rounded
-            source={{ uri: this.state.pic }}
-            activeOpacity={0.7}
-          />
-          <Text style={styles.UserName}>
-            {this.state.userName}
-          </Text>
-        </View>
-        <View style={LeftTop}>
-          <Text style={styles.NumReports}> {this.state.totalReports} Participações </Text>
-          <View style={styles.GoodData}>
-            <Text>{this.state.GoodPercent}% Mal</Text>
+        <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={imagemFundo}>
+          <View style={styles.Top}>
+            <View style={styles.UserData}>
+              <Avatar
+                large
+                rounded
+                source={{ uri: this.state.pic }}
+                activeOpacity={0.7}
+              />
+              <Text style={styles.UserName}>
+                {this.state.userName}
+              </Text>
+            </View>
+            <View style={styles.LeftTop}>
+              <Text style={styles.NumReports}> {this.state.totalReports} Participações </Text>
+              <View style={styles.GoodData}>
+                <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemGood} />
+                <View style={styles.columnData}>
+                  <Text style={styles.GoodPercent}>{this.state.GoodPercent}% Bem</Text>
+                  <Text style={styles.numGood}> {this.state.markedDateNo} informes </Text>
+                </View>
+              </View>
+              <View style={styles.BadData}>
+                <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemBad} />
+                <View style={styles.columnData}>
+                  <Text style={styles.BadPercent}>{this.state.BadPercent}% Mal</Text>
+                  <Text style={styles.numBad}> {this.state.markedDate} informes </Text>
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
-        </View>
-        <Calendar
-          current={_today}
-          markedDates={this.state.datesMarked}
-        />
+          <View style={styles.ViewCalendario}><Text style={styles.Calendario}>Calendário</Text></View>
+          <Calendar
+            current={_today}
+            markedDates={this.state.datesMarked}
+          />
+         <View style={styles.ViewCalendario}><Text style={styles.Calendario}> Informes de frequência em 2018 </Text></View>
+        </ImageBackground>
       </ScrollView>
-    );
-  }
-}
-
+        );
+      }
+    }
+    
 const styles = StyleSheet.create({
+          container: {
+          flex: 1,
+      },
   UserData: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 10,
-  },
+          flexDirection: 'column',
+        alignItems: 'center',
+        margin: 10,
+      },
   UserName: {
-    fontFamily: 'poiretOne',
-    fontSize: 28,
-    fontWeight: '400',
-    marginBottom: 10,
-  },
-  NumReports:{
-    fontSize: 32,
-    fontWeight: '400',
-  },
+          fontFamily: 'poiretOne',
+        fontSize: 28,
+        fontWeight: '400',
+        marginBottom: 10,
+      },
+  NumReports: {
+          fontSize: 28,
+        fontWeight: '400',
+        margin: 10,
+      },
   Top: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+          flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
   LeftTop: {
-    flexDirection: 'column',
-  }
-});
+          flexDirection: 'column',
+        alignItems: 'center',
+      },
+  GoodData: {
+          flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: '2%',
+      },
+  BadData: {
+          flexDirection: 'row',
+        alignItems: 'center',
+        margin: '2%',
+      },
+  GoodPercent: {
+          fontFamily: 'poiretOne',
+        fontSize: 24,
+        margin: 10,
+      },
+  BadPercent: {
+          fontFamily: 'poiretOne',
+        fontSize: 24,
+        margin: 10,
+      },
+  columnData: {
+          flexDirection: 'column',
+      },
+  numBad: {
+          fontFamily: 'poiretOne',
+        fontSize: 16,
+        color: '#64C2D4',
+      },
+  numGood: {
+          fontFamily: 'poiretOne',
+        fontSize: 16,
+        color: '#C19036',
+      },
+  ViewCalendario: {
+          backgroundColor: '#C19036',
+        alignItems: 'center',
+      },
+  Calendario: {
+          fontFamily: 'poiretOne',
+        fontSize: 36,
+        fontWeight: '400',
+        
+      }
+    });
 export default Diario;
