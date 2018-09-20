@@ -24,7 +24,7 @@ class Ajuda extends Component {
           onPress={() => navigate('TermosPoliticas')}
         >
           <Image source={imagemUnb} style={styles.btnOneImg}/>
-          <Text style={styles.btnOneTxt}>Termos e Política de Privacidade</Text>
+          <Text style={styles.btnOneTxt}>Termos e Políticas</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
