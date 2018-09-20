@@ -1,40 +1,67 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { StyleSheet, ImageBackground, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { scale } from '../scallingUtils';
+import { Redirect, textos } from '../../constUtils';
+import { imagemFundo, imagemUnb } from '../../imgs/imageConst';
 
-const app_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YjZkYjAwOGFiYmQ0OTE2MDAyYjk3ZjAiLCJleHAiOjE1MzYzMjE5MjB9.fnZmdjQGNFiBlvu_CUu0Y0P2nN5Uzgvbh0ZeCdCk0mw'
-
-const fetchData = () => {
-    return fetch('https://guardianes.centeias.net/content/get', {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'app_token': {app_token}
-        }
-    })
-    .then(response => response.json())
-    .then(responseJson => console.log(responseJson.data[0]))
-
-    .catch(error => console.error(error))
-}
-
-class Conselhos extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  render() {
+export const ConselhoContent = props => {
     return (
-      <View>
-        <Text> textInComponent </Text>
-        <Button 
-          title="Fetch NOW!"
-          onPress={fetchData}
-        />
-      </View>
-    );
-  }
+        <ImageBackground style={styles.container} source={imagemFundo} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
+
+            <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+
+                <Text>
+                    {props.incomePages}
+                </Text>
+
+                <View style={styles.imagesView}>
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageOne} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                    >
+                        <Image source={imagemUnb} style={styles.imageTwo} />
+                    </TouchableOpacity>
+                </View>
+
+            </ScrollView>
+
+        </ImageBackground>
+    )
 }
 
-export default Conselhos;
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    scrollViewStyle: {
+        marginHorizontal: 25,
+        paddingTop: 15,
+    },
+    imagesView: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 30
+    },
+    text: {
+        fontFamily: 'myriadpro',
+        fontSize: 18,
+        fontWeight: '300'
+    },
+    imageOne: {
+        height: scale(100),
+        width: scale(100)
+    },
+    imageTwo: {
+        height: scale(100),
+        width: scale(100)
+    }
+})

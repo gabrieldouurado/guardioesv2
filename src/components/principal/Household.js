@@ -4,16 +4,12 @@ import {
     Text,
     View,
     ImageBackground,
-    Image,
     TextInput,
     ScrollView,
-    Button,
     TouchableOpacity,
     Picker,
-    AsyncStorage,
     Keyboard
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import CountryPicker from 'react-native-country-picker-modal'
 import DatePicker from 'react-native-datepicker'
 import * as Imagem from '../../imgs/imageConst'
@@ -23,6 +19,26 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 let today = y + "-" + m + "-" + d;
+
+const fetchData = () => {
+    fetch("https://guardianes.centeias.net/user/household/5b6db008abbd4916002b97f0", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then( (response) => {
+            if (!response.ok) {
+                throw Error(response.error);
+            }
+            return response;
+        }).then( (response) => {
+            console.log(response);
+        }).catch( (error) => {
+            console.log(error);
+        });
+}
 
 class Household extends Component {
     static navigationOptions = {
@@ -43,13 +59,13 @@ class Household extends Component {
     }
 
     _TesteVariaveis() {
-        console.warn("Nome: "+this.state.householdFirstName)
-        console.warn("Sobrenome: "+this.state.householdLastName)
-        console.warn("Parentesco: "+this.state.parentesco)
-        console.warn("Genero: "+this.state.householdGender)
-        console.warn("Raça: "+this.state.householdRace)
-        console.warn("Data de Nascimento: "+this.state.householdDob)
-        console.warn("Pais: "+this.state.householdCountry)
+        console.warn("Nome: " + this.state.householdFirstName)
+        console.warn("Sobrenome: " + this.state.householdLastName)
+        console.warn("Parentesco: " + this.state.parentesco)
+        console.warn("Genero: " + this.state.householdGender)
+        console.warn("Raça: " + this.state.householdRace)
+        console.warn("Data de Nascimento: " + this.state.householdDob)
+        console.warn("Pais: " + this.state.householdCountry)
         Keyboard.dismiss()
     }
 
@@ -63,7 +79,7 @@ class Household extends Component {
                 <View style={styles.marginTop}>
                     <Text style={styles.titulo}>Preencha todos os campos abaixo para adicionar um novo membro</Text>
                 </View>
-                <View style={{ width: '100%', height: 6, backgroundColor: '#C19036'}} />
+                <View style={{ width: '100%', height: 6, backgroundColor: '#C19036' }} />
 
                 <ScrollView style={styles.scroll}>
                     <View style={styles.viewCommom}>
