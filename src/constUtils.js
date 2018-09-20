@@ -7,6 +7,7 @@ export const Redirect = (titulo, message, url) => {
         `${titulo}`,
         `${message}`,
         [
+            { text: "Cancelar", style: 'cancel' },
             { text: "Ok", onPress: () => Linking.openURL(`${url}`) }
         ]
     )
@@ -22,7 +23,7 @@ export const textos = [
         linkBtnUnb: 'https://www.unb.br' 
     },
     {
-        tituloBtnCenteias: 'Universidade de Brasilia',
+        tituloBtnCenteias: 'Universidade de Brasilia - CENTEIAS',
         mensagemBtnCenteias: 'Deseja ser redirecionado ao website do Centeias?',
         linkBtnCenteias: 'https://fs.unb.br/centeias/'
     }
