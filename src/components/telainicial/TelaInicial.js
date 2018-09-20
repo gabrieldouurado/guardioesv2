@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar } from 'react-native';
-import * as Imagem from '../../imgs/imageConst';
-import CarouselImagens from '../carousel/Carousel';
+import { imagemEntrar, imagemLogo, imagemRegistar } from '../../imgs/imageConst';
 
 class TelaInicial extends Component {
     static navigationOptions = {
@@ -33,17 +32,17 @@ class TelaInicial extends Component {
                     <Text style={styles.textCorpo}>Pronto para ser um Guardião da Saúde?</Text>
                 </View>
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
+                    <Image style={styles.imageLogo} source={imagemLogo} />
                 </View>
                 <View style={styles.viewBotoes}>
                     <View style={styles.viewChildBotoes}>
                         <TouchableOpacity onPress={() => navigate('Registrar')}>
-                            <Image source={Imagem.imagemRegistar} style={styles.imageStyle} />
+                            <Image source={imagemRegistar} style={styles.imageStyle} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.viewChildBotoes}>
                         <TouchableOpacity onPress={() => navigate('Login')}>
-                            <Image source={Imagem.imagemEntrar} style={styles.imageStyle} />
+                            <Image source={imagemEntrar} style={styles.imageStyle} />
                         </TouchableOpacity>
                     </View>
                 </View>
