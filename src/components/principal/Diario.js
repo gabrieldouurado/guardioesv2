@@ -133,89 +133,93 @@ class Diario extends Component {
               </View>
             </View>
           </View>
+          <View style={styles.CalendarDate}>
           <View style={styles.ViewCalendario}><Text style={styles.Calendario}>Calendário</Text></View>
           <Calendar
             current={_today}
             markedDates={this.state.datesMarked}
           />
-         <View style={styles.ViewCalendario}><Text style={styles.Calendario}> Informes de frequência em 2018 </Text></View>
+         </View>
         </ImageBackground>
       </ScrollView>
-        );
-      }
-    }
-    
+    );
+  }
+}
+
 const styles = StyleSheet.create({
-          container: {
-          flex: 1,
-      },
+  container: {
+    flex: 1,
+  },
   UserData: {
-          flexDirection: 'column',
-        alignItems: 'center',
-        margin: 10,
-      },
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: 10,
+  },
   UserName: {
-          fontFamily: 'poiretOne',
-        fontSize: 28,
-        fontWeight: '400',
-        marginBottom: 10,
-      },
+    fontFamily: 'poiretOne',
+    fontSize: 28,
+    fontWeight: '400',
+    marginBottom: 10,
+  },
   NumReports: {
-          fontSize: 28,
-        fontWeight: '400',
-        margin: 10,
-      },
+    fontSize: 28,
+    fontWeight: '400',
+    margin: 10,
+  },
   Top: {
-          flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      },
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   LeftTop: {
-          flexDirection: 'column',
-        alignItems: 'center',
-      },
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   GoodData: {
-          flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: '2%',
-      },
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: '2%',
+  },
   BadData: {
-          flexDirection: 'row',
-        alignItems: 'center',
-        margin: '2%',
-      },
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: '2%',
+  },
   GoodPercent: {
-          fontFamily: 'poiretOne',
-        fontSize: 24,
-        margin: 10,
-      },
+    fontFamily: 'poiretOne',
+    fontSize: 24,
+    margin: 10,
+  },
   BadPercent: {
-          fontFamily: 'poiretOne',
-        fontSize: 24,
-        margin: 10,
-      },
+    fontFamily: 'poiretOne',
+    fontSize: 24,
+    margin: 10,
+  },
   columnData: {
-          flexDirection: 'column',
-      },
+    flexDirection: 'column',
+  },
   numBad: {
-          fontFamily: 'poiretOne',
-        fontSize: 16,
-        color: '#64C2D4',
-      },
+    fontFamily: 'poiretOne',
+    fontSize: 16,
+    color: '#64C2D4',
+  },
   numGood: {
-          fontFamily: 'poiretOne',
-        fontSize: 16,
-        color: '#C19036',
-      },
+    fontFamily: 'poiretOne',
+    fontSize: 16,
+    color: '#C19036',
+  },
   ViewCalendario: {
-          backgroundColor: '#C19036',
-        alignItems: 'center',
-      },
+    backgroundColor: '#C19036',
+    alignItems: 'center',
+  },
   Calendario: {
-          fontFamily: 'poiretOne',
-        fontSize: 36,
-        fontWeight: '400',
-        
-      }
-    });
+    fontFamily: 'poiretOne',
+    fontSize: 36,
+    fontWeight: '400',
+
+  },
+  CalendarDate: {
+    marginBottom: 80,
+  }
+});
 export default Diario;
