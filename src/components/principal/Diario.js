@@ -113,6 +113,7 @@ class Diario extends Component {
                 rounded
                 source={{ uri: this.state.pic }}
                 activeOpacity={0.7}
+                style={{borderWidth: 1, borderColor: 'red',}}
               />
               <Text style={styles.UserName}>
                 {this.state.userName}
@@ -165,13 +166,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   NumReports: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '400',
     margin: 10,
   },
   Top: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   LeftTop: {
