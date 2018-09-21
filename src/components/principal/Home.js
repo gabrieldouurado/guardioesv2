@@ -97,7 +97,7 @@ class Home extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
-                        onPress={() => alert("Em Desenvolvimento")}>
+                        onPress={() => navigate('Diario')}>
                         <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
                         <Text style={styles.BotoesTexto}>
                             Diário de Saúde
