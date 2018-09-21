@@ -37,7 +37,9 @@ class Diario extends Component {
   componentDidMount() {
     this.GetUserData()
     let url = 'https://guardianes.centeias.net/user/surveys/'+this.state.UserID
-    return fetch(url, {
+    console.warn(url)
+    return fetch(urldlkt060708
+      , {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
