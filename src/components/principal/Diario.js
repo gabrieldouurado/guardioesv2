@@ -33,13 +33,19 @@ class Diario extends Component {
     title: 'Diário Da Saúde',
   }
 
+  async GetUserData (){
+    let UserID = await AsyncStorage.getItem('userID');
+    this.setState({ UserID: UserID })
+    let userName = await AsyncStorage.getItem('userName');
+    this.setState({ userName: userName });
+  }
+
+
 
   componentDidMount() {
-    this.GetUserData()
     let userIdStringfyed = this.state.UserID
-    
+    console.warn(typeof(userIdStringfyed))
     let url = 'https://guardianes.centeias.net/user/surveys/${this.state.UserID}'
-    console.warn(url)
     return fetch(url
       , {
       headers: {
@@ -60,14 +66,7 @@ class Diario extends Component {
   }
 
 
-  GetUserData = async () => {
-    let UserID = await AsyncStorage.getItem('userID');
-    this.setState({ UserID: UserID })
-    let userName = await AsyncStorage.getItem('userName');
-    this.setState({ userName: userName });
-  }
-
-  defineMarkedDates = () => {
+    defineMarkedDates = () => {
 
     let dataAux = this.state.data
     let markedDateNo = []
