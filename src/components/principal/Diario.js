@@ -33,19 +33,15 @@ class Diario extends Component {
     title: 'Diário Da Saúde',
   }
 
-  async GetUserData (){
-    let UserID = await AsyncStorage.getItem('userID');
-    this.setState({ UserID: UserID })
+  async GetUserData() {
+    let userID = await AsyncStorage.getItem('userID');
+    console.log(userID)
     let userName = await AsyncStorage.getItem('userName');
-    this.setState({ userName: userName });
-  }
-
-
-
-  componentDidMount() {
-    let userIdStringfyed = this.state.UserID
-    console.warn(typeof(userIdStringfyed))
-    let url = 'https://guardianes.centeias.net/user/surveys/${this.state.UserID}'
+    this.setState({
+      userName,
+      userID
+    });
+    let url = `https://guardianes.centeias.net/user/surveys/${this.state.userID}`
     return fetch(url
       , {
       headers: {
@@ -61,8 +57,10 @@ class Diario extends Component {
           
         }
       })
+  }
 
-
+  componentDidMount() {
+    this.GetUserData()
   }
 
 

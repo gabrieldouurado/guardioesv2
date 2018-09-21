@@ -39,6 +39,7 @@ class Login extends Component {
                     <Text style={styles.commomText}>E-mail:</Text>
                     <TextInput
                         style={styles.formInput}
+                        autoCapitalize='none'
                         returnKeyType='next'
                         keyboardType='email-address'
                         multiline={false} maxLength={33}
