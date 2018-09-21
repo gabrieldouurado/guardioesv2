@@ -35,7 +35,9 @@ class Diario extends Component {
 
 
   componentDidMount() {
-    return fetch('https://guardianes.centeias.net/user/surveys/5b6db008abbd4916002b97f0', {
+    this.GetUserData()
+    let url = 'https://guardianes.centeias.net/user/surveys/'+this.state.UserID
+    return fetch(url, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ class Diario extends Component {
         if (responseJson.error === false) {
           this.setState({ data: responseJson.data });
           this.defineMarkedDates()
-          this.GetUserData()
+          
         }
       })
 
