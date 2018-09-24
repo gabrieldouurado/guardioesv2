@@ -53,8 +53,10 @@ export const textos = [
         comoUsar2: 'Em seguida, escolha como reportar, bem ou mal. \
 Caso escolha mal você poderá escolher os sintomas e desde quando se sente mal. Pronto, esse é o uso básico do aplicativo, caso queria aprender mais continue lendo para ver algumas dicas e outras funcionalidades',
         noticias: 'Tela de Notícias',
-        noticiasCont: 'A tela de notícias fica ligada no perfil do Twitter do Ministério da Saúde e lá você pode ver muitas informações pois eles sempre atualizam essa página. \
+        noticiasCont: 'A tela de notícias é uma das funções que você acha na tela inicial, ela fica ligada no perfil do Twitter do Ministério da Saúde e lá você pode ver muitas informações pois eles sempre atualizam essa página. \
 Já que você está por aqui dê uma passadinha lá. ',
-        noticiasPs: 'Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email'
+        noticiasPs: 'Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email',
+        conselhos: 'Conselhos de Saúde',
+        conselhosCont: 'Aqui você encontra algumas informações importantes pra dar uma olhada, como Dengue Chicungunya e Zyca, telefones úteis e também, com auxílio do Google Maps você tem acesso à hospitais e farmácias perto de você',
     }
 ]

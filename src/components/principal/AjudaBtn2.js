@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, View, Image } from 'react-native';
-import { SocialIcon } from 'react-native-elements';
+import { Text, ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { SocialIcon, Icon } from 'react-native-elements';
 import { textos } from '../../constUtils';
 import { imagemReportar } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
@@ -31,6 +31,10 @@ const emojis = [
     )
 ]
 
+onPress = (rota, navigation) => {
+    navigation.navigate(`${rota}`)
+}
+
 class Botao2 extends Component {
     static navigationOptions = {
         title: 'Tutorial'
@@ -50,7 +54,7 @@ class Botao2 extends Component {
                     <View style={{ alignItems: 'center', padding: scale(10) }}>
                         <Image
                             source={imagemReportar}
-                            style={{ height: 80, width: 80 }}
+                            style={{ height: scale(80), width: scale(80) }}
                         />
                     </View>
 
@@ -58,15 +62,29 @@ class Botao2 extends Component {
                     <Text>{textoBase.comoUsar2} {emojis[1]}</Text>
                     
                     {/* Mudando para Noticias, titulo */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontSize: scale(15), fontWeight: 'bold' }}>{textoBase.noticias}</Text>
+                    <TouchableOpacity 
+                        style={{ flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => onPress('Noticias', this.props.navigation)}
+                    >
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.noticias}</Text>
                         {emojis[2]}
-                    </View>
+                    </TouchableOpacity>
 
                     {/* Conteudo de noticias */}
                     <Text>{textoBase.noticiasCont}</Text>
                     {/* Ps em noticias e um emoji piscando */}
                     <Text style={{ fontWeight: 'bold' }}>{textoBase.noticiasPs} {emojis[3]}</Text>
+
+                    {/* Conselhos de Saude */}
+                    <TouchableOpacity 
+                        style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => onPress('Conselho', this.props.navigation)}
+                    >
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.conselhos}</Text>
+                        <Text> </Text>
+                        <Icon name='open-in-new' type={'material-community'} size={scale(16)} />
+                    </TouchableOpacity>
+                        <Text>{textoBase.conselhosCont}</Text>
                 </View>
             </ScrollView>
         )
