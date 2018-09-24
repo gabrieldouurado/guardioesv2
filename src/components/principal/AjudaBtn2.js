@@ -40,15 +40,15 @@ class Botao2 extends Component {
         title: 'Tutorial'
     }
     render() {
-        let textoBase = textos[4];
+        let textoBase = textos[5];
         return (
             <ScrollView>
                 <View style={{ paddingHorizontal: scale(30) }}>
                     {/* Titulo */}
-                    <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{textos[4].tutorial} {emojis[0]}</Text>
+                    <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{textoBase.tutorial} {emojis[0]}</Text>
                     
                     {/* Como Usar */}
-                    <Text /* style={{ fontSize: 20, fontWeight: 'bold' }} */>{textos[4].comoUsar}</Text>
+                    <Text /* style={{ fontSize: 20, fontWeight: 'bold' }} */>{textoBase.comoUsar}</Text>
 
                     {/* Icone de reportar */}
                     <View style={{ alignItems: 'center', padding: scale(10) }}>

@@ -40,19 +40,21 @@ class TermosPoliticas extends Component {
                             <Image source={Imagem.imagemUnb} style={styles.imageOne} />
                         </TouchableOpacity>
 
-                <View style={styles.imagesView}>
-                    <TouchableOpacity
-                        onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
-                    >
-                        <Image source={imagemUnb} style={styles.imageOne} />
-                    </TouchableOpacity>
+                        <View style={styles.imagesView}>
+                            <TouchableOpacity
+                                onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                            >
+                                <Image source={imagemUnb} style={styles.imageOne} />
+                            </TouchableOpacity>
 
-                    <TouchableOpacity
-                        onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
-                    >
-                        <Image source={imagemCenteias} style={styles.imageTwo} />
-                    </TouchableOpacity>
-                </View>
+                            <TouchableOpacity
+                                onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                            >
+                                <Image source={imagemCenteias} style={styles.imageTwo} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ScrollView>
             </View>
         );
     }
