@@ -37,9 +37,11 @@ class Diario extends Component {
     let userID = await AsyncStorage.getItem('userID');
     console.log(userID)
     let userName = await AsyncStorage.getItem('userName');
+    let pic = await AsyncStorage.getItem('avatar');
     this.setState({
       userName,
-      userID
+      userID,
+      pic
     });
     let url = `https://guardianes.centeias.net/user/surveys/${this.state.userID}`
     return fetch(url
