@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Linking } from 'react-native';
-import * as Imagem from '../../imgs/imageConst';
+import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
 
@@ -39,13 +39,13 @@ class TermosPoliticas extends Component {
                     <TouchableOpacity
                         onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
                     >
-                        <Image source={Imagem.imagemUnb} style={styles.imageOne} />
+                        <Image source={imagemUnb} style={styles.imageOne} />
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
                     >
-                        <Image source={Imagem.imagemCenteias} style={styles.imageTwo} />
+                        <Image source={imagemCenteias} style={styles.imageTwo} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         fontFamily: 'myriadpro',
         fontSize: 18,
         fontWeight: '300',
-        textAlign: 'center'
+        textAlign: 'justify'
     },
     imageOne: {
         height: scale(100),
