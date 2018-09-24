@@ -17,16 +17,19 @@ export const textos = [
     {
         textoGrande: 'aaaaaaaaa'
     },
+
     {
         tituloBtnUnb: 'Universidade de Brasilia',
         mensagemBtnUnb: 'Deseja ser redirecionado ao website da UnB?',
         linkBtnUnb: 'https://www.unb.br' 
     },
+
     {
         tituloBtnCenteias: 'Universidade de Brasilia - CENTEIAS',
         mensagemBtnCenteias: 'Deseja ser redirecionado ao website do Centeias?',
         linkBtnCenteias: 'https://fs.unb.br/centeias/'
     },
+
     {
         textoTermosTitulo: '\nTermo de uso – Guardiões da Saúde \n\n Por favor, leia estes termos legais de uso antes de usar o aplicativo "Guardiões da Saúde”. Para realizar qualquer colaboração, acesse ou baixe qualquer informação deste aplicativo. Ao acessar ou usar o aplicativo "Guardiões da Saúde", você aceita e concorda em obedecer aos termos e condições estabelecidos nos "Termos de Uso". Esses termos consistem em um contrato de colaboração entre você e o aplicativo "Guardiões da Saúde", que abrange todo o seu acesso e uso, que inclui o uso de todas as informações, dados, ferramentas, produtos, serviços e outros conteúdos disponíveis no aplicativo. Ao usar este aplicativo, você confirma que entende e concorda com as seguintes condições:',
         textoTermos_1: '\n1. RESPEITO AS LEIS \n\n O usuário registrado deve acessar o aplicativo "Guardiões da Saúde" somente para fins legais e relacionados à saúde. O usuário concorda em usar o aplicativo apenas para os fins apropriados e de acordo com estes termos e limitações legais, bem como com qualquer política aplicável no Brasil. Seu acesso é proibido em territórios onde o conteúdo é considerado ilegal. Aqueles que optarem por acessar este site de outros lugares, o farão por sua própria iniciativa e serão responsáveis pelo cumprimento das leis locais aplicáveis. Os materiais não devem ser usados ou exportados em violação das leis brasileira. Qualquer pendência em relação aos materiais será resolvida pelas leis brasileira. A alteração não autorizada do conteúdo deste site é expressamente proibida.',
@@ -46,5 +49,17 @@ export const textos = [
     {
         textoSobreTitulo: '\nSobre a Aplicação Guardiões da Saúde\n',
         textoSobre: 'A aplicação "Guardiões da Saúde" foi desenvolvida para celulares e tablets com sistema operacional Android, em um trabalho colaborativo do Ministério da Saúde do Brasil e apoio da Fundação Skoll para os Jogos Olímpicos. Uma nova versão está sendo desenvolvida pela Universidade de Brasília e pela ProEpi. O Instituto Nacional de Saúde está integrado a essa cooperação para que a ferramenta também possa ser usada na Colômbia como estratégia para fortalecer o monitoramento de eventos de interesse em saúde pública e a detecção de surtos relacionados a eventos massivos.'
+
+    {
+        tutorial: 'Tutorial de como usar o app',
+        comoUsar: `\nPara usar o aplicativo basta clicar no ícone de reportar na tela inicial:`,
+        comoUsar2: 'Em seguida, escolha como reportar, bem ou mal. \
+Caso escolha mal você poderá escolher os sintomas e desde quando se sente mal. Pronto, esse é o uso básico do aplicativo, caso queria aprender mais continue lendo para ver algumas dicas e outras funcionalidades',
+        noticias: 'Tela de Notícias',
+        noticiasCont: 'A tela de notícias é uma das funções que você acha na tela inicial, ela fica ligada no perfil do Twitter do Ministério da Saúde e lá você pode ver muitas informações pois eles sempre atualizam essa página. \
+Já que você está por aqui dê uma passadinha lá. ',
+        noticiasPs: 'Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email',
+        conselhos: 'Conselhos de Saúde',
+        conselhosCont: 'Aqui você encontra algumas informações importantes pra dar uma olhada, como Dengue Chicungunya e Zyca, telefones úteis e também, com auxílio do Google Maps você tem acesso à hospitais e farmácias perto de você',
     }
 ]

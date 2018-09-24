@@ -32,7 +32,7 @@ class Ajuda extends Component {
           onPress={() => navigate('Botao2')}
         >
           <Image source={imagemUnb} style={styles.btnOneImg}/>
-          <Text style={styles.btnOneTxt}>Botao 2</Text>
+          <Text style={styles.btnOneTxt}>Tutorial</Text>
         </TouchableOpacity>
       </View>
     );

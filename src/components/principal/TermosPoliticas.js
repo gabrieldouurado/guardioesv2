@@ -33,7 +33,12 @@ class TermosPoliticas extends Component {
                     <Text style={styles.text}> {textos[3].textoTermos_11} </Text>
                     <Text style={styles.text}> {textos[3].textoTermos_12} </Text>
                     <Text style={styles.text}> {textos[3].textoTermos_13} </Text>
-                </ScrollView>
+                    <View style={styles.imagesView}>
+                        <TouchableOpacity
+                            onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                        >
+                            <Image source={Imagem.imagemUnb} style={styles.imageOne} />
+                        </TouchableOpacity>
 
                 <View style={styles.imagesView}>
                     <TouchableOpacity

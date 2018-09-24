@@ -15,7 +15,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
 import * as Imagem from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
-import app_token from '../../constUtils';
+import { app_token } from '../../constUtils';
 
 
 let data = new Date();
@@ -40,7 +40,7 @@ class Registrar extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            userApp: {app_token},
+            userApp: app_token,
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
@@ -230,6 +230,8 @@ class Registrar extends Component {
     }
     create = () => {
         Keyboard.dismiss()
+        // console.warn(typeof this.state.userApp)
+        // console.warn(this.state.userApp)
         fetch('https://guardianes.centeias.net/user/create', {
             method: 'POST',
             headers: {
