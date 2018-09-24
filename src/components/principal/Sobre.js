@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
@@ -16,7 +16,7 @@ class Sobre extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
 
                 <View style={styles.textView}>
                     <Text style={styles.textTitulo}> {textos[4].textoSobreTitulo} </Text>
@@ -36,7 +36,7 @@ class Sobre extends Component {
                         <Image source={imagemCenteias} style={styles.imageTwo} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        padding: scale(30)
     },
     text: {
         fontFamily: 'myriadpro',

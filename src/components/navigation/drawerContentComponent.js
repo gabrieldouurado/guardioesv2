@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Emoji from 'react-native-emoji';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
-import { moderateScale, verticalScale } from '../scallingUtils'
+import { moderateScale, verticalScale, scale } from '../scallingUtils'
 import { Avatar } from 'react-native-elements'
 import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst'
@@ -113,13 +113,13 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity> */}
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={styles.itemsContainer}
                         onPress={() => navigate('Perfil')}
                     >
                         <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Perfil</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     {/* <TouchableOpacity 
                     style={styles.itemsContainer}
@@ -165,10 +165,16 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Sobre')}
                     >
-                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
+                        <Entypo name='info-with-circle' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
                         <Text style={styles.drawerItemsTxt}>Sobre</Text>
                     </TouchableOpacity>
-
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: scale(30) }}>
+                        <Text style={{ alignSelf: 'center', color: '#d6d6d6' }}>Temos mais vindo aí!  </Text>
+                        <Emoji
+                            name='wink'
+                            style={{ fontSize: scale(15) }}
+                        />
+                    </View>
                 </ScrollView>
                 <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
                 <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8 }]}>

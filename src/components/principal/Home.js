@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(135, 150, 151, 0.6)',
+        backgroundColor: 'rgba(223, 223, 208, 0.6)',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,

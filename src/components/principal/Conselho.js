@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { imagemFundo } from '../../imgs/imageConst';
+import { Redirect } from '../../constUtils';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#C19036' />)
@@ -103,7 +104,7 @@ class Conselho extends Component {
                     {/* Instituições de Saúde */}
                     <TouchableOpacity
                         style={styles.selector}
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=hospitais')}
+                        onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=hospitais')}
                     >
                         <Text style={styles.textoSelector}>
                             Instituições de Saúde
@@ -114,10 +115,10 @@ class Conselho extends Component {
                     {/* Farmacias */}
                     <TouchableOpacity
                         style={styles.selector}
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=farmacias')}
+                        onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=farmacias')}
                     >
                         <Text style={styles.textoSelector}>
-                            Farmacias
+                            Farmácias
                         </Text>
                         {farmacia}
                     </TouchableOpacity>
@@ -125,6 +126,13 @@ class Conselho extends Component {
                 </ScrollView>
             </ImageBackground>
         );
+    }
+}
+
+const textoRedirect = {
+    hospitais: {
+        texto1: 'Ir para o Google Maps',
+        texto2: 'Deseja ser redirecionado para o Maps?'
     }
 }
 const styles = StyleSheet.create({

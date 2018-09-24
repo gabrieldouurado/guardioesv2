@@ -33,26 +33,19 @@ class TermosPoliticas extends Component {
                     <Text style={styles.text}> {textos[3].textoTermos_11} </Text>
                     <Text style={styles.text}> {textos[3].textoTermos_12} </Text>
                     <Text style={styles.text}> {textos[3].textoTermos_13} </Text>
+
                     <View style={styles.imagesView}>
                         <TouchableOpacity
                             onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
                         >
-                            <Image source={Imagem.imagemUnb} style={styles.imageOne} />
+                            <Image source={imagemUnb} style={styles.imageOne} />
                         </TouchableOpacity>
 
-                        <View style={styles.imagesView}>
-                            <TouchableOpacity
-                                onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
-                            >
-                                <Image source={imagemUnb} style={styles.imageOne} />
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
-                            >
-                                <Image source={imagemCenteias} style={styles.imageTwo} />
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity
+                            onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                        >
+                            <Image source={imagemCenteias} style={styles.imageTwo} />
+                        </TouchableOpacity>
                     </View>
                 </ScrollView>
             </View>
@@ -70,8 +63,10 @@ const styles = StyleSheet.create({
         marginBottom: '1.5%'
     },
     imagesView: {
+        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
+        padding: 30
     },
     text: {
         fontFamily: 'myriadpro',

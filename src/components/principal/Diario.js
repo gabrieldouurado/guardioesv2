@@ -59,7 +59,7 @@ class Diario extends Component {
       })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.GetUserData()
   }
 
@@ -125,14 +125,14 @@ class Diario extends Component {
                 <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemGood} />
                 <View style={styles.columnData}>
                   <Text style={styles.GoodPercent}>{this.state.GoodPercent}% Bem</Text>
-                  <Text style={styles.numGood}> {this.state.markedDateNo} informes </Text>
+                  <Text style={styles.numGood}> {this.state.markedDateNo === 1 ? this.state.markedDateNo + ' informe' : this.state.markedDateNo + ' informes'}</Text>
                 </View>
               </View>
               <View style={styles.BadData}>
                 <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemBad} />
                 <View style={styles.columnData}>
                   <Text style={styles.BadPercent}>{this.state.BadPercent}% Mal</Text>
-                  <Text style={styles.numBad}> {this.state.markedDate} informes </Text>
+                  <Text style={styles.numBad}>{this.state.markedDate === 1 ? this.state.markedDate + ' informe' : this.state.markedDate + ' informes'}</Text>
                 </View>
               </View>
             </View>

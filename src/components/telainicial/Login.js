@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, TouchableOpacity, AsyncStorage, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, ScrollView, AsyncStorage, Keyboard } from 'react-native';
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
 
@@ -31,67 +31,69 @@ class Login extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
-                </View>
-                <View style={styles.viewForm}>
-                    <Text style={styles.commomText}>E-mail:</Text>
-                    <TextInput
-                        style={styles.formInput}
-                        autoCapitalize='none'
-                        returnKeyType='next'
-                        keyboardType='email-address'
-                        multiline={false} maxLength={33}
-                        onSubmitEditing={() => this.passwordInput.focus()}
-                        onChangeText={(text) => this.setState({ userEmail: text })}
-                    />
-                    <Text style={styles.commomText}>Senha:</Text>
-                    <TextInput
-                        style={styles.formInput}
-                        secureTextEntry={true}
-                        multiline={false}
-                        maxLength={15}
-                        ref={(input) => this.passwordInput = input}
-                        onChangeText={(text) => this.setState({ userPwd: text })}
-                    />
-                    <View style={styles.buttonView}>
-                        <Button
-                            title="Entrar"
-                            color="#9B6525"
-                            onPress={this.login} />
+            <ScrollView>
+                <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+                    <View style={styles.viewImage}>
+                        <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                     </View>
-                    <View style={{ paddingTop: 20 }}>
-                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
-                            Conectar Via Facebook
+                    <View style={styles.viewForm}>
+                        <Text style={styles.commomText}>E-mail:</Text>
+                        <TextInput
+                            style={styles.formInput}
+                            autoCapitalize='none'
+                            returnKeyType='next'
+                            keyboardType='email-address'
+                            multiline={false} maxLength={33}
+                            onSubmitEditing={() => this.passwordInput.focus()}
+                            onChangeText={(text) => this.setState({ userEmail: text })}
+                        />
+                        <Text style={styles.commomText}>Senha:</Text>
+                        <TextInput
+                            style={styles.formInput}
+                            secureTextEntry={true}
+                            multiline={false}
+                            maxLength={15}
+                            ref={(input) => this.passwordInput = input}
+                            onChangeText={(text) => this.setState({ userPwd: text })}
+                        />
+                        <View style={styles.buttonView}>
+                            <Button
+                                title="Entrar"
+                                color="#9B6525"
+                                onPress={this.login} />
+                        </View>
+                        <View style={{ paddingTop: 20 }}>
+                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                                Conectar Via Facebook
                     </Text>
-                        <LoginButton
-                            readPermissions={['public_profile', 'email']}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        alert("login has error: " + result.error);
-                                    } else if (result.isCancelled) {
-                                        alert("login is cancelled.");
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                const infoRequest = new GraphRequest(
-                                                    '/me?fields=first_name,email,picture,id',
-                                                    null,
-                                                    this._responseInfoCallback
-                                                );
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-                                            }
-                                        )
+                            <LoginButton
+                                readPermissions={['public_profile', 'email']}
+                                onLoginFinished={
+                                    (error, result) => {
+                                        if (error) {
+                                            alert("login has error: " + result.error);
+                                        } else if (result.isCancelled) {
+                                            alert("login is cancelled.");
+                                        } else {
+                                            AccessToken.getCurrentAccessToken().then(
+                                                (data) => {
+                                                    const infoRequest = new GraphRequest(
+                                                        '/me?fields=first_name,email,picture,id',
+                                                        null,
+                                                        this._responseInfoCallback
+                                                    );
+                                                    // Start the graph request.
+                                                    new GraphRequestManager().addRequest(infoRequest).start();
+                                                }
+                                            )
+                                        }
                                     }
                                 }
-                            }
-                            onLogoutFinished={() => { null }} />
+                                onLogoutFinished={() => { null }} />
+                        </View>
                     </View>
-                </View>
-            </ImageBackground>
+                </ImageBackground>
+            </ScrollView>
         );
     }
 
@@ -142,7 +144,7 @@ class Login extends Component {
                     }
                 }
             })
-            
+
     }
 }
 

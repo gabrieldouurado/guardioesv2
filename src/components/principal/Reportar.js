@@ -1,11 +1,11 @@
-
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, Platform, StyleSheet, Text, View, TouchableOpacity, Image, Button, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
-import BadReport from './badReport';
+import { scale } from '../scallingUtils';
 
+const {height} = Dimensions.get('window')
 
 let data = new Date();
 let d = data.getDate();
@@ -110,7 +110,7 @@ class Report extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView /*style={styles.container}*/>
                 <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
@@ -131,7 +131,7 @@ class Report extends Component {
                         </Text>
                     </View>
                 </ImageBackground>
-            </View>
+            </ScrollView>
 
         );
     }
@@ -140,7 +140,7 @@ class Report extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 550,
+        height: height - scale(70),
     },
     titulo: {
 
