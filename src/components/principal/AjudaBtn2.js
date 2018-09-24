@@ -40,9 +40,13 @@ class Botao2 extends Component {
         return (
             <ScrollView>
                 <View style={{ paddingHorizontal: scale(30) }}>
+                    {/* Titulo */}
                     <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{textos[4].tutorial} {emojis[0]}</Text>
+                    
+                    {/* Como Usar */}
                     <Text /* style={{ fontSize: 20, fontWeight: 'bold' }} */>{textos[4].comoUsar}</Text>
 
+                    {/* Icone de reportar */}
                     <View style={{ alignItems: 'center', padding: scale(10) }}>
                         <Image
                             source={imagemReportar}
@@ -50,13 +54,18 @@ class Botao2 extends Component {
                         />
                     </View>
 
+                    {/* Continuacao de como usar */}
                     <Text>{textoBase.comoUsar2} {emojis[1]}</Text>
                     
+                    {/* Mudando para Noticias, titulo */}
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontSize: scale(15), fontWeight: 'bold' }}>{textoBase.noticias}</Text>
                         {emojis[2]}
                     </View>
+
+                    {/* Conteudo de noticias */}
                     <Text>{textoBase.noticiasCont}</Text>
+                    {/* Ps em noticias e um emoji piscando */}
                     <Text style={{ fontWeight: 'bold' }}>{textoBase.noticiasPs} {emojis[3]}</Text>
                 </View>
             </ScrollView>
