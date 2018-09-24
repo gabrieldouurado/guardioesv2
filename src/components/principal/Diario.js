@@ -33,9 +33,17 @@ class Diario extends Component {
     title: 'Diário Da Saúde',
   }
 
-
-  componentDidMount() {
-    return fetch('https://guardianes.centeias.net/user/surveys/5b6db008abbd4916002b97f0', {
+  async GetUserData() {
+    let userID = await AsyncStorage.getItem('userID');
+    console.log(userID)
+    let userName = await AsyncStorage.getItem('userName');
+    this.setState({
+      userName,
+      userID
+    });
+    let url = `https://guardianes.centeias.net/user/surveys/${this.state.userID}`
+    return fetch(url
+      , {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -46,22 +54,17 @@ class Diario extends Component {
         if (responseJson.error === false) {
           this.setState({ data: responseJson.data });
           this.defineMarkedDates()
-          this.GetUserData()
+          
         }
       })
+  }
 
-
+  componentDidMount() {
+    this.GetUserData()
   }
 
 
-  GetUserData = async () => {
-    let UserID = await AsyncStorage.getItem('userID');
-    this.setState({ UserID: UserID })
-    let userName = await AsyncStorage.getItem('userName');
-    this.setState({ userName: userName });
-  }
-
-  defineMarkedDates = () => {
+    defineMarkedDates = () => {
 
     let dataAux = this.state.data
     let markedDateNo = []
@@ -110,6 +113,7 @@ class Diario extends Component {
                 rounded
                 source={{ uri: this.state.pic }}
                 activeOpacity={0.7}
+                style={{borderWidth: 1, borderColor: 'red',}}
               />
               <Text style={styles.UserName}>
                 {this.state.userName}
@@ -162,13 +166,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   NumReports: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: '400',
     margin: 10,
   },
   Top: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   LeftTop: {
