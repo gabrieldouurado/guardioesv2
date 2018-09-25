@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { imagemUnb } from '../../imgs/imageConst';
+import { imgTermos, imgTutorial } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-
-
 
 class Ajuda extends Component {
   static navigationOptions = {
@@ -23,7 +21,7 @@ class Ajuda extends Component {
           style={styles.btnOne}
           onPress={() => navigate('TermosPoliticas')}
         >
-          <Image source={imagemUnb} style={styles.btnOneImg}/>
+          <Image source={imgTermos} style={styles.btnOneImg}/>
           <Text style={styles.btnOneTxt}>Termos e Políticas</Text>
         </TouchableOpacity>
 
@@ -31,7 +29,7 @@ class Ajuda extends Component {
           style={styles.btnOne}
           onPress={() => navigate('Botao2')}
         >
-          <Image source={imagemUnb} style={styles.btnOneImg}/>
+          <Image source={ imgTutorial } style={styles.btnOneImg}/>
           <Text style={styles.btnOneTxt}>Tutorial</Text>
         </TouchableOpacity>
       </View>

@@ -13,3 +13,5 @@ export const imagemRegistar = require('./Icones/300ppi/icones-entrar/001.png');
 export const imagemUnb = require('./unb.png');
 export const imagemCenteias = require('./centeias.png');
 export const SSRelato = require('./screenshots/SSRelato.jpeg');
+export const imgTermos = require('./termos.png');
+export const imgTutorial = require('./tutorial.png');

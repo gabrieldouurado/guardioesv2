@@ -44,7 +44,7 @@ class BadReport extends Component {
             checked_20: false,
             checked_21: false,
             checked_22: false,
-            date: null,
+            date: today,
         }
     }
 

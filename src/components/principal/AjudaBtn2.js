@@ -20,13 +20,25 @@ const emojis = [
     (
         <SocialIcon //Twitter icon
             type='twitter'
-            style={{height: scale(30), width: scale(30) }}
+            style={{ height: scale(30), width: scale(30) }}
         />
     ),
     (
-        <Emoji 
+        <Emoji
             name='wink'
             style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji
+            name='nerd_face'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <SocialIcon
+            type='google-plus-official'
+            style={{ height: scale(30), width: scale(30) }}
         />
     )
 ]
@@ -46,7 +58,7 @@ class Botao2 extends Component {
                 <View style={{ paddingHorizontal: scale(30) }}>
                     {/* Titulo */}
                     <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{textoBase.tutorial} {emojis[0]}</Text>
-                    
+
                     {/* Como Usar */}
                     <Text /* style={{ fontSize: 20, fontWeight: 'bold' }} */>{textoBase.comoUsar}</Text>
 
@@ -60,9 +72,9 @@ class Botao2 extends Component {
 
                     {/* Continuacao de como usar */}
                     <Text>{textoBase.comoUsar2} {emojis[1]}</Text>
-                    
+
                     {/* Mudando para Noticias, titulo */}
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={{ flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Noticias', this.props.navigation)}
                     >
@@ -76,7 +88,7 @@ class Botao2 extends Component {
                     <Text style={{ fontWeight: 'bold' }}>{textoBase.noticiasPs} {emojis[3]}</Text>
 
                     {/* Conselhos de Saude */}
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Conselho', this.props.navigation)}
                     >
@@ -84,7 +96,29 @@ class Botao2 extends Component {
                         <Text> </Text>
                         <Icon name='open-in-new' type={'material-community'} size={scale(16)} />
                     </TouchableOpacity>
-                        <Text>{textoBase.conselhosCont}</Text>
+                    <Text>{textoBase.conselhosCont}</Text>
+
+                    {/* Diario */}
+                    <TouchableOpacity
+                        style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => onPress('Diario', this.props.navigation)}
+                    >
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.diario}</Text>
+                        <Text> </Text>
+                        <Icon name='open-in-new' type={'material-community'} size={scale(16)} />
+                    </TouchableOpacity>
+                    <Text>{textoBase.diarioCont}</Text>
+
+                    {/* Mapa da Saude */}
+                    <TouchableOpacity
+                        style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => onPress('Mapa', this.props.navigation)}
+                    >
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.mapaSaude}</Text>
+                        <Text> </Text>
+                        {emojis[5]}
+                    </TouchableOpacity>
+                    <Text>{textoBase.mapaSaudeCont} {emojis[4]}</Text>
                 </View>
             </ScrollView>
         )
