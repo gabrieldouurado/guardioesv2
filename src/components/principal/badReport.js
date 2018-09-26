@@ -528,6 +528,7 @@ class BadReport extends Component {
                     onConfirmPressed={() => {
                         this.props.navigation.navigate('Home')
                     }}
+                    onDismiss={() => this.props.navigation.navigate('Home')}
                 />
             </ImageBackground>
         );
