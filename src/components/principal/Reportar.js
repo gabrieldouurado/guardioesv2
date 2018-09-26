@@ -30,7 +30,7 @@ class Report extends Component {
     showAlert = () => {
         this.setState({
             showAlert: true,
-            progressBarAlert: true
+            showProgressBar: true
         });
     };
 
@@ -104,11 +104,11 @@ class Report extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    this.setState({ progressBarAlert: false });
+                    this.setState({ showProgressBar: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 } else {
                     alert(responseJson.message)
-                    this.setState({ progressBarAlert: false });
+                    this.setState({ showProgressBar: false });
                 }
             })
             .done();
@@ -142,13 +142,13 @@ class Report extends Component {
                 </ImageBackground>
                 <AwesomeAlert
                     show={showAlert}
-                    showProgress={this.state.progressBarAlert ? true : false}
-                    title={ this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
-                    message={this.state.progressBarAlert ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-                    closeOnTouchOutside={this.state.progressBarAlert ? false : true}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={ this.state.showProgressBar ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
-                    showConfirmButton={this.state.progressBarAlert ? false : true}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"

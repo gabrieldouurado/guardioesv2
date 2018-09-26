@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, ScrollView, AsyncStorage, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ImageBackground, Image, ScrollView, Alert, AsyncStorage, Keyboard, NetInfo } from 'react-native';
 import * as Imagem from '../../imgs/imageConst'
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
-
+import AwesomeAlert from 'react-native-awesome-alerts';
+import Emoji from 'react-native-emoji';
+import { scale } from '../scallingUtils';
 
 class Login extends Component {
     static navigationOptions = {
@@ -16,10 +18,38 @@ class Login extends Component {
             userPwd: null,
             loginOnFB: null,
             loginOnApp: null,
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
+            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
 
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            showProgressBar: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
+
+    _isconnected = () => {
+        let validation = false
+        this.state.userEmail && this.state.userPwd ? validation = true : validation = false
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? validation ? this.login() : Alert.alert('Email ou senha invalidos', 'Email/senha nao podem estar em branco') : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                ]
+            )
+        });
+    }
     _responseInfoCallback = (error, result) => {
         if (error) {
             console.warn('Error fetching data: ' + error.toString());
@@ -30,6 +60,7 @@ class Login extends Component {
     }
 
     render() {
+        const { showAlert } = this.state;
         return (
             <ScrollView>
                 <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
@@ -60,7 +91,7 @@ class Login extends Component {
                             <Button
                                 title="Entrar"
                                 color="#9B6525"
-                                onPress={this.login} />
+                                onPress={this._isconnected} />
                         </View>
                         <View style={{ paddingTop: 20 }}>
                             <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
@@ -71,9 +102,9 @@ class Login extends Component {
                                 onLoginFinished={
                                     (error, result) => {
                                         if (error) {
-                                            alert("login has error: " + result.error);
+                                            alert("login com erro: " + result.error);
                                         } else if (result.isCancelled) {
-                                            alert("login is cancelled.");
+                                            alert("login foi cancelado.");
                                         } else {
                                             AccessToken.getCurrentAccessToken().then(
                                                 (data) => {
@@ -93,60 +124,97 @@ class Login extends Component {
                         </View>
                     </View>
                 </ImageBackground>
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={this.state.showProgressBar ? 'Entrando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={false}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
+                    cancelText="No, cancel"
+                    confirmText="Voltar"
+                    confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onConfirmPressed={() => {
+                        this.props.navigation.navigate('Home')
+                    }}
+                    onDismiss={() => this.props.navigation.navigate('Home')}
+                />
             </ScrollView>
         );
     }
 
     login = () => {
-        fetch('https://guardianes.centeias.net/user/login', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: this.state.userEmail,
-                password: this.state.userPwd
+            this.showAlert();
+
+            fetch('https://guardianes.centeias.net/user/login', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: this.state.userEmail,
+                    password: this.state.userPwd
+                })
             })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    if (this.state.loginOnFB === 'true') {
-                        AsyncStorage.setItem('userID', responseJson.user.id);
-                        AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                        AsyncStorage.setItem('avatar', this.state.pic);
-                        AsyncStorage.setItem('userName', this.state.userFirstName);
-                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                        this.props.navigation.navigate('Home');
-                        alert("Logado via Facebook")
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    if (responseJson.error === false) {
+                        if (this.state.loginOnFB === 'true') {
+                            AsyncStorage.setItem('userID', responseJson.user.id);
+                            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
+                            AsyncStorage.setItem('avatar', this.state.pic);
+                            AsyncStorage.setItem('userName', this.state.userFirstName);
+                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                            this.props.navigation.navigate('Home');
+                            alert("Logado via Facebook")
+                        } else {
+                            Keyboard.dismiss()
+                            this.hideAlert()
+                            this.setState({ loginOnApp: 'true' })
+                            AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
+                            AsyncStorage.setItem('userID', responseJson.user.id);
+                            AsyncStorage.setItem('userToken', responseJson.token);
+                            AsyncStorage.setItem('userName', responseJson.user.firstname);
+                            AsyncStorage.setItem('userSurveys', responseJson.user.surveys);
+                            AsyncStorage.setItem('avatar', this.state.pic);
+                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                            this.props.navigation.navigate('Home');
+                        }
+    
+    
                     } else {
-                        Keyboard.dismiss()
-                        this.setState({ loginOnApp: 'true' })
-                        AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                        AsyncStorage.setItem('userID', responseJson.user.id);
-                        AsyncStorage.setItem('userToken', responseJson.token);
-                        AsyncStorage.setItem('userName', responseJson.user.firstname);
-                        AsyncStorage.setItem('userSurveys', responseJson.user.surveys);
-                        AsyncStorage.setItem('avatar', this.state.pic);
-                        AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                        this.props.navigation.navigate('Home');
+                        if (this.state.loginOnFB === 'true') {
+                            alert(responseJson.message)
+                            this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
+                            LoginManager.logOut();
+                        } else {
+                            alert(responseJson.message)
+                        }
                     }
-
-
-                } else {
-                    if (this.state.loginOnFB === 'true') {
-                        alert(responseJson.message)
-                        this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
-                        LoginManager.logOut();
-                    } else {
-                        alert(responseJson.message)
-                    }
-                }
-            })
-
+                })
     }
 }
+
+const emojis = [
+    (
+        <Emoji //Emoji heart up
+            name='heart'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji //Emoji tada up
+            name='tada'
+            style={{ fontSize: scale(15) }}
+        />
+    )
+]
 
 // define your styles
 const styles = StyleSheet.create({
