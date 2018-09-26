@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, ActivityIndicator, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
@@ -18,6 +18,10 @@ let today = y + "-" + m + "-" + d + "T" + h;
 
 
 class Report extends Component {
+    static navigationOptions = {
+        title: 'Relato',
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -26,13 +30,15 @@ class Report extends Component {
             UserID: "",
             error: null,
             HouseholdId: "",
-            showAlert: false
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
 
     showAlert = () => {
         this.setState({
-            showAlert: true
+            showAlert: true,
+            progressBarAlert: true
         });
     };
 
@@ -41,11 +47,6 @@ class Report extends Component {
             showAlert: false
         })
     }
-
-    static navigationOptions = {
-        title: 'Relato',
-    }
-
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
@@ -82,7 +83,6 @@ class Report extends Component {
 
     //Function that creates a requisition to send the survey to the API
     sendSurvey = async () => {
-
         this.requestFineLocationPermission
 
         let UserID = await AsyncStorage.getItem('userID');
@@ -112,7 +112,7 @@ class Report extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    this.showAlert();
+                    this.setState({ progressBarAlert: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 } else {
                     alert(responseJson.message)
@@ -124,6 +124,7 @@ class Report extends Component {
 
     render() {
         const { showAlert } = this.state;
+        const { progressBarAlert } = this.state;
 
         return (
             <ScrollView /*style={styles.container}*/>
@@ -132,7 +133,7 @@ class Report extends Component {
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
                     <View style={styles.reportView}>
-                        <TouchableOpacity onPress={() => this.sendSurvey()}>
+                        <TouchableOpacity onPress={() => {this.showAlert(); this.sendSurvey()}}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
@@ -149,13 +150,13 @@ class Report extends Component {
                 </ImageBackground>
                 <AwesomeAlert
                     show={showAlert}
-                    showProgress={false}
-                    title={<Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
-                    message={<Text style={{alignSelf: 'center'}}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-                    closeOnTouchOutside={true}
+                    showProgress={this.state.progressBarAlert ? true : false}
+                    title={ this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    message={this.state.progressBarAlert ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.progressBarAlert ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
-                    showConfirmButton={true}
+                    showConfirmButton={this.state.progressBarAlert ? false : true}
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"
@@ -230,21 +231,6 @@ const styles = StyleSheet.create({
         marginTop: '9%'
     },
 })
-
-
-const telaDeGratidao = (titulo, mensagem) => {
-    <TouchableOpacity style={{ flex: 1 }}>
-        <View> {/* View to titulo */}
-            <Text>{titulo}</Text>
-        </View>
-
-        <View> {/* View da mensagem de agradecimento */}
-            <Text>
-                {mensagem}
-            </Text>
-        </View>
-    </TouchableOpacity>
-}
 
 //make this component available to the app
 export default Report;
