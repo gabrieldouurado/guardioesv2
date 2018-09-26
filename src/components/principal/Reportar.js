@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, ActivityIndicator, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
@@ -7,15 +7,7 @@ import { scale } from '../scallingUtils';
 import Emoji from 'react-native-emoji';
 
 const { height } = Dimensions.get('window')
-
 let data = new Date();
-let d = data.getDate();
-let m = data.getMonth() + 1;
-let y = data.getFullYear();
-let h = data.getHours();
-
-let today = y + "-" + m + "-" + d + "T" + h;
-
 
 class Report extends Component {
     static navigationOptions = {
@@ -116,6 +108,7 @@ class Report extends Component {
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 } else {
                     alert(responseJson.message)
+                    this.setState({ progressBarAlert: false });
                 }
             })
             .done();
@@ -124,7 +117,6 @@ class Report extends Component {
 
     render() {
         const { showAlert } = this.state;
-        const { progressBarAlert } = this.state;
 
         return (
             <ScrollView /*style={styles.container}*/>

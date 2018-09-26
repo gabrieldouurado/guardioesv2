@@ -48,13 +48,15 @@ class BadReport extends Component {
             checked_21: false,
             checked_22: false,
             date: today,
-            showAlert: false
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
 
     showAlert = () => {
         this.setState({
-            showAlert: true
+            showAlert: true,
+            progressBarAlert: true
         });
     };
 
@@ -144,7 +146,7 @@ class BadReport extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    this.showAlert();
+                    this.setState({ progressBarAlert: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 }
             })
@@ -501,7 +503,8 @@ class BadReport extends Component {
                     <View style={styles.buttonView}>
                         <Button title="Confirmar" color="#9B6525" onPress={() => {
                             if (this.state.date !== null) {
-                                this.sendSurvey()
+                                this.showAlert();
+                                this.sendSurvey();
                             }
                             else {
                                 alert("A data deve ser preenchida");
@@ -512,13 +515,13 @@ class BadReport extends Component {
                 </ScrollView>
                 <AwesomeAlert
                     show={showAlert}
-                    showProgress={false}
-                    title={<Text>Obrigado! {emojis[1]}</Text>}
-                    message={<Text>Seu relato foi enviado.{"\n"}Não se esqueça de ir ao médico caso os sintomas perdurem! {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-                    closeOnTouchOutside={true}
+                    showProgress={this.state.progressBarAlert ? true : false}
+                    title={this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}</Text>}
+                    message={this.state.progressBarAlert ? null : <Text>Seu relato foi enviado.{"\n"}Não se esqueça de ir ao médico caso os sintomas perdurem! {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.progressBarAlert ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
-                    showConfirmButton={true}
+                    showConfirmButton={this.state.progressBarAlert ? false : true}
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"
