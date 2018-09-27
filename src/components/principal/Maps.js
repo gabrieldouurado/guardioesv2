@@ -103,9 +103,6 @@ class Maps extends Component {
                     }
                     )}
                 </MapView>
-                <TouchableOpacity style={{height: 90, position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.05)', width: '100%'}}>
-                    <Text>Ola</Text>
-                </TouchableOpacity>
             </View>
         );
     }

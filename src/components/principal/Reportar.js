@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage, NetInfo, Alert } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
@@ -30,7 +30,7 @@ class Report extends Component {
     showAlert = () => {
         this.setState({
             showAlert: true,
-            progressBarAlert: true
+            showProgressBar: true
         });
     };
 
@@ -38,6 +38,18 @@ class Report extends Component {
         this.setState({
             showAlert: false
         })
+    }
+
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                ]
+            )
+        });
     }
 
     componentDidMount() {
@@ -75,6 +87,7 @@ class Report extends Component {
 
     //Function that creates a requisition to send the survey to the API
     sendSurvey = async () => {
+        this.showAlert();
         this.requestFineLocationPermission
 
         let UserID = await AsyncStorage.getItem('userID');
@@ -104,11 +117,11 @@ class Report extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    this.setState({ progressBarAlert: false });
+                    this.setState({ showProgressBar: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 } else {
                     alert(responseJson.message)
-                    this.setState({ progressBarAlert: false });
+                    this.setState({ showProgressBar: false });
                 }
             })
             .done();
@@ -125,7 +138,7 @@ class Report extends Component {
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
                     <View style={styles.reportView}>
-                        <TouchableOpacity onPress={() => {this.showAlert(); this.sendSurvey()}}>
+                        <TouchableOpacity onPress={this._isconnected}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
@@ -142,13 +155,13 @@ class Report extends Component {
                 </ImageBackground>
                 <AwesomeAlert
                     show={showAlert}
-                    showProgress={this.state.progressBarAlert ? true : false}
-                    title={ this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
-                    message={this.state.progressBarAlert ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-                    closeOnTouchOutside={this.state.progressBarAlert ? false : true}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={ this.state.showProgressBar ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
-                    showConfirmButton={this.state.progressBarAlert ? false : true}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"

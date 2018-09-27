@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -64,6 +64,18 @@ class BadReport extends Component {
         this.setState({
             showAlert: false
         })
+    }
+
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                ]
+            )
+        });
     }
 
     componentDidMount() {
