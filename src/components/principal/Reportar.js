@@ -156,7 +156,7 @@ class Report extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={ this.state.showProgressBar ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    title={ this.state.showProgressBar ? 'Enviando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}

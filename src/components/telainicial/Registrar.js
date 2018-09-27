@@ -262,7 +262,7 @@ class Registrar extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? 'Entrando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    title={this.state.showProgressBar ? 'Cadastrando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
@@ -271,13 +271,13 @@ class Registrar extends Component {
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"
-                    onCancelPressed={() => {
-                        this.hideAlert();
-                    }}
-                    onConfirmPressed={() => {
-                        this.props.navigation.navigate('Home')
-                    }}
-                    onDismiss={() => this.props.navigation.navigate('Home')}
+                    // onCancelPressed={() => {
+                    //     this.hideAlert();
+                    // }}
+                    // onConfirmPressed={() => {
+                    //     this.props.navigation.navigate('Home')
+                    // }}
+                    // onDismiss={() => this.props.navigation.navigate('Home')}
                 />
             </ImageBackground>
         );
