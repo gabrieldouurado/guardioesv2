@@ -7,6 +7,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
+import { app_token } from '../../constUtils';
 
 let data = new Date();
 let d = data.getDate();
@@ -17,7 +18,7 @@ let today = y + "-" + m + "-" + d;
 
 class BadReport extends Component {
     static navigationOptions = {
-        title: 'Bad Report'
+        title: 'O que está sentindo?'
     }
 
     constructor(props) {
@@ -132,7 +133,7 @@ class BadReport extends Component {
                 hadHealthCare: this.state.checked_21,
                 hadTravlledAbroad: this.state.checked_22,
                 travelLocation: this.state.country,
-                app_token: "d41d8cd98f00b204e9800998ecf8427e",
+                app_token: app_token,
                 platform: "",
                 bolhasNoPe: this.state.checked_1,
                 congestaoNasal: this.state.checked_2,
@@ -189,12 +190,13 @@ class BadReport extends Component {
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
+                    <Text style={styles.dateText}>Desde quando está se sentindo mal?</Text>
                     <DatePicker
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
                         //showIcon={false}
                         date={this.state.date}
                         mode="date"
-                        placeholder="Desde quando está se sentindo mal?"
+                        placeholder="Clique aqui para inserir a data!"
                         format="YYYY-MM-DD"
                         minDate="2018-01-01"
                         maxDate={today}
@@ -579,6 +581,13 @@ const styles = StyleSheet.create({
     sintomasText: {
         textAlign: 'center',
         marginTop: 5,
+        marginBottom: 5,
+        fontSize: 20,
+        fontFamily: 'poiretOne',
+        color: '#465F6C'
+    },
+    dateText: {
+        textAlign: 'center',
         marginBottom: 5,
         fontSize: 20,
         fontFamily: 'poiretOne',
