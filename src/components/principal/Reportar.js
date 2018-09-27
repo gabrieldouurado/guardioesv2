@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage } from 'react-native';
+import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage, NetInfo, Alert } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
@@ -40,6 +40,18 @@ class Report extends Component {
         })
     }
 
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                ]
+            )
+        });
+    }
+
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -75,6 +87,7 @@ class Report extends Component {
 
     //Function that creates a requisition to send the survey to the API
     sendSurvey = async () => {
+        this.showAlert();
         this.requestFineLocationPermission
 
         let UserID = await AsyncStorage.getItem('userID');
@@ -125,7 +138,7 @@ class Report extends Component {
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
                     </View>
                     <View style={styles.reportView}>
-                        <TouchableOpacity onPress={() => {this.showAlert(); this.sendSurvey()}}>
+                        <TouchableOpacity onPress={this._isconnected}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> BEM </Text>
                         </TouchableOpacity>
