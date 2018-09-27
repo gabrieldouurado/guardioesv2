@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
-import * as Imagem from '../../imgs/imageConst'
-import { CheckBox } from 'react-native-elements'
-import DatePicker from 'react-native-datepicker'
-import CountryPicker from 'react-native-country-picker-modal'
+import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
+import * as Imagem from '../../imgs/imageConst';
+import { CheckBox } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker';
+import CountryPicker from 'react-native-country-picker-modal';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import Emoji from 'react-native-emoji';
+import { scale } from '../scallingUtils';
 
 let data = new Date();
 let d = data.getDate();
@@ -45,65 +48,92 @@ class BadReport extends Component {
             checked_21: false,
             checked_22: false,
             date: today,
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
+    }
+
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            progressBarAlert: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
+
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                ]
+            )
+        });
     }
 
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
-        (position) => {
-            this.setState({
-            userLatitude: position.coords.latitude,
-            userLongitude: position.coords.longitude,
-            error: null,
-            });
-        },
-        (error) => this.setState({ error: error.message }),
-        { enableHighAccuracy: true, timeout: 50000 },
+            (position) => {
+                this.setState({
+                    userLatitude: position.coords.latitude,
+                    userLongitude: position.coords.longitude,
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
         );
     }
 
-    async requestFineLocationPermission(){
+    async requestFineLocationPermission() {
         try {
             const granted = await PermissionsAndroid.request(
                 android.permission.ACCESS_FINE_LOCATION,
-              {
-                'title': 'Permission for the app use the fine location',
-                'message': 'We want to use your fine location to make a report'
-              }
+                {
+                    'title': 'Permission for the app use the fine location',
+                    'message': 'We want to use your fine location to make a report'
+                }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 this.componentDidMount
             } else {
-              console.warn("Location permission denied")
+                console.warn("Location permission denied")
             }
-          } catch (err) {
+        } catch (err) {
             console.warn(err)
-          }
+        }
     }
 
-     //Function that creates a requisition to send the survey to the API
-     sendSurvey = async () => {
+    //Function that creates a requisition to send the survey to the API
+    sendSurvey = async () => {
 
         this.requestFineLocationPermission
 
         let UserID = await AsyncStorage.getItem('userID');
         this.setState({ UserID: UserID })
 
-        fetch('https://guardianes.centeias.net/survey/create',{
+        fetch('https://guardianes.centeias.net/survey/create', {
             method: 'POST',
             body: JSON.stringify({
-                user_id:this.state.UserID,
-                houselhold_id:"",
+                user_id: this.state.UserID,
+                houselhold_id: "",
                 lat: this.state.userLatitude,
                 lon: this.state.userLongitude,
-                no_symptom:"N",
-                week_of:this.state.date,
-                hadContagiousContact:this.state.checked_20,
-                hadHealthCare:this.state.checked_21,
-                hadTravlledAbroad:this.state.checked_22,
-                travelLocation:this.state.country,
-                app_token:"d41d8cd98f00b204e9800998ecf8427e",
-                platform:"",
+                no_symptom: "N",
+                week_of: this.state.date,
+                hadContagiousContact: this.state.checked_20,
+                hadHealthCare: this.state.checked_21,
+                hadTravlledAbroad: this.state.checked_22,
+                travelLocation: this.state.country,
+                app_token: "d41d8cd98f00b204e9800998ecf8427e",
+                platform: "",
                 bolhasNoPe: this.state.checked_1,
                 congestaoNasal: this.state.checked_2,
                 diarreia: this.state.checked_3,
@@ -125,21 +155,18 @@ class BadReport extends Component {
                 vomito: this.state.checked_19,
             })
         })
-        .then( (response) => response.json())
-        .then( (responseJson) => {
-            if (responseJson.error === false) {
-              AsyncStorage.setItem('survey_id', responseJson.id);
-              this.props.navigation.navigate('Home');
-              alert('Obrigado por reportar como está se sentindo no aplicativo Guardiões!!')
-            }
-            // else {
-            //   alert(responseJson.message)
-            // }
-        })
-        .done();
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    this.setState({ progressBarAlert: false });
+                    AsyncStorage.setItem('survey_id', responseJson.id);
+                }
+            })
     }
 
     render() {
+        const { showAlert } = this.state;
+
         const viajou = (
             <View>
                 <View><Text style={styles.commomTextView}>Para qual país você viajou?</Text></View>
@@ -160,7 +187,7 @@ class BadReport extends Component {
             checked_22True = viajou
         }
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
                     <DatePicker
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
@@ -173,7 +200,7 @@ class BadReport extends Component {
                         maxDate={today}
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
-                        customStyles={{                                    
+                        customStyles={{
                             dateInput: {
                                 borderWidth: 0
                             },
@@ -181,7 +208,7 @@ class BadReport extends Component {
                                 fontFamily: 'poiretOne',
                                 fontSize: 20
                             },
-                            placeholderText:{
+                            placeholderText: {
                                 marginLeft: 14,
                                 fontFamily: 'poiretOne',
                                 fontSize: 18,
@@ -486,20 +513,57 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" color="#9B6525" onPress={() => {if (this.state.date !== null) {
-                          this.sendSurvey()
+                        <Button title="Confirmar" color="#9B6525" onPress={() => {
+                            if (this.state.date !== null) {
+                                this.showAlert();
+                                this.sendSurvey();
+                            }
+                            else {
+                                alert("A data deve ser preenchida");
+                            }
                         }
-                        else{
-                            alert("A data deve ser preenchida");
-                        }
-                        }
-                        }/>
+                        } />
                     </View>
                 </ScrollView>
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.progressBarAlert ? true : false}
+                    title={this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}</Text>}
+                    message={this.state.progressBarAlert ? null : <Text>Seu relato foi enviado.{"\n"}Não se esqueça de ir ao médico caso os sintomas perdurem! {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.progressBarAlert ? false : true}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={false}
+                    showConfirmButton={this.state.progressBarAlert ? false : true}
+                    cancelText="No, cancel"
+                    confirmText="Voltar"
+                    confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onConfirmPressed={() => {
+                        this.props.navigation.navigate('Home')
+                    }}
+                    onDismiss={() => this.props.navigation.navigate('Home')}
+                />
             </ImageBackground>
         );
     }
 }
+
+const emojis = [
+    (
+        <Emoji //Emoji heart up
+            name='heart'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji //Emoji tada up
+            name='heavy_check_mark'
+            style={{ fontSize: scale(15) }}
+        />
+    )
+]               
 
 // define your styles
 const styles = StyleSheet.create({
@@ -535,7 +599,7 @@ const styles = StyleSheet.create({
         paddingBottom: 4,
         fontWeight: 'bold'
     },
-    textCountry:{
+    textCountry: {
         alignSelf: 'center',
         fontSize: 15,
         fontFamily: 'poiretOne',

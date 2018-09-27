@@ -7,10 +7,12 @@ import { scale } from '../scallingUtils';
 import Emoji from 'react-native-emoji';
 
 const emojis = [
-    (<Emoji //Emoji thumbs up
+    (
+    <Emoji //Emoji thumbs up
         name='+1'
         style={{ fontSize: scale(20) }}
-    />),
+    />
+    ),
     (
         <Emoji //Emoji rindo
             name='smiley'

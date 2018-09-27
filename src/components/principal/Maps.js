@@ -15,9 +15,7 @@ class Maps extends Component {
             userLatitude: null,
             userLongitude: null,
             isLoading: true,
-            dataSource: [],
-            hasSymp: dataSource.map(data => data.no_symptom === 'Y' ? this.setState({hasSymp: data}) : this.setState({}) )
-            
+            dataSource: [],            
         }
     }
 
@@ -105,9 +103,6 @@ class Maps extends Component {
                     }
                     )}
                 </MapView>
-                <TouchableOpacity style={{height: 90, position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.05)', width: '100%'}}>
-                    <Text>Ola</Text>
-                </TouchableOpacity>
             </View>
         );
     }
