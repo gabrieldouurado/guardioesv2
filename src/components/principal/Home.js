@@ -56,8 +56,8 @@ class Home extends Component {
         const { navigate } = this.props.navigation;
 
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <StatusBar backgroundColor='#babaae'/>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+                <StatusBar backgroundColor='#babaae' />
                 <View style={topo}>
                     <Text style={topoTexto1}>
                         Olá {this.state.userFirstName}!
@@ -71,7 +71,7 @@ class Home extends Component {
                     <TouchableOpacity
                         style={{ borderRadius: 180 }}
                         onPress={() => {
-                            navigate('Household')
+                            navigate('Reportar')
                         }}
                     >
                         <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
@@ -102,14 +102,14 @@ class Home extends Component {
                         <Text style={styles.BotoesTexto}>
                             Diário de Saúde
                             </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.inferiorBotoes}
-                            onPress={() => navigate('Mapa')}
-                        >
-                            <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }}/>
-                            <Text style={styles.BotoesTexto}>
-                                Mapa da Saúde
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.inferiorBotoes}
+                        onPress={() => navigate('Mapa')}
+                    >
+                        <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
+                        <Text style={styles.BotoesTexto}>
+                            Mapa da Saúde
                             </Text>
                     </TouchableOpacity>
 
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(135, 150, 151, 0.6)',
+        backgroundColor: 'rgba(223, 223, 208, 0.6)',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,

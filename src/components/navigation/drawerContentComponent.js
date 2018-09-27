@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Emoji from 'react-native-emoji';
 import Entypo from 'react-native-vector-icons/Entypo'
 import Feather from 'react-native-vector-icons/Feather'
-import { moderateScale, verticalScale } from '../scallingUtils'
+import { moderateScale, verticalScale, scale } from '../scallingUtils'
 import { Avatar } from 'react-native-elements'
 import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst'
@@ -79,32 +79,33 @@ export default class drawerContentComponents extends Component {
         }
 
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.headerContainer}>
-                    <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
-                        <View style={styles.shadowAvatar}>
-                            <View style={{borderWidth: 3.5, borderColor: '#C19036', borderRadius: 180}}>
-                            <Avatar
-                                xlarge
-                                rounded
-                                source={{ uri: this.state.pic }}
-                                activeOpacity={0.7}
-                            />
+            <View style={styles.container}>
+                <ScrollView>
+                    <View style={styles.headerContainer}>
+                        <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
+                            <View style={styles.shadowAvatar}>
+                                <View style={{ borderWidth: 3.5, borderColor: '#C19036', borderRadius: 180 }}>
+                                    <Avatar
+                                        xlarge
+                                        rounded
+                                        source={{ uri: this.state.pic }}
+                                        activeOpacity={0.7}
+                                    />
+                                </View>
                             </View>
-                        </View>
-                        <Text style={styles.headerText}>{this.state.userFirstName}</Text>
-                    </ImageBackground>
-                </View>
-                    <View style={{backgroundColor: '#C19036', height: 10}}></View>
-                <TouchableOpacity 
-                    style={styles.itemsContainer} 
-                    onPress={() => navigate('Home')}
-                >
-                    <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Início</Text>
-                </TouchableOpacity>
+                            <Text style={styles.headerText}>{this.state.userFirstName}</Text>
+                        </ImageBackground>
+                    </View>
+                    <View style={{ backgroundColor: '#C19036', height: 10 }}></View>
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Home')}
+                    >
+                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>Início</Text>
+                    </TouchableOpacity>
 
-                {/* <TouchableOpacity 
+                    {/* <TouchableOpacity 
                     style={styles.itemsContainer} 
                     onPress={() => Linking.openURL('https://google.com')}
                 >
@@ -112,15 +113,15 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Publicações</Text>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity 
-                    style={styles.itemsContainer} 
-                    onPress={() => navigate('Perfil')}
-                >
-                    <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Perfil</Text>
-                </TouchableOpacity>
+                    {/* <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Perfil')}
+                    >
+                        <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>Perfil</Text>
+                    </TouchableOpacity> */}
 
-                {/* <TouchableOpacity 
+                    {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
@@ -128,7 +129,7 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
                 </TouchableOpacity> */}
 
-                {/* <TouchableOpacity 
+                    {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
@@ -136,7 +137,7 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>EAD</Text>
                 </TouchableOpacity> */}
 
-                {/* <TouchableOpacity 
+                    {/* <TouchableOpacity 
                     style={styles.itemsContainer}
                     onPress={() => null}
                 >
@@ -144,36 +145,42 @@ export default class drawerContentComponents extends Component {
                     <Text style={styles.drawerItemsTxt}>Mensagens</Text>
                 </TouchableOpacity> */}
 
-                <TouchableOpacity 
-                    style={styles.itemsContainer}
-                    onPress={() => Linking.openURL('https://facebook.com')}
-                >
-                    <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Facebook</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
+                    >
+                        <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>Facebook</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity 
-                    style={styles.itemsContainer}
-                    onPress={() => navigate('Ajuda')}
-                >
-                    <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Ajuda</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Ajuda')}
+                    >
+                        <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>Ajuda</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity 
-                    style={styles.itemsContainer} 
-                    onPress={() => navigate('Sobre')}
-                >
-                    <FontAwesome name='home' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
-                    <Text style={styles.drawerItemsTxt}>Sobre</Text>
-                </TouchableOpacity>
-
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Sobre')}
+                    >
+                        <Entypo name='info-with-circle' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
+                        <Text style={styles.drawerItemsTxt}>Sobre</Text>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: scale(30) }}>
+                        <Text style={{ alignSelf: 'center', color: '#d6d6d6' }}>Temos mais vindo aí!  </Text>
+                        <Emoji
+                            name='wink'
+                            style={{ fontSize: scale(15) }}
+                        />
+                    </View>
+                </ScrollView>
                 <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
-
-                <View style={[{ flexDirection: 'row', padding: 8, justifyContent: 'center' }]}>
+                <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8 }]}>
                     {loginType}
                 </View>
-            </ScrollView>
+            </View>
 
         )
     }
@@ -181,6 +188,7 @@ export default class drawerContentComponents extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
     },
     headerContainer: {
         height: moderateScale(293),

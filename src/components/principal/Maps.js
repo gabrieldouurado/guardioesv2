@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { PermissionsAndroid, AsyncStorage } from 'react-native';
 
@@ -15,8 +15,7 @@ class Maps extends Component {
             userLatitude: null,
             userLongitude: null,
             isLoading: true,
-            dataSource: [],
-            
+            dataSource: [],            
         }
     }
 
@@ -104,6 +103,9 @@ class Maps extends Component {
                     }
                     )}
                 </MapView>
+                <TouchableOpacity style={{height: 90, position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.05)', width: '100%'}}>
+                    <Text>Ola</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -111,8 +113,8 @@ class Maps extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
-    container: { ...StyleSheet.absoluteFillObject },
-    map: { ...StyleSheet.absoluteFillObject }
+    container: { flex: 1, justifyContent: 'flex-end' },
+    map: { flex: 1 }
 });
 
 //make this component available to the app

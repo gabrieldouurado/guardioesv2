@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Alert, Linking } from 'react-native';
-import { imagemUnb } from '../../imgs/imageConst';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
 
@@ -16,10 +16,11 @@ class Sobre extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
 
                 <View style={styles.textView}>
-                    <Text style={styles.text}> {textos[0].textoGrande} </Text>
+                    <Text style={styles.textTitulo}> {textos[4].textoSobreTitulo} </Text>
+                    <Text style={styles.text}> {textos[4].textoSobre} </Text>
                 </View>
 
                 <View style={styles.imagesView}>
@@ -32,10 +33,10 @@ class Sobre extends Component {
                     <TouchableOpacity
                         onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
                     >
-                        <Image source={imagemUnb} style={styles.imageTwo} />
+                        <Image source={imagemCenteias} style={styles.imageTwo} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -46,17 +47,25 @@ const styles = StyleSheet.create({
     },
     textView: {
         flex: 3,
-        paddingHorizontal: '10%'
+        paddingHorizontal: '5%'
     },
     imagesView: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        padding: scale(30)
     },
     text: {
         fontFamily: 'myriadpro',
         fontSize: 18,
         fontWeight: '300',
+        textAlign: 'justify'
+    },
+    textTitulo: {
+        fontFamily: 'myriadpro',
+        fontSize: 20,
+        fontWeight: '300',
+        textAlign: 'center'
     },
     imageOne: {
         height: scale(100),

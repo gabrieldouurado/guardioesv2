@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { scale } from '../scallingUtils';
 import { Redirect, textos } from '../../constUtils';
-import { imagemFundo, imagemUnb } from '../../imgs/imageConst';
+import { imagemFundo, imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 
 export const ConselhoContent = props => {
     return (
@@ -24,7 +24,7 @@ export const ConselhoContent = props => {
                     <TouchableOpacity
                         onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
                     >
-                        <Image source={imagemUnb} style={styles.imageTwo} />
+                        <Image source={imagemCenteias} style={styles.imageTwo} />
                     </TouchableOpacity>
                 </View>
 
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 30
+        padding: 30,
     },
     text: {
         fontFamily: 'myriadpro',
