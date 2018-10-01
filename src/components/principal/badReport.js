@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
+import { NetInfo, ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage, Alert } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -113,9 +113,8 @@ class BadReport extends Component {
 
     //Function that creates a requisition to send the survey to the API
     sendSurvey = async () => {
-
+        this.showAlert();
         this.requestFineLocationPermission
-
         let UserID = await AsyncStorage.getItem('userID');
         this.setState({ UserID: UserID })
 
@@ -158,6 +157,7 @@ class BadReport extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
+                    this.hideAlert();
                     this.setState({ progressBarAlert: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
                 }
@@ -515,8 +515,7 @@ class BadReport extends Component {
                     <View style={styles.buttonView}>
                         <Button title="Confirmar" color="#9B6525" onPress={() => {
                             if (this.state.date !== null) {
-                                this.showAlert();
-                                this.sendSurvey();
+                                this._isconnected();
                             }
                             else {
                                 alert("A data deve ser preenchida");

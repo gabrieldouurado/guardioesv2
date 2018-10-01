@@ -205,6 +205,7 @@ class Registrar extends Component {
                         <Text style={styles.commomText}>Email:</Text>
                         <TextInput
                             style={styles.formInput}
+                            autoCapitalize='none'
                             keyboardType='email-address'
                             onChangeText={email => this.setState({ userEmail: email })}
                             onSubmitEditing={() => this.passwordInput.focus()}
