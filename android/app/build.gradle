@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-exit-app')
     compile project(':react-native-geolocation-service')
     compile project(':react-native-maps')
     compile project(':react-native-fbsdk')

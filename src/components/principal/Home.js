@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, BackAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
+import RNExitApp from 'react-native-exit-app';
+
+let cont = 0
 
 class Home extends Component {
     _didFocusSubscription;
@@ -30,7 +33,7 @@ class Home extends Component {
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
-            userFirstName: null
+            userFirstName: null,
         }
     }
 
@@ -55,7 +58,15 @@ class Home extends Component {
     }
 
     handleBackButton() {
-        BackAndroid.exitApp();
+        
+        cont = cont + 1;
+        
+        if(cont == 2){
+        RNExitApp.exitApp();
+        } else{
+            ToastAndroid.show('Aperta mais uma vez para sair', ToastAndroid.SHORT);
+        }
+
         return true;
     }
 
