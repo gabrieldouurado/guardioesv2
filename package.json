@@ -9,6 +9,7 @@
   "dependencies": {
     "@okgrow/react-native-copilot": "^2.4.1",
     "axios": "^0.18.0",
+    "immutability-helper": "^2.8.1",
     "prop-types": "^15.6.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
