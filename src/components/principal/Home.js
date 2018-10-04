@@ -64,7 +64,7 @@ class Home extends Component {
         if(cont == 2){
         RNExitApp.exitApp();
         } else{
-            ToastAndroid.show('Aperta mais uma vez para sair', ToastAndroid.SHORT);
+            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
         }
 
         return true;
@@ -80,7 +80,7 @@ class Home extends Component {
     }
 
     render() {
-        const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
+        const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
         const { navigate } = this.props.navigation;
 
         return (
@@ -105,7 +105,9 @@ class Home extends Component {
                         <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
                     </TouchableOpacity>
                 </View>
-
+                <Text style={topoTexto3}>
+                        Como está se sentindo hoje?
+                    </Text>
                 <View style={inferior}>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
@@ -168,8 +170,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'poiretOne',
     },
+    topoTexto3: {
+        fontSize: 20,
+        fontFamily: 'poiretOne',
+    },
     corpo: {
-        flex: 1.5,
+        flex: 1.2,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
