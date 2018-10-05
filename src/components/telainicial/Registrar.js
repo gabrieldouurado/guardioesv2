@@ -28,6 +28,7 @@ let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
+let minDate = (y - 13) + "-" + m + "-" + d;
 let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
@@ -160,10 +161,10 @@ class Registrar extends Component {
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="AAAA/MM/DD"
+                                placeholder="DD/MM/AAAA"
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
-                                maxDate={tomorrow}
+                                maxDate={minDate}
                                 confirmBtnText="Confirmar"
                                 cancelBtnText="Cancelar"
                                 customStyles={{
