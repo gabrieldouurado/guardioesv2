@@ -9,14 +9,18 @@ import {
     Button,
     Picker,
     AsyncStorage,
-    Keyboard
+    Keyboard,
+    NetInfo,
+    Alert
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
 import * as Imagem from '../../imgs/imageConst';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import { app_token } from '../../constUtils';
-
+import AwesomeAlert from 'react-native-awesome-alerts';
+import Emoji from 'react-native-emoji';
+import { scale } from '../scallingUtils';
 
 let data = new Date();
 let d = data.getDate();
@@ -24,6 +28,7 @@ let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
+let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -44,13 +49,41 @@ class Registrar extends Component {
             cca2: 'BR',
             loginOnFB: null,
             loginOnApp: null,
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg"
+            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
 
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            showProgressBar: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
+
+    _isconnected = () => {
+        let validation = false
+        this.state.userEmail && this.state.userPwd && this.state.userFirstName && this.state.userLastName && this.state.userDob ? validation = true : validation = false
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? validation ? this.create() : Alert.alert('Erro', 'Todos os campos devem ser preenchidos') : Alert.alert(
+                'Sem Internet!',
+                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                [
+                    { text: 'Ok, vou tentar mais tarde', onPress: () => null }
+                ]
+            )
+        });
+    }
     _responseInfoCallback = (error, result) => {
         if (error) {
-            alert('Error fetching data: ' + error.toString());            
+            alert('Error fetching data: ' + error.toString());
         } else {
             this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
             //Salva as informações para ir parar proxima página
@@ -60,13 +93,15 @@ class Registrar extends Component {
             AsyncStorage.setItem('userEmail', this.state.userEmail);
             AsyncStorage.setItem('userPwd', this.state.userPwd);
             AsyncStorage.setItem('avatar', this.state.pic);
-            this.props.navigation.navigate('AddInfo');            
+            this.props.navigation.navigate('AddInfo');
         }
     }
 
     render() {
+        const { showAlert } = this.state;
+
         return (
-            <ImageBackground style={styles.container} imageStyle={{resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -120,18 +155,18 @@ class Registrar extends Component {
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>Nascimento:</Text>
                             <DatePicker
-                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5}}
+                                style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
                                 showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="DD/MM/AAAA"
+                                placeholder="AAAA/MM/DD"
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
-                                maxDate={today}
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                customStyles={{                                    
+                                maxDate={tomorrow}
+                                confirmBtnText="Confirmar"
+                                cancelBtnText="Cancelar"
+                                customStyles={{
                                     dateInput: {
                                         borderWidth: 0
                                     },
@@ -140,7 +175,7 @@ class Registrar extends Component {
                                         fontFamily: 'poiretOne',
                                         fontSize: 17
                                     },
-                                    placeholderText:{
+                                    placeholderText: {
                                         marginBottom: 10,
                                         fontFamily: 'poiretOne',
                                         fontSize: 15,
@@ -161,7 +196,7 @@ class Registrar extends Component {
                                     cca2={this.state.cca2}
                                     translation="eng"
                                 />
-                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                                <Text style={styles.textCountry}>{this.state.userCountry}</Text>
                             </View>
                         </View>
                     </View>
@@ -190,7 +225,7 @@ class Registrar extends Component {
                         <Button
                             title="Registrar"
                             color="#9B6525"
-                            onPress={this.create} />
+                            onPress={this._isconnected} />
                     </View>
 
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
@@ -224,14 +259,33 @@ class Registrar extends Component {
                     </View>
 
                 </ScrollView>
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={this.state.showProgressBar ? 'Entrando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={false}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
+                    cancelText="No, cancel"
+                    confirmText="Voltar"
+                    confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onConfirmPressed={() => {
+                        this.props.navigation.navigate('Home')
+                    }}
+                    onDismiss={() => this.props.navigation.navigate('Home')}
+                />
             </ImageBackground>
         );
 
     }
     create = () => {
         Keyboard.dismiss()
-        // console.warn(typeof this.state.userApp)
-        // console.warn(this.state.userApp)
+        this.showAlert()
         fetch('https://guardianes.centeias.net/user/create', {
             method: 'POST',
             headers: {
@@ -253,12 +307,12 @@ class Registrar extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                        this.setState({ loginOnApp: 'true' })
-                        AsyncStorage.setItem('userName', this.state.userFirstName);
-                        AsyncStorage.setItem('avatar', this.state.pic);                      
-                        alert("Registrado com Sucesso")
-                        this.loginAfterCreate();                    
-                }else {
+                    this.setState({ loginOnApp: 'true' })
+                    AsyncStorage.setItem('userName', this.state.userFirstName);
+                    AsyncStorage.setItem('avatar', this.state.pic);
+                    alert("Registrado com Sucesso")
+                    this.loginAfterCreate();
+                } else {
                     alert(response.message);
                 }
             })
@@ -282,6 +336,7 @@ class Registrar extends Component {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                    this.hideAlert();
                     this.props.navigation.navigate('Home');
                 } else {
                     alert(responseJson.message)
@@ -290,6 +345,21 @@ class Registrar extends Component {
             .done();
     }
 }
+
+const emojis = [
+    (
+        <Emoji //Emoji heart up
+            name='heart'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji //Emoji tada up
+            name='tada'
+            style={{ fontSize: scale(15) }}
+        />
+    )
+]
 
 // define your styles
 const styles = StyleSheet.create({
@@ -381,7 +451,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10
     },
-    textCountry:{
+    textCountry: {
         fontSize: 15,
         fontFamily: 'poiretOne',
         fontWeight: '400',

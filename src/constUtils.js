@@ -58,8 +58,13 @@ Caso escolha mal você poderá escolher os sintomas e desde quando se sente mal.
         noticias: 'Tela de Notícias',
         noticiasCont: 'A tela de notícias é uma das funções que você acha na tela inicial, ela fica ligada no perfil do Twitter do Ministério da Saúde e lá você pode ver muitas informações pois eles sempre atualizam essa página. \
 Já que você está por aqui dê uma passadinha lá. ',
-        noticiasPs: 'Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email',
+        noticiasPs: 'Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email.',
         conselhos: 'Conselhos de Saúde',
-        conselhosCont: 'Aqui você encontra algumas informações importantes pra dar uma olhada, como Dengue Chicungunya e Zyca, telefones úteis e também, com auxílio do Google Maps você tem acesso à hospitais e farmácias perto de você',
+        conselhosCont: 'Aqui você encontra algumas informações importantes pra dar uma olhada, como Dengue Chicungunya e Zyca, telefones úteis e também, com auxílio do Google Maps você tem acesso à hospitais e farmácias perto de você.',
+        diario: 'Diário da Saúde',
+        diarioCont: 'Essa é uma das telas mais importantes, aqui você consegue visualizar todos os envios que você tenha feito e também tem um calendário caso você precise desses dados para esclarecer algo em um consulta médica, por exemplo.',
+        mapaSaude: 'Mapa da Saúde',
+        mapaSaudeCont: 'No Mapa da Saúde se tem acesso à todos os envios feitos na sua região, isso, é claro, sem expor nenhum dado sensível dos usuários. Essa função ajuda o usuário a ter uma visão de como anda a saúde das pessoas a sua volta para que ela consiga até se prevenir. \
+Por exemplo, se você ver que em uma certa área tem muitos relatos de sintomas de gripe você pode tomar um suco de laranja, ou se tiver sintomas de Dengue você pode evitar passar no lugar.'
     }
 ]
