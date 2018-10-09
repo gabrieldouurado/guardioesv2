@@ -3,6 +3,8 @@ package com.guardioesapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
+import com.horcrux.svg.SvgPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -21,6 +23,9 @@ import java.util.List;
 
 import com.airbnb.android.react.maps.MapsPackage;
 
+import com.facebook.react.bridge.ReadableNativeArray;
+import com.facebook.react.bridge.ReadableNativeMap;
+
 public class MainApplication extends Application implements ReactApplication {
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -38,6 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new MPAndroidChartPackage(),
+            new SvgPackage(),
             new RNFusedLocationPackage(),
             new MapsPackage(),
             new FBSDKPackage(mCallbackManager)
@@ -57,7 +64,10 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
-  super.onCreate();
-  AppEventsLogger.activateApp(this);
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+    ReadableNativeArray.setUseNativeAccessor(true);
+    ReadableNativeMap.setUseNativeAccessor(true);
+    AppEventsLogger.activateApp(this);
   }
 }

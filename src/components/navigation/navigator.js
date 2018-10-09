@@ -25,6 +25,8 @@ import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
 import requestTest from '../principal/requestTest';
 import TermosPoliticas from '../principal/TermosPoliticas';
+import CopilotTest from '../principal/copilot';
+
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -70,6 +72,7 @@ export const Stack = createStackNavigator({
     ChooseReporter,
     requestTest,
     TermosPoliticas,
+    CopilotTest,
 
 }, {
         initialRouteName: 'Home',

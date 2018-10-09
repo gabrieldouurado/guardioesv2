@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import * as Navegar from './src/components/navigation/navigator';
 
 class Guardioes extends Component {
-  render() {
-    return (
-      <Navegar.Drawer />
-    );
+ render() {
+   return (
+     <Navegar.Drawer />
+   );
   }
 }
 
