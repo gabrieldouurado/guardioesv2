@@ -132,7 +132,7 @@ class Report extends Component {
         const { showAlert } = this.state;
 
         return (
-            <ScrollView /*style={styles.container}*/>
+            <View style={styles.container}>
                 <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
@@ -173,7 +173,7 @@ class Report extends Component {
                     }}
                     onDismiss={() => this.props.navigation.navigate('Home')}
                 />
-            </ScrollView>
+            </View>
 
         );
     }
@@ -197,7 +197,6 @@ const emojis = [
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: height - scale(70),
     },
     titulo: {
 
