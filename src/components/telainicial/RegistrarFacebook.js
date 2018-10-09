@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TextInput, ScrollView, Button, TouchableOpacity, Picker, AsyncStorage, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import * as Imagem from '../../imgs/imageConst';
 import { LoginManager } from 'react-native-fbsdk';
+import { app_token } from '../../constUtils';
+
 
 
 let data = new Date();
@@ -29,7 +31,7 @@ class AddInfo extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            userApp: 'd41d8cd98f00b204e9800998ecf8427e',
+            userApp: app_token,
             cca2: 'BR',
             loginOnFB: null,
             sessionStart: null,

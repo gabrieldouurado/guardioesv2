@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
 
+let cont = 0
+
 class Home extends Component {
+    _didFocusSubscription;
+    _willBlurSubscription;
+
     navOptions // rolê para acessar a drawer em uma função estática
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
@@ -24,6 +29,8 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
             userFirstName: null
         }
@@ -40,6 +47,26 @@ class Home extends Component {
             _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
         })
         this._getInfos()
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));        
+    }
+
+    componentWillUnmount() {
+        this._didFocusSubscription && this._didFocusSubscription.remove();
+        this._willBlurSubscription && this._willBlurSubscription.remove();
+    }
+
+    handleBackButton() {
+        
+        cont = cont + 1;
+        
+        if(cont == 2){
+            BackHandler.exitApp();
+        } else{
+            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
+        }
+
+        return true;
     }
 
     openDrawer() {// rolê para acessar a drawer em uma função estática
