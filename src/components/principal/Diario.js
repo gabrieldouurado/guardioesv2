@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
   },
   Calendario: {
     fontFamily: 'poiretOne',
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: '400',
 
   },
@@ -489,12 +489,12 @@ const styles = StyleSheet.create({
   },
   chart: {
     width: Dimensions.get('window').width,
-    height: 480,
+    height: 375,
     marginBottom: 100
   },
   Chart: {
     fontFamily: 'poiretOne',
-    fontSize: 28,
+    fontSize: 23,
     fontWeight: '400',
     margin: 5,
 
