@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, BackAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
+
+let cont = 0
 
 class Home extends Component {
     _didFocusSubscription;
@@ -55,7 +57,15 @@ class Home extends Component {
     }
 
     handleBackButton() {
-        BackAndroid.exitApp();
+        
+        cont = cont + 1;
+        
+        if(cont == 2){
+            BackHandler.exitApp();
+        } else{
+            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
+        }
+
         return true;
     }
 
