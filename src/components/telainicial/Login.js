@@ -5,10 +5,11 @@ import { LoginButton, AccessToken, GraphRequest, GraphRequestManager, LoginManag
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
+import translate from '../../../locales/i18n';
 
 class Login extends Component {
     static navigationOptions = {
-        title: "Login",
+        title: translate('login.title'),
     }
     constructor(props) {
         super(props);
@@ -68,7 +69,7 @@ class Login extends Component {
                         <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
                     </View>
                     <View style={styles.viewForm}>
-                        <Text style={styles.commomText}>E-mail:</Text>
+                        <Text style={styles.commomText}>{translate('login.email')}</Text>
                         <TextInput
                             style={styles.formInput}
                             autoCapitalize='none'
