@@ -1,6 +1,6 @@
 export default {
     "initialscreen": {
-        "title": "",
+        "title": "Guardians of Health",
         "welcome": "Welcome!",
         "subwelcome": "Are you ready to be a Guardian of Health",
         "signup": "Sign up",

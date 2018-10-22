@@ -42,11 +42,11 @@ class Login extends Component {
         let validation = false
         this.state.userEmail && this.state.userPwd ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.login() : Alert.alert('Email ou senha invalidos', 'Email/senha nao podem estar em branco') : Alert.alert(
-                'Sem Internet!',
-                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+            isConnected ? validation ? this.login() : Alert.alert(translate("login.errorMessages.emailPwdWrong"), translate("login.errorMessages.emailPwdCantBeBlank")) : Alert.alert(
+                translate("login.noInternet.noInternetConnection"),
+                translate("login.noInternet.ohNo"),
                 [
-                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                    {text: translate("login.noInternet.alertAllRightMessage"), onPress: () => null}
                 ]
             )
         });
@@ -79,7 +79,7 @@ class Login extends Component {
                             onSubmitEditing={() => this.passwordInput.focus()}
                             onChangeText={(text) => this.setState({ userEmail: text })}
                         />
-                        <Text style={styles.commomText}>Senha:</Text>
+                        <Text style={styles.commomText}>{translate("login.password")}</Text>
                         <TextInput
                             style={styles.formInput}
                             secureTextEntry={true}
@@ -90,22 +90,20 @@ class Login extends Component {
                         />
                         <View style={styles.buttonView}>
                             <Button
-                                title="Entrar"
+                                title={translate("login.loginbutton")}
                                 color="#9B6525"
                                 onPress={this._isconnected} />
                         </View>
                         <View style={{ paddingTop: 20 }}>
                             <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
-                                Conectar Via Facebook
+                                {translate("login.connectWithFacebook")}
                     </Text>
                             <LoginButton
                                 readPermissions={['public_profile', 'email']}
                                 onLoginFinished={
                                     (error, result) => {
                                         if (error) {
-                                            alert("login com erro: " + result.error);
-                                        } else if (result.isCancelled) {
-                                            alert("login foi cancelado.");
+                                            alert(translate("login.facebookLogin.error") + result.error);
                                         } else {
                                             AccessToken.getCurrentAccessToken().then(
                                                 (data) => {
@@ -124,27 +122,18 @@ class Login extends Component {
                                 onLogoutFinished={() => { null }} />
                         </View>
                     </View>
-                </ImageBackground>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? 'Entrando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
-                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    title={this.state.showProgressBar ? translate("login.awesomeAlert.accessing") : null}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
-                    cancelText="No, cancel"
-                    confirmText="Voltar"
+                    
                     confirmButtonColor="#DD6B55"
-                    // onCancelPressed={() => {
-                    //     this.hideAlert();
-                    // }}
-                    // onConfirmPressed={() => {
-                    //     this.props.navigation.navigate('Home')
-                    // }}
-                    // onDismiss={() => this.props.navigation.navigate('Home')}
                 />
+                </ImageBackground>
             </ScrollView>
         );
     }
@@ -173,7 +162,7 @@ class Login extends Component {
                             AsyncStorage.setItem('userName', this.state.userFirstName);
                             AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
                             this.props.navigation.navigate('Home');
-                            alert("Logado via Facebook")
+                            // alert("Logado via Facebook")
                         } else {
                             Keyboard.dismiss()
                             this.hideAlert()
