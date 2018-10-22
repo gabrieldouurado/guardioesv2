@@ -17,10 +17,10 @@ class Home extends Component {
         return {
             title: 'Guardiões da Saúde',
             headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
+                <Icon.Button name='menu' size={scale(30)} color='#fff' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
             ),
             headerTitleStyle: {
-                fontFamily: 'poiretOne',
+                fontFamily: 'roboto',
                 fontWeight: '400' //fontWeight can't be higher than 400
             }
 
@@ -165,15 +165,15 @@ const styles = StyleSheet.create({
     },
     topoTexto1: {
         fontSize: 30,
-        fontFamily: 'poiretOne'
+        fontFamily: 'roboto'
     },
     topoTexto2: {
         fontSize: 18,
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
     },
     topoTexto3: {
         fontSize: 20,
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
     },
     corpo: {
         flex: 1.5,
@@ -189,19 +189,19 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(223, 223, 208, 0.6)',
+        backgroundColor: '#348EAC',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
     },
     BotoesTexto: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         alignSelf: 'center',
         textAlign: 'justify',
         marginLeft: 40,
-        fontSize: 18,
-        color: 'black',
+        fontSize: 16,
+        color: 'white',
     }
 });
 
