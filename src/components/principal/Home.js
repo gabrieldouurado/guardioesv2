@@ -2,9 +2,23 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
 
+import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
+
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableImage = walkthroughable(Image);
+
 class Home extends Component {
+    static propTypes = {
+        start: PropTypes.func.isRequired,
+        copilotEvents: PropTypes.shape({
+            on: PropTypes.func.isRequired,
+
+        }).isRequired,
+    };
+
     navOptions // rolê para acessar a drawer em uma função estática
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
@@ -25,7 +39,8 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userFirstName: null
+            userFirstName: null,
+            secondStepActive: true,
         }
     }
 
@@ -35,11 +50,29 @@ class Home extends Component {
     }
 
     componentDidMount() {
+
+        this.runTutorial();
+
         this.props.navigation.setParams({// rolê para acessar a drawer em uma função estática
             _onHeaderEventControl: this.onHeaderEventControl,// rolê para acessar a drawer em uma função estática
             _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
         })
         this._getInfos()
+        
+    }
+
+    runTutorial = async () =>{
+        let runTutorial = await AsyncStorage.getItem('RunTutorial');
+        this.setState({runTutorial: runTutorial});
+        if (this.state.runTutorial === 'true') {
+            this.props.copilotEvents.on('stepChange', this.handleStepChange);
+            this.props.start();
+            AsyncStorage.removeItem('RunTutorial');  
+        }
+    }
+
+    handleStepChange = (step) => {
+        console.log(`Current step is: ${step.name}`);
     }
 
     openDrawer() {// rolê para acessar a drawer em uma função estática
@@ -54,17 +87,16 @@ class Home extends Component {
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
         const { navigate } = this.props.navigation;
-
+        const welcomeMessage = "                Olá " + this.state.userFirstName + "\n Agora você é um guardião da saúde!"
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <StatusBar backgroundColor='#babaae' />
                 <View style={topo}>
-                    <Text style={topoTexto1}>
-                        Olá {this.state.userFirstName}!
-                    </Text>
-                    <Text style={topoTexto2}>
-                        Agora você é um guardião da saúde!
-                    </Text>
+                    <CopilotStep text="Agora você conhecerá nossas principais funções!" order={1} name="openApp">
+                        <WalkthroughableText style={topoTexto2}>
+                            {welcomeMessage}
+                        </WalkthroughableText>
+                    </CopilotStep>
                 </View>
 
                 <View style={corpo}>
@@ -74,23 +106,34 @@ class Home extends Component {
                             navigate('Reportar')
                         }}
                     >
-                        <Image source={Imagem.imagemReportar} style={{ height: scale(160), width: scale(160), borderRadius: 200 }} />
+                        <CopilotStep active={this.state.secondStepActive} text="Clicando aqui você poderá informar seu estado de saúde" order={2} name="secondText">
+                            <WalkthroughableImage
+                                source={Imagem.imagemReportar}
+                                style={{ height: scale(160), width: scale(160), borderRadius: 200, marginVertical: 20 }}
+                            />
+                        </CopilotStep>
                     </TouchableOpacity>
                 </View>
 
                 <View style={inferior}>
+
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Noticias')}>
-                        <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
+                        <CopilotStep text="Aqui temos notícias quentinhas relacionadas à saúde" order={3} name="thirdText">
+                            <WalkthroughableImage source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
+                        </CopilotStep>
                         <Text style={styles.BotoesTexto}>
                             Notícias
-                            </Text>
+                        </Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Conselho')}>
-                        <Image source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
+                        <CopilotStep text="Aqui você encontra diversas informações relacionadas à saúde" order={4} name="fourthText">
+                            <WalkthroughableImage source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
+                        </CopilotStep>
                         <Text style={styles.BotoesTexto}>
                             Conselho de Saúde
                             </Text>
@@ -98,7 +141,9 @@ class Home extends Component {
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Diario')}>
-                        <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
+                        <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
+                            <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
+                        </CopilotStep>
                         <Text style={styles.BotoesTexto}>
                             Diário de Saúde
                             </Text>
@@ -107,7 +152,9 @@ class Home extends Component {
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Mapa')}
                     >
-                        <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
+                        <CopilotStep text="Aqui você pode acessar um mapa para ver como as pessoas estão ao seu redor" order={6} name="sixthText">
+                            <WalkthroughableImage source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
+                        </CopilotStep>
                         <Text style={styles.BotoesTexto}>
                             Mapa da Saúde
                             </Text>
@@ -137,7 +184,7 @@ const styles = StyleSheet.create({
         fontFamily: 'poiretOne'
     },
     topoTexto2: {
-        fontSize: 18,
+        fontSize: 22,
         fontFamily: 'poiretOne',
     },
     corpo: {
@@ -171,4 +218,7 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Home;
+export default copilot({
+    animated: true, // Can be true or false
+    overlay: 'svg', // Can be either view or svg
+})(Home);

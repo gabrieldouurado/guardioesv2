@@ -155,7 +155,7 @@ export default class drawerContentComponents extends Component {
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
-                        onPress={() => navigate('CopilotTest')}
+                        onPress={() => navigate('Ajuda')}
                     >
                         <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Ajuda</Text>
