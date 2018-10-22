@@ -10,7 +10,7 @@ import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copi
 
 const WalkthroughableText = walkthroughable(Text);
 const WalkthroughableImage = walkthroughable(Image);
-
+let cont = 0
 class Home extends Component {
     static propTypes = {
         start: PropTypes.func.isRequired,
@@ -20,9 +20,6 @@ class Home extends Component {
         }).isRequired,
     };
 
-let cont = 0
-
-class Home extends Component {
     _didFocusSubscription;
     _willBlurSubscription;
 
@@ -118,7 +115,7 @@ class Home extends Component {
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = "                Olá " + this.state.userFirstName + "\n Agora você é um guardião da saúde!"
+        const welcomeMessage = "Olá " + this.state.userFirstName + "," + " agora você é um guardião da saúde!!"
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <StatusBar backgroundColor='#babaae' />
@@ -140,7 +137,7 @@ class Home extends Component {
                         <CopilotStep active={this.state.secondStepActive} text="Clicando aqui você poderá informar seu estado de saúde" order={2} name="secondText">
                             <WalkthroughableImage
                                 source={Imagem.imagemReportar}
-                                style={{ height: scale(160), width: scale(160), borderRadius: 200, marginVertical: 20 }}
+                                style={{ height: scale(160), width: scale(160), borderRadius: 200 }}
                             />
                         </CopilotStep>
                     </TouchableOpacity>
@@ -219,10 +216,10 @@ const styles = StyleSheet.create({
         fontFamily: 'roboto'
     },
     topoTexto2: {
-        fontSize: 22,
-        fontFamily: 'poiretOne',
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'roboto',
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
     topoTexto3: {
         fontSize: 20,
