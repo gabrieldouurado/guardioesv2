@@ -11,7 +11,7 @@ import { Dimensions } from 'react-native'
 import update from "immutability-helper"
 import { LineChart } from "react-native-charts-wrapper";
 
-const greenBlue = "rgb(26, 182, 151)";
+const GreenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
 
 let data = new Date();
@@ -118,8 +118,8 @@ class Diario extends Component {
       markedDateNo: markedDateNo,
     })
 
-    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'red' } }), {});
-    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'green' } }), {});
+    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#BF092E' } }), {});
+    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#058B09' } }), {});
 
     Object.assign(GoodReport, BadReport);
 
@@ -265,7 +265,7 @@ class Diario extends Component {
                 rounded
                 source={{ uri: this.state.pic }}
                 activeOpacity={0.7}
-                style={{ borderWidth: 1, borderColor: 'red', }}
+                style={{ borderWidth: 1, borderColor: '#BF092E', }}
               />
               <Text style={styles.UserName}>
                 {this.state.userName}
@@ -312,11 +312,11 @@ class Diario extends Component {
                       drawValues: false,
                       lineWidth: 5,
                       drawCircles: true,
-                      circleColor: processColor(greenBlue),
+                      circleColor: processColor(GreenBlue),
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("transparent"),
-                      color: processColor('green'),
+                      color: processColor('#058B09'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -334,7 +334,7 @@ class Diario extends Component {
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("#fffffff"),
-                      color: processColor('red'),
+                      color: processColor('#BF092E'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -462,12 +462,12 @@ const styles = StyleSheet.create({
   numBad: {
     fontFamily: 'roboto',
     fontSize: 16,
-    color: 'red',
+    color: '#BF092E',
   },
   numGood: {
     fontFamily: 'roboto',
     fontSize: 16,
-    color: 'green',
+    color: '#058B09',
   },
   ViewCalendario: {
     backgroundColor: '#348EAC',
