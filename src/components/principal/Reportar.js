@@ -132,7 +132,7 @@ class Report extends Component {
         const { showAlert } = this.state;
 
         return (
-            <ScrollView /*style={styles.container}*/>
+            <View style={styles.container}>
                 <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
                         <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
@@ -156,7 +156,7 @@ class Report extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={ this.state.showProgressBar ? 'Enviando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    title={ this.state.showProgressBar ? 'Enviando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
@@ -173,7 +173,7 @@ class Report extends Component {
                     }}
                     onDismiss={() => this.props.navigation.navigate('Home')}
                 />
-            </ScrollView>
+            </View>
 
         );
     }
@@ -197,7 +197,6 @@ const emojis = [
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: height - scale(70),
     },
     titulo: {
 

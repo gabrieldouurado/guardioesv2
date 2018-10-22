@@ -81,15 +81,15 @@ const styles = StyleSheet.create({
         marginTop: -30
     },
     textTitulo: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontSize: 27,
-        color: '#9B6525',
+        color: '#348EAC',
         marginBottom: 5
     },
     textCorpo: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontSize: 19,
-        color: '#9B6525'
+        color: '#348EAC'
     },
     viewBotoes: {
         flexDirection: 'row',

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
+
 
 import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
 
@@ -19,6 +20,13 @@ class Home extends Component {
         }).isRequired,
     };
 
+let cont = 0
+
+class Home extends Component {
+    _didFocusSubscription;
+    _willBlurSubscription;
+
+
     navOptions // rolê para acessar a drawer em uma função estática
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
@@ -26,10 +34,10 @@ class Home extends Component {
         return {
             title: 'Guardiões da Saúde',
             headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
+                <Icon.Button name='menu' size={scale(30)} color='#fff' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
             ),
             headerTitleStyle: {
-                fontFamily: 'poiretOne',
+                fontFamily: 'roboto',
                 fontWeight: '400' //fontWeight can't be higher than 400
             }
 
@@ -38,6 +46,8 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
             userFirstName: null,
             secondStepActive: true,
@@ -73,6 +83,27 @@ class Home extends Component {
 
     handleStepChange = (step) => {
         console.log(`Current step is: ${step.name}`);
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));        
+    }
+
+    componentWillUnmount() {
+        this._didFocusSubscription && this._didFocusSubscription.remove();
+        this._willBlurSubscription && this._willBlurSubscription.remove();
+    }
+
+    handleBackButton() {
+        
+        cont = cont + 1;
+        
+        if(cont == 2){
+            BackHandler.exitApp();
+        } else{
+            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
+        }
+
+        return true;
+
     }
 
     openDrawer() {// rolê para acessar a drawer em uma função estática
@@ -85,7 +116,7 @@ class Home extends Component {
     }
 
     render() {
-        const { topo, corpo, inferior, topoTexto1, topoTexto2 } = styles;
+        const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
         const { navigate } = this.props.navigation;
         const welcomeMessage = "                Olá " + this.state.userFirstName + "\n Agora você é um guardião da saúde!"
         return (
@@ -114,6 +145,10 @@ class Home extends Component {
                         </CopilotStep>
                     </TouchableOpacity>
                 </View>
+
+                <Text style={topoTexto3}>
+                    Como está se sentindo hoje?
+                    </Text>
 
                 <View style={inferior}>
 
@@ -181,11 +216,17 @@ const styles = StyleSheet.create({
     },
     topoTexto1: {
         fontSize: 30,
-        fontFamily: 'poiretOne'
+        fontFamily: 'roboto'
     },
     topoTexto2: {
         fontSize: 22,
         fontFamily: 'poiretOne',
+        fontSize: 18,
+        fontFamily: 'roboto',
+    },
+    topoTexto3: {
+        fontSize: 20,
+        fontFamily: 'roboto',
     },
     corpo: {
         flex: 1.5,
@@ -201,19 +242,19 @@ const styles = StyleSheet.create({
     },
     inferiorBotoes: {
         flexDirection: 'row',
-        backgroundColor: 'rgba(223, 223, 208, 0.6)',
+        backgroundColor: '#348EAC',
         width: '80%',
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
     },
     BotoesTexto: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         alignSelf: 'center',
         textAlign: 'justify',
         marginLeft: 40,
-        fontSize: 18,
-        color: 'black',
+        fontSize: 16,
+        color: 'white',
     }
 });
 

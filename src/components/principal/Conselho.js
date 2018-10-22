@@ -4,12 +4,12 @@ import { Icon } from 'react-native-elements';
 import { imagemFundo } from '../../imgs/imageConst';
 import { Redirect } from '../../constUtils';
 
-const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
-const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#C19036' />)
-const disease = (<Icon name='bug' type={'font-awesome'} size={30} color='#C19036' />)
-const telefones = (<Icon name='phone' size={30} color='#C19036' />)
-const viajante = (<Icon name='airplane' type={'material-community'} size={30} color='#C19036' />)
-const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#C19036' />)
+const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#348EAC' />)
+const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#348EAC' />)
+const disease = (<Icon name='bug' type={'font-awesome'} size={30} color='#348EAC' />)
+const telefones = (<Icon name='phone' size={30} color='#348EAC' />)
+const viajante = (<Icon name='airplane' type={'material-community'} size={30} color='#348EAC' />)
+const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#348EAC' />)
 
 const DButtons = (props) => {
     // const { navigate } = props.navigation;
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     textoSelector: {
-        fontFamily: 'poiretOne',
-        fontSize: 18,
+        fontFamily: 'roboto',
+        fontSize: 16,
         marginLeft: 12,
         alignSelf: 'center',
-        color: '#465F6C',
+        color: '#348EAC',
     },
 
 });

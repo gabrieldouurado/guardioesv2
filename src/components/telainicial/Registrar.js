@@ -28,6 +28,7 @@ let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
+let minDate = (y - 13) + "-" + m + "-" + d;
 let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
@@ -160,10 +161,10 @@ class Registrar extends Component {
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="AAAA/MM/DD"
+                                placeholder="DD/MM/AAAA"
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
-                                maxDate={tomorrow}
+                                maxDate={minDate}
                                 confirmBtnText="Confirmar"
                                 cancelBtnText="Cancelar"
                                 customStyles={{
@@ -172,12 +173,12 @@ class Registrar extends Component {
                                     },
                                     dateText: {
                                         marginBottom: 10,
-                                        fontFamily: 'poiretOne',
+                                        fontFamily: 'roboto',
                                         fontSize: 17
                                     },
                                     placeholderText: {
                                         marginBottom: 10,
-                                        fontFamily: 'poiretOne',
+                                        fontFamily: 'roboto',
                                         fontSize: 15,
                                         color: 'black'
                                     }
@@ -224,12 +225,12 @@ class Registrar extends Component {
                     <View style={styles.buttonView}>
                         <Button
                             title="Registrar"
-                            color="#9B6525"
+                            color="#348EAC"
                             onPress={this._isconnected} />
                     </View>
 
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
-                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                             Cadastar com Facebook
                         </Text>
                         <LoginButton
@@ -262,7 +263,7 @@ class Registrar extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? 'Entrando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    title={this.state.showProgressBar ? 'Cadastrando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
@@ -271,13 +272,13 @@ class Registrar extends Component {
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"
-                    onCancelPressed={() => {
-                        this.hideAlert();
-                    }}
-                    onConfirmPressed={() => {
-                        this.props.navigation.navigate('Home')
-                    }}
-                    onDismiss={() => this.props.navigation.navigate('Home')}
+                    // onCancelPressed={() => {
+                    //     this.hideAlert();
+                    // }}
+                    // onConfirmPressed={() => {
+                    //     this.props.navigation.navigate('Home')
+                    // }}
+                    // onDismiss={() => this.props.navigation.navigate('Home')}
                 />
             </ImageBackground>
         );
@@ -425,14 +426,13 @@ const styles = StyleSheet.create({
         height: 35,
         fontSize: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#9B6525',
+        borderBottomColor: '#348EAC',
         paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -440,8 +440,7 @@ const styles = StyleSheet.create({
     },
     commomTextView: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -455,8 +454,7 @@ const styles = StyleSheet.create({
     },
     textCountry: {
         fontSize: 15,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
     }
 });
 

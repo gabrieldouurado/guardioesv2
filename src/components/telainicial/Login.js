@@ -90,11 +90,11 @@ class Login extends Component {
                         <View style={styles.buttonView}>
                             <Button
                                 title="Entrar"
-                                color="#9B6525"
+                                color="#348EAC"
                                 onPress={this._isconnected} />
                         </View>
                         <View style={{ paddingTop: 20 }}>
-                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                                 Conectar Via Facebook
                     </Text>
                             <LoginButton
@@ -127,7 +127,7 @@ class Login extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? 'Entrando' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    title={this.state.showProgressBar ? 'Entrando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
@@ -136,13 +136,13 @@ class Login extends Component {
                     cancelText="No, cancel"
                     confirmText="Voltar"
                     confirmButtonColor="#DD6B55"
-                    onCancelPressed={() => {
-                        this.hideAlert();
-                    }}
-                    onConfirmPressed={() => {
-                        this.props.navigation.navigate('Home')
-                    }}
-                    onDismiss={() => this.props.navigation.navigate('Home')}
+                    // onCancelPressed={() => {
+                    //     this.hideAlert();
+                    // }}
+                    // onConfirmPressed={() => {
+                    //     this.props.navigation.navigate('Home')
+                    // }}
+                    // onDismiss={() => this.props.navigation.navigate('Home')}
                 />
             </ScrollView>
         );
@@ -194,6 +194,7 @@ class Login extends Component {
                             this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
                             LoginManager.logOut();
                         } else {
+                            this.hideAlert()
                             alert(responseJson.message)
                         }
                     }
@@ -249,12 +250,12 @@ const styles = StyleSheet.create({
         height: 35,
         fontSize: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#9B6525',
+        borderBottomColor: '#348EAC',
         paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontWeight: '400',
         fontSize: 20,
         color: '#465F6C',

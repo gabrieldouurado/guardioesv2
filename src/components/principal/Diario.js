@@ -118,8 +118,8 @@ class Diario extends Component {
       markedDateNo: markedDateNo,
     })
 
-    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#64C2D4' } }), {});
-    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#C19036' } }), {});
+    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'red' } }), {});
+    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'green' } }), {});
 
     Object.assign(GoodReport, BadReport);
 
@@ -316,7 +316,7 @@ class Diario extends Component {
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("transparent"),
-                      color: processColor('#C19036'),
+                      color: processColor('green'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -334,7 +334,7 @@ class Diario extends Component {
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("#fffffff"),
-                      color: processColor('#64C2D4'),
+                      color: processColor('red'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -419,14 +419,12 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   UserName: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 28,
-    fontWeight: '400',
     marginBottom: 10,
   },
   NumReports: {
     fontSize: 20,
-    fontWeight: '400',
     margin: 10,
   },
   Top: {
@@ -449,12 +447,12 @@ const styles = StyleSheet.create({
     margin: '2%',
   },
   GoodPercent: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 24,
     margin: 10,
   },
   BadPercent: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 24,
     margin: 10,
   },
@@ -462,23 +460,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   numBad: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 16,
-    color: '#64C2D4',
+    color: 'red',
   },
   numGood: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 16,
-    color: '#C19036',
+    color: 'green',
   },
   ViewCalendario: {
-    backgroundColor: '#C19036',
+    backgroundColor: '#348EAC',
     alignItems: 'center',
   },
   Calendario: {
-    fontFamily: 'poiretOne',
-    fontSize: 36,
-    fontWeight: '400',
+    fontFamily: 'roboto',
+    fontSize: 28,
+    color: 'white'
 
   },
   CalendarDate: {
@@ -489,14 +487,14 @@ const styles = StyleSheet.create({
   },
   chart: {
     width: Dimensions.get('window').width,
-    height: 480,
+    height: 375,
     marginBottom: 100
   },
   Chart: {
-    fontFamily: 'poiretOne',
-    fontSize: 28,
-    fontWeight: '400',
+    fontFamily: 'roboto',
+    fontSize: 23,
     margin: 5,
+    color: 'white'
 
   },
 });
