@@ -313,6 +313,7 @@ class Registrar extends Component {
                     AsyncStorage.setItem('avatar', this.state.pic);
                     alert("Registrado com Sucesso")
                     this.loginAfterCreate();
+                    
                 } else {
                     alert(response.message);
                 }
@@ -337,6 +338,7 @@ class Registrar extends Component {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                    AsyncStorage.setItem('RunTutorial', 'true');
                     this.hideAlert();
                     this.props.navigation.navigate('Home');
                 } else {
