@@ -8,7 +8,7 @@ import { Dimensions } from 'react-native';
 import { LineChart } from "react-native-charts-wrapper";
 import translate from '../../../locales/i18n';
 
-const greenBlue = "rgb(26, 182, 151)";
+const GreenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
 
 let data = new Date();
@@ -116,8 +116,8 @@ class Diario extends Component {
       markedDateNo: markedDateNo,
     })
 
-    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#64C2D4' } }), {});
-    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#C19036' } }), {});
+    let BadReport = markedDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#BF092E' } }), {});
+    let GoodReport = markedDateNo.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: '#058B09' } }), {});
 
     Object.assign(GoodReport, BadReport);
 
@@ -263,7 +263,7 @@ class Diario extends Component {
                 rounded
                 source={{ uri: this.state.pic }}
                 activeOpacity={0.7}
-                style={{ borderWidth: 1, borderColor: 'red', }}
+                style={{ borderWidth: 1, borderColor: '#BF092E', }}
               />
               <Text style={styles.UserName}>
                 {this.state.userName}
@@ -310,11 +310,11 @@ class Diario extends Component {
                       drawValues: false,
                       lineWidth: 5,
                       drawCircles: true,
-                      circleColor: processColor(greenBlue),
+                      circleColor: processColor(GreenBlue),
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("transparent"),
-                      color: processColor('#C19036'),
+                      color: processColor('#058B09'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -332,7 +332,7 @@ class Diario extends Component {
                       drawCircleHole: true,
                       circleRadius: 5,
                       highlightColor: processColor("#fffffff"),
-                      color: processColor('#64C2D4'),
+                      color: processColor('#BF092E'),
                       drawFilled: false,
                       valueTextSize: 15,
 
@@ -417,14 +417,12 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   UserName: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 28,
-    fontWeight: '400',
     marginBottom: 10,
   },
   NumReports: {
     fontSize: 20,
-    fontWeight: '400',
     margin: 10,
   },
   Top: {
@@ -447,12 +445,12 @@ const styles = StyleSheet.create({
     margin: '2%',
   },
   GoodPercent: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 24,
     margin: 10,
   },
   BadPercent: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 24,
     margin: 10,
   },
@@ -460,23 +458,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   numBad: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 16,
-    color: '#64C2D4',
+    color: '#BF092E',
   },
   numGood: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 16,
-    color: '#C19036',
+    color: '#058B09',
   },
   ViewCalendario: {
-    backgroundColor: '#C19036',
+    backgroundColor: '#348EAC',
     alignItems: 'center',
   },
   Calendario: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 28,
-    fontWeight: '400',
+    color: 'white'
 
   },
   CalendarDate: {
@@ -491,10 +489,10 @@ const styles = StyleSheet.create({
     marginBottom: 100
   },
   Chart: {
-    fontFamily: 'poiretOne',
+    fontFamily: 'roboto',
     fontSize: 23,
-    fontWeight: '400',
     margin: 5,
+    color: 'white'
 
   },
 });

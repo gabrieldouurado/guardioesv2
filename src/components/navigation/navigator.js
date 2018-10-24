@@ -33,16 +33,14 @@ export const Cadastro = createStackNavigator({
     AddInfo: { screen: AddInfo },
 }, {
         navigationOptions: {
-            headerTintColor: '#9B6525',
+            headerTintColor: '#ffffff',
             headerStyle: {
-                backgroundColor: '#dfdfd0',
-                elevation: 0,
-                borderBottomWidth: 5,
-                borderColor: '#9B6525',
+                backgroundColor: '#04617E',
+                elevation: 10,
             },
             headerTitleStyle: {
-                fontFamily: 'poiretOne', // FontWeight can't be > 400 and fontFamily WON'T WORK without it
-                fontWeight: '400'
+                fontFamily: 'roboto',
+                
             }
         }
     })
@@ -73,16 +71,14 @@ export const Stack = createStackNavigator({
 }, {
         initialRouteName: 'Home',
         navigationOptions: {
-            headerTintColor: '#9B6525',
+            headerTintColor: '#ffffff',
             headerStyle: {
-                backgroundColor: '#dfdfd0',
-                elevation: 0,
-                borderBottomWidth: 5,
-                borderColor: '#9B6525',
+                backgroundColor: '#04617E',
+                elevation: 10,
+
             },
             headerTitleStyle: {
-                fontFamily: 'poiretOne',
-                fontWeight: '400',
+                fontFamily: 'roboto',
             }
         }
     }, {

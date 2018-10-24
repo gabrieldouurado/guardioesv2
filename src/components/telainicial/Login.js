@@ -91,11 +91,11 @@ class Login extends Component {
                         <View style={styles.buttonView}>
                             <Button
                                 title={translate("login.loginbutton")}
-                                color="#9B6525"
+                                color="#348EAC"
                                 onPress={this._isconnected} />
                         </View>
                         <View style={{ paddingTop: 20 }}>
-                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                                 {translate("login.connectWithFacebook")}
                     </Text>
                             <LoginButton
@@ -240,12 +240,12 @@ const styles = StyleSheet.create({
         height: 35,
         fontSize: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#9B6525',
+        borderBottomColor: '#348EAC',
         paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontWeight: '400',
         fontSize: 20,
         color: '#465F6C',

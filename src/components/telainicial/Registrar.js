@@ -173,12 +173,12 @@ class Registrar extends Component {
                                     },
                                     dateText: {
                                         marginBottom: 10,
-                                        fontFamily: 'poiretOne',
+                                        fontFamily: 'roboto',
                                         fontSize: 17
                                     },
                                     placeholderText: {
                                         marginBottom: 10,
-                                        fontFamily: 'poiretOne',
+                                        fontFamily: 'roboto',
                                         fontSize: 15,
                                         color: 'black'
                                     }
@@ -225,12 +225,12 @@ class Registrar extends Component {
                     <View style={styles.buttonView}>
                         <Button
                             title={translate("register.signupButton")}
-                            color="#9B6525"
+                            color="#348EAC"
                             onPress={this._isconnected} />
                     </View>
 
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
-                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'poiretOne', fontSize: 15, color: '#465F6C' }}>
+                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                             {translate("register.signupWithFacebook")}
                         </Text>
                         <LoginButton
@@ -299,6 +299,7 @@ class Registrar extends Component {
                     AsyncStorage.setItem('avatar', this.state.pic);
                     alert("Registrado com Sucesso")
                     this.loginAfterCreate();
+                    
                 } else {
                     alert(response.message);
                 }
@@ -323,6 +324,7 @@ class Registrar extends Component {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                    AsyncStorage.setItem('RunTutorial', 'true');
                     this.hideAlert();
                     this.props.navigation.navigate('Home');
                 } else {
@@ -395,14 +397,13 @@ const styles = StyleSheet.create({
         height: 35,
         fontSize: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#9B6525',
+        borderBottomColor: '#348EAC',
         paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -410,8 +411,7 @@ const styles = StyleSheet.create({
     },
     commomTextView: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -425,8 +425,7 @@ const styles = StyleSheet.create({
     },
     textCountry: {
         fontSize: 15,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
     }
 });
 

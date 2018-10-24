@@ -48,13 +48,15 @@ class TelaInicial extends Component {
                 </View>
                 <View style={styles.viewBotoes}>
                     <View style={styles.viewChildBotoes}>
-                        <TouchableOpacity onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation=this.props.navigation)}>
+                        <TouchableOpacity  onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation=this.props.navigation)}>
                             <Image source={imagemRegistar} style={styles.imageStyle} />
+                            <Text style={styles.Entrar}>Registrar</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.viewChildBotoes}>
                         <TouchableOpacity onPress={() => navigate('Login')}>
                             <Image source={imagemEntrar} style={styles.imageStyle} />
+                            <Text style={styles.Entrar}>Entrar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -82,15 +84,15 @@ const styles = StyleSheet.create({
         marginTop: -30
     },
     textTitulo: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontSize: 27,
-        color: '#9B6525',
+        color: '#348EAC',
         marginBottom: 5
     },
     textCorpo: {
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         fontSize: 19,
-        color: '#9B6525'
+        color: '#348EAC'
     },
     viewBotoes: {
         flexDirection: 'row',
@@ -106,6 +108,19 @@ const styles = StyleSheet.create({
     },
     viewChildBotoes: {
         width: '48.5%'
+    },
+    botao: {
+        position: 'absolute',
+
+    },
+    Entrar: {
+        fontFamily: 'roboto',
+        color: 'white',
+        fontSize: 17, 
+        position: 'absolute',
+        alignSelf: 'center',
+        marginTop: '3.5%',
+        fontWeight: '200'
     }
 });
 
