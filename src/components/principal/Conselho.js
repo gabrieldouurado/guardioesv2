@@ -3,6 +3,7 @@ import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Activi
 import { Icon } from 'react-native-elements';
 import { imagemFundo } from '../../imgs/imageConst';
 import { Redirect } from '../../constUtils';
+import { translate } from '../../../locales/i18n';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#C19036' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#C19036' />)
@@ -12,7 +13,6 @@ const viajante = (<Icon name='airplane' type={'material-community'} size={30} co
 const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#C19036' />)
 
 const DButtons = (props) => {
-    // const { navigate } = props.navigation;
     return (
         <TouchableOpacity
             style={styles.selector}
@@ -30,7 +30,7 @@ const DButtons = (props) => {
 
 class Conselho extends Component {
     static navigationOptions = {
-        title: 'Conselhos de Saúde',
+        title: translate("advices.title")
     }
     constructor(props) {
         super(props);

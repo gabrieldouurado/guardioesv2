@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, TextInput, ScrollView, Button, TouchableOpacity, Picker, AsyncStorage, Keyboard } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, Text, View, ImageBackground, Button, Picker, AsyncStorage } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
 import * as Imagem from '../../imgs/imageConst';
 import { LoginManager } from 'react-native-fbsdk';
 import { app_token } from '../../constUtils';
-
-
+import { translate } from '../../../locales/i18n';
 
 let data = new Date();
 let d = data.getDate();
@@ -18,7 +16,7 @@ let today = y + "-" + m + "-" + d;
 
 class AddInfo extends Component {
     static navigationOptions = {
-        title: "Informações Adicionais"
+        title: translate('facebookRegister.title')
     }
     constructor(props) {
         super(props);
@@ -44,9 +42,9 @@ class AddInfo extends Component {
     }
 
     componentWillUnmount() {
-        if (this.state.sessionStart === null ){
-        LoginManager.logOut();
-        alert("Cadastro Cancelado")
+        if (this.state.sessionStart === null) {
+            LoginManager.logOut();
+            // alert("Cadastro Cancelado")
         }
     }
 
@@ -64,98 +62,98 @@ class AddInfo extends Component {
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
 
-                    <View>
-                        <Text style={styles.titleText}>Olá {this.state.userFirstName} {this.state.userLastName}!</Text>
-                        <Text style={styles.subTitleText}>Precisamos de algumas informações adicionais para completar o cadastro</Text>
+                <View>
+                    <Text style={styles.titleText}>{translate("facebookRegister.hello")}{this.state.userFirstName} {this.state.userLastName}!</Text>
+                    <Text style={styles.subTitleText}>{translate("facebookRegister.moreInformation")}</Text>
+                </View>
+
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("facebookRegister.gender")}</Text>
+                        <Picker
+                            selectedValue={this.state.userGender}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
+                            <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                            <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
+                        </Picker>
                     </View>
 
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Sexo:</Text>
-                            <Picker
-                                selectedValue={this.state.userGender}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ userGender: itemValue })}>
-                                <Picker.Item label="Masculino" value="Masculino" />
-                                <Picker.Item label="Feminino" value="Femenino" />
-                            </Picker>
-                        </View>
-
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Raça:</Text>
-                            <Picker
-                                selectedValue={this.state.userRace}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ userRace: itemValue })}>
-                                <Picker.Item label="Branco" value="Blanco" />
-                                <Picker.Item label="Indigena" value="Indígena" />
-                                <Picker.Item label="Mestiço" value="Mestizo" />
-                                <Picker.Item label="Negro, mulato ou afrodescendente" value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label="Palenquero" value="Palenquero" />
-                                <Picker.Item label="Raizal" value="Raizal" />
-                                <Picker.Item label="Rom-Gitano" value="Rom-Gitano" />
-                            </Picker>
-                        </View>
-
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("genderChoices.male")}</Text>
+                        <Picker
+                            selectedValue={this.state.userRace}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
+                            <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                            <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                            <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                            <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                            <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                            <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                            <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                        </Picker>
                     </View>
 
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Nascimento:</Text>
-                            <DatePicker
-                                style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
-                                showIcon={false}
-                                date={this.state.userDob}
-                                androidMode='spinner'
-                                mode="date"
-                                placeholder="DD/MM/AAAA"
-                                format="YYYY-MM-DD"
-                                minDate="1918-01-01"
-                                maxDate={today}
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateInput: {
-                                        borderWidth: 0
-                                    },
-                                    dateText: {
-                                        marginBottom: 10,
-                                        fontFamily: 'poiretOne',
-                                        fontSize: 17
-                                    },
-                                    placeholderText: {
-                                        marginBottom: 10,
-                                        fontFamily: 'poiretOne',
-                                        fontSize: 15,
-                                        color: 'black'
-                                    }
+                </View>
+
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("facebookRegister.birthday")}</Text>
+                        <DatePicker
+                            style={{ width: '80%', height: 30, backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
+                            showIcon={false}
+                            date={this.state.userDob}
+                            androidMode='spinner'
+                            mode="date"
+                            placeholder={translate("birthDetails.format")}
+                            format="YYYY-MM-DD"
+                            minDate="1918-01-01"
+                            maxDate={today}
+                            confirmBtnText={translate("birthDetails.confirmButton")}
+                            cancelBtnText={translate("birthDetails.cancelButton")}
+                            customStyles={{
+                                dateInput: {
+                                    borderWidth: 0
+                                },
+                                dateText: {
+                                    marginBottom: 10,
+                                    fontFamily: 'poiretOne',
+                                    fontSize: 17
+                                },
+                                placeholderText: {
+                                    marginBottom: 10,
+                                    fontFamily: 'poiretOne',
+                                    fontSize: 15,
+                                    color: 'black'
+                                }
+                            }}
+                            onDateChange={date => this.setState({ userDob: date })}
+                        />
+                    </View>
+
+                    <View style={styles.viewChildPais}>
+                        <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("facebookRegister.country")}</Text></View>
+                        <View>
+                            <CountryPicker
+                                onChange={value => {
+                                    this.setState({ cca2: value.cca2, userCountry: value.name })
                                 }}
-                                onDateChange={date => this.setState({ userDob: date })}
+                                cca2={this.state.cca2}
+                                translation="eng"
                             />
-                        </View>
-
-                        <View style={styles.viewChildPais}>
-                            <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
-                            <View>
-                                <CountryPicker
-                                    onChange={value => {
-                                        this.setState({ cca2: value.cca2, userCountry: value.name })
-                                    }}
-                                    cca2={this.state.cca2}
-                                    translation="eng"
-                                />
-                                <Text style={styles.textCountry}>{this.state.userCountry}</Text>
-                            </View>
+                            <Text style={styles.textCountry}>{this.state.userCountry}</Text>
                         </View>
                     </View>
+                </View>
 
-                    <View style={styles.buttonView}>
-                        <Button
-                            title="Finalizar Cadastro"
-                            color="#3B5998"
-                            onPress={this.create} />
-                    </View>
-                
+                <View style={styles.buttonView}>
+                    <Button
+                        title={translate("facebookRegister.finishRegistering")}
+                        color="#3B5998"
+                        onPress={this.create} />
+                </View>
+
             </ImageBackground>
         );
 
@@ -186,7 +184,7 @@ class AddInfo extends Component {
                     AsyncStorage.removeItem('userLastName');
                     AsyncStorage.removeItem('userEmail');
                     AsyncStorage.removeItem('userPwd');
-                    this.setState({sessionStart: 'true'})
+                    this.setState({ sessionStart: 'true' })
                     this.loginAfterCreate();
                 } else {
                     alert(response.message);
@@ -202,7 +200,6 @@ class AddInfo extends Component {
                     LoginManager.logOut();
                 }
             })
-
     }
 
     loginAfterCreate = () => {
@@ -230,7 +227,7 @@ class AddInfo extends Component {
             .done();
     }
 }
- 
+
 // define your styles
 const styles = StyleSheet.create({
     container: {

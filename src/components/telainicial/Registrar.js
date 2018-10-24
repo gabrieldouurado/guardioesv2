@@ -129,8 +129,8 @@ class Registrar extends Component {
                                 selectedValue={this.state.userGender}
                                 style={styles.selectSexoRaca}
                                 onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
-                                <Picker.Item label={translate("register.genderChoices.male")} value="Masculino" />
-                                <Picker.Item label={translate("register.genderChoices.female")} value="Femenino" />
+                                <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                                <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
                             </Picker>
                         </View>
 
@@ -140,13 +140,13 @@ class Registrar extends Component {
                                 selectedValue={this.state.userRace}
                                 style={styles.selectSexoRaca}
                                 onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
-                                <Picker.Item label={translate("register.raceChoices.white")} value="Blanco" />
-                                <Picker.Item label={translate("register.raceChoices.indian")} value="Indígena" />
-                                <Picker.Item label={translate("register.raceChoices.mix")} value="Mestizo" />
-                                <Picker.Item label={translate("register.raceChoices.black")} value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label={translate("register.raceChoices.palenquero")} value="Palenquero" />
-                                <Picker.Item label={translate("register.raceChoices.raizal")} value="Raizal" />
-                                <Picker.Item label={translate("register.raceChoices.romGitano")} value="Rom-Gitano" />
+                                <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                                <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                                <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                                <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                                <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
                             </Picker>
                         </View>
 
@@ -165,8 +165,8 @@ class Registrar extends Component {
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
                                 maxDate={minDate}
-                                confirmBtnText={translate("register.birthDetails.confirmButton")}
-                                cancelBtnText={translate("register.birthDetails.cancelButton")}
+                                confirmBtnText={translate("birthDetails.confirmButton")}
+                                cancelBtnText={translate("birthDetails.cancelButton")}
                                 customStyles={{
                                     dateInput: {
                                         borderWidth: 0
@@ -278,7 +278,6 @@ class Registrar extends Component {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 firstname: this.state.userFirstName,
