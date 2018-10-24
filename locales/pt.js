@@ -140,7 +140,8 @@ export default {
             "reportSent": "Seu relato foi enviado.",
             "seeADoctor": "Não se esqueça de ir ao médico caso os sintomas perdurem!",
             "confirmText": "Voltar"
-        }
+        },
+        "datePlaceHolder": "Haga clic aquí para introducir la fecha!"
     },
     "chooseReporter": {
         "title": "Guardiões da Saúde",

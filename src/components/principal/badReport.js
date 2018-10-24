@@ -199,7 +199,7 @@ class BadReport extends Component {
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
                         date={this.state.today_date}
                         mode="date"
-                        placeholder="Clique aqui para inserir a data!"
+                        placeholder={translate("badReport.datePlaceHolder")}
                         format="YYYY-MM-DD"
                         minDate="2018-01-01"
                         maxDate={today}
