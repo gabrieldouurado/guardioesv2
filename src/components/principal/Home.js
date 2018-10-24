@@ -4,6 +4,7 @@ import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
+import translate from "../../../locales/i18n";
 
 
 import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
@@ -29,7 +30,7 @@ class Home extends Component {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
         const { params = {} } = navigation.state;
         return {
-            title: 'Guardiões da Saúde',
+            title: translate("home.title"),
             headerLeft: (
                 <Icon.Button name='menu' size={scale(30)} color='#fff' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
             ),
@@ -44,7 +45,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
             userFirstName: null,
             secondStepActive: true,
@@ -81,7 +82,7 @@ class Home extends Component {
     handleStepChange = (step) => {
         console.log(`Current step is: ${step.name}`);
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));        
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
     }
 
     componentWillUnmount() {
@@ -90,13 +91,13 @@ class Home extends Component {
     }
 
     handleBackButton() {
-        
+
         cont = cont + 1;
-        
-        if(cont == 2){
+
+        if (cont == 2) {
             BackHandler.exitApp();
-        } else{
-            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
+        } else {
+            ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
 
         return true;
@@ -144,8 +145,8 @@ class Home extends Component {
                 </View>
 
                 <Text style={topoTexto3}>
-                    Como está se sentindo hoje?
-                    </Text>
+                    {translate("home.howYouFelling")}
+                </Text>
 
                 <View style={inferior}>
 
@@ -156,7 +157,7 @@ class Home extends Component {
                             <WalkthroughableImage source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
                         </CopilotStep>
                         <Text style={styles.BotoesTexto}>
-                            Notícias
+                            {translate("home.homeButtons.news")}
                         </Text>
                     </TouchableOpacity>
 
@@ -167,8 +168,8 @@ class Home extends Component {
                             <WalkthroughableImage source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
                         </CopilotStep>
                         <Text style={styles.BotoesTexto}>
-                            Conselho de Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthTips")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
@@ -177,8 +178,8 @@ class Home extends Component {
                             <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
                         </CopilotStep>
                         <Text style={styles.BotoesTexto}>
-                            Diário de Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthDiary")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
@@ -188,8 +189,8 @@ class Home extends Component {
                             <WalkthroughableImage source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
                         </CopilotStep>
                         <Text style={styles.BotoesTexto}>
-                            Mapa da Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthMap")}
+                        </Text>
                     </TouchableOpacity>
 
                 </View>

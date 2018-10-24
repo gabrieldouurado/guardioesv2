@@ -15,7 +15,6 @@ import Maps from '../principal/Maps';
 import Perfil from '../principal/Perfil';
 import Ajuda from '../principal/Ajuda';
 import Sobre from '../principal/Sobre';
-import { Botao1 } from '../principal/AjudaBtn1';
 import { Botao2 } from '../principal/AjudaBtn2';
 import Prevention from '../conselhos/prevention';
 import TravelHealth from '../conselhos/travelhealth';
@@ -23,7 +22,6 @@ import Dengue from '../conselhos/dengue';
 import Diseases from '../conselhos/diseases';
 import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
-import requestTest from '../principal/requestTest';
 import TermosPoliticas from '../principal/TermosPoliticas';
 import CopilotTest from '../principal/copilot';
 
@@ -59,7 +57,6 @@ export const Stack = createStackNavigator({
     Perfil,
     Ajuda,
     Sobre,
-    Botao1,
     Botao2,
     Prevention,
     TravelHealth,
@@ -68,7 +65,6 @@ export const Stack = createStackNavigator({
     Phones,
     Household,
     ChooseReporter,
-    requestTest,
     TermosPoliticas,
     CopilotTest,
 

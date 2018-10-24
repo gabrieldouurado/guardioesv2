@@ -4,19 +4,11 @@ import {
     StyleSheet,
     Text,
     View,
-    ImageBackground,
-    Image,
-    TextInput,
     ScrollView,
-    Button,
     TouchableOpacity,
-    Picker,
-    ActivityIndicator,
-    AsyncStorage,
-    Keyboard,
-    FlatList
+    AsyncStorage
 } from 'react-native';
-import Household from './Household';
+import translate from '../../../locales/i18n';
 
 const AdicionarFamiliar = (<Icon name='plus' type={'evilicon'} size={30} color='red' />)
 class ChooseReporter extends Component{
@@ -28,16 +20,12 @@ class ChooseReporter extends Component{
             error: null,
             isLoading: true,
             url: "",
-            userHousehold: [
-                
-            ]
-            
-
+            userHousehold: []
         }
 
     }    
     static navigationOptions = {
-        title: 'Guardiões da saúde',
+        title: translate("chooseReporter.title")
     }
     
     getUserData = async () => {
@@ -78,14 +66,11 @@ class ChooseReporter extends Component{
                      </TouchableOpacity>
                      <View style={styles.familiar}>
                         {   
-                           
                             HouseholdAux.map((houseH , index) => {
                                 return(
-                                    
                                         <TouchableOpacity style={styles.selector} onPress={() => this.setHouseholdReporter(houseH.id)}>
                                             <Text style={styles.textoSelector}>{houseH.firstname}</Text>
                                         </TouchableOpacity>
-                                    
                                 )
                             })
                         }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert } from 'react-native';
 import { imagemEntrar, imagemLogo, imagemRegistar } from '../../imgs/imageConst';
+import translate from '../../../locales/i18n';
 
 const Redirect = (titulo, message, navigation) => {
     Alert.alert(
@@ -15,7 +16,7 @@ const Redirect = (titulo, message, navigation) => {
 
 class TelaInicial extends Component {
     static navigationOptions = {
-        title: 'Guardiões da Saúde',
+        title: translate('initialscreen.title'),
     }
 
     componentDidMount() {
@@ -39,8 +40,8 @@ class TelaInicial extends Component {
             <View style={styles.container}>
                 {statusColor}
                 <View style={{alignItems: 'center', marginTop: 25}}>
-                    <Text style={styles.textTitulo}>Bem Vindo!</Text>
-                    <Text style={styles.textCorpo}>Pronto para ser um Guardião da Saúde?</Text>
+                    <Text style={styles.textTitulo}>{translate("initialscreen.welcome")}</Text>
+                    <Text style={styles.textCorpo}>{translate("initialscreen.subwelcome")}</Text>
                 </View>
                 <View style={styles.viewImage}>
                     <Image style={styles.imageLogo} source={imagemLogo} />

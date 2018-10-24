@@ -3,6 +3,7 @@ import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Activi
 import { Icon } from 'react-native-elements';
 import { imagemFundo } from '../../imgs/imageConst';
 import { Redirect } from '../../constUtils';
+import translate from '../../../locales/i18n';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#348EAC' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#348EAC' />)
@@ -12,7 +13,6 @@ const viajante = (<Icon name='airplane' type={'material-community'} size={30} co
 const farmacia = (<Icon name='medkit' type={'font-awesome'} size={30} color='#348EAC' />)
 
 const DButtons = (props) => {
-    // const { navigate } = props.navigation;
     return (
         <TouchableOpacity
             style={styles.selector}
@@ -30,7 +30,7 @@ const DButtons = (props) => {
 
 class Conselho extends Component {
     static navigationOptions = {
-        title: 'Conselhos de Saúde',
+        title: translate("advices.title")
     }
     constructor(props) {
         super(props);
@@ -73,29 +73,29 @@ class Conselho extends Component {
                     {
                         contentObj.map(content => {
                             switch (content.title) {
-                                case 'Prevencao':
+                                case translate("advices.advicesCaseChoices.prevention.caseChoice"):
                                     return(
-                                        <DButtons content={content} title={'Prevenção'} icon={nome} route={'Prevention'} navigation={this.props.navigation} />
+                                        <DButtons content={content} title={translate("advices.advicesCaseChoices.prevention.screenTitle")} icon={nome} route={'Prevention'} navigation={this.props.navigation} />
                                     )
 
-                                case 'Saude do Viajante':
+                                case translate("advices.advicesCaseChoices.travelerHealth.caseChoice"):
                                     return (
-                                        <DButtons content={content} title={'Saúde do Viajante'} icon={viajante} route={'TravelHealth'} navigation={this.props.navigation} />
+                                        <DButtons content={content} title={translate("advices.advicesCaseChoices.travelerHealth.screenTitle")} icon={viajante} route={'TravelHealth'} navigation={this.props.navigation} />
                                     )
                                 
-                                case 'Dengue, Chicungunya e Zyca':
+                                case translate("advices.advicesCaseChoices.dengueChicungunyaZica.caseChoice"):
                                     return (
-                                        <DButtons content={content} title={'Dengue, Chicungunya e Zyca'} icon={disease} route={'Dengue'} navigation={this.props.navigation} />
+                                        <DButtons content={content} title={translate("advices.advicesCaseChoices.dengueChicungunyaZica.screenTitle")} icon={disease} route={'Dengue'} navigation={this.props.navigation} />
                                     )
                                 
-                                case 'Enfermidades Imunopreviniveis':
+                                case translate("advices.advicesCaseChoices.imunoPreventables.caseChoice"):
                                     return (
-                                        <DButtons content={content} title={'Enfermidades Imunopreviníveis'} icon={disease} route={'Diseases'} navigation={this.props.navigation} />
+                                        <DButtons content={content} title={translate("advices.advicesCaseChoices.imunoPreventables.screenTitle")} icon={disease} route={'Diseases'} navigation={this.props.navigation} />
                                     )
                                 
-                                case 'Telefones Uteis':
+                                case translate("advices.advicesCaseChoices.usefulNumbers.caseChoice"):
                                     return (
-                                        <DButtons content={content} title={'Telefones Úteis'} icon={telefones} route={'Phones'} navigation={this.props.navigation} />
+                                        <DButtons content={content} title={translate("advices.advicesCaseChoices.usefulNumbers.screenTitle")} icon={telefones} route={'Phones'} navigation={this.props.navigation} />
                                     )
                             }
                         })
@@ -107,7 +107,7 @@ class Conselho extends Component {
                         onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=hospitais')}
                     >
                         <Text style={styles.textoSelector}>
-                            Instituições de Saúde
+                            {translate("advices.buttons.healthInst")}
                         </Text>
                         {hospital}
                     </TouchableOpacity>
@@ -118,7 +118,7 @@ class Conselho extends Component {
                         onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=farmacias')}
                     >
                         <Text style={styles.textoSelector}>
-                            Farmácias
+                        {translate("advices.buttons.pharmacy")}
                         </Text>
                         {farmacia}
                     </TouchableOpacity>
@@ -131,8 +131,8 @@ class Conselho extends Component {
 
 const textoRedirect = {
     hospitais: {
-        texto1: 'Ir para o Google Maps',
-        texto2: 'Deseja ser redirecionado para o Maps?'
+        texto1: translate("advices.buttons.messages.title"),
+        texto2: translate("advices.buttons.messages.subtitle")
     }
 }
 const styles = StyleSheet.create({

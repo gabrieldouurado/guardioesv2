@@ -19,8 +19,8 @@ import * as Imagem from '../../imgs/imageConst';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import { app_token } from '../../constUtils';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
+import translate from '../../../locales/i18n';
 
 let data = new Date();
 let d = data.getDate();
@@ -33,7 +33,7 @@ let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
     static navigationOptions = {
-        title: "Registro"
+        title: translate("register.title")
     }
     constructor(props) {
         super(props);
@@ -73,11 +73,11 @@ class Registrar extends Component {
         let validation = false
         this.state.userEmail && this.state.userPwd && this.state.userFirstName && this.state.userLastName && this.state.userDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.create() : Alert.alert('Erro', 'Todos os campos devem ser preenchidos') : Alert.alert(
-                'Sem Internet!',
-                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+                translate("register.noInternet.noInternet"),
+                translate("register.noInternet.ohNo"),
                 [
-                    { text: 'Ok, vou tentar mais tarde', onPress: () => null }
+                    { text: translate("register.alertAllRightMessage"), onPress: () => null }
                 ]
             )
         });
@@ -106,7 +106,7 @@ class Registrar extends Component {
                 <ScrollView style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Nome:</Text>
+                        <Text style={styles.commomText}>{translate("register.name")}</Text>
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
                             onSubmitEditing={() => this.sobrenomeInput.focus()}
@@ -115,7 +115,7 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Sobrenome:</Text>
+                        <Text style={styles.commomText}>{translate("register.lastname")}</Text>
                         <TextInput style={styles.formInput}
                             ref={(input) => this.sobrenomeInput = input}
                             onChangeText={text => this.setState({ userLastName: text })}
@@ -124,29 +124,29 @@ class Registrar extends Component {
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Sexo:</Text>
+                            <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
                             <Picker
                                 selectedValue={this.state.userGender}
                                 style={styles.selectSexoRaca}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ userGender: itemValue })}>
-                                <Picker.Item label="Masculino" value="Masculino" />
-                                <Picker.Item label="Feminino" value="Femenino" />
+                                onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
+                                <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                                <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
                             </Picker>
                         </View>
 
                         <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Raça:</Text>
+                            <Text style={styles.commomTextView}>{translate("register.race")}</Text>
                             <Picker
                                 selectedValue={this.state.userRace}
                                 style={styles.selectSexoRaca}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ userRace: itemValue })}>
-                                <Picker.Item label="Branco" value="Blanco" />
-                                <Picker.Item label="Indigena" value="Indígena" />
-                                <Picker.Item label="Mestiço" value="Mestizo" />
-                                <Picker.Item label="Negro, mulato ou afrodescendente" value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label="Palenquero" value="Palenquero" />
-                                <Picker.Item label="Raizal" value="Raizal" />
-                                <Picker.Item label="Rom-Gitano" value="Rom-Gitano" />
+                                onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
+                                <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                                <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                                <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                                <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                                <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
                             </Picker>
                         </View>
 
@@ -154,19 +154,19 @@ class Registrar extends Component {
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Nascimento:</Text>
+                            <Text style={styles.commomTextView}>{translate("register.birth")}</Text>
                             <DatePicker
                                 style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
                                 showIcon={false}
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder="DD/MM/AAAA"
+                                placeholder={translate("register.birthDetails.format")}
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
                                 maxDate={minDate}
-                                confirmBtnText="Confirmar"
-                                cancelBtnText="Cancelar"
+                                confirmBtnText={translate("birthDetails.confirmButton")}
+                                cancelBtnText={translate("birthDetails.cancelButton")}
                                 customStyles={{
                                     dateInput: {
                                         borderWidth: 0
@@ -188,7 +188,7 @@ class Registrar extends Component {
                         </View>
 
                         <View style={styles.viewChildPais}>
-                            <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
+                            <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
                             <View>
                                 <CountryPicker
                                     onChange={value => {
@@ -203,7 +203,7 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Email:</Text>
+                        <Text style={styles.commomText}>{translate("register.email")}</Text>
                         <TextInput
                             style={styles.formInput}
                             keyboardType='email-address'
@@ -213,7 +213,7 @@ class Registrar extends Component {
                     </View>
 
                     <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Senha:</Text>
+                        <Text style={styles.commomText}>{translate("register.password")}</Text>
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
                             secureTextEntry={true}
@@ -224,14 +224,14 @@ class Registrar extends Component {
 
                     <View style={styles.buttonView}>
                         <Button
-                            title="Registrar"
+                            title={translate("register.signupButton")}
                             color="#348EAC"
                             onPress={this._isconnected} />
                     </View>
 
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                            Cadastar com Facebook
+                            {translate("register.signupWithFacebook")}
                         </Text>
                         <LoginButton
                             readPermissions={['public_profile', 'email']}
@@ -239,8 +239,6 @@ class Registrar extends Component {
                                 (error, result) => {
                                     if (error) {
                                         alert("login has error: " + result.error);
-                                    } else if (result.isCancelled) {
-                                        alert("login is cancelled.");
                                     } else {
                                         AccessToken.getCurrentAccessToken().then(
                                             (data) => {
@@ -263,22 +261,11 @@ class Registrar extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? 'Cadastrando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
-                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                    title={this.state.showProgressBar ? translate("register.awesomeAlert.registeringMessage") : null }
+                    closeOnTouchOutside={false}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
-                    cancelText="No, cancel"
-                    confirmText="Voltar"
-                    confirmButtonColor="#DD6B55"
-                    // onCancelPressed={() => {
-                    //     this.hideAlert();
-                    // }}
-                    // onConfirmPressed={() => {
-                    //     this.props.navigation.navigate('Home')
-                    // }}
-                    // onDismiss={() => this.props.navigation.navigate('Home')}
                 />
             </ImageBackground>
         );
@@ -291,7 +278,6 @@ class Registrar extends Component {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 firstname: this.state.userFirstName,
@@ -348,21 +334,6 @@ class Registrar extends Component {
             .done();
     }
 }
-
-const emojis = [
-    (
-        <Emoji //Emoji heart up
-            name='heart'
-            style={{ fontSize: scale(15) }}
-        />
-    ),
-    (
-        <Emoji //Emoji tada up
-            name='tada'
-            style={{ fontSize: scale(15) }}
-        />
-    )
-]
 
 // define your styles
 const styles = StyleSheet.create({

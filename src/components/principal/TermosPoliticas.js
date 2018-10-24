@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert, Linking } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-import { Redirect, textos } from '../../constUtils';
+import { Redirect } from '../../constUtils';
+import translate from '../../../locales/i18n';
 
 class TermosPoliticas extends Component {
     static navigationOptions = {
-        title: 'Termos e Políticas',
+        title: translate("useTerms.title")
     }
     constructor(props) {
         super(props);
@@ -19,30 +20,30 @@ class TermosPoliticas extends Component {
             <View style={styles.container}>
 
                 <ScrollView style={styles.textView}>
-                    <Text style={styles.text}> {textos[3].textoTermosTitulo} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_1} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_2} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_3} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_4} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_5} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_6} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_7} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_8} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_9} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_10} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_11} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_12} </Text>
-                    <Text style={styles.text}> {textos[3].textoTermos_13} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermosTitulo")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_1")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_2")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_3")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_4")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_5")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_6")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_7")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_8")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_9")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_10")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_11")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_12")} </Text>
+                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_13")} </Text>
 
                     <View style={styles.imagesView}>
                         <TouchableOpacity
-                            onPress={() => Redirect(textos[1].tituloBtnUnb, textos[1].mensagemBtnUnb, textos[1].linkBtnUnb)}
+                            onPress={() => Redirect(translate("about.tituloBtnUnb"), translate("about.mensagemBtnUnb"), translate("about.linkBtnUnb"))}
                         >
                             <Image source={imagemUnb} style={styles.imageOne} />
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => Redirect(textos[2].tituloBtnCenteias, textos[2].mensagemBtnCenteias, textos[2].linkBtnCenteias)}
+                            onPress={() => Redirect(translate("about.tituloBtnCenteias"), translate("about.mensagemBtnCenteias"), translate("about.linkBtnCenteias"))}
                         >
                             <Image source={imagemCenteias} style={styles.imageTwo} />
                         </TouchableOpacity>

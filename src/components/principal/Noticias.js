@@ -1,18 +1,18 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, StyleSheet, WebView } from 'react-native';
+import translate from '../../../locales/i18n';
 
 // create a component
 class Noticias extends Component {
     static navigationOptions = {
-        title: 'Notícias',
+        title: translate("news.title"),
     }
     render() {
         return (
             <View style={styles.container}>
                 <WebView
-                source = {{ uri:
-                'https://mobile.twitter.com/minsaude' }}
+                source = {{ uri: 'https://mobile.twitter.com/minsaude' }}
                 />
             </View>
         );

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { SocialIcon, Icon } from 'react-native-elements';
-import { textos } from '../../constUtils';
 import { imagemReportar } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Emoji from 'react-native-emoji';
+import translate from '../../../locales/i18n';
 
 const emojis = [
     (
-    <Emoji //Emoji thumbs up
-        name='+1'
-        style={{ fontSize: scale(20) }}
-    />
+        <Emoji //Emoji thumbs up
+            name='+1'
+            style={{ fontSize: scale(20) }}
+        />
     ),
     (
         <Emoji //Emoji rindo
@@ -51,18 +51,17 @@ onPress = (rota, navigation) => {
 
 class Botao2 extends Component {
     static navigationOptions = {
-        title: 'Tutorial'
+        title: translate("ajudaBtn2.title")
     }
     render() {
-        let textoBase = textos[5];
         return (
             <ScrollView>
                 <View style={{ paddingHorizontal: scale(30) }}>
                     {/* Titulo */}
-                    <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{textoBase.tutorial} {emojis[0]}</Text>
+                    <Text style={{ fontSize: scale(20), fontWeight: 'bold' }}>{translate("ajudaBtn2.tutorial")} {emojis[0]}</Text>
 
                     {/* Como Usar */}
-                    <Text /* style={{ fontSize: 20, fontWeight: 'bold' }} */>{textoBase.comoUsar}</Text>
+                    <Text>{translate("ajudaBtn2.howToUse")}</Text>
 
                     {/* Icone de reportar */}
                     <View style={{ alignItems: 'center', padding: scale(10) }}>
@@ -73,64 +72,70 @@ class Botao2 extends Component {
                     </View>
 
                     {/* Continuacao de como usar */}
-                    <Text>{textoBase.comoUsar2} {emojis[1]}</Text>
+                    <Text>{translate("ajudaBtn2.howToUse2")} {emojis[1]}</Text>
 
                     {/* Mudando para Noticias, titulo */}
                     <TouchableOpacity
                         style={{ flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Noticias', this.props.navigation)}
                     >
-                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.noticias}</Text>
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>
+                            {translate("ajudaBtn2.news")}
+                        </Text>
                         {emojis[2]}
                     </TouchableOpacity>
 
                     {/* Conteudo de noticias */}
-                    <Text>{textoBase.noticiasCont}</Text>
+                    <Text>{translate("ajudaBtn2.newsCont")}</Text>
                     {/* Ps em noticias e um emoji piscando */}
-                    <Text style={{ fontWeight: 'bold' }}>{textoBase.noticiasPs} {emojis[3]}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{translate("ajudaBtn2.newsPs")} {emojis[3]}</Text>
 
                     {/* Conselhos de Saude */}
                     <TouchableOpacity
                         style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Conselho', this.props.navigation)}
                     >
-                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.conselhos}</Text>
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>
+                            {translate("ajudaBtn2.advices")}
+                        </Text>
                         <Text> </Text>
                         <Icon name='open-in-new' type={'material-community'} size={scale(16)} />
                     </TouchableOpacity>
-                    <Text>{textoBase.conselhosCont}</Text>
+                    <Text>{translate("ajudaBtn2.advicesCont")}</Text>
 
                     {/* Diario */}
                     <TouchableOpacity
                         style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Diario', this.props.navigation)}
                     >
-                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.diario}</Text>
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>
+                            {translate("ajudaBtn2.diary")}
+                        </Text>
                         <Text> </Text>
                         <Icon name='open-in-new' type={'material-community'} size={scale(16)} />
                     </TouchableOpacity>
-                    <Text>{textoBase.diarioCont}</Text>
+                    <Text>
+                        {translate("ajudaBtn2.diaryCont")}
+                    </Text>
 
                     {/* Mapa da Saude */}
                     <TouchableOpacity
                         style={{ backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => onPress('Mapa', this.props.navigation)}
                     >
-                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>{textoBase.mapaSaude}</Text>
+                        <Text style={{ fontSize: scale(15), fontWeight: 'bold', paddingVertical: scale(10), textDecorationLine: 'underline' }}>
+                            {translate("ajudaBtn2.healthMap")}
+                        </Text>
                         <Text> </Text>
                         {emojis[5]}
                     </TouchableOpacity>
-                    <Text>{textoBase.mapaSaudeCont} {emojis[4]}</Text>
+                    <Text>
+                        {translate("ajudaBtn2.healthMapCont")} {emojis[4]}
+                    </Text>
                 </View>
             </ScrollView>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    }
-})
 
 export { Botao2 };

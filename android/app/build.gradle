@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-i18n')
     implementation project(':react-native-charts-wrapper')
     implementation project(':react-native-svg')
     implementation project(':react-native-geolocation-service')

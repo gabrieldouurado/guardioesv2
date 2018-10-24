@@ -8,6 +8,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import { app_token } from '../../constUtils';
+import translate from '../../../locales/i18n';
 
 let data = new Date();
 let d = data.getDate();
@@ -18,7 +19,7 @@ let today = y + "-" + m + "-" + d;
 
 class BadReport extends Component {
     static navigationOptions = {
-        title: 'O que está sentindo?'
+        title: translate("badReport.title")
     }
 
     constructor(props) {
@@ -190,18 +191,20 @@ class BadReport extends Component {
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
-                    <Text style={styles.dateText}>Desde quando está se sentindo mal?</Text>
+                    <Text style={styles.dateText}>
+                        {translate("badReport.sickAge")}
+                    </Text>
                     <DatePicker
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
                         //showIcon={false}
                         date={this.state.date}
                         mode="date"
                         placeholder="Clique aqui para inserir a data!"
-                        format="YYYY-MM-DD"
+                        format={translate("birthDetails.format")}
                         minDate="2018-01-01"
                         maxDate={today}
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
+                        confirmBtnText={translate("birthDetails.confirmButton")}
+                        cancelBtnText={translate("birthDetails.cancelButton")}
                         customStyles={{
                             dateInput: {
                                 borderWidth: 0
@@ -222,10 +225,12 @@ class BadReport extends Component {
                 </View>
                 <ScrollView style={styles.scroll}>
                     <View style={styles.viewText}>
-                        <Text style={styles.sintomasText}>Selecione abaixo os sintomas que voce está sentindo neste momento:</Text>
+                        <Text style={styles.sintomasText}>
+                            {translate("badReports.symptoms")}
+                        </Text>
                     </View>
                     <CheckBox
-                        title='Bolhas no Pé'
+                        title={translate("badReport.blisters")}
                         checked={this.state.checked_1}
                         onPress={() => {
                             if (this.state.checked_1 == false) {
@@ -238,7 +243,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Congestão Nasal'
+                        title={translate("badReports.noseCongestion")}
                         checked={this.state.checked_2}
                         onPress={() => {
                             if (this.state.checked_2 == false) {
@@ -251,7 +256,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Diarreia'
+                        title={translate("badReport.diarrhea")}
                         checked={this.state.checked_3}
                         onPress={() => {
                             if (this.state.checked_3 == false) {
@@ -264,7 +269,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dificuldade de Respirar'
+                        title={translate("badReport.breathingDifficulty")}
                         checked={this.state.checked_4}
                         onPress={() => {
                             if (this.state.checked_4 == false) {
@@ -277,7 +282,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dor nas Articulações'
+                        title={translate("badReport.jointPain")}
                         checked={this.state.checked_5}
                         onPress={() => {
                             if (this.state.checked_5 == false) {
@@ -290,7 +295,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dor de Cabeça'
+                        title={translate("badReport.headache")}
                         checked={this.state.checked_6}
                         onPress={() => {
                             if (this.state.checked_6 == false) {
@@ -303,7 +308,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dor no Estômago'
+                        title={translate("badReport.stomachache")}
                         checked={this.state.checked_7}
                         onPress={() => {
                             if (this.state.checked_7 == false) {
@@ -316,7 +321,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dor nos Músculos'
+                        title={translate("badReport.musclePain")}
                         checked={this.state.checked_8}
                         onPress={() => {
                             if (this.state.checked_8 == false) {
@@ -329,7 +334,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Dor nos Olhos'
+                        title={translate("badReport.eyePain")}
                         checked={this.state.checked_9}
                         onPress={() => {
                             if (this.state.checked_9 == false) {
@@ -342,7 +347,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Calafrios'
+                        title={translate("badReport.chills")}
                         checked={this.state.checked_10}
                         onPress={() => {
                             if (this.state.checked_10 == false) {
@@ -355,7 +360,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Febre'
+                        title={translate("badReport.fever")}
                         checked={this.state.checked_11}
                         onPress={() => {
                             if (this.state.checked_11 == false) {
@@ -368,7 +373,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Mal-estar'
+                        title={translate("badReport.fellingIll")}
                         checked={this.state.checked_12}
                         onPress={() => {
                             if (this.state.checked_12 == false) {
@@ -381,7 +386,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Manchas Vermelhas no Corpo'
+                        title={translate("badReport.redSpots")}
                         checked={this.state.checked_13}
                         onPress={() => {
                             if (this.state.checked_13 == false) {
@@ -394,7 +399,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Náuseas'
+                        title={translate("badReport.sickness")}
                         checked={this.state.checked_14}
                         onPress={() => {
                             if (this.state.checked_14 == false) {
@@ -407,7 +412,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Olhos Avermelhados'
+                        title={translate("badReport.redishEyes")}
                         checked={this.state.checked_15}
                         onPress={() => {
                             if (this.state.checked_15 == false) {
@@ -420,7 +425,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Pés e Olhos Amarelados'
+                        title={translate("badReport.feetEyeRedissh")}
                         checked={this.state.checked_16}
                         onPress={() => {
                             if (this.state.checked_16 == false) {
@@ -433,7 +438,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Sangramentos'
+                        title={translate("badReport.bleeding")}
                         checked={this.state.checked_17}
                         onPress={() => {
                             if (this.state.checked_17 == false) {
@@ -446,7 +451,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Tosse'
+                        title={translate("badReport.cough")}
                         checked={this.state.checked_18}
                         onPress={() => {
                             if (this.state.checked_18 == false) {
@@ -459,7 +464,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Vômitos'
+                        title={translate("badReport.vomiting")}
                         checked={this.state.checked_19}
                         onPress={() => {
                             if (this.state.checked_19 == false) {
@@ -472,10 +477,10 @@ class BadReport extends Component {
                         }}
                     />
                     <View style={styles.viewText}>
-                        <Text style={styles.sintomasText}>Responda as perguntas a seguir:</Text>
+                        <Text style={styles.sintomasText}>{translate("badReport.answerQuestions")}</Text>
                     </View>
                     <CheckBox
-                        title='Teve contato com alguem que apresentava os mesmos sintomas?'
+                        title={translate("badReport.checkboxes.first")}
                         checked={this.state.checked_20}
                         onPress={() => {
                             if (this.state.checked_20 == false) {
@@ -488,7 +493,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Procurou algum serviço hospitalar?'
+                        title={translate("badReport.checkboxes.second")}
                         checked={this.state.checked_21}
                         onPress={() => {
                             if (this.state.checked_21 == false) {
@@ -501,7 +506,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title='Deixou seu local de residência nos ultimos 14 dias?'
+                        title={translate("badReport.checkboxes.third")}
                         checked={this.state.checked_22}
                         onPress={() => {
                             if (this.state.checked_22 == false) {
@@ -515,13 +520,13 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title="Confirmar" color="#9B6525" onPress={() => {
+                        <Button title={translate("badReport.checkboxConfirm")} color="#9B6525" onPress={() => {
                             if (this.state.date !== null) {
                                 this.showAlert();
                                 this.sendSurvey();
                             }
                             else {
-                                alert("A data deve ser preenchida");
+                                alert(translate("badReport.checkboxDateConfirmation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 "));
                             }
                         }
                         } />
@@ -530,8 +535,8 @@ class BadReport extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.progressBarAlert ? true : false}
-                    title={this.state.progressBarAlert ? 'Enviando' : <Text>Obrigado! {emojis[1]}</Text>}
-                    message={this.state.progressBarAlert ? null : <Text>Seu relato foi enviado.{"\n"}Não se esqueça de ir ao médico caso os sintomas perdurem! {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    title={this.state.progressBarAlert ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}</Text>}
+                    message={this.state.progressBarAlert ? null : <Text>{translate("badReport.alertMessages.reportSent")}{"\n"}{translate("badReport.alertMessages.seeADoctor")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.progressBarAlert ? false : true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}

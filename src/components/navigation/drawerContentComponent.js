@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, ImageBackground, Linking, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Emoji from 'react-native-emoji';
-import Entypo from 'react-native-vector-icons/Entypo'
-import Feather from 'react-native-vector-icons/Feather'
-import { moderateScale, verticalScale, scale } from '../scallingUtils'
-import { Avatar } from 'react-native-elements'
+import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
+import { moderateScale, verticalScale, scale } from '../scallingUtils';
+import { Avatar } from 'react-native-elements';
 import { LoginButton } from 'react-native-fbsdk';
-import * as Imagem from '../../imgs/imageConst'
+import * as Imagem from '../../imgs/imageConst';
+import translate from '../../../locales/i18n';
 
 export default class drawerContentComponents extends Component {
 
@@ -67,7 +68,7 @@ export default class drawerContentComponents extends Component {
         )
 
         const loggedOnApp = (
-            <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>Sair</Text>
+            <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>{translate("drawer.logOut")}</Text>
         )
 
         let loginType;
@@ -102,55 +103,15 @@ export default class drawerContentComponents extends Component {
                         onPress={() => navigate('Home')}
                     >
                         <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                        <Text style={styles.drawerItemsTxt}>Início</Text>
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toHome")}</Text>
                     </TouchableOpacity>
-
-                    {/* <TouchableOpacity 
-                    style={styles.itemsContainer} 
-                    onPress={() => Linking.openURL('https://google.com')}
-                >
-                    <FontAwesome name='newspaper-o' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
-                    <Text style={styles.drawerItemsTxt}>Publicações</Text>
-                </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity
-                        style={styles.itemsContainer}
-                        onPress={() => navigate('Perfil')}
-                    >
-                        <MaterialIcons name='person' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                        <Text style={styles.drawerItemsTxt}>Perfil</Text>
-                    </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity 
-                    style={styles.itemsContainer}
-                    onPress={() => null}
-                >
-                    <Entypo name='open-book' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Wikilancia</Text>
-                </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity 
-                    style={styles.itemsContainer}
-                    onPress={() => null}
-                >
-                    <FontAwesome name='graduation-cap' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '13%' }]} />
-                    <Text style={styles.drawerItemsTxt}>EAD</Text>
-                </TouchableOpacity> */}
-
-                    {/* <TouchableOpacity 
-                    style={styles.itemsContainer}
-                    onPress={() => null}
-                >
-                    <Feather name='message-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                    <Text style={styles.drawerItemsTxt}>Mensagens</Text>
-                </TouchableOpacity> */}
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
                         onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
                     >
                         <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                        <Text style={styles.drawerItemsTxt}>Facebook</Text>
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toFacebook")}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -158,7 +119,7 @@ export default class drawerContentComponents extends Component {
                         onPress={() => navigate('Ajuda')}
                     >
                         <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                        <Text style={styles.drawerItemsTxt}>Ajuda</Text>
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -166,10 +127,10 @@ export default class drawerContentComponents extends Component {
                         onPress={() => navigate('Sobre')}
                     >
                         <Entypo name='info-with-circle' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
-                        <Text style={styles.drawerItemsTxt}>Sobre</Text>
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toAbout")}</Text>
                     </TouchableOpacity>
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: scale(30) }}>
-                        <Text style={{ alignSelf: 'center', color: '#d6d6d6' }}>Temos mais vindo aí!  </Text>
+                        <Text style={{ alignSelf: 'center', color: '#d6d6d6' }}>{translate("drawer.moreComing")}  </Text>
                         <Emoji
                             name='wink'
                             style={{ fontSize: scale(15) }}
