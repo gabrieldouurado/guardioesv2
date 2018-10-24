@@ -161,7 +161,7 @@ class Registrar extends Component {
                                 date={this.state.userDob}
                                 androidMode='spinner'
                                 mode="date"
-                                placeholder={translate("register.birthDetails.format")}
+                                placeholder={translate("birthDetails.format")}
                                 format="YYYY-MM-DD"
                                 minDate="1918-01-01"
                                 maxDate={minDate}

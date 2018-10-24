@@ -49,7 +49,7 @@ class BadReport extends Component {
             checked_20: false,
             checked_21: false,
             checked_22: false,
-            date: today,
+            today_date: today,
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
@@ -64,17 +64,18 @@ class BadReport extends Component {
 
     hideAlert = () => {
         this.setState({
-            showAlert: false
+            showAlert: false,
+            progressBarAlert: true
         })
     }
 
     _isconnected = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
             isConnected ? this.sendSurvey() : Alert.alert(
-                'Sem Internet!',
-                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                translate("noInternet.noInternetConnection"),
+                translate("noInternet.ohNo"),
                 [
-                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                    {text: translate("noInternet.alertAllRightMessage"), onPress: () => null}
                 ]
             )
         });
@@ -99,14 +100,14 @@ class BadReport extends Component {
             const granted = await PermissionsAndroid.request(
                 android.permission.ACCESS_FINE_LOCATION,
                 {
-                    'title': 'Permission for the app use the fine location',
-                    'message': 'We want to use your fine location to make a report'
+                    'title': translate("locationRequest.requestLocationMessageTitle"),
+                    'message': translate("locationRequest.requestLocationMessageMessage")
                 }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 this.componentDidMount
             } else {
-                console.warn("Location permission denied")
+                console.warn(translate("locationRequest.requestDenied"))
             }
         } catch (err) {
             console.warn(err)
@@ -160,8 +161,8 @@ class BadReport extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.error === false) {
-                    this.setState({ progressBarAlert: false });
                     AsyncStorage.setItem('survey_id', responseJson.id);
+                    this.setState({ progressBarAlert: false });
                 }
             })
     }
@@ -196,11 +197,11 @@ class BadReport extends Component {
                     </Text>
                     <DatePicker
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
-                        date={this.state.date}
+                        date={this.state.today_date}
                         mode="date"
                         placeholder="Clique aqui para inserir a data!"
-                        format="DD/MM/AAAA"
-                        minDate={y + "01" + "01"}
+                        format="YYYY-MM-DD"
+                        minDate="2018-01-01"
                         maxDate={today}
                         confirmBtnText={translate("birthDetails.confirmButton")}
                         cancelBtnText={translate("birthDetails.cancelButton")}
@@ -219,7 +220,7 @@ class BadReport extends Component {
                                 color: '#465F6C'
                             }
                         }}
-                        onDateChange={(date) => { this.setState({ date: date }) }}
+                        onDateChange={(date) => { this.setState({ today_date: date }) }}
                     />
                 </View>
                 <ScrollView style={styles.scroll}>

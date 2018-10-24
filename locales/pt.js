@@ -50,7 +50,7 @@ export default {
         "gender": "Gênero:",
         "race": "Raça:",
         "birth": "Data de Nascimento:",
-        "coutry": "Pais:",
+        "country": "Pais:",
         "email": "Email:",
         "password": "Senha:",
         "signupButton": "Cadastrar",
