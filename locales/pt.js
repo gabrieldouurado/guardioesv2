@@ -150,5 +150,22 @@ export default {
             "prevention": "Prevencao",
             
         }
+    },
+    "diary": {
+        "title": "Diário da Saúde",
+        "participate": "Participações",
+        "good": "Bem",
+        "bad": "Mal",
+        "report": " informe",
+        "reports": " informes",
+        "calendar": "Calendário",
+        "timesPerMonth": "Quantidade de informes por mês",
+        "charts": {
+            "label": {
+                "good": "BEM",
+                "bad": "Mal"
+            },
+            "chartDescription": ""
+        }
     }
 }

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import {
-  View, Text, AsyncStorage, ScrollView, StyleSheet, Image, ImageBackground,
-  processColor, LayoutAnimation, AppRegistry
-} from 'react-native';
+import { View, Text, AsyncStorage, ScrollView, StyleSheet, Image, ImageBackground, processColor } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import moment from 'moment';
-import { Avatar } from 'react-native-elements'
+import { Avatar } from 'react-native-elements';
 import { imagemBad, imagemGood, imagemFundo } from '../../imgs/imageConst';
-import { Dimensions } from 'react-native'
-import update from "immutability-helper"
+import { Dimensions } from 'react-native';
 import { LineChart } from "react-native-charts-wrapper";
+import { translate } from '../../../locales/i18n';
 
 const greenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
@@ -54,7 +51,7 @@ class Diario extends Component {
   }
 
   static navigationOptions = {
-    title: 'Diário Da Saúde',
+    title: translate("diary.title")
   }
 
   async GetUserData() {
@@ -272,32 +269,32 @@ class Diario extends Component {
               </Text>
             </View>
             <View style={styles.LeftTop}>
-              <Text style={styles.NumReports}> {this.state.totalReports} Participações </Text>
+              <Text style={styles.NumReports}> {this.state.totalReports} {translate("diary.participate")} </Text>
               <View style={styles.GoodData}>
                 <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemGood} />
                 <View style={styles.columnData}>
-                  <Text style={styles.GoodPercent}>{this.state.GoodPercent}% Bem</Text>
-                  <Text style={styles.numGood}> {this.state.NummarkedDateNo === 1 ? this.state.NummarkedDateNo + ' informe' : this.state.NummarkedDateNo + ' informes'}</Text>
+                  <Text style={styles.GoodPercent}>{this.state.GoodPercent}% {translate("diary.good")}</Text>
+                  <Text style={styles.numGood}> {this.state.NummarkedDateNo === 1 ? this.state.NummarkedDateNo + translate("diary.report") : this.state.NummarkedDateNo + translate("diary.reports")}</Text>
                 </View>
               </View>
               <View style={styles.BadData}>
                 <Image style={{ width: 35, height: 35, paddingRight: 10 }} source={imagemBad} />
                 <View style={styles.columnData}>
-                  <Text style={styles.BadPercent}>{this.state.BadPercent}% Mal</Text>
-                  <Text style={styles.numBad}>{this.state.NummarkedDate === 1 ? this.state.NummarkedDate + ' informe' : this.state.NummarkedDate + ' informes'}</Text>
+                  <Text style={styles.BadPercent}>{this.state.BadPercent}% {translate("diary.bad")}</Text>
+                  <Text style={styles.numBad}>{this.state.NummarkedDate === 1 ? this.state.NummarkedDate + translate("diary.report") : this.state.NummarkedDate + translate("diary.reports")}</Text>
                 </View>
               </View>
             </View>
           </View>
           <View style={styles.CalendarDate}>
-            <View style={styles.ViewCalendario}><Text style={styles.Calendario}>Calendário</Text></View>
+            <View style={styles.ViewCalendario}><Text style={styles.Calendario}>{translate("diary.calendar")}</Text></View>
             <Calendar
               current={_today}
               markedDates={this.state.datesMarked}
             />
           </View>
           <View style={styles.chartView}>
-            <View style={styles.ViewCalendario}><Text style={styles.Chart}>Quantidade de informes por mês</Text></View>
+            <View style={styles.ViewCalendario}><Text style={styles.Chart}>{translate("diary.timesPerMonth")}</Text></View>
 
 
             <LineChart
