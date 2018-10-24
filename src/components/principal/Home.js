@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorag
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Icon from 'react-native-vector-icons/Feather';
+import translate from "../../../locales/i18n";
 
 let cont = 0
 
@@ -15,7 +16,7 @@ class Home extends Component {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
         const { params = {} } = navigation.state;
         return {
-            title: 'Guardiões da Saúde',
+            title: translate("home.title"),
             headerLeft: (
                 <Icon.Button name='menu' size={scale(30)} color='#9B6525' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
             ),
@@ -30,7 +31,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
             userFirstName: null
         }
@@ -48,7 +49,7 @@ class Home extends Component {
         })
         this._getInfos()
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));        
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
     }
 
     componentWillUnmount() {
@@ -57,13 +58,13 @@ class Home extends Component {
     }
 
     handleBackButton() {
-        
+
         cont = cont + 1;
-        
-        if(cont == 2){
+
+        if (cont == 2) {
             BackHandler.exitApp();
-        } else{
-            ToastAndroid.show('Aperte mais uma vez para sair', ToastAndroid.SHORT);
+        } else {
+            ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
 
         return true;
@@ -87,10 +88,10 @@ class Home extends Component {
                 <StatusBar backgroundColor='#babaae' />
                 <View style={topo}>
                     <Text style={topoTexto1}>
-                        Olá {this.state.userFirstName}!
+                        {translate("home.hello")} {this.state.userFirstName}!
                     </Text>
                     <Text style={topoTexto2}>
-                        Agora você é um guardião da saúde!
+                        {translate("home.nowAGuardian")}
                     </Text>
                 </View>
 
@@ -106,8 +107,8 @@ class Home extends Component {
                 </View>
 
                 <Text style={topoTexto3}>
-                    Como está se sentindo hoje?
-                    </Text>
+                    {translate("home.howYouFelling")}
+                </Text>
 
                 <View style={inferior}>
                     <TouchableOpacity
@@ -115,24 +116,24 @@ class Home extends Component {
                         onPress={() => navigate('Noticias')}>
                         <Image source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
                         <Text style={styles.BotoesTexto}>
-                            Notícias
-                            </Text>
+                            {translate("home.homeButtons.news")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Conselho')}>
                         <Image source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
                         <Text style={styles.BotoesTexto}>
-                            Conselho de Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthTips")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
                         onPress={() => navigate('Diario')}>
                         <Image source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
                         <Text style={styles.BotoesTexto}>
-                            Diário de Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthDiary")}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.inferiorBotoes}
@@ -140,8 +141,8 @@ class Home extends Component {
                     >
                         <Image source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
                         <Text style={styles.BotoesTexto}>
-                            Mapa da Saúde
-                            </Text>
+                            {translate("home.homeButtons.healthMap")}
+                        </Text>
                     </TouchableOpacity>
 
                 </View>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { imgTermos, imgTutorial } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-import { translate } from "../../../locales/i18n";
+import translate from "../../../locales/i18n";
 
 class Ajuda extends Component {
   static navigationOptions = {
@@ -23,7 +23,7 @@ class Ajuda extends Component {
           onPress={() => navigate('TermosPoliticas')}
         >
           <Image source={imgTermos} style={styles.btnOneImg}/>
-          <Text style={styles.btnOneTxt}>{translate("ajuda.useTerms")}</Text>
+          <Text style={styles.btnOneTxt}>{translate("ajuda.useTermsBtn")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -31,7 +31,7 @@ class Ajuda extends Component {
           onPress={() => navigate('Botao2')}
         >
           <Image source={ imgTutorial } style={styles.btnOneImg}/>
-          <Text style={styles.btnOneTxt}>{translate("ajuda.tutorial")}</Text>
+          <Text style={styles.btnOneTxt}>{translate("ajuda.tutorialBtn")}</Text>
         </TouchableOpacity>
       </View>
     );

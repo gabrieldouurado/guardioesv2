@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Text, ScrollView, View, Image, TouchableOpacity } from 'react-native';
 import { SocialIcon, Icon } from 'react-native-elements';
-import { textos } from '../../constUtils';
 import { imagemReportar } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import Emoji from 'react-native-emoji';
-import { translate } from '../../../locales/i18n';
+import translate from '../../../locales/i18n';
 
 const emojis = [
     (

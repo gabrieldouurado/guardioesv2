@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     AsyncStorage
 } from 'react-native';
-import { translate } from '../../../locales/i18n';
+import translate from '../../../locales/i18n';
 
 const AdicionarFamiliar = (<Icon name='plus' type={'evilicon'} size={30} color='red' />)
 class ChooseReporter extends Component{

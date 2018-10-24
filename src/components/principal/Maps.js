@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, PermissionsAndroid } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { PermissionsAndroid, AsyncStorage } from 'react-native';
+import translate from '../../../locales/i18n';
 
 class Maps extends Component {
     static navigationOptions = {
-        title: 'Mapa da Saúde',
+        title: translate("maps.title")
     }
 
     constructor(props) {
@@ -58,17 +58,17 @@ class Maps extends Component {
             const granted = await PermissionsAndroid.request(
                 android.permission.ACCESS_FINE_LOCATION,
                 {
-                    'title': 'Permission for the app use the fine location',
-                    'message': 'We want to use your fine location to make a report'
+                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
+                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
                 }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 this.getLocation
             } else {
-                console.warn("Location permission denied")
+                console.warn(translate("maps.locationRequest.requestDenied"))
+                this.props.navigation.navigate('Home')
             }
         } catch (err) {
-            console.warn(err)
         }
     }
 
@@ -88,7 +88,7 @@ class Maps extends Component {
                                 <Marker
                                     key={index}
                                     coordinate={coordinates}
-                                    title="Bem"
+                                    title={translate("maps.reportGood")}
                                     pinColor='rgba(136,196,37, 1)'
                                 />
                             )
@@ -97,7 +97,7 @@ class Maps extends Component {
                             <Marker
                                 key={index}
                                 coordinate={coordinates}
-                                title="Mal"
+                                title={translate("maps.reportBad")}
                             />
                         )
                     }

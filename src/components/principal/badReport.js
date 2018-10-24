@@ -8,7 +8,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import { app_token } from '../../constUtils';
-import { translate } from '../../../locales/i18n';
+import translate from '../../../locales/i18n';
 
 let data = new Date();
 let d = data.getDate();

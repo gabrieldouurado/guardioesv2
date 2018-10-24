@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage, NetInfo, Alert } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, Image, Dimensions, AsyncStorage, NetInfo, Alert } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import * as Imagem from '../../imgs/imageConst';
 import { PermissionsAndroid } from 'react-native';
 import { scale } from '../scallingUtils';
 import Emoji from 'react-native-emoji';
+import translate from '../../../locales/i18n';
 
 const { height } = Dimensions.get('window')
 let data = new Date();
 
 class Report extends Component {
     static navigationOptions = {
-        title: 'Relato',
+        title: translate("report.title")
     }
 
     constructor(props) {
@@ -43,10 +44,10 @@ class Report extends Component {
     _isconnected = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
             isConnected ? this.sendSurvey() : Alert.alert(
-                'Sem Internet!',
-                'Poxa parece que você não tem internet, tenta de novo mais tarde ok.',
+                translate("noInternet.noInternetConnection"),
+                translate("noInternet.ohNo"),
                 [
-                    {text: 'Ok, vou tentar mais tarde', onPress: () => null}
+                    {text: translate("noInternet.alertAllRightMessage"), onPress: () => null}
                 ]
             )
         });
@@ -71,14 +72,15 @@ class Report extends Component {
             const granted = await PermissionsAndroid.request(
                 android.permission.ACCESS_FINE_LOCATION,
                 {
-                    'title': 'Permission for the app use the fine location',
-                    'message': 'We want to use your fine location to make a report'
+                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
+                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
                 }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 this.componentDidMount
             } else {
-                console.log("Location permission denied")
+                console.warn(translate("maps.locationRequest.requestDenied"))
+                this.props.navigation.navigate('Home')
             }
         } catch (err) {
             console.warn(err)
@@ -135,35 +137,33 @@ class Report extends Component {
             <View style={styles.container}>
                 <ImageBackground source={Imagem.imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                     <View style={styles.textoPerguntaView}>
-                        <Text style={styles.textoPergunta}>Como está sua saúde neste momento?</Text>
+                        <Text style={styles.textoPergunta}>{translate("report.howHealth")}</Text>
                     </View>
                     <View style={styles.reportView}>
                         <TouchableOpacity onPress={this._isconnected}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
-                            <Text style={styles.moodText}> BEM </Text>
+                            <Text style={styles.moodText}> {translate("report.goodChoice")} </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('BadReport')}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemBad} />
-                            <Text style={styles.moodText}> MAL </Text>
+                            <Text style={styles.moodText}> {translate("report.badChoice")} </Text>
                         </TouchableOpacity>
                     </View>
                     <View>
                         <Text style={styles.reportFooter}>
-                            Se a opção escolhida for 'MAL' poderá selecionar os sintomas na seguinte tela.
+                        {translate("report.else")}
                         </Text>
                     </View>
                 </ImageBackground>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={ this.state.showProgressBar ? 'Enviando...' : <Text>Obrigado! {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
-                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>Seu relato foi enviado {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    title={ this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("badReport.alertMessages.reportSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
-                    showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
-                    cancelText="No, cancel"
-                    confirmText="Voltar"
+                    confirmText={translate("badReport.alertMessages.confirmText")}
                     confirmButtonColor="#DD6B55"
                     onCancelPressed={() => {
                         this.hideAlert();

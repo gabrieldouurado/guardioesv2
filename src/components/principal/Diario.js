@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-elements';
 import { imagemBad, imagemGood, imagemFundo } from '../../imgs/imageConst';
 import { Dimensions } from 'react-native';
 import { LineChart } from "react-native-charts-wrapper";
-import { translate } from '../../../locales/i18n';
+import translate from '../../../locales/i18n';
 
 const greenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
@@ -22,6 +22,7 @@ let today = y + "-" + m + "-" + d + "T" + h;
 const _format = 'YYYY-MM-DD'
 const _today = moment().format(_format)
 
+const chartDescriptionTranslated = {text: translate("diary.charts.chartDescription")}
 
 class Diario extends Component {
   constructor(props) {
@@ -341,7 +342,7 @@ class Diario extends Component {
 
                 ]
               }}
-              chartDescription={{ text: "Quantidade de reports por mês" }}
+              chartDescription={chartDescriptionTranslated}
               legend={{
                 enabled: true,
 

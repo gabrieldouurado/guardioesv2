@@ -5,7 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Imagem from '../../imgs/imageConst';
 import { LoginManager } from 'react-native-fbsdk';
 import { app_token } from '../../constUtils';
-import { translate } from '../../../locales/i18n';
+import translate from '../../../locales/i18n';
 
 let data = new Date();
 let d = data.getDate();
@@ -16,7 +16,7 @@ let today = y + "-" + m + "-" + d;
 
 class AddInfo extends Component {
     static navigationOptions = {
-        title: translate('facebookRegister.title')
+        title: translate("facebookRegister.title")
     }
     constructor(props) {
         super(props);
