@@ -116,7 +116,7 @@ class Home extends Component {
     render() {
         const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = "Olá " + this.state.userFirstName + "\n Agora você é um guardião da saúde!!"
+        const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName + "\n " + translate("home.nowAGuardian")
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <StatusBar backgroundColor='#babaae' />

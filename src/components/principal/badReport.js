@@ -171,7 +171,7 @@ class BadReport extends Component {
 
         const viajou = (
             <View>
-                <View><Text style={styles.commomTextView}>Para qual país você viajou?</Text></View>
+                <View><Text style={styles.commomTextView}>{translate("badReport.checkboxes.fourth")}</Text></View>
                 <CountryPicker
                     onChange={value => {
                         this.setState({ cca2: value.cca2, country: value.name })
@@ -180,7 +180,7 @@ class BadReport extends Component {
                     translation="por"
                 />
                 <Text style={styles.textCountry}>{this.state.country}</Text>
-                <View><Text style={{ alignSelf: 'center', paddingTop: 2, fontSize: 13 }}>Aperte na bandeira para selecionar!</Text></View>
+                <View><Text style={{ alignSelf: 'center', paddingTop: 2, fontSize: 13 }}>{translate("badReport.checkboxes.fifth")}</Text></View>
             </View>
         )
 
@@ -196,12 +196,11 @@ class BadReport extends Component {
                     </Text>
                     <DatePicker
                         style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
-                        //showIcon={false}
                         date={this.state.date}
                         mode="date"
                         placeholder="Clique aqui para inserir a data!"
-                        format={translate("birthDetails.format")}
-                        minDate="2018-01-01"
+                        format="DD/MM/AAAA"
+                        minDate={y + "01" + "01"}
                         maxDate={today}
                         confirmBtnText={translate("birthDetails.confirmButton")}
                         cancelBtnText={translate("birthDetails.cancelButton")}
@@ -226,7 +225,7 @@ class BadReport extends Component {
                 <ScrollView style={styles.scroll}>
                     <View style={styles.viewText}>
                         <Text style={styles.sintomasText}>
-                            {translate("badReports.symptoms")}
+                            {translate("badReport.symptoms")}
                         </Text>
                     </View>
                     <CheckBox
@@ -243,7 +242,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title={translate("badReports.noseCongestion")}
+                        title={translate("badReport.noseCongestion")}
                         checked={this.state.checked_2}
                         onPress={() => {
                             if (this.state.checked_2 == false) {
@@ -308,7 +307,7 @@ class BadReport extends Component {
                         }}
                     />
                     <CheckBox
-                        title={translate("badReport.stomachache")}
+                        title={translate("badReport.stomachAche")}
                         checked={this.state.checked_7}
                         onPress={() => {
                             if (this.state.checked_7 == false) {
@@ -526,7 +525,7 @@ class BadReport extends Component {
                                 this.sendSurvey();
                             }
                             else {
-                                alert(translate("badReport.checkboxDateConfirmation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 "));
+                                alert(translate("badReport.checkboxDateConfirmation"));
                             }
                         }
                         } />

@@ -128,7 +128,9 @@ export default {
         "checkboxes": {
             "first": "Teve contato com alguem que apresentava os mesmos sintomas?",
             "second": "Procurou algum serviço hospitalar?",
-            "third": "Deixou seu local de residência nos ultimos 14 dias?"
+            "third": "Deixou seu local de residência nos ultimos 14 dias?",
+            "fourth": "Para que país você viajou?",
+            "fifth": "Aperte na bandeira para selecionar!"
         },
         "checkboxConfirm": "Confirmar",
         "checkboxDateConfirmation": "A data deve ser preenchida",
@@ -199,7 +201,7 @@ export default {
     "home": {
         "title": "Guardiões da Saúde",
         "toastAlertMessage": "Aperte mais uma vez para sair",
-        "hello": "Olá",
+        "hello": "Olá ",
         "nowAGuardian": "Agora você é um guardião da saúde!",
         "howYouFelling": "Como está se sentindo hoje?",
         "homeButtons": {

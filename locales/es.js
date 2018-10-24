@@ -128,7 +128,9 @@ export default {
         "checkboxes": {
             "first": "¿Tuvo contacto con alguien que presentaba los mismos síntomas?",
             "second": "¿Buscó algún servicio hospitalario?",
-            "third": "¿Dejó su lugar de residencia en los últimos 14 días?"
+            "third": "¿Dejó su lugar de residencia en los últimos 14 días?",
+            "fourth": "¿Para qué país usted ha viajado?",
+            "fifth": "¡Apriete en la bandera para seleccionar!"
         },
         "checkboxConfirm": "Confirmar",
         "checkboxDateConfirmation": "La fecha debe cumplimentarse",
