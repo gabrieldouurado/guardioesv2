@@ -96,6 +96,7 @@ class Home extends Component {
 
         if (cont == 2) {
             BackHandler.exitApp();
+            cont = 0;            
         } else {
             ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
@@ -119,7 +120,7 @@ class Home extends Component {
         const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName + "\n " + translate("home.nowAGuardian")
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <StatusBar backgroundColor='#babaae' />
+                <StatusBar backgroundColor='#348EAC' />
                 <View style={topo}>
                     <CopilotStep text="Agora você conhecerá nossas principais funções!" order={1} name="openApp">
                         <WalkthroughableText style={topoTexto2}>

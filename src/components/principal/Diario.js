@@ -414,7 +414,6 @@ const styles = StyleSheet.create({
   UserData: {
     flexDirection: 'column',
     alignItems: 'center',
-    margin: 10,
   },
   UserName: {
     fontFamily: 'roboto',
@@ -433,16 +432,19 @@ const styles = StyleSheet.create({
   LeftTop: {
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 10,
   },
   GoodData: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: '2%',
+    width: '100%',
   },
   BadData: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: '2%',
+    width: '100%',
   },
   GoodPercent: {
     fontFamily: 'roboto',
@@ -456,6 +458,7 @@ const styles = StyleSheet.create({
   },
   columnData: {
     flexDirection: 'column',
+    alignItems: 'center',
   },
   numBad: {
     fontFamily: 'roboto',
@@ -478,7 +481,7 @@ const styles = StyleSheet.create({
 
   },
   CalendarDate: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   chartView: {
     flex: 1,

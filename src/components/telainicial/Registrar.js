@@ -297,7 +297,6 @@ class Registrar extends Component {
                     this.setState({ loginOnApp: 'true' })
                     AsyncStorage.setItem('userName', this.state.userFirstName);
                     AsyncStorage.setItem('avatar', this.state.pic);
-                    alert("Registrado com Sucesso")
                     this.loginAfterCreate();
                     
                 } else {

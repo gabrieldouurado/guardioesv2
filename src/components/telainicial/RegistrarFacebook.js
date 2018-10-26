@@ -180,7 +180,6 @@ class AddInfo extends Component {
             .then((response) => response.json())
             .then(response => {
                 if (response.error === false) {
-                    alert("Registrado via Facebook com Sucesso")
                     AsyncStorage.removeItem('userLastName');
                     AsyncStorage.removeItem('userEmail');
                     AsyncStorage.removeItem('userPwd');
@@ -219,6 +218,7 @@ class AddInfo extends Component {
                 if (responseJson.error === false) {
                     AsyncStorage.setItem('userID', responseJson.user.id);
                     AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
+                    AsyncStorage.setItem('RunTutorial', 'true');
                     this.props.navigation.navigate('Home');
                 } else {
                     alert(responseJson.message)
