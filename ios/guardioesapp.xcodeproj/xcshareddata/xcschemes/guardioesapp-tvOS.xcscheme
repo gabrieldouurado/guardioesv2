@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "guardioesapp-tvOS.app"
-               BlueprintName = "guardioesapp-tvOS"
-               ReferencedContainer = "container:guardioesapp.xcodeproj">
+               BuildableName = "GuardioesApp-tvOS.app"
+               BlueprintName = "GuardioesApp-tvOS"
+               ReferencedContainer = "container:GuardioesApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "guardioesapp-tvOSTests.xctest"
-               BlueprintName = "guardioesapp-tvOSTests"
-               ReferencedContainer = "container:guardioesapp.xcodeproj">
+               BuildableName = "GuardioesApp-tvOSTests.xctest"
+               BlueprintName = "GuardioesApp-tvOSTests"
+               ReferencedContainer = "container:GuardioesApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "guardioesapp-tvOSTests.xctest"
-               BlueprintName = "guardioesapp-tvOSTests"
-               ReferencedContainer = "container:guardioesapp.xcodeproj">
+               BuildableName = "GuardioesApp-tvOSTests.xctest"
+               BlueprintName = "GuardioesApp-tvOSTests"
+               ReferencedContainer = "container:GuardioesApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "guardioesapp-tvOS.app"
-            BlueprintName = "guardioesapp-tvOS"
-            ReferencedContainer = "container:guardioesapp.xcodeproj">
+            BuildableName = "GuardioesApp-tvOS.app"
+            BlueprintName = "GuardioesApp-tvOS"
+            ReferencedContainer = "container:GuardioesApp.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "guardioesapp-tvOS.app"
-            BlueprintName = "guardioesapp-tvOS"
-            ReferencedContainer = "container:guardioesapp.xcodeproj">
+            BuildableName = "GuardioesApp-tvOS.app"
+            BlueprintName = "GuardioesApp-tvOS"
+            ReferencedContainer = "container:GuardioesApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "guardioesapp-tvOS.app"
-            BlueprintName = "guardioesapp-tvOS"
-            ReferencedContainer = "container:guardioesapp.xcodeproj">
+            BuildableName = "GuardioesApp-tvOS.app"
+            BlueprintName = "GuardioesApp-tvOS"
+            ReferencedContainer = "container:GuardioesApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
