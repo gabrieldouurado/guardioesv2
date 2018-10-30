@@ -208,8 +208,7 @@ const styles = StyleSheet.create({
     textoPergunta: {
         justifyContent: 'center',
         fontSize: 36,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         textAlign: 'center',
         color: '#465F6C',
     },
@@ -221,8 +220,7 @@ const styles = StyleSheet.create({
     },
     reportFooter: {
         justifyContent: 'center',
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         fontSize: 16,
         textAlign: 'center',
         margin: '2%'
@@ -230,8 +228,7 @@ const styles = StyleSheet.create({
     moodText: {
         textAlign: 'center',
         fontSize: 25,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         marginTop: '9%'
     },
 })

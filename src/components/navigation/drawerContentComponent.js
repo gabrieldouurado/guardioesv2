@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         fontFamily: 'roboto',
         marginTop: 10,
         marginLeft: 25,
-        color: '#465F6C'
+        color: '#fff'
     },
     shadowAvatar: {
         borderBottomRightRadius: 90,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         width: '75%',
         justifyContent: 'flex-end',
         flexDirection: 'row',
-        backgroundColor: 'rgba(70, 95, 108, 0.85)'
+        backgroundColor: 'rgba(204, 251, 255, 0.3)'
     },
     itemsContainer: {
         flexDirection: 'row',
