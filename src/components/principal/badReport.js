@@ -196,7 +196,7 @@ class BadReport extends Component {
                         {translate("badReport.sickAge")}
                     </Text>
                     <DatePicker
-                        style={{ width: '94%', marginLeft: '3%', backgroundColor: '#DFDFD0', borderRadius: 20 }}
+                        style={{ width: '94%', marginLeft: '3%', backgroundColor: '#a9cedb', borderRadius: 20 }}
                         date={this.state.today_date}
                         mode="date"
                         placeholder={translate("badReport.datePlaceHolder")}
@@ -210,12 +210,12 @@ class BadReport extends Component {
                                 borderWidth: 0
                             },
                             dateText: {
-                                fontFamily: 'poiretOne',
+                                fontFamily: 'roboto',
                                 fontSize: 20
                             },
                             placeholderText: {
                                 marginLeft: 14,
-                                fontFamily: 'poiretOne',
+                                fontFamily: 'roboto',
                                 fontSize: 18,
                                 color: '#465F6C'
                             }
@@ -520,7 +520,7 @@ class BadReport extends Component {
                     />
                     {checked_22True}
                     <View style={styles.buttonView}>
-                        <Button title={translate("badReport.checkboxConfirm")} color="#9B6525" onPress={() => {
+                        <Button title={translate("badReport.checkboxConfirm")} color="#348EAC" onPress={() => {
                             if (this.state.date !== null) {
                                 this.showAlert();
                                 this.sendSurvey();
@@ -585,17 +585,17 @@ const styles = StyleSheet.create({
     },
     sintomasText: {
         textAlign: 'center',
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 10,
+        marginBottom: 12,
         fontSize: 20,
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         color: '#465F6C'
     },
     dateText: {
         textAlign: 'center',
         marginBottom: 5,
         fontSize: 20,
-        fontFamily: 'poiretOne',
+        fontFamily: 'roboto',
         color: '#465F6C'
     },
     viewText: {
@@ -616,8 +616,7 @@ const styles = StyleSheet.create({
     textCountry: {
         alignSelf: 'center',
         fontSize: 15,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
     }
 });
 

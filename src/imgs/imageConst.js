@@ -1,5 +1,6 @@
 export const imagemFundo = require('./Icones/300ppi/Fundo-logo/logo-marca-dagua.png');
 export const imagemLogo = require('./Icones/300ppi/Fundo-logo/logo.png');
+export const imagemLogoC = require('./Icones/300ppi/Fundo-logo/logoC.png');
 export const imagemReportar = require('./Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
 export const imagemConselho = require('./Icones/300ppi/icones-home/003.png');
@@ -15,3 +16,4 @@ export const imagemCenteias = require('./centeias.png');
 export const SSRelato = require('./screenshots/SSRelato.jpeg');
 export const imgTermos = require('./termos.png');
 export const imgTutorial = require('./tutorial.png');
+export const imagemFundoInicio = require('./fundoTelaInicial.png');

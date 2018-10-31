@@ -66,7 +66,7 @@ class Login extends Component {
             <ScrollView>
                 <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                     <View style={styles.viewImage}>
-                        <Image style={styles.imageLogo} source={Imagem.imagemLogo} />
+                        <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
                     </View>
                     <View style={styles.viewForm}>
                         <Text style={styles.commomText}>{translate('login.email')}</Text>
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     imageLogo: {
         flex: 1,
         marginTop: 9,
-        width: '40%',
+        width: '80%',
         resizeMode: 'center',
     }
 });

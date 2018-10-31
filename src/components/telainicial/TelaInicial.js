@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert } from 'react-native';
-import { imagemEntrar, imagemLogo, imagemRegistar } from '../../imgs/imageConst';
+import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert, ImageBackground } from 'react-native';
+import { imagemEntrar, imagemLogo, imagemRegistar, imagemFundoInicio } from '../../imgs/imageConst';
 import translate from '../../../locales/i18n';
 
 const Redirect = (titulo, message, navigation) => {
@@ -16,7 +16,7 @@ const Redirect = (titulo, message, navigation) => {
 
 class TelaInicial extends Component {
     static navigationOptions = {
-        title: translate('initialscreen.title'),
+        header: null,
     }
 
     componentDidMount() {
@@ -37,9 +37,9 @@ class TelaInicial extends Component {
         const statusColor = (<StatusBar backgroundColor='#348EAC' />)
 
         return (
-            <View style={styles.container}>
+            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'cover' }} source={imagemFundoInicio}>
                 {statusColor}
-                <View style={{alignItems: 'center', marginTop: 25}}>
+                <View style={{alignItems: 'center', marginTop: 50}}>
                     <Text style={styles.textTitulo}>{translate("initialscreen.welcome")}</Text>
                     <Text style={styles.textCorpo}>{translate("initialscreen.subwelcome")}</Text>
                 </View>
@@ -60,7 +60,7 @@ class TelaInicial extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </ImageBackground>
         );
     }
 }
@@ -79,20 +79,20 @@ const styles = StyleSheet.create({
     },
     imageLogo: {
         flex: 1,
-        width: '70%',
+        width: '90%',
         resizeMode: 'center',
-        marginTop: -30
+        marginTop: -60
     },
     textTitulo: {
         fontFamily: 'roboto',
         fontSize: 27,
-        color: '#348EAC',
+        color: '#fff',
         marginBottom: 5
     },
     textCorpo: {
         fontFamily: 'roboto',
         fontSize: 19,
-        color: '#348EAC'
+        color: '#fff'
     },
     viewBotoes: {
         flexDirection: 'row',
