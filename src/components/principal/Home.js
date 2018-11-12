@@ -66,6 +66,9 @@ class Home extends Component {
             _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
         })
         this._getInfos()
+
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
         
     }
 
@@ -85,10 +88,10 @@ class Home extends Component {
             BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
     }
 
-    componentWillUnmount() {
-        this._didFocusSubscription && this._didFocusSubscription.remove();
-        this._willBlurSubscription && this._willBlurSubscription.remove();
-    }
+    //componentWillUnmount() {
+    //    this._didFocusSubscription && this._didFocusSubscription.remove();
+    //    this._willBlurSubscription && this._willBlurSubscription.remove();
+    //}
 
     handleBackButton() {
 
@@ -96,7 +99,9 @@ class Home extends Component {
 
         if (cont == 2) {
             BackHandler.exitApp();
-            cont = 0;            
+            cont = 0;
+            this._didFocusSubscription && this._didFocusSubscription.remove();
+            this._willBlurSubscription && this._willBlurSubscription.remove();            
         } else {
             ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
