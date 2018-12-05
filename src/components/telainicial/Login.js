@@ -92,7 +92,9 @@ class Login extends Component {
                             <Button
                                 title={translate("login.loginbutton")}
                                 color="#348EAC"
-                                onPress={this._isconnected} />
+                                //onPress={this._isconnected} //Retirado para conseguir usar o emulador IOS
+                                onPress={this.login}
+                                />
                         </View>
                         <View style={{ paddingTop: 20 }}>
                             <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>

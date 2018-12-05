@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 17, 
         position: 'absolute',
         alignSelf: 'center',
-        marginTop: '5.1%',
+        marginTop: '7.2%',
         fontWeight: '200'
     }
 });

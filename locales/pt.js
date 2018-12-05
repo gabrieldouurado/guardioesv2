@@ -70,7 +70,7 @@ export default {
     },
     "facebookRegister": {
         "title": "Informações Adicionais",
-        "hello": "Hello ",
+        "hello": "Olá  ",
         "moreInformation": "Precisamos de algumas informações adicionais para completar o cadastro",
         "gender": "Sexo: ",
         "race": "Raça: ",

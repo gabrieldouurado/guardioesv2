@@ -144,7 +144,7 @@ class Home extends Component {
                         <CopilotStep active={this.state.secondStepActive} text="Clicando aqui você poderá informar seu estado de saúde" order={2} name="secondText">
                             <WalkthroughableImage
                                 source={Imagem.imagemReportar}
-                                style={{ height: scale(160), width: scale(160), borderRadius: 200 }}
+                                style={{ height: scale(160), width: scale(160) }}
                             />
                         </CopilotStep>
                     </TouchableOpacity>

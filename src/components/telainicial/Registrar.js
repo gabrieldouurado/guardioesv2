@@ -21,6 +21,7 @@ import { app_token } from '../../constUtils';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
+import ModalSelector from 'react-native-modal-selector';
 
 let data = new Date();
 let d = data.getDate();
@@ -101,9 +102,24 @@ class Registrar extends Component {
     render() {
         const { showAlert } = this.state;
 
+        const gender = [
+            { key: 'Masculino', label: translate("genderChoices.male")},
+            { key: 'Femenino', label: translate("genderChoices.female")},
+        ];
+
+        const race = [
+            { key: 'Blanco', label: translate("raceChoices.white")},
+            { key: 'Indígena', label: translate("raceChoices.indian")},
+            { key: 'Mestizo', label: translate("raceChoices.mix")},
+            { key: 'Negro, mulato o afrodescendiente', label: translate("raceChoices.black")},
+            { key: 'Palenquero', label: translate("raceChoices.palenquero")},
+            { key: 'Raizal', label: translate("raceChoices.raizal")},
+            { key: 'Rom-Gitano', label: translate("raceChoices.romGitano")}
+        ];
+
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <ScrollView style={styles.scroll}>
+                <View style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.name")}</Text>
@@ -125,31 +141,23 @@ class Registrar extends Component {
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
-                            <Picker
-                                selectedValue={this.state.userGender}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
-                                <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
-                                <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
-                            </Picker>
+                            <ModalSelector
+                                style={{width: '80%', height: '70%'}}
+                                data={gender}
+                                initValue={translate("genderChoices.male")}
+                                onChange={(option) => this.setState({ userGender: option.key })}
+                            />
                         </View>
 
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>{translate("register.race")}</Text>
-                            <Picker
-                                selectedValue={this.state.userRace}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
-                                <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
-                                <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
-                                <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
-                                <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
-                            </Picker>
+                            <ModalSelector
+                                style={{width: '80%', height: '70%'}}
+                                data={race}
+                                initValue={translate("raceChoices.white")}
+                                onChange={(option) => this.setState({ userRace: option.key })}
+                            />
                         </View>
-
                     </View>
 
                     <View style={styles.viewRow}>
@@ -206,6 +214,7 @@ class Registrar extends Component {
                         <Text style={styles.commomText}>{translate("register.email")}</Text>
                         <TextInput
                             style={styles.formInput}
+                            autoCapitalize='none'
                             keyboardType='email-address'
                             onChangeText={email => this.setState({ userEmail: email })}
                             onSubmitEditing={() => this.passwordInput.focus()}
@@ -226,7 +235,9 @@ class Registrar extends Component {
                         <Button
                             title={translate("register.signupButton")}
                             color="#348EAC"
-                            onPress={this._isconnected} />
+                            //onPress={this._isconnected} //Removido para conseguir usar no emulador de IOS
+                            onPress={this.create}
+                            />
                     </View>
 
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
@@ -257,7 +268,7 @@ class Registrar extends Component {
                             onLogoutFinished={() => { }} />
                     </View>
 
-                </ScrollView>
+                </View>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
@@ -372,6 +383,8 @@ const styles = StyleSheet.create({
         width: "50%",
         height: 65,
         alignItems: 'center',
+        //borderWidth:1,
+        //borderColor: 'red',
     },
     viewChildPais: {
         width: "50%",

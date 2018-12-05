@@ -50,7 +50,7 @@ export default {
         "gender": "Gênero:",
         "race": "Raça:",
         "birth": "Data de Nascimento:",
-        "coutry": "Pais:",
+        "country": "Pais:",
         "email": "Email:",
         "password": "Senha:",
         "signupButton": "Cadastrar",
@@ -70,7 +70,7 @@ export default {
     },
     "facebookRegister": {
         "title": "Informações Adicionais",
-        "hello": "Hello ",
+        "hello": "Olá ",
         "moreInformation": "Precisamos de algumas informações adicionais para completar o cadastro",
         "gender": "Sexo: ",
         "race": "Raça: ",
