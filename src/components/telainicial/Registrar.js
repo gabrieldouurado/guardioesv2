@@ -177,7 +177,7 @@ class Registrar extends Component {
                                         fontSize: 17
                                     },
                                     placeholderText: {
-                                        marginBottom: 10,
+                                        marginBottom: 15,
                                         fontFamily: 'roboto',
                                         fontSize: 15,
                                         color: 'black'

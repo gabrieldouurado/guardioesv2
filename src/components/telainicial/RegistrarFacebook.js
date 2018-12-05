@@ -14,6 +14,8 @@ let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
 
+let minDate = (y - 13) + "-" + m + "-" + d;
+
 class AddInfo extends Component {
     static navigationOptions = {
         title: translate("facebookRegister.title")
@@ -109,7 +111,7 @@ class AddInfo extends Component {
                             placeholder={translate("birthDetails.format")}
                             format="YYYY-MM-DD"
                             minDate="1918-01-01"
-                            maxDate={today}
+                            maxDate={minDate}
                             confirmBtnText={translate("birthDetails.confirmButton")}
                             cancelBtnText={translate("birthDetails.cancelButton")}
                             customStyles={{
@@ -118,12 +120,12 @@ class AddInfo extends Component {
                                 },
                                 dateText: {
                                     marginBottom: 10,
-                                    fontFamily: 'poiretOne',
+                                    fontFamily: 'roboto',
                                     fontSize: 17
                                 },
                                 placeholderText: {
                                     marginBottom: 10,
-                                    fontFamily: 'poiretOne',
+                                    fontFamily: 'roboto',
                                     fontSize: 15,
                                     color: 'black'
                                 }
@@ -282,8 +284,7 @@ const styles = StyleSheet.create({
     },
     commomText: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -291,16 +292,14 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: 23,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'center',
         marginTop: 10,
     },
     subTitleText: {
         fontSize: 21,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'center',
         textAlign: 'center',
@@ -309,8 +308,7 @@ const styles = StyleSheet.create({
     },
     commomTextView: {
         fontSize: 17,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
         color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
@@ -324,8 +322,7 @@ const styles = StyleSheet.create({
     },
     textCountry: {
         fontSize: 15,
-        fontFamily: 'poiretOne',
-        fontWeight: '400',
+        fontFamily: 'roboto',
     }
 });
 
