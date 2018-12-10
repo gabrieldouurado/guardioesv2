@@ -223,7 +223,7 @@ class BadReport extends Component {
                         onDateChange={(date) => { this.setState({ today_date: date }) }}
                     />
                 </View>
-                <ScrollView style={styles.scroll}>
+                <ScrollView style={styles.scroll} directionalLockEnabled={true}>
                     <View style={styles.viewText}>
                         <Text style={styles.sintomasText}>
                             {translate("badReport.symptoms")}

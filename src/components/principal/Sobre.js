@@ -57,15 +57,13 @@ const styles = StyleSheet.create({
         padding: scale(30)
     },
     text: {
-        fontFamily: 'myriadpro',
+        fontFamily: 'roboto',
         fontSize: 18,
-        fontWeight: '300',
         textAlign: 'justify'
     },
     textTitulo: {
-        fontFamily: 'myriadpro',
+        fontFamily: 'roboto',
         fontSize: 20,
-        fontWeight: '300',
         textAlign: 'center'
     },
     imageOne: {

@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         padding: 30
     },
     text: {
-        fontFamily: 'myriadpro',
+        fontFamily: 'roboto',
         fontSize: 18,
         fontWeight: '300',
         textAlign: 'justify'

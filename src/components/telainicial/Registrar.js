@@ -119,7 +119,7 @@ class Registrar extends Component {
 
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <View style={styles.scroll}>
+                <ScrollView style={styles.scroll} directionalLockEnabled={true}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.name")}</Text>
@@ -268,7 +268,7 @@ class Registrar extends Component {
                             onLogoutFinished={() => { }} />
                     </View>
 
-                </View>
+                </ScrollView>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
