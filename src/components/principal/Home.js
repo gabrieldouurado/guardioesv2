@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid, NetInfo, Alert  } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
 import translate from "../../../locales/i18n";
 import LinearGradient from 'react-native-linear-gradient';
+import Emoji from 'react-native-emoji';
+import { PermissionsAndroid } from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
@@ -13,6 +16,8 @@ import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copi
 const WalkthroughableText = walkthroughable(Text);
 const WalkthroughableImage = walkthroughable(Image);
 let cont = 0
+let data = new Date();
+
 class Home extends Component {
     static propTypes = {
         start: PropTypes.func.isRequired,
@@ -50,8 +55,103 @@ class Home extends Component {
         this.state = {
             userFirstName: null,
             secondStepActive: true,
+            userLatitude: 'unknown',
+            userLongitude: 'unknown',
+            UserID: "",
+            error: null,
+            HouseholdId: "",
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
+    ///////
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            showProgressBar: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
+
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                translate("noInternet.noInternetConnection"),
+                translate("noInternet.ohNo"),
+                [
+                    {text: translate("noInternet.alertAllRightMessage"), onPress: () => null}
+                ]
+            )
+        });
+    }
+
+    async requestFineLocationPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                android.permission.ACCESS_FINE_LOCATION,
+                {
+                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
+                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
+                }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.componentDidMount
+            } else {
+                console.warn(translate("maps.locationRequest.requestDenied"))
+                this.props.navigation.navigate('Home')
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    //Function that creates a requisition to send the survey to the API
+    sendSurvey = async () => {
+        this.showAlert();
+        this.requestFineLocationPermission
+
+        let UserID = await AsyncStorage.getItem('userID');
+        this.setState({ UserID: UserID })
+
+        let HouseholdId = await AsyncStorage.getItem('HouseholdId');
+        this.setState({ HouseholdId: HouseholdId })
+
+        fetch('https://guardianes.centeias.net/survey/create', {
+            method: 'POST',
+            body: JSON.stringify({
+                user_id: this.state.UserID,
+                houselhold_id: this.state.HouseholdId,
+                lat: this.state.userLatitude,
+                lon: this.state.userLongitude,
+                no_symptom: "Y",
+                week_of: data,
+                hadContagiousContact: "none",
+                hadHealthCare: "none",
+                hadTravlledAbroad: "none",
+                travelLocation: "none",
+                app_token: "d41d8cd98f00b204e9800998ecf8427e",
+                platform: "",
+
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error === false) {
+                    this.setState({ showProgressBar: false });
+                    AsyncStorage.setItem('survey_id', responseJson.id);
+                } else {
+                    alert(responseJson.message)
+                    this.setState({ showProgressBar: false });
+                }
+            })
+            .done();
+    }
+    ////////////
 
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
@@ -59,6 +159,18 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    userLatitude: position.coords.latitude,
+                    userLongitude: position.coords.longitude,
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
+        );
+
 
         this.runTutorial();
 
@@ -121,6 +233,7 @@ class Home extends Component {
     }
 
     render() {
+        const { showAlert } = this.state;
         const { navigate } = this.props.navigation;
         const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName
         return (
@@ -150,12 +263,12 @@ class Home extends Component {
                 </Text>
                 <View style={styles.viewReport}>
                     <View style={styles.viewChildGood}>
-                        <TouchableOpacity onPress={() => navigate('Reportar')}>
+                        <TouchableOpacity onPress={this._isconnected}>
                             <Text style={styles.textChoiceButton}>{translate("report.goodChoice")}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.viewChildBad}>
-                        <TouchableOpacity onPress={() => navigate('Reportar')}>
+                        <TouchableOpacity onPress={() => navigate('BadReport')}>
                             <Text style={styles.textChoiceButton}>{translate("report.badChoice")}</Text>
                         </TouchableOpacity>
                     </View>
@@ -223,10 +336,43 @@ class Home extends Component {
                         </TouchableOpacity>
                     </View>
                 </LinearGradient>
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={ this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("badReport.alertMessages.reportSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
+                    confirmText={translate("badReport.alertMessages.confirmText")}
+                    confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onConfirmPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onDismiss={() => this.hideAlert()}
+                />
             </View>
         );
     }
 }
+
+const emojis = [
+    (
+        <Emoji //Emoji heart up
+            name='heart'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji //Emoji tada up
+            name='tada'
+            style={{ fontSize: scale(15) }}
+        />
+    )
+]
 
 const styles = StyleSheet.create({
     container: {
@@ -267,8 +413,8 @@ const styles = StyleSheet.create({
     viewHousehold: {
         width: '100%',
         height: '30%',
-        borderColor: 'red',
-        borderWidth: 1
+        //borderColor: 'red',
+        //borderWidth: 1
     },
     textFelling: {
         fontSize: 20,
@@ -328,43 +474,6 @@ const styles = StyleSheet.create({
         textAlign: 'justify',
         fontSize: 10,
         color: 'white'
-    },
-
-
-
-
-
-    topo: {
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'red'
-    },
-    topoTexto1: {
-        fontSize: 30,
-        fontFamily: 'roboto'
-    },
-
-
-    corpo: {
-        flex: 1.5,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    inferior: {
-        flex: 2,
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'space-evenly'
-    },
-    inferiorBotoes: {
-        flexDirection: 'row',
-        backgroundColor: '#348EAC',
-        width: '80%',
-        borderBottomLeftRadius: 181,
-        borderTopLeftRadius: 181,
-        justifyContent: 'flex-start',
     }
 });
 
