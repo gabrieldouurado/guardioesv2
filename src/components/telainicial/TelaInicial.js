@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert, ImageBackground } from 'react-native';
 import { imagemEntrar, imagemLogo, imagemRegistar, imagemFundoInicio } from '../../imgs/imageConst';
 import translate from '../../../locales/i18n';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Redirect = (titulo, message, navigation) => {
     Alert.alert(
         `${titulo}`,
         `${message}`,
         [
-            { text: "Cancelar", onPress: () => navigation.navigate('TelaInicial') , style: 'cancel' },
+            { text: "Cancelar", onPress: () => navigation.navigate('TelaInicial'), style: 'cancel' },
             { text: "Ok", onPress: () => navigation.navigate('Registrar') }
         ]
     )
@@ -37,30 +38,24 @@ class TelaInicial extends Component {
         const statusColor = (<StatusBar backgroundColor='#348EAC' />)
 
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'cover' }} source={imagemFundoInicio}>
+            <LinearGradient style={styles.container} colors={['#348EAC', '#013444']} start={{ x: 1.5, y: 0.6 }} end={{ x: -0.2, y: 1.4 }}>
                 {statusColor}
-                <View style={{alignItems: 'center', marginTop: 50}}>
-                    <Text style={styles.textTitulo}>{translate("initialscreen.welcome")}</Text>
-                    <Text style={styles.textCorpo}>{translate("initialscreen.subwelcome")}</Text>
-                </View>
                 <View style={styles.viewImage}>
                     <Image style={styles.imageLogo} source={imagemLogo} />
                 </View>
-                <View style={styles.viewBotoes}>
-                    <View style={styles.viewChildBotoes}>
-                        <TouchableOpacity  onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation=this.props.navigation)}>
-                            <Image source={imagemRegistar} style={styles.imageStyle} />
-                            <Text style={styles.Entrar}>Registrar</Text>
+                <View style={styles.viewButton}>
+                    <View style={styles.viewChildRegistar}>
+                    <TouchableOpacity onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation = this.props.navigation)}>
+                            <Text style={styles.textButton}>REGISTRAR</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.viewChildBotoes}>
-                        <TouchableOpacity onPress={() => navigate('Login')}>
-                            <Image source={imagemEntrar} style={styles.imageStyle} />
-                            <Text style={styles.Entrar}>Entrar</Text>
+                    <View style={styles.viewChildEntrar}>
+                    <TouchableOpacity onPress={() => navigate('Login')}>
+                            <Text style={styles.textButton}>ENTRAR</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-            </ImageBackground>
+            </LinearGradient>
         );
     }
 }
@@ -69,7 +64,6 @@ class TelaInicial extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
     },
     viewImage: {
         flex: 1,
@@ -79,48 +73,39 @@ const styles = StyleSheet.create({
     },
     imageLogo: {
         flex: 1,
-        width: '90%',
+        width: '85%',
         resizeMode: 'center',
         marginTop: -60
     },
-    textTitulo: {
-        fontFamily: 'roboto',
-        fontSize: 27,
-        color: '#fff',
-        marginBottom: 5
-    },
-    textCorpo: {
-        fontFamily: 'roboto',
-        fontSize: 19,
-        color: '#fff'
-    },
-    viewBotoes: {
+    viewButton: {
+        alignSelf: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: '7%',
+        width: '85%',
+        height: '10%',
         marginTop: 10,
-        marginBottom: 20
+        marginBottom: 30,
     },
-    imageStyle:{
-        width: '100%',
-        height: '100%',
-        resizeMode: 'stretch'
+    viewChildEntrar: {
+        width: '49.5%',
+        borderTopRightRadius: 90,
+        borderBottomRightRadius: 90,
+        backgroundColor: 'white',
+        justifyContent: 'center',
     },
-    viewChildBotoes: {
-        width: '48.5%'
+    viewChildRegistar: {
+        width: '49.5%',
+        borderTopLeftRadius: 90,
+        borderBottomLeftRadius: 90,
+        backgroundColor: 'white',
+        justifyContent: 'center',
     },
-    botao: {
-        position: 'absolute',
-
-    },
-    Entrar: {
+    textButton: {
         fontFamily: 'roboto',
-        color: 'white',
-        fontSize: 17, 
-        position: 'absolute',
+        color: '#013444',
+        fontSize: 17,        
         alignSelf: 'center',
-        marginTop: '5.1%',
-        fontWeight: '200'
+        fontWeight: 'bold'
     }
 });
 
