@@ -271,6 +271,8 @@ export default {
         "toFacebook": "Facebook",
         "toHelp": "Ayuda",
         "toAbout": "Acerca de",
-        "moreComing": "¡Tenemos más funciones en el futuro¡"
+        "moreComing": "¡Tenemos más funciones en el futuro¡",
+        "healthDiary": "Diario de Salud",
+        "healthMap": "Mapa de la Salud"
     }
 }

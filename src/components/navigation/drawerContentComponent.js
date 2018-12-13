@@ -9,6 +9,7 @@ import { Avatar } from 'react-native-elements';
 import { LoginButton } from 'react-native-fbsdk';
 import * as Imagem from '../../imgs/imageConst';
 import translate from '../../../locales/i18n';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class drawerContentComponents extends Component {
 
@@ -81,29 +82,49 @@ export default class drawerContentComponents extends Component {
 
         return (
             <View style={styles.container}>
-                <ScrollView>
+                <LinearGradient style={styles.container} colors={['#348EAC', '#013444']} start={{ x: 1.5, y: 0.6 }} end={{ x: -0.2, y: 1.4 }}>
                     <View style={styles.headerContainer}>
-                        <ImageBackground source={Imagem.imagemDrawer} style={{ flex: 1, justifyContent: 'center' }} >
-                            <View style={styles.shadowAvatar}>
-                                <View style={{ borderWidth: 3.5, borderColor: '#348EAC', borderRadius: 180 }}>
-                                    <Avatar
-                                        xlarge
-                                        rounded
-                                        source={{ uri: this.state.pic }}
-                                        activeOpacity={0.7}
-                                    />
-                                </View>
-                            </View>
-                            <Text style={styles.headerText}>{this.state.userFirstName}</Text>
-                        </ImageBackground>
+                        <View style={styles.viewAvatar}>
+                            <Avatar
+                                xlarge
+                                rounded
+                                source={{ uri: this.state.pic }}
+                                activeOpacity={0.7}
+                            />
+                        </View>
+                        <Text style={styles.headerText}>{this.state.userFirstName}</Text>
                     </View>
-                    <View style={{ backgroundColor: '#348EAC', height: 10 }}></View>
+
                     <TouchableOpacity
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
                         <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
-                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toHome")}</Text>
+                        <Text style={styles.drawerItemsTxt}>Perfis</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Mapa')}
+                    >
+                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.healthMap")}</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Diario')}
+                    >
+                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>{translate("drawer.healthDiary")}</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.itemsContainer}
+                        onPress={() => navigate('Home')}
+                    >
+                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Text style={styles.drawerItemsTxt}>Eventos Massivos</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -122,25 +143,10 @@ export default class drawerContentComponents extends Component {
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={styles.itemsContainer}
-                        onPress={() => navigate('Sobre')}
-                    >
-                        <Entypo name='info-with-circle' size={verticalScale(30)} color='gray' style={[styles.iconStyle, { paddingRight: '16%' }]} />
-                        <Text style={styles.drawerItemsTxt}>{translate("drawer.toAbout")}</Text>
-                    </TouchableOpacity>
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingTop: scale(30) }}>
-                        <Text style={{ alignSelf: 'center', color: '#d6d6d6' }}>{translate("drawer.moreComing")}  </Text>
-                        <Emoji
-                            name='wink'
-                            style={{ fontSize: scale(15) }}
-                        />
+                    <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 27 }]}>
+                        {loginType}
                     </View>
-                </ScrollView>
-                <View style={[styles.itemsContainer, { borderBottomWidth: 1, borderBottomColor: 'gray' }]}></View>
-                <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8 }]}>
-                    {loginType}
-                </View>
+                </LinearGradient>
             </View>
 
         )
@@ -152,28 +158,27 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        height: moderateScale(293),
+        height: moderateScale(250),
+        backgroundColor: 'white'
     },
     headerText: {
-        fontSize: 25,
+        fontSize: 24,
         fontFamily: 'roboto',
+        fontWeight: 'bold',
+        alignSelf: 'center',
         marginTop: 10,
-        marginLeft: 25,
-        color: '#fff'
+        color: '#166B87'
     },
-    shadowAvatar: {
-        borderBottomRightRadius: 90,
-        borderTopRightRadius: 90,
-        width: '75%',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        backgroundColor: 'rgba(204, 251, 255, 0.3)'
+    viewAvatar: {
+        alignSelf: 'center',
+        marginTop: 25,
     },
     itemsContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 8,
+        marginBottom: 10
     },
     iconStyle: {
         justifyContent: 'center',
@@ -184,6 +189,8 @@ const styles = StyleSheet.create({
     drawerItemsTxt: {
         textAlignVertical: 'center',
         fontFamily: 'roboto',
+        fontWeight: 'bold',
+        color: 'white',
         fontSize: verticalScale(15),
 
     },

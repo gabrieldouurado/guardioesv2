@@ -5,6 +5,7 @@ import { scale } from '../scallingUtils';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
 import translate from "../../../locales/i18n";
+import LinearGradient from 'react-native-linear-gradient';
 
 
 import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
@@ -68,17 +69,17 @@ class Home extends Component {
         this._getInfos()
 
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-        
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
+
     }
 
-    runTutorial = async () =>{
+    runTutorial = async () => {
         let runTutorial = await AsyncStorage.getItem('RunTutorial');
-        this.setState({runTutorial: runTutorial});
+        this.setState({ runTutorial: runTutorial });
         if (this.state.runTutorial === 'true') {
             this.props.copilotEvents.on('stepChange', this.handleStepChange);
             this.props.start();
-            AsyncStorage.removeItem('RunTutorial');  
+            AsyncStorage.removeItem('RunTutorial');
         }
     }
 
@@ -101,7 +102,7 @@ class Home extends Component {
             BackHandler.exitApp();
             cont = 0;
             this._didFocusSubscription && this._didFocusSubscription.remove();
-            this._willBlurSubscription && this._willBlurSubscription.remove();            
+            this._willBlurSubscription && this._willBlurSubscription.remove();
         } else {
             ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
@@ -120,87 +121,109 @@ class Home extends Component {
     }
 
     render() {
-        const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName + "\n " + translate("home.nowAGuardian")
+        const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
-                <View style={topo}>
+
+                <View style={styles.viewImage}>
+                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+                </View>
+
+                <View style={styles.viewWelcome}>
                     <CopilotStep text="Agora você conhecerá nossas principais funções!" order={1} name="openApp">
-                        <WalkthroughableText style={topoTexto2}>
+                        <WalkthroughableText style={styles.textHelloUser}>
                             {welcomeMessage}
                         </WalkthroughableText>
+
                     </CopilotStep>
+                    <Text style={styles.textNewGuardion}>
+                        {translate("home.nowAGuardian")}
+                    </Text>
                 </View>
 
-                <View style={corpo}>
-                    <TouchableOpacity
-                        style={{ borderRadius: 180 }}
-                        onPress={() => {
-                            navigate('Reportar')
-                        }}
-                    >
-                        <CopilotStep active={this.state.secondStepActive} text="Clicando aqui você poderá informar seu estado de saúde" order={2} name="secondText">
-                            <WalkthroughableImage
-                                source={Imagem.imagemReportar}
-                                style={{ height: scale(160), width: scale(160), borderRadius: 200 }}
-                            />
-                        </CopilotStep>
-                    </TouchableOpacity>
+                <View style={styles.viewHousehold}>
                 </View>
-
-                <Text style={topoTexto3}>
+                <Text style={styles.textFelling}>
                     {translate("home.howYouFelling")}
                 </Text>
-
-                <View style={inferior}>
-
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Noticias')}>
-                        <CopilotStep text="Aqui temos notícias quentinhas relacionadas à saúde" order={3} name="thirdText">
-                            <WalkthroughableImage source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.news")}
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Conselho')}>
-                        <CopilotStep text="Aqui você encontra diversas informações relacionadas à saúde" order={4} name="fourthText">
-                            <WalkthroughableImage source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthTips")}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Diario')}>
-                        <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
-                            <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthDiary")}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Mapa')}
-                    >
-                        <CopilotStep text="Aqui você pode acessar um mapa para ver como as pessoas estão ao seu redor" order={6} name="sixthText">
-                            <WalkthroughableImage source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthMap")}
-                        </Text>
-                    </TouchableOpacity>
-
+                <View style={styles.viewReport}>
+                    <View style={styles.viewChildGood}>
+                        <TouchableOpacity onPress={() => navigate('Reportar')}>
+                            <Text style={styles.textChoiceButton}>{translate("report.goodChoice")}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viewChildBad}>
+                        <TouchableOpacity onPress={() => navigate('Reportar')}>
+                            <Text style={styles.textChoiceButton}>{translate("report.badChoice")}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </ImageBackground>
+
+                <LinearGradient style={styles.bottomMenu} colors={['#348EAC', '#013444']} start={{ x: 0.0, y: 0.0 }} end={{ x: 1.9, y: 1.0 }}>
+                    <View style={styles.viweButtons}>
+                        <TouchableOpacity
+                            style={styles.menuButtons}
+                            onPress={() => navigate('Home')}>
+                            <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
+                                <WalkthroughableImage source={Imagem.imagemInicio} style={styles.menuIcons} />
+                            </CopilotStep>
+                            <Text style={styles.textButton}>
+                                Inicio
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viweButtons}>
+                        <TouchableOpacity
+                            style={styles.menuButtons}
+                            onPress={() => navigate('Diario')}>
+                            <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
+                                <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={styles.menuIcons} />
+                            </CopilotStep>
+                            <Text style={styles.textButton}>
+                                {translate("home.homeButtons.healthDiary")}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viweButtons}>
+                        <TouchableOpacity
+                            style={styles.menuButtons}
+                            onPress={() => navigate('Mapa')}>
+                            <CopilotStep text="Aqui você pode acessar um mapa para ver como as pessoas estão ao seu redor" order={6} name="sixthText">
+                                <WalkthroughableImage source={Imagem.imagemMapaSaude} style={styles.menuIcons} />
+                            </CopilotStep>
+                            <Text style={styles.textButton}>
+                                {translate("home.homeButtons.healthMap")}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viweButtons}>
+                        <TouchableOpacity
+                            style={styles.menuButtons}
+                            onPress={() => navigate('Conselho')}>
+                            <CopilotStep text="Aqui você encontra diversas informações relacionadas à saúde" order={4} name="fourthText">
+                                <WalkthroughableImage source={Imagem.imagemConselho} style={styles.menuIcons} />
+                            </CopilotStep>
+                            <Text style={styles.textButton}>
+                                {translate("home.homeButtons.healthTips")}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viweButtons}>
+                        <TouchableOpacity
+                            style={styles.menuButtons}
+                            onPress={() => navigate('Noticias')}>
+                            <CopilotStep text="Aqui temos notícias quentinhas relacionadas à saúde" order={3} name="thirdText">
+                                <WalkthroughableImage source={Imagem.imagemNoticias} style={styles.menuIcons} />
+                            </CopilotStep>
+                            <Text style={styles.textButton}>
+                                {translate("home.homeButtons.news")}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </LinearGradient>
+            </View>
         );
     }
 }
@@ -209,29 +232,120 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 550,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: 'white',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
+    viewImage: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    imageLogo: {
+        height: '75%',
+        resizeMode: 'center'
+    },
+    viewWelcome: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    textHelloUser: {
+        fontSize: 40,
+        fontFamily: 'roboto',
+        color: '#166B87',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    textNewGuardion: {
+        fontSize: 20,
+        fontFamily: 'roboto',
+        color: '#166B87',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    viewHousehold: {
+        width: '100%',
+        height: '30%',
+        borderColor: 'red',
+        borderWidth: 1
+    },
+    textFelling: {
+        fontSize: 20,
+        fontFamily: 'roboto',
+        color: '#166B87'
+    },
+    viewReport: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '80%',
+        height: '10%',
+        marginTop: 5,
+        marginBottom: 20,
+    },
+    viewChildBad: {
+        width: '50%',
+        borderTopRightRadius: 90,
+        borderBottomRightRadius: 90,
+        backgroundColor: 'rgba(22, 107, 135, 0.25)',
+        justifyContent: 'center',
+    },
+    viewChildGood: {
+        width: '50%',
+        borderTopLeftRadius: 90,
+        borderBottomLeftRadius: 90,
+        backgroundColor: 'rgba(22, 107, 135, 1)',
+        justifyContent: 'center',
+    },
+    textChoiceButton: {
+        fontFamily: 'roboto',
+        color: 'white',
+        fontSize: 35,
+        alignSelf: 'center'
+    },
+    bottomMenu: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        width: '100%',
+        height: '11%',
+        backgroundColor: 'red'
+    },
+    menuButtons: {
+        alignItems: 'center'
+    },
+    viweButtons: {
+        justifyContent: 'center',
+        width: '20%',
+    },
+    menuIcons: {
+        resizeMode: 'center',
+        height: scale(30)
+    },
+    textButton: {
+        fontFamily: 'roboto',
+        alignSelf: 'center',
+        textAlign: 'justify',
+        fontSize: 10,
+        color: 'white'
+    },
+
+
+
+
+
     topo: {
-        flex: 0.6,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'red'
     },
     topoTexto1: {
         fontSize: 30,
         fontFamily: 'roboto'
     },
-    topoTexto2: {
-        fontSize: 20,
-        fontFamily: 'roboto',
-        alignSelf: 'center',
-        textAlign: 'center'
-    },
-    topoTexto3: {
-        fontSize: 20,
-        fontFamily: 'roboto',
-    },
+
+
     corpo: {
         flex: 1.5,
         width: '100%',
@@ -251,14 +365,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 181,
         borderTopLeftRadius: 181,
         justifyContent: 'flex-start',
-    },
-    BotoesTexto: {
-        fontFamily: 'roboto',
-        alignSelf: 'center',
-        textAlign: 'justify',
-        marginLeft: 40,
-        fontSize: 16,
-        color: 'white',
     }
 });
 

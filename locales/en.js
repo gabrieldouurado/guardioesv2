@@ -204,8 +204,8 @@ export default {
         "howYouFelling": "Como está se sentindo hoje?",
         "homeButtons": {
             "news": "Notícias",
-            "healthTips": "Dicas de Saúde",
-            "healthDiary": "Diário de Saúde",
+            "healthTips": "Dicas",
+            "healthDiary": "Diário",
             "healthMap": "Mapa da Saúde"
         }
     },
@@ -225,8 +225,8 @@ export default {
     "report": {
         "title": "Novo Relato",
         "howHealth": "Como você se sente?",
-        "goodChoice": "Bem",
-        "badChoice": "Mal",
+        "goodChoice": "BEM",
+        "badChoice": "MAL",
         "else": "Se a opção escolhida for 'MAL' poderá selecionar os sintomas na seguinte tela."
     },
     "about": {
@@ -268,6 +268,8 @@ export default {
         "toFacebook": "Facebook",
         "toHelp": "Ajuda",
         "toAbout": "Sobre",
-        "moreComing": "Temos mais vindo aí!"
+        "moreComing": "Temos mais vindo aí!",
+        "healthDiary": "Diário da Saúde",
+        "healthMap": "Mapa da Saúde"
     }
 }
