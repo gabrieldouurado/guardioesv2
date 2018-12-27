@@ -4,6 +4,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Emoji from 'react-native-emoji';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { moderateScale, verticalScale, scale } from '../scallingUtils';
 import { Avatar } from 'react-native-elements';
 import { LoginButton } from 'react-native-fbsdk';
@@ -99,7 +100,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <MaterialIcons name='supervisor-account' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Perfis</Text>
                     </TouchableOpacity>
 
@@ -107,7 +108,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Mapa')}
                     >
-                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <MaterialIcons name='explore' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthMap")}</Text>
                     </TouchableOpacity>
 
@@ -115,7 +116,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Diario')}
                     >
-                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <MaterialIcons name='dashboard' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthDiary")}</Text>
                     </TouchableOpacity>
 
@@ -123,7 +124,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <FontAwesome name='home' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <FontAwesome name='bell' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Eventos Massivos</Text>
                     </TouchableOpacity>
 
@@ -131,7 +132,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
                     >
-                        <Entypo name='facebook' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Entypo name='facebook' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toFacebook")}</Text>
                     </TouchableOpacity>
 
@@ -139,7 +140,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Ajuda')}
                     >
-                        <Feather name='help-circle' size={verticalScale(30)} color='gray' style={styles.iconStyle} />
+                        <Feather name='help-circle' size={verticalScale(30)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingRight: '15%',
         paddingLeft: '8%',
+        color: 'rgba(255, 255, 255, 0.3)'
     },
     drawerItemsTxt: {
         textAlignVertical: 'center',

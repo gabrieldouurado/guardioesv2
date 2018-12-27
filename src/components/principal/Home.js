@@ -64,7 +64,7 @@ class Home extends Component {
             showProgressBar: false //Custom Progress Bar
         }
     }
-    ///////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     showAlert = () => {
         this.setState({
             showAlert: true,
@@ -151,7 +151,7 @@ class Home extends Component {
             })
             .done();
     }
-    ////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
         //borderWidth: 1
     },
     textFelling: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: 'roboto',
         color: '#166B87'
     },
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     textChoiceButton: {
         fontFamily: 'roboto',
         color: 'white',
-        fontSize: 35,
+        fontSize: 27,
         alignSelf: 'center'
     },
     bottomMenu: {
