@@ -100,7 +100,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <MaterialIcons name='supervisor-account' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <MaterialIcons name='supervisor-account' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Perfis</Text>
                     </TouchableOpacity>
 
@@ -108,7 +108,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Mapa')}
                     >
-                        <MaterialIcons name='explore' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <MaterialIcons name='explore' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthMap")}</Text>
                     </TouchableOpacity>
 
@@ -116,7 +116,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Diario')}
                     >
-                        <MaterialIcons name='dashboard' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <MaterialIcons name='dashboard' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthDiary")}</Text>
                     </TouchableOpacity>
 
@@ -124,7 +124,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <FontAwesome name='bell' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <FontAwesome name='bell' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Eventos Massivos</Text>
                     </TouchableOpacity>
 
@@ -132,7 +132,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
                     >
-                        <Entypo name='facebook' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <Entypo name='facebook' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toFacebook")}</Text>
                     </TouchableOpacity>
 
@@ -140,11 +140,11 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Ajuda')}
                     >
-                        <Feather name='help-circle' size={verticalScale(30)}  style={styles.iconStyle} />
+                        <Feather name='help-circle' size={verticalScale(25)}  style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
-                    <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 27 }]}>
+                    <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 55 }]}>
                         {loginType}
                     </View>
                 </LinearGradient>
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         height: moderateScale(250),
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginBottom: 15
     },
     headerText: {
         fontSize: 24,
