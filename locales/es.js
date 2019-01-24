@@ -22,7 +22,7 @@ export default {
         "welcome": "¡Bienvenido!",
         "subwelcome": "¿Listo para ser uno Guardiane de la Salud?",
         "signup": "Regístrese",
-        "login": "Entrar"
+        "login": "Iniciar Sesión"
     },
     "login": {
         "title": "Entrar",

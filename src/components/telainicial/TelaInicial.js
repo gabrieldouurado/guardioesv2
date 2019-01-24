@@ -50,13 +50,13 @@ class TelaInicial extends Component {
                     <View style={styles.viewChildBotoes}>
                         <TouchableOpacity  onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation=this.props.navigation)}>
                             <Image source={imagemRegistar} style={styles.imageStyle} />
-                            <Text style={styles.Entrar}>Registrar</Text>
+                            <Text style={styles.Entrar}>{translate("initialscreen.signup")}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.viewChildBotoes}>
                         <TouchableOpacity onPress={() => navigate('Login')}>
                             <Image source={imagemEntrar} style={styles.imageStyle} />
-                            <Text style={styles.Entrar}>Entrar</Text>
+                            <Text style={styles.Entrar}>{translate("initialscreen.login")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
