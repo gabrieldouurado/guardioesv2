@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert, ImageBackground } from 'react-native';
-import { imagemEntrar, imagemLogo, imagemRegistar, imagemFundoInicio } from '../../imgs/imageConst';
+import { imagemEntrar, imagemLogo, imagemLogoBR, imagemRegistar, imagemFundoInicio } from '../../imgs/imageConst';
 import translate from '../../../locales/i18n';
 
 const Redirect = (titulo, message, navigation) => {
@@ -36,6 +36,22 @@ class TelaInicial extends Component {
         const { navigate } = this.props.navigation
         const statusColor = (<StatusBar backgroundColor='#348EAC' />)
 
+        const logoBR = (
+            <Image style={styles.imageLogo} source={imagemLogoBR} />
+        )
+
+        const logoES = (
+            <Image style={styles.imageLogo} source={imagemLogo} />
+        )
+
+        let imageType;
+        if (translate("initialscreen.title") === "Guardianes de la Salud") {
+            imageType = logoES
+        }
+        else {
+            imageType = logoBR
+        }
+
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'cover' }} source={imagemFundoInicio}>
                 {statusColor}
@@ -44,7 +60,7 @@ class TelaInicial extends Component {
                     <Text style={styles.textCorpo}>{translate("initialscreen.subwelcome")}</Text>
                 </View>
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={imagemLogo} />
+                    {imageType}
                 </View>
                 <View style={styles.viewBotoes}>
                     <View style={styles.viewChildBotoes}>
