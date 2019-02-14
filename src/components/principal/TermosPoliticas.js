@@ -15,6 +15,33 @@ class TermosPoliticas extends Component {
         };
     }
 
+    componentDidMount() {
+        let url = `http://192.168.0.10:3001/user/login`
+        return fetch(url
+            , { 
+                method: 'POST',
+                headers: {
+                    Accept: 'application/vnd.api+json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user: 
+                        {
+                        email: "oren@rauzulauf.com",
+                        password: "12345678"
+                    }
+                })
+            })
+            .then((response) => {
+                console.warn(response.headers.map.authorization)
+                return response.json()
+            })
+            .then((responseJson) => {
+                console.warn("Email: " + responseJson.email)
+                console.warn("Nome: " + responseJson.user_name)                 
+            })
+    }
+
     render() {
         return (
             <View style={styles.container}>

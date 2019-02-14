@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid, NetInfo, Alert  } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid, NetInfo, Alert } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Feather';
 import translate from "../../../locales/i18n";
 import LinearGradient from 'react-native-linear-gradient';
 import Emoji from 'react-native-emoji';
 import { PermissionsAndroid } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { API_URL } from '../../constUtils';
 
-
-import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
-
-const WalkthroughableText = walkthroughable(Text);
-const WalkthroughableImage = walkthroughable(Image);
 let cont = 0
 let data = new Date();
 
 class Home extends Component {
-    static propTypes = {
-        start: PropTypes.func.isRequired,
-        copilotEvents: PropTypes.shape({
-            on: PropTypes.func.isRequired,
-
-        }).isRequired,
-    };
-
     _didFocusSubscription;
     _willBlurSubscription;
-
-
     navOptions // rolê para acessar a drawer em uma função estática
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation; // rolê para acessar a drawer em uma função estática
@@ -53,8 +38,8 @@ class Home extends Component {
         this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
             BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
-            userFirstName: null,
-            secondStepActive: true,
+            userName: null,
+            userID: null,
             userLatitude: 'unknown',
             userLongitude: 'unknown',
             UserID: "",
@@ -64,7 +49,7 @@ class Home extends Component {
             showProgressBar: false //Custom Progress Bar
         }
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     showAlert = () => {
         this.setState({
             showAlert: true,
@@ -84,13 +69,13 @@ class Home extends Component {
                 translate("noInternet.noInternetConnection"),
                 translate("noInternet.ohNo"),
                 [
-                    {text: translate("noInternet.alertAllRightMessage"), onPress: () => null}
+                    { text: translate("noInternet.alertAllRightMessage"), onPress: () => null }
                 ]
             )
         });
     }
-
-    async requestFineLocationPermission() {
+    
+    async requestFineLocationPermission() { //User Location Request Function
         try {
             const granted = await PermissionsAndroid.request(
                 android.permission.ACCESS_FINE_LOCATION,
@@ -110,56 +95,14 @@ class Home extends Component {
         }
     }
 
-    //Function that creates a requisition to send the survey to the API
-    sendSurvey = async () => {
-        this.showAlert();
-        this.requestFineLocationPermission
-
-        let UserID = await AsyncStorage.getItem('userID');
-        this.setState({ UserID: UserID })
-
-        let HouseholdId = await AsyncStorage.getItem('HouseholdId');
-        this.setState({ HouseholdId: HouseholdId })
-
-        fetch('https://guardianes.centeias.net/survey/create', {
-            method: 'POST',
-            body: JSON.stringify({
-                user_id: this.state.UserID,
-                houselhold_id: this.state.HouseholdId,
-                lat: this.state.userLatitude,
-                lon: this.state.userLongitude,
-                no_symptom: "Y",
-                week_of: data,
-                hadContagiousContact: "none",
-                hadHealthCare: "none",
-                hadTravlledAbroad: "none",
-                travelLocation: "none",
-                app_token: "d41d8cd98f00b204e9800998ecf8427e",
-                platform: "",
-
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    this.setState({ showProgressBar: false });
-                    AsyncStorage.setItem('survey_id', responseJson.id);
-                } else {
-                    alert(responseJson.message)
-                    this.setState({ showProgressBar: false });
-                }
-            })
-            .done();
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
     }
 
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
+    componentDidMount() {        
+        this._getInfos()
+        navigator.geolocation.getCurrentPosition( //User get location
             (position) => {
                 this.setState({
                     userLatitude: position.coords.latitude,
@@ -170,46 +113,19 @@ class Home extends Component {
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 50000 },
         );
-
-
-        this.runTutorial();
-
-        this.props.navigation.setParams({// rolê para acessar a drawer em uma função estática
-            _onHeaderEventControl: this.onHeaderEventControl,// rolê para acessar a drawer em uma função estática
-            _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
+        
+        this.props.navigation.setParams({ // rolê para acessar a drawer em uma função estática
+            _onHeaderEventControl: this.onHeaderEventControl,
+            _openNav: () => this.openDrawer()
         })
-        this._getInfos()
 
+        //Exit app back button
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
     }
-
-    runTutorial = async () => {
-        let runTutorial = await AsyncStorage.getItem('RunTutorial');
-        this.setState({ runTutorial: runTutorial });
-        if (this.state.runTutorial === 'true') {
-            this.props.copilotEvents.on('stepChange', this.handleStepChange);
-            this.props.start();
-            AsyncStorage.removeItem('RunTutorial');
-        }
-    }
-
-    handleStepChange = (step) => {
-        console.log(`Current step is: ${step.name}`);
-        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-    }
-
-    //componentWillUnmount() {
-    //    this._didFocusSubscription && this._didFocusSubscription.remove();
-    //    this._willBlurSubscription && this._willBlurSubscription.remove();
-    //}
-
-    handleBackButton() {
-
+    
+    handleBackButton() { //Exit app with two click in back button
         cont = cont + 1;
-
         if (cont == 2) {
             BackHandler.exitApp();
             cont = 0;
@@ -218,24 +134,53 @@ class Home extends Component {
         } else {
             ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
         }
-
         return true;
-
     }
-
-    openDrawer() {// rolê para acessar a drawer em uma função estática
+    
+    openDrawer() { // rolê para acessar a drawer em uma função estática
         this.props.navigation.openDrawer();
-    }// rolê para acessar a drawer em uma função estática
-
-    _getInfos = async () => {
-        let valueName = await AsyncStorage.getItem('userName');
-        this.setState({ userFirstName: valueName })
+    }
+    
+    _getInfos = async () => { //Ger user infos
+        let userName = await AsyncStorage.getItem('userName');
+        let userID = await AsyncStorage.getItem('userID');
+        this.setState({ userName, userID })
+    }
+    
+    sendSurvey = async () => { //Send Survey GOOD CHOICE
+        this.requestFineLocationPermission
+        this.showAlert();
+        return fetch(`${API_URL}/surveys`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                survey:
+                {
+                    user_id: this.state.userID,
+                    latitude: this.state.userLatitude,
+                    longitude: this.state.userLongitude,
+                }
+            })
+        })
+        .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson !== null) {
+                    this.setState({ showProgressBar: false });
+                    console.warn("ENVIOU")
+                } else {
+                    console.warn("NÂO ENVIOU")
+                    this.setState({ showProgressBar: false });
+                }
+            })
     }
 
     render() {
         const { showAlert } = this.state;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName
+        const welcomeMessage = translate("home.hello") + this.state.userName
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
@@ -245,12 +190,10 @@ class Home extends Component {
                 </View>
 
                 <View style={styles.viewWelcome}>
-                    <CopilotStep text="Agora você conhecerá nossas principais funções!" order={1} name="openApp">
-                        <WalkthroughableText style={styles.textHelloUser}>
-                            {welcomeMessage}
-                        </WalkthroughableText>
+                    <Text style={styles.textHelloUser}>
+                        {welcomeMessage}
+                    </Text>
 
-                    </CopilotStep>
                     <Text style={styles.textNewGuardion}>
                         {translate("home.nowAGuardian")}
                     </Text>
@@ -279,9 +222,7 @@ class Home extends Component {
                         <TouchableOpacity
                             style={styles.menuButtons}
                             onPress={() => navigate('Home')}>
-                            <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
-                                <WalkthroughableImage source={Imagem.imagemInicio} style={styles.menuIcons} />
-                            </CopilotStep>
+                            <Image source={Imagem.imagemInicio} style={styles.menuIcons} />
                             <Text style={styles.textButton}>
                                 Inicio
                             </Text>
@@ -291,9 +232,7 @@ class Home extends Component {
                         <TouchableOpacity
                             style={styles.menuButtons}
                             onPress={() => navigate('Diario')}>
-                            <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
-                                <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={styles.menuIcons} />
-                            </CopilotStep>
+                            <Image source={Imagem.imagemDiarioSaude} style={styles.menuIcons} />
                             <Text style={styles.textButton}>
                                 {translate("home.homeButtons.healthDiary")}
                             </Text>
@@ -303,9 +242,7 @@ class Home extends Component {
                         <TouchableOpacity
                             style={styles.menuButtons}
                             onPress={() => navigate('Mapa')}>
-                            <CopilotStep text="Aqui você pode acessar um mapa para ver como as pessoas estão ao seu redor" order={6} name="sixthText">
-                                <WalkthroughableImage source={Imagem.imagemMapaSaude} style={styles.menuIcons} />
-                            </CopilotStep>
+                            <Image source={Imagem.imagemMapaSaude} style={styles.menuIcons} />
                             <Text style={styles.textButton}>
                                 {translate("home.homeButtons.healthMap")}
                             </Text>
@@ -315,9 +252,7 @@ class Home extends Component {
                         <TouchableOpacity
                             style={styles.menuButtons}
                             onPress={() => navigate('Conselho')}>
-                            <CopilotStep text="Aqui você encontra diversas informações relacionadas à saúde" order={4} name="fourthText">
-                                <WalkthroughableImage source={Imagem.imagemConselho} style={styles.menuIcons} />
-                            </CopilotStep>
+                            <Image source={Imagem.imagemConselho} style={styles.menuIcons} />
                             <Text style={styles.textButton}>
                                 {translate("home.homeButtons.healthTips")}
                             </Text>
@@ -327,9 +262,7 @@ class Home extends Component {
                         <TouchableOpacity
                             style={styles.menuButtons}
                             onPress={() => navigate('Noticias')}>
-                            <CopilotStep text="Aqui temos notícias quentinhas relacionadas à saúde" order={3} name="thirdText">
-                                <WalkthroughableImage source={Imagem.imagemNoticias} style={styles.menuIcons} />
-                            </CopilotStep>
+                            <Image source={Imagem.imagemNoticias} style={styles.menuIcons} />
                             <Text style={styles.textButton}>
                                 {translate("home.homeButtons.news")}
                             </Text>
@@ -339,7 +272,7 @@ class Home extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={ this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text> }
+                    title={this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
                     message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("badReport.alertMessages.reportSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
                     closeOnTouchOutside={this.state.showProgressBar ? false : true}
                     closeOnHardwareBackPress={false}
@@ -358,6 +291,7 @@ class Home extends Component {
         );
     }
 }
+
 
 const emojis = [
     (
@@ -478,7 +412,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default copilot({
-    animated: true, // Can be true or false
-    overlay: 'svg', // Can be either view or svg
-})(Home);
+export default Home;

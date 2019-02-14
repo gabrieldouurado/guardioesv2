@@ -6,6 +6,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
 
 class Login extends Component {
     static navigationOptions = {
@@ -14,11 +15,10 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userFirstName: null,
             userEmail: null,
             userPwd: null,
-            loginOnFB: null,
-            loginOnApp: null,
+            userID: null,
+            userToken: null,
             pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
@@ -46,18 +46,10 @@ class Login extends Component {
                 translate("login.noInternet.noInternetConnection"),
                 translate("login.noInternet.ohNo"),
                 [
-                    {text: translate("login.noInternet.alertAllRightMessage"), onPress: () => null}
+                    { text: translate("login.noInternet.alertAllRightMessage"), onPress: () => null }
                 ]
             )
         });
-    }
-    _responseInfoCallback = (error, result) => {
-        if (error) {
-            console.warn('Error fetching data: ' + error.toString());
-        } else {
-            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            this.login()
-        }
     }
 
     render() {
@@ -92,103 +84,62 @@ class Login extends Component {
                             <Button
                                 title={translate("login.loginbutton")}
                                 color="#348EAC"
-                                onPress={this._isconnected} />
+                                onPress={this.login} />
                         </View>
                         <View style={{ paddingTop: 20 }}>
                             <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                                 {translate("login.connectWithFacebook")}
-                    </Text>
-                            <LoginButton
-                                readPermissions={['public_profile', 'email']}
-                                onLoginFinished={
-                                    (error, result) => {
-                                        if (error) {
-                                            alert(translate("login.facebookLogin.error") + result.error);
-                                        } else {
-                                            AccessToken.getCurrentAccessToken().then(
-                                                (data) => {
-                                                    const infoRequest = new GraphRequest(
-                                                        '/me?fields=first_name,email,picture,id',
-                                                        null,
-                                                        this._responseInfoCallback
-                                                    );
-                                                    // Start the graph request.
-                                                    new GraphRequestManager().addRequest(infoRequest).start();
-                                                }
-                                            )
-                                        }
-                                    }
-                                }
-                                onLogoutFinished={() => { null }} />
+                            </Text>
                         </View>
                     </View>
-                <AwesomeAlert
-                    show={showAlert}
-                    showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? translate("login.awesomeAlert.accessing") : null}
-                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
-                    closeOnHardwareBackPress={false}
-                    showCancelButton={false}
-                    showConfirmButton={this.state.showProgressBar ? false : true}
-                    
-                    confirmButtonColor="#DD6B55"
-                />
+                    <AwesomeAlert
+                        show={showAlert}
+                        showProgress={this.state.showProgressBar ? true : false}
+                        title={this.state.showProgressBar ? translate("login.awesomeAlert.accessing") : null}
+                        closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                        closeOnHardwareBackPress={false}
+                        showCancelButton={false}
+                        showConfirmButton={this.state.showProgressBar ? false : true}
+
+                        confirmButtonColor="#DD6B55"
+                    />
                 </ImageBackground>
             </ScrollView>
         );
     }
 
+    //Login Function 
     login = () => {
-            this.showAlert();
-
-            fetch('https://guardianes.centeias.net/user/login', {
+        return fetch(`${API_URL}/user/login`, {
                 method: 'POST',
                 headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    Accept: 'application/vnd.api+json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: this.state.userEmail,
-                    password: this.state.userPwd
-                })
-            })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    if (responseJson.error === false) {
-                        if (this.state.loginOnFB === 'true') {
-                            AsyncStorage.setItem('userID', responseJson.user.id);
-                            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                            AsyncStorage.setItem('avatar', this.state.pic);
-                            AsyncStorage.setItem('userName', this.state.userFirstName);
-                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                            this.props.navigation.navigate('Home');
-                            // alert("Logado via Facebook")
-                        } else {
-                            Keyboard.dismiss()
-                            this.hideAlert()
-                            this.setState({ loginOnApp: 'true' })
-                            AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                            AsyncStorage.setItem('userID', responseJson.user.id);
-                            AsyncStorage.setItem('userToken', responseJson.token);
-                            AsyncStorage.setItem('userName', responseJson.user.firstname);
-                            AsyncStorage.setItem('userSurveys', responseJson.user.surveys);
-                            AsyncStorage.setItem('avatar', this.state.pic);
-                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                            this.props.navigation.navigate('Home');
-                        }
-    
-    
-                    } else {
-                        if (this.state.loginOnFB === 'true') {
-                            alert(responseJson.message)
-                            this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
-                            LoginManager.logOut();
-                        } else {
-                            this.hideAlert()
-                            alert(responseJson.message)
-                        }
+                    user:
+                    {
+                        email: "robert@ryan.co",
+                        password: "12345678"
+                        //email: this.state.userEmail,
+                        //password: this.state.userPwd
                     }
                 })
+            })
+            .then((response) => {
+                this.setState({ userToken: response.headers.map.authorization }) //Saves the token in the variable
+                return response.json()
+            })
+            .then((responseJson) => {
+                if (this.state.userToken !== null) {                    
+                    //Saves variables in internal storage
+                    AsyncStorage.setItem('userID', responseJson.id.toString());
+                    AsyncStorage.setItem('userName', responseJson.user_name);
+                    
+                    Keyboard.dismiss()
+                    this.props.navigation.navigate('Home'); //Go to Homepage
+                }
+            })
     }
 }
 
