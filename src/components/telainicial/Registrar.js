@@ -21,6 +21,7 @@ import { app_token } from '../../constUtils';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
 
 let data = new Date();
 let d = data.getDate();
@@ -38,19 +39,15 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userFirstName: null,
-            userLastName: null,
+            userName: null,
             userEmail: null,
             userPwd: null,
             userGender: 'Masculino',
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            userApp: app_token,
+            userApp: 1,
             cca2: 'BR',
-            loginOnFB: null,
-            loginOnApp: null,
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
@@ -71,7 +68,7 @@ class Registrar extends Component {
 
     _isconnected = () => {
         let validation = false
-        this.state.userEmail && this.state.userPwd && this.state.userFirstName && this.state.userLastName && this.state.userDob ? validation = true : validation = false
+        this.state.userEmail && this.state.userPwd && this.state.userName && this.state.userDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
             isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
@@ -81,21 +78,6 @@ class Registrar extends Component {
                 ]
             )
         });
-    }
-    _responseInfoCallback = (error, result) => {
-        if (error) {
-            alert('Error fetching data: ' + error.toString());
-        } else {
-            this.setState({ userFirstName: result.first_name, userLastName: result.last_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            //Salva as informações para ir parar proxima página
-            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-            AsyncStorage.setItem('userName', this.state.userFirstName);
-            AsyncStorage.setItem('userLastName', this.state.userLastName);
-            AsyncStorage.setItem('userEmail', this.state.userEmail);
-            AsyncStorage.setItem('userPwd', this.state.userPwd);
-            AsyncStorage.setItem('avatar', this.state.pic);
-            this.props.navigation.navigate('AddInfo');
-        }
     }
 
     render() {
@@ -110,17 +92,9 @@ class Registrar extends Component {
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
                             onSubmitEditing={() => this.sobrenomeInput.focus()}
-                            onChangeText={text => this.setState({ userFirstName: text })}
+                            onChangeText={text => this.setState({ userName: text })}
                         />
-                    </View>
-
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>{translate("register.lastname")}</Text>
-                        <TextInput style={styles.formInput}
-                            ref={(input) => this.sobrenomeInput = input}
-                            onChangeText={text => this.setState({ userLastName: text })}
-                        />
-                    </View>
+                    </View>                    
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
@@ -233,28 +207,6 @@ class Registrar extends Component {
                         <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
                             {translate("register.signupWithFacebook")}
                         </Text>
-                        <LoginButton
-                            readPermissions={['public_profile', 'email']}
-                            onLoginFinished={
-                                (error, result) => {
-                                    if (error) {
-                                        alert("login has error: " + result.error);
-                                    } else {
-                                        AccessToken.getCurrentAccessToken().then(
-                                            (data) => {
-                                                const infoRequest = new GraphRequest(
-                                                    '/me?fields=name,first_name,last_name,email,picture,id',
-                                                    null,
-                                                    this._responseInfoCallback
-                                                );
-                                                // Start the graph request.
-                                                new GraphRequestManager().addRequest(infoRequest).start();
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                            onLogoutFinished={() => { }} />
                     </View>
 
                 </ScrollView>
@@ -272,65 +224,31 @@ class Registrar extends Component {
 
     }
     create = () => {
-        Keyboard.dismiss()
-        this.showAlert()
-        fetch('https://guardianes.centeias.net/user/create', {
+        //Keyboard.dismiss()
+        //this.showAlert()
+        fetch(`${API_URL}/user/signup`, {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                firstname: this.state.userFirstName,
-                lastname: this.state.userLastName,
+            body: JSON.stringify(
+            {
+                user_name: this.state.userName,
                 email: this.state.userEmail,
                 password: this.state.userPwd,
                 gender: this.state.userGender,
                 country: this.state.userCountry,
                 race: this.state.userRace,
-                dob: this.state.userDob,
-                app: this.state.userApp,
+                birthdate: this.state.userDob,
+                app_id: this.state.userApp,
             })
         })
             .then((response) => response.json())
-            .then(response => {
-                if (response.error === false) {
-                    this.setState({ loginOnApp: 'true' })
-                    AsyncStorage.setItem('userName', this.state.userFirstName);
-                    AsyncStorage.setItem('avatar', this.state.pic);
-                    this.loginAfterCreate();
-                    
-                } else {
-                    alert(response.message);
-                }
+            .then(responseJson => {
+                console.warn(responseJson)
             })
 
-    }
-
-    loginAfterCreate = () => {
-        fetch('https://guardianes.centeias.net/user/login', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: this.state.userEmail,
-                password: this.state.userPwd
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    AsyncStorage.setItem('userID', responseJson.user.id);
-                    AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                    AsyncStorage.setItem('RunTutorial', 'true');
-                    this.hideAlert();
-                    this.props.navigation.navigate('Home');
-                } else {
-                    alert(responseJson.message)
-                }
-            })
-            .done();
     }
 }
 

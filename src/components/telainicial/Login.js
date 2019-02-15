@@ -119,7 +119,7 @@ class Login extends Component {
                 body: JSON.stringify({
                     user:
                     {
-                        email: "robert@ryan.co",
+                        email: "joao@gmail.com",
                         password: "12345678"
                         //email: this.state.userEmail,
                         //password: this.state.userPwd
@@ -133,8 +133,8 @@ class Login extends Component {
             .then((responseJson) => {
                 if (this.state.userToken !== null) {                    
                     //Saves variables in internal storage
-                    AsyncStorage.setItem('userID', responseJson.id.toString());
-                    AsyncStorage.setItem('userName', responseJson.user_name);
+                    AsyncStorage.setItem('userID', responseJson.user.id.toString());
+                    AsyncStorage.setItem('userName', responseJson.user.user_name);
                     
                     Keyboard.dismiss()
                     this.props.navigation.navigate('Home'); //Go to Homepage

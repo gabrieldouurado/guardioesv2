@@ -4,6 +4,8 @@ import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect } from '../../constUtils';
 import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
+import { Button } from 'react-native-elements';
 
 class TermosPoliticas extends Component {
     static navigationOptions = {
@@ -15,36 +17,33 @@ class TermosPoliticas extends Component {
         };
     }
 
-    componentDidMount() {
-        let url = `http://192.168.0.10:3001/user/login`
+    //TESTING HOUSEHOLDS
+    getHouseholds() {
+        let url = `${API_URL}/households`
         return fetch(url
             , { 
-                method: 'POST',
                 headers: {
-                    Accept: 'application/vnd.api+json',
-                    'Content-Type': 'application/json',
+                    Accept: 'application/vnd.api+json'
                 },
-                body: JSON.stringify({
-                    user: 
-                        {
-                        email: "oren@rauzulauf.com",
-                        password: "12345678"
-                    }
-                })
             })
-            .then((response) => {
-                console.warn(response.headers.map.authorization)
-                return response.json()
-            })
+            .then((response) => response.json())
             .then((responseJson) => {
-                console.warn("Email: " + responseJson.email)
-                console.warn("Nome: " + responseJson.user_name)                 
+                let data = JSON.stringify(responseJson.households)
+                let dataParse = JSON.parse(data)
+
+                console.warn(dataParse.user)                
             })
     }
+
+
 
     render() {
         return (
             <View style={styles.container}>
+                <Button
+                title={"GET HOUSEHOLD"}
+                color="#348EAC"
+                onPress={this.getHouseholds} />
 
                 <ScrollView style={styles.textView}>
                     <Text style={styles.text}> {translate("useTerms.terms.textoTermosTitulo")} </Text>
