@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import { imagemUnb, imagemCenteias } from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import { Redirect } from '../../constUtils';
@@ -14,67 +14,60 @@ class TermosPoliticas extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userID: null,
+            userToken: null,
+            householdID: null
         };
     }
 
+    componentDidMount = async () => {
+        let userID = await AsyncStorage.getItem('userID');
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userID: userID, userToken: userToken });
+        this.getHouseholds();
+    }
+
     //TESTING HOUSEHOLDS
-    getHouseholds() {
-        let url = `${API_URL}/households`
-        return fetch(url
-            , { 
-                headers: {
-                    Accept: 'application/vnd.api+json'
-                },
-            })
+    getHouseholds = () => {
+        //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
+        return fetch(`${API_URL}/user/${this.state.userID}`, {
+            headers: {
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
+            },
+        })
             .then((response) => response.json())
             .then((responseJson) => {
-                let data = JSON.stringify(responseJson.households)
-                let dataParse = JSON.parse(data)
-
-                console.warn(dataParse.user)                
+                this.setState({
+                    data: responseJson.user.households,
+                })
             })
     }
 
 
-
     render() {
+        const householdsData = this.state.data;
+
         return (
             <View style={styles.container}>
-                <Button
-                title={"GET HOUSEHOLD"}
-                color="#348EAC"
-                onPress={this.getHouseholds} />
+                {householdsData != null ?
+                    householdsData.map(household => {
+                        return (
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setState({ householdID: household.id })
+                                    }
+                                }>
+                                <Text style={{ fontSize: 20, alignSelf: 'center', margin: 20 }}>{household.id}</Text>
+                                </TouchableOpacity>
+                                <Text>{this.state.householdID}</Text>
+                            </View>
+                        )
 
-                <ScrollView style={styles.textView}>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermosTitulo")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_1")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_2")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_3")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_4")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_5")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_6")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_7")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_8")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_9")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_10")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_11")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_12")} </Text>
-                    <Text style={styles.text}> {translate("useTerms.terms.textoTermos_13")} </Text>
+                    })
+                    : null}
 
-                    <View style={styles.imagesView}>
-                        <TouchableOpacity
-                            onPress={() => Redirect(translate("about.tituloBtnUnb"), translate("about.mensagemBtnUnb"), translate("about.linkBtnUnb"))}
-                        >
-                            <Image source={imagemUnb} style={styles.imageOne} />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => Redirect(translate("about.tituloBtnCenteias"), translate("about.mensagemBtnCenteias"), translate("about.linkBtnCenteias"))}
-                        >
-                            <Image source={imagemCenteias} style={styles.imageTwo} />
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
             </View>
         );
     }

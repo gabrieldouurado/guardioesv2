@@ -40,11 +40,11 @@ class Home extends Component {
         this.state = {
             userName: null,
             userID: null,
+            userToken: null,
+            householdID: null,
             userLatitude: 'unknown',
             userLongitude: 'unknown',
-            UserID: "",
             error: null,
-            HouseholdId: "",
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
@@ -74,7 +74,7 @@ class Home extends Component {
             )
         });
     }
-    
+
     async requestFineLocationPermission() { //User Location Request Function
         try {
             const granted = await PermissionsAndroid.request(
@@ -100,7 +100,7 @@ class Home extends Component {
         params._openNav()
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this._getInfos()
         navigator.geolocation.getCurrentPosition( //User get location
             (position) => {
@@ -113,7 +113,7 @@ class Home extends Component {
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 50000 },
         );
-        
+
         this.props.navigation.setParams({ // rolê para acessar a drawer em uma função estática
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
@@ -121,9 +121,9 @@ class Home extends Component {
 
         //Exit app back button
         this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
     }
-    
+
     handleBackButton() { //Exit app with two click in back button
         cont = cont + 1;
         if (cont == 2) {
@@ -136,17 +136,35 @@ class Home extends Component {
         }
         return true;
     }
-    
+
     openDrawer() { // rolê para acessar a drawer em uma função estática
         this.props.navigation.openDrawer();
     }
-    
+
     _getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
         let userID = await AsyncStorage.getItem('userID');
-        this.setState({ userName, userID })
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userName, userID, userToken });
+        this.getHouseholds();
     }
-    
+
+    getHouseholds = () => {//Get households
+        //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
+        return fetch(`${API_URL}/user/${this.state.userID}`, {
+            headers: {
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    data: responseJson.user.households,
+                })
+            })
+    }
+
     sendSurvey = async () => { //Send Survey GOOD CHOICE
         this.requestFineLocationPermission
         this.showAlert();
@@ -165,7 +183,7 @@ class Home extends Component {
                 }
             })
         })
-        .then((response) => response.json())
+            .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson !== null) {
                     this.setState({ showProgressBar: false });
@@ -180,7 +198,9 @@ class Home extends Component {
     render() {
         const { showAlert } = this.state;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = translate("home.hello") + this.state.userName
+        const welcomeMessage = translate("home.hello") + this.state.userName;
+        const householdsData = this.state.data;
+
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
@@ -200,6 +220,25 @@ class Home extends Component {
                 </View>
 
                 <View style={styles.viewHousehold}>
+                    {householdsData != null ?
+                        householdsData.map(household => {
+                            return (
+                                <View>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setState({
+                                                householdID: household.id,
+                                                userName: household.description
+                                            })
+                                        }
+                                        }>
+                                        <Text style={{ fontSize: 20, alignSelf: 'center', margin: 5 }}>{household.description}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+
+                        })
+                        : null}
                 </View>
                 <Text style={styles.textFelling}>
                     {translate("home.howYouFelling")}
@@ -347,8 +386,8 @@ const styles = StyleSheet.create({
     viewHousehold: {
         width: '100%',
         height: '30%',
-        //borderColor: 'red',
-        //borderWidth: 1
+        borderColor: 'red',
+        borderWidth: 1
     },
     textFelling: {
         fontSize: 18,

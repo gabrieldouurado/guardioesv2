@@ -17,9 +17,7 @@ class Login extends Component {
         this.state = {
             userEmail: null,
             userPwd: null,
-            userID: null,
             userToken: null,
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
@@ -119,7 +117,7 @@ class Login extends Component {
                 body: JSON.stringify({
                     user:
                     {
-                        email: "joao@gmail.com",
+                        email: "bertram@kaulkepfannerstill.net",
                         password: "12345678"
                         //email: this.state.userEmail,
                         //password: this.state.userPwd
@@ -135,6 +133,8 @@ class Login extends Component {
                     //Saves variables in internal storage
                     AsyncStorage.setItem('userID', responseJson.user.id.toString());
                     AsyncStorage.setItem('userName', responseJson.user.user_name);
+                    AsyncStorage.setItem('userToken', this.state.userToken);
+                    console.warn(this.state.userToken)
                     
                     Keyboard.dismiss()
                     this.props.navigation.navigate('Home'); //Go to Homepage
