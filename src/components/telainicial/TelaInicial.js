@@ -16,20 +16,19 @@ const Redirect = (titulo, message, navigation) => {
 }
 
 class TelaInicial extends Component {
+    constructor(props) {
+        super(props);
+        this._loadInitialState();
+    }
+
     static navigationOptions = {
         header: null,
     }
 
-    componentDidMount() {
-        this._loadInitialState()
-    }
-
     //Funcao responsavel por verificar se o usuario está logado e ser redirecionado automaticamente para Home
     _loadInitialState = async () => {
-        let valueUserID = await AsyncStorage.getItem('userID');
-        if (valueUserID !== null) {
-            this.props.navigation.navigate('Home')
-        }
+        let UserID = await AsyncStorage.getItem('userID');
+        this.props.navigation.navigate(UserID? 'BottomMenu' : 'Cadastro');
     }
 
 

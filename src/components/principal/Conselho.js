@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View, Linking, Image } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { imagemFundo } from '../../imgs/imageConst';
 import { Redirect } from '../../constUtils';
 import translate from '../../../locales/i18n';
-import * as Imagem from '../../imgs/imageConst';
-import LinearGradient from 'react-native-linear-gradient';
-import { scale } from '../scallingUtils';
 
 const nome = (<Icon name='heartbeat' type={'font-awesome'} size={30} color='#348EAC' />)
 const hospital = (<Icon name='ambulance' type={'font-awesome'} size={30} color='#348EAC' />)
@@ -60,7 +56,6 @@ class Conselho extends Component {
 
     render() {
         const contentObj = this.state.contentData;
-        const { navigate } = this.props.navigation;
         
         if (this.state.isLoading) {
             return (
@@ -71,7 +66,6 @@ class Conselho extends Component {
         }
 
         return (
-            <ImageBackground source={imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                 <ScrollView>
                     {/* Botao para prevencao */}
                     {
@@ -128,59 +122,7 @@ class Conselho extends Component {
                     </TouchableOpacity>
 
                 </ScrollView>
-                <LinearGradient style={styles.bottomMenu} colors={['#348EAC', '#013444']} start={{ x: 0.0, y: 0.0 }} end={{ x: 1.9, y: 1.0 }}>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Home')}>
-                            <Image source={Imagem.imagemInicio} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                Inicio
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Diario')}>
-                            <Image source={Imagem.imagemDiarioSaude} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthDiary")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Mapa')}>
-                            <Image source={Imagem.imagemMapaSaude} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthMap")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Conselho')}>
-                            <Image source={Imagem.imagemConselho} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthTips")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Noticias')}>
-                            <Image source={Imagem.imagemNoticias} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.news")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </LinearGradient>
-            </ImageBackground>
+            
         );
     }
 }
@@ -212,34 +154,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: '#348EAC',
     },
-        ///////////////////////////
-        bottomMenu: {
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            width: '100%',
-            height: '11%',
-            backgroundColor: 'red'
-        },
-        menuButtons: {
-            alignItems: 'center'
-        },
-        viweButtons: {
-            justifyContent: 'center',
-            width: '20%',
-        },
-        menuIcons: {
-            resizeMode: 'center',
-            height: scale(30)
-        },
-        textButton: {
-            fontFamily: 'roboto',
-            alignSelf: 'center',
-            textAlign: 'justify',
-            fontSize: 10,
-            color: 'white'
-        },
-        ////////////////////////////
-
 });
 
 //make this component available to the app

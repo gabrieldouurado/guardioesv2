@@ -149,7 +149,7 @@ export default {
         "selectProfile": "Selecione o perfil que quer reportar"
     },
     "advices": {
-        "title": "Dicas de Saúde",
+        "title": "Dicas",
         "advicesCaseChoices": {
             "prevention": {
                 "caseChoice": "Prevencao",
@@ -183,7 +183,7 @@ export default {
         }
     },
     "diary": {
-        "title": "Diário da Saúde",
+        "title": "Diário",
         "participate": "Participações",
         "good": "Bem",
         "bad": "Mal",

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid, NetInfo, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, BackHandler, ToastAndroid, NetInfo, Alert } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-import Icon from 'react-native-vector-icons/Feather';
 import translate from "../../../locales/i18n";
-import LinearGradient from 'react-native-linear-gradient';
 import Emoji from 'react-native-emoji';
 import { PermissionsAndroid } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -17,21 +15,6 @@ class Home extends Component {
     _didFocusSubscription;
     _willBlurSubscription;
     navOptions // rolê para acessar a drawer em uma função estática
-    static navigationOptions = ({ navigation }) => {
-        navOptions = navigation; // rolê para acessar a drawer em uma função estática
-        const { params = {} } = navigation.state;
-        return {
-            title: translate("home.title"),
-            headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} color='#fff' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
-            ),
-            headerTitleStyle: {
-                fontFamily: 'roboto',
-                fontWeight: '400' //fontWeight can't be higher than 400
-            }
-
-        }
-    }
 
     constructor(props) {
         super(props);
@@ -256,58 +239,7 @@ class Home extends Component {
                     </View>
                 </View>
 
-                <LinearGradient style={styles.bottomMenu} colors={['#348EAC', '#013444']} start={{ x: 0.0, y: 0.0 }} end={{ x: 1.9, y: 1.0 }}>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Home')}>
-                            <Image source={Imagem.imagemInicio} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                Inicio
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Diario')}>
-                            <Image source={Imagem.imagemDiarioSaude} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthDiary")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Mapa')}>
-                            <Image source={Imagem.imagemMapaSaude} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthMap")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Conselho')}>
-                            <Image source={Imagem.imagemConselho} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.healthTips")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.viweButtons}>
-                        <TouchableOpacity
-                            style={styles.menuButtons}
-                            onPress={() => navigate('Noticias')}>
-                            <Image source={Imagem.imagemNoticias} style={styles.menuIcons} />
-                            <Text style={styles.textButton}>
-                                {translate("home.homeButtons.news")}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </LinearGradient>
+                
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
