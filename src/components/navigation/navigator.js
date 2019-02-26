@@ -3,7 +3,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { scale } from '../scallingUtils';
 import { createDrawerNavigator, createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
 
-
+import Loading from '../telainicial/Loading';
 import TelaInicial from '../telainicial/TelaInicial';
 import Registrar from '../telainicial/Registrar';
 import Login from '../telainicial/Login';
@@ -29,6 +29,7 @@ import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
 import TermosPoliticas from '../principal/TermosPoliticas';
 import CopilotTest from '../principal/copilot';
+
 
 
 export const Cadastro = createStackNavigator({
@@ -57,7 +58,7 @@ export const BottomMenu = createBottomTabNavigator({
     Conselho,
     Noticias,
 },
-    {   
+    {
         initialRouteName: 'Home',
         navigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ tintColor }) => {
@@ -90,7 +91,7 @@ export const BottomMenu = createBottomTabNavigator({
 )
 
 export const Stack = createStackNavigator({
-    BottomMenu: {screen: BottomMenu, navigationOptions:{header: null}},
+    BottomMenu: { screen: BottomMenu, navigationOptions: { header: null } },
     Reportar,
     BadReport,
     Household,
@@ -126,10 +127,14 @@ export const Stack = createStackNavigator({
 )
 
 export const Authentication = createSwitchNavigator({
+    AuthLoading: { screen: Loading},
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
-    Stacks: { screen: Stack },
-    //BottomMenu
-})
+    Stacks: { screen: Stack }
+},
+    {
+        initialRouteName: 'AuthLoading',
+    }
+)
 
 export const Drawer = createDrawerNavigator({
     Authentication

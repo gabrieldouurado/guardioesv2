@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, BackHandler, ToastAndroid, NetInfo, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, NetInfo, Alert } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import translate from "../../../locales/i18n";
@@ -8,18 +8,11 @@ import { PermissionsAndroid } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { API_URL } from '../../constUtils';
 
-let cont = 0
-let data = new Date();
-
 class Home extends Component {
-    _didFocusSubscription;
-    _willBlurSubscription;
     navOptions // rolê para acessar a drawer em uma função estática
 
     constructor(props) {
         super(props);
-        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
         this.state = {
             userName: null,
             userID: null,
@@ -101,23 +94,6 @@ class Home extends Component {
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
-
-        //Exit app back button
-        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-    }
-
-    handleBackButton() { //Exit app with two click in back button
-        cont = cont + 1;
-        if (cont == 2) {
-            BackHandler.exitApp();
-            cont = 0;
-            this._didFocusSubscription && this._didFocusSubscription.remove();
-            this._willBlurSubscription && this._willBlurSubscription.remove();
-        } else {
-            ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
-        }
-        return true;
     }
 
     openDrawer() { // rolê para acessar a drawer em uma função estática
@@ -354,31 +330,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 27,
         alignSelf: 'center'
-    },
-    bottomMenu: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '100%',
-        height: '11%',
-        backgroundColor: 'red'
-    },
-    menuButtons: {
-        alignItems: 'center'
-    },
-    viweButtons: {
-        justifyContent: 'center',
-        width: '20%',
-    },
-    menuIcons: {
-        resizeMode: 'center',
-        height: scale(30)
-    },
-    textButton: {
-        fontFamily: 'roboto',
-        alignSelf: 'center',
-        textAlign: 'justify',
-        fontSize: 10,
-        color: 'white'
     }
 });
 

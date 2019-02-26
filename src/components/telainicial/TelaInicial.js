@@ -18,7 +18,7 @@ const Redirect = (titulo, message, navigation) => {
 class TelaInicial extends Component {
     constructor(props) {
         super(props);
-        this._loadInitialState();
+        //this._loadInitialState();
     }
 
     static navigationOptions = {
