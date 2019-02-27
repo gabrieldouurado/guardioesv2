@@ -117,7 +117,7 @@ class Login extends Component {
                 body: JSON.stringify({
                     user:
                     {
-                        email: "bertram@kaulkepfannerstill.net",
+                        email: "joao@gmail.com",
                         password: "12345678"
                         //email: this.state.userEmail,
                         //password: this.state.userPwd
@@ -125,19 +125,18 @@ class Login extends Component {
                 })
             })
             .then((response) => {
-                this.setState({ userToken: response.headers.map.authorization }) //Saves the token in the variable
+                this.setState({ userToken: response.headers.map.authorization })
                 return response.json()
             })
             .then((responseJson) => {
-                if (this.state.userToken !== null) {                    
-                    //Saves variables in internal storage
+                if (this.state.userToken !== null) {
                     AsyncStorage.setItem('userID', responseJson.user.id.toString());
                     AsyncStorage.setItem('userName', responseJson.user.user_name);
                     AsyncStorage.setItem('userToken', this.state.userToken);
                     console.warn(this.state.userToken)
                     
                     Keyboard.dismiss()
-                    this.props.navigation.navigate('Home'); //Go to Homepage
+                    this.props.navigation.navigate('Home');
                 }
             })
     }

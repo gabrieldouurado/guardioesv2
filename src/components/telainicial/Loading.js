@@ -17,7 +17,7 @@ class AuthLoadingScreen extends React.Component {
     if (UserID !== null) {
       setTimeout(() => {
         this.props.navigation.navigate('BottomMenu');
-      }, 10000);
+      }, 1500);
     } else {
       this.props.navigation.navigate('Cadastro');
     }

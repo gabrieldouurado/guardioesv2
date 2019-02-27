@@ -94,7 +94,7 @@ class Registrar extends Component {
                             onSubmitEditing={() => this.sobrenomeInput.focus()}
                             onChangeText={text => this.setState({ userName: text })}
                         />
-                    </View>                    
+                    </View>
 
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
@@ -179,6 +179,7 @@ class Registrar extends Component {
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.email")}</Text>
                         <TextInput
+                            autoCapitalize='none'
                             style={styles.formInput}
                             keyboardType='email-address'
                             onChangeText={email => this.setState({ userEmail: email })}
@@ -213,7 +214,7 @@ class Registrar extends Component {
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
-                    title={this.state.showProgressBar ? translate("register.awesomeAlert.registeringMessage") : null }
+                    title={this.state.showProgressBar ? translate("register.awesomeAlert.registeringMessage") : null}
                     closeOnTouchOutside={false}
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
@@ -232,16 +233,18 @@ class Registrar extends Component {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(
-            {
-                user_name: this.state.userName,
-                email: this.state.userEmail,
-                password: this.state.userPwd,
-                gender: this.state.userGender,
-                country: this.state.userCountry,
-                race: this.state.userRace,
-                birthdate: this.state.userDob,
-                app_id: this.state.userApp,
+            body: JSON.stringify({
+                "user":
+                {
+                    user_name: this.state.userName,
+                    email: this.state.userEmail,
+                    password: this.state.userPwd,
+                    gender: this.state.userGender,
+                    country: this.state.userCountry,
+                    race: this.state.userRace,
+                    birthdate: this.state.userDob,
+                    app_id: this.state.userApp,
+                }
             })
         })
             .then((response) => response.json())

@@ -204,7 +204,9 @@ export default {
         "toastAlertMessage": "Apriete una vez más para salir",
         "hello": "¡Hola",
         "nowAGuardian": "¡Ahora usted es un guardián de la salud!",
-        "howYouFelling": "¿Cómo se siente hoy?",
+        "userHowYouFelling": "¿Cómo se siente hoy?",
+        "householdHowYouFelling_part_1": "¿Cómo se siente ",
+        "householdHowYouFelling_part_2": " hoy?",
         "homeButtons": {
             "news": "Noticias",
             "healthTips": "Consejos de Salud",

@@ -127,7 +127,7 @@ export const Stack = createStackNavigator({
 )
 
 export const Authentication = createSwitchNavigator({
-    AuthLoading: { screen: Loading},
+    AuthLoading: { screen: Loading },
     Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
     Stacks: { screen: Stack }
 },

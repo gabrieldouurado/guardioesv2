@@ -17,6 +17,7 @@ class Home extends Component {
             userName: null,
             userID: null,
             userToken: null,
+            householdName: null,
             householdID: null,
             userLatitude: 'unknown',
             userLongitude: 'unknown',
@@ -137,6 +138,7 @@ class Home extends Component {
                 survey:
                 {
                     user_id: this.state.userID,
+                    household_id: this.state.householdID,
                     latitude: this.state.userLatitude,
                     longitude: this.state.userLongitude,
                 }
@@ -158,7 +160,28 @@ class Home extends Component {
         const { showAlert } = this.state;
         const { navigate } = this.props.navigation;
         const welcomeMessage = translate("home.hello") + this.state.userName;
+        const householdHowYouFellingText = translate("home.householdHowYouFelling_part_1") + this.state.householdName + translate("home.householdHowYouFelling_part_2");
         const householdsData = this.state.data;
+
+        const userHowYouFelling = (
+            <Text style={styles.textFelling}>
+                {translate("home.userHowYouFelling")}
+            </Text>
+        )
+
+        const householdHowYouFelling = (
+            <Text style={styles.textFelling}>
+                {householdHowYouFellingText}
+            </Text>
+        )
+
+        let howYouFelling;
+        if (this.state.householdID !== null) {
+            howYouFelling = householdHowYouFelling
+        }
+        else {
+            howYouFelling = userHowYouFelling
+        }
 
         return (
             <View style={styles.container}>
@@ -187,11 +210,11 @@ class Home extends Component {
                                         onPress={() => {
                                             this.setState({
                                                 householdID: household.id,
-                                                userName: household.description
+                                                householdName: household.description
                                             })
                                         }
                                         }>
-                                        <Text style={{ fontSize: 20, alignSelf: 'center', margin: 5 }}>{household.description}</Text>
+                                        <Text style={{ fontSize: 20, alignSelf: 'center', margin: 5 }}>{household.description} ID:{household.id}</Text>
                                     </TouchableOpacity>
                                 </View>
                             )
@@ -199,9 +222,7 @@ class Home extends Component {
                         })
                         : null}
                 </View>
-                <Text style={styles.textFelling}>
-                    {translate("home.howYouFelling")}
-                </Text>
+                {howYouFelling}
                 <View style={styles.viewReport}>
                     <View style={styles.viewChildGood}>
                         <TouchableOpacity onPress={this._isconnected}>
@@ -214,8 +235,6 @@ class Home extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-                
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
