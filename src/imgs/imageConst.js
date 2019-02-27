@@ -18,3 +18,7 @@ export const SSRelato = require('./screenshots/SSRelato.jpeg');
 export const imgTermos = require('./termos.png');
 export const imgTutorial = require('./tutorial.png');
 export const imagemFundoInicio = require('./fundoTelaInicial.png');
+
+
+export const imagemFather = require('./avatar/perfil_06.png');
+export const imagemMother = require('./avatar/perfil_12.png');

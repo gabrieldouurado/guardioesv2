@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, NetInfo, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, NetInfo, Alert, Modal, ScrollView } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
 import translate from "../../../locales/i18n";
@@ -7,6 +7,8 @@ import Emoji from 'react-native-emoji';
 import { PermissionsAndroid } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { API_URL } from '../../constUtils';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Avatar } from 'react-native-elements';
 
 class Home extends Component {
     navOptions // rolê para acessar a drawer em uma função estática
@@ -14,6 +16,8 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalVisible: false,
+            userSelect: null,
             userName: null,
             userID: null,
             userToken: null,
@@ -25,6 +29,10 @@ class Home extends Component {
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
+    }
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
     }
 
     showAlert = () => {
@@ -106,6 +114,7 @@ class Home extends Component {
         let userID = await AsyncStorage.getItem('userID');
         let userToken = await AsyncStorage.getItem('userToken');
         this.setState({ userName, userID, userToken });
+        this.setState({ userSelect: this.state.userName });
         this.getHouseholds();
     }
 
@@ -202,25 +211,77 @@ class Home extends Component {
                 </View>
 
                 <View style={styles.viewHousehold}>
-                    {householdsData != null ?
-                        householdsData.map(household => {
-                            return (
-                                <View>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setState({
-                                                householdID: household.id,
-                                                householdName: household.description
+                    <View style={styles.viewHouseholdSelect}>
+
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                                this.setModalVisible(!this.state.modalVisible); //Exit to modal view
+                            }}>
+                            <View style={styles.modalView}>
+                                <View style={styles.modalViewTop}>
+                                    <View style={styles.viewAvatar}>
+                                        <Avatar
+                                            large
+                                            rounded
+                                            source={Imagem.imagemFather}
+                                            activeOpacity={0.7}
+                                            onPress={() => {
+                                                this.setState({ householdID: null, userSelect: this.state.userName });
+                                                this.setModalVisible(!this.state.modalVisible);
+                                            }}
+                                        />
+                                        <Text>{this.state.userName}</Text>
+                                    </View>
+                                    <ScrollView horizontal={true}>
+                                        {householdsData != null ?
+                                            householdsData.map(household => {
+                                                return (
+                                                    <View style={styles.viewAvatar}>
+                                                        <Avatar
+                                                            large
+                                                            rounded
+                                                            source={Imagem.imagemMother}
+                                                            activeOpacity={0.7}
+                                                            onPress={() => {
+                                                                this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description });
+                                                                this.setModalVisible(!this.state.modalVisible);
+                                                            }}
+                                                        />
+                                                        <Text>{household.description}</Text>
+                                                    </View>
+                                                )
                                             })
-                                        }
-                                        }>
-                                        <Text style={{ fontSize: 20, alignSelf: 'center', margin: 5 }}>{household.description} ID:{household.id}</Text>
+                                            : null}
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.modalViewBottom}>
+                                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => console.warn("ADICIONAR PERFIL")}>
+                                        <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
+                                        <Text>Adicionar Perfil</Text>
                                     </TouchableOpacity>
                                 </View>
-                            )
-
-                        })
-                        : null}
+                            </View>
+                        </Modal>
+                        <Avatar
+                            large
+                            rounded
+                            source={Imagem.imagemFather}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                                this.setModalVisible(true);
+                            }}
+                        />
+                        <Text>{this.state.userSelect}</Text>
+                    </View>
+                    <View style={styles.viewHouseholdAdd}>
+                        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => console.warn("ADICIONAR PERFIL")}>
+                            <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
+                            <Text>Adicionar Perfil</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 {howYouFelling}
                 <View style={styles.viewReport}>
@@ -311,9 +372,22 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     viewHousehold: {
+        flexDirection: 'row',
         width: '100%',
         height: '30%',
-        borderColor: 'red',
+    },
+    viewHouseholdSelect: {
+        width: '60%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'green',
+        borderWidth: 1
+    },
+    viewHouseholdAdd: {
+        width: '40%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'blue',
         borderWidth: 1
     },
     textFelling: {
@@ -349,6 +423,27 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 27,
         alignSelf: 'center'
+    },
+    modalView: {
+        alignSelf: 'center',
+        width: '93%',
+        marginTop: '60%',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        elevation: 15
+    },
+    modalViewTop: {
+        flexDirection: 'row'
+    },
+    modalViewBottom: {
+        alignItems: 'center',
+        marginBottom: 17
+    },
+    viewAvatar: {
+        alignItems: 'center',
+        marginLeft: 5,
+        marginTop: 17,
+        marginBottom: 13
     }
 });
 
