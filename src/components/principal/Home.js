@@ -31,9 +31,6 @@ class Home extends Component {
         }
     }
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
-    }
 
     showAlert = () => {
         this.setState({
@@ -58,6 +55,10 @@ class Home extends Component {
                 ]
             )
         });
+    }
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
     }
 
     async requestFineLocationPermission() { //User Location Request Function
@@ -212,7 +213,6 @@ class Home extends Component {
 
                 <View style={styles.viewHousehold}>
                     <View style={styles.viewHouseholdSelect}>
-
                         <Modal
                             animationType="fade"
                             transparent={true}
@@ -258,13 +258,18 @@ class Home extends Component {
                                     </ScrollView>
                                 </View>
                                 <View style={styles.modalViewBottom}>
-                                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => console.warn("ADICIONAR PERFIL")}>
+                                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => {
+                                        navigate('Household');
+                                        this.setModalVisible(!this.state.modalVisible);
+                                    }
+                                    }>
                                         <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
                                         <Text>Adicionar Perfil</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
+                        <Text style={{ marginBottom: 7 }}>Selecione um Perfil:</Text>
                         <Avatar
                             large
                             rounded
@@ -277,7 +282,7 @@ class Home extends Component {
                         <Text>{this.state.userSelect}</Text>
                     </View>
                     <View style={styles.viewHouseholdAdd}>
-                        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => console.warn("ADICIONAR PERFIL")}>
+                        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigate('Household')}>
                             <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
                             <Text>Adicionar Perfil</Text>
                         </TouchableOpacity>
@@ -373,22 +378,22 @@ const styles = StyleSheet.create({
     },
     viewHousehold: {
         flexDirection: 'row',
-        width: '100%',
+        width: '85%',
         height: '30%',
     },
     viewHouseholdSelect: {
-        width: '60%',
+        width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'green',
-        borderWidth: 1
+        //borderColor: 'green',
+        //borderWidth: 1
     },
     viewHouseholdAdd: {
-        width: '40%',
+        width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'blue',
-        borderWidth: 1
+        //borderColor: 'blue',
+        //borderWidth: 1
     },
     textFelling: {
         fontSize: 18,

@@ -13,73 +13,31 @@ import translate from '../../../locales/i18n';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default class drawerContentComponents extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            loginOnFB: null,
-            loginOnApp: null,
-            userFirstName: null
+            userName: null
         }
     }
 
     //Funcao responsavel por pegar as variaveis do Facebook e salva-las em variaveis de estado 
-    _getInfoFB = async () => {
-        let valueAvatar = await AsyncStorage.getItem('avatar');
-        let valueFB = await AsyncStorage.getItem('loginOnFB');
-        let valueApp = await AsyncStorage.getItem('loginOnApp');
-        let valueName = await AsyncStorage.getItem('userName');
-        this.setState({ pic: valueAvatar, loginOnFB: valueFB, loginOnApp: valueApp, userFirstName: valueName })
-    }
-
-    //Funcao responsavel por apagar as variaveis de do facebook salvas no celular ao encerrar uma sessão
-    _logoutFacebook = async () => {
-        AsyncStorage.removeItem('userName');
-        AsyncStorage.removeItem('loginOnFB');
-        AsyncStorage.removeItem('userID');
-        AsyncStorage.removeItem('avatar');
-        AsyncStorage.removeItem('userHousehold');
-        this.setState({ pic: null })
-        this.props.navigation.navigate('TelaInicial')
+    getInfo = async () => {
+        let userName = await AsyncStorage.getItem('userName');
+        this.setState({ userName })
     }
 
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
     _logoutApp = async () => {
         AsyncStorage.removeItem('userName');
-        AsyncStorage.removeItem('loginOnApp');
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('userToken');
-        AsyncStorage.removeItem('userHousehold');
-        this.setState({ loginOnApp: null })
         this.props.navigation.navigate('TelaInicial')
     }
 
-
     render() {
         const { navigate } = this.props.navigation;
-        //Funcoes declaradas dentro do render pois ficam em loop para serem atualizadas automaticamente
-        if (this.state.loginOnApp == null) {
-            if (this.state.loginOnFB == null || this.state.pic == null) {
-                //Laco para parar de executar a funcao no momento em que as variaveis forem gravadas
-                this._getInfoFB()
-            }
-        }
 
-        const loggedOnFacebook = (
-            <LoginButton onLogoutFinished={this._logoutFacebook} />
-        )
-
-        const loggedOnApp = (
-            <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>{translate("drawer.logOut")}</Text>
-        )
-
-        let loginType;
-        if (this.state.loginOnFB === 'true') {
-            loginType = loggedOnFacebook
-        }
-        else {
-            loginType = loggedOnApp
-        }
+        this.getInfo();
 
         return (
             <View style={styles.container}>
@@ -89,18 +47,18 @@ export default class drawerContentComponents extends Component {
                             <Avatar
                                 xlarge
                                 rounded
-                                source={{ uri: this.state.pic }}
+                                source={Imagem.imagemFather}
                                 activeOpacity={0.7}
                             />
                         </View>
-                        <Text style={styles.headerText}>{this.state.userFirstName}</Text>
+                        <Text style={styles.headerText}>{this.state.userName}</Text>
                     </View>
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <MaterialIcons name='supervisor-account' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <MaterialIcons name='supervisor-account' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Perfis</Text>
                     </TouchableOpacity>
 
@@ -108,7 +66,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Mapa')}
                     >
-                        <MaterialIcons name='explore' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <MaterialIcons name='explore' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthMap")}</Text>
                     </TouchableOpacity>
 
@@ -116,7 +74,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Diario')}
                     >
-                        <MaterialIcons name='dashboard' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <MaterialIcons name='dashboard' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthDiary")}</Text>
                     </TouchableOpacity>
 
@@ -124,7 +82,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
-                        <FontAwesome name='bell' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <FontAwesome name='bell' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Eventos Massivos</Text>
                     </TouchableOpacity>
 
@@ -132,7 +90,7 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => Linking.openURL('https://www.facebook.com/AssociacaoProEpi/')}
                     >
-                        <Entypo name='facebook' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <Entypo name='facebook' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toFacebook")}</Text>
                     </TouchableOpacity>
 
@@ -140,12 +98,14 @@ export default class drawerContentComponents extends Component {
                         style={styles.itemsContainer}
                         onPress={() => navigate('Ajuda')}
                     >
-                        <Feather name='help-circle' size={verticalScale(25)}  style={styles.iconStyle} />
+                        <Feather name='help-circle' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
                     <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 55 }]}>
-                        {loginType}
+                        <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>
+                            {translate("drawer.logOut")}
+                        </Text>
                     </View>
                 </LinearGradient>
             </View>

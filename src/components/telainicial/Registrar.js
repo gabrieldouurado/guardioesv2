@@ -39,6 +39,7 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            statusCode: null,
             userName: null,
             userEmail: null,
             userPwd: null,
@@ -47,6 +48,7 @@ class Registrar extends Component {
             userRace: 'Blanco',
             userDob: null,
             userApp: 1,
+            userToken: null,
             cca2: 'BR',
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
@@ -84,8 +86,8 @@ class Registrar extends Component {
         const { showAlert } = this.state;
 
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                <ScrollView style={styles.scroll}>
+            <View style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+                <View style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.name")}</Text>
@@ -210,7 +212,7 @@ class Registrar extends Component {
                         </Text>
                     </View>
 
-                </ScrollView>
+                </View>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
@@ -220,13 +222,13 @@ class Registrar extends Component {
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
                 />
-            </ImageBackground>
+            </View>
         );
 
     }
     create = () => {
-        //Keyboard.dismiss()
-        //this.showAlert()
+        Keyboard.dismiss()
+        this.showAlert()
         fetch(`${API_URL}/user/signup`, {
             method: 'POST',
             headers: {
@@ -247,13 +249,54 @@ class Registrar extends Component {
                 }
             })
         })
-            .then((response) => response.json())
-            .then(responseJson => {
-                console.warn(responseJson)
+            .then((response) => {
+                this.setState({ statusCode: response.status })
+                if (this.state.statusCode == 200) {
+                    this.loginAfterCreate();
+                } else {
+                    alert("Algo deu errado");
+                    this.hideAlert();
+                }
             })
+    }
 
+    //Login Function 
+    loginAfterCreate = () => {
+        console.warn("TESTE")
+        return fetch(`${API_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user:
+                {
+                    email: this.state.userEmail,
+                    password: this.state.userPwd
+                }
+            })
+        })
+            .then((response) => {
+                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                if (this.state.statusCode == 200) {
+                    return response.json()
+                } else {
+                    alert("Algo deu errado");
+                    this.hideAlert();
+                }
+            })
+            .then((responseJson) => {
+                AsyncStorage.setItem('userID', responseJson.user.id.toString());
+                AsyncStorage.setItem('userName', responseJson.user.user_name);
+                AsyncStorage.setItem('userToken', this.state.userToken);
+
+                this.props.navigation.navigate('Home');
+                this.hideAlert();
+            })
     }
 }
+
 
 // define your styles
 const styles = StyleSheet.create({
