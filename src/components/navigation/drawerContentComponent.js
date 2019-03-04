@@ -56,7 +56,7 @@ export default class drawerContentComponents extends Component {
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
-                        onPress={() => navigate('Home')}
+                        onPress={() => navigate('Perfil')}
                     >
                         <MaterialIcons name='supervisor-account' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Perfis</Text>

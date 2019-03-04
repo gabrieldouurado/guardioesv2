@@ -178,12 +178,12 @@ class Registrar extends Component {
                             selectedValue={this.state.kinship}
                             style={{ width: "95%" }}
                             onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
-                            <Picker.Item label="Pai" value="pai" />
-                            <Picker.Item label="Mãe" value="mae" />
-                            <Picker.Item label="Filhos" value="filhos" />
-                            <Picker.Item label="Irmãos" value="irmaos" />
-                            <Picker.Item label="Avós" value="avos" />
-                            <Picker.Item label="Outros" value="outros" />
+                            <Picker.Item label="Pai" value="Pai" />
+                            <Picker.Item label="Mãe" value="Mãe" />
+                            <Picker.Item label="Filhos" value="Filhos" />
+                            <Picker.Item label="Irmãos" value="Irmãos" />
+                            <Picker.Item label="Avós" value="Avós" />
+                            <Picker.Item label="Outros" value="Outros" />
                         </Picker>
                     </View>
                     <View style={styles.buttonView}>

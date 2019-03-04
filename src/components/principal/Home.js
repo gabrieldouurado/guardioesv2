@@ -276,6 +276,7 @@ class Home extends Component {
                             source={Imagem.imagemFather}
                             activeOpacity={0.7}
                             onPress={() => {
+                                this.getHouseholds();
                                 this.setModalVisible(true);
                             }}
                         />
