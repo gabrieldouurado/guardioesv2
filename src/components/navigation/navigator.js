@@ -126,20 +126,23 @@ export const Stack = createStackNavigator({
     }
 )
 
+export const Drawer = createDrawerNavigator({
+    Stacks: { screen: Stack }
+}, {
+        contentComponent: drawerContentComponents
+    }
+);
+
 export const Authentication = createSwitchNavigator({
     AuthLoading: { screen: Loading },
-    Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
-    Stacks: { screen: Stack }
+    Cadastro: { screen: Cadastro },
+    Drawer
 },
     {
         initialRouteName: 'AuthLoading',
     }
 )
 
-export const Drawer = createDrawerNavigator({
-    Authentication
-}, {
-        contentComponent: drawerContentComponents
-    });
+
 
 

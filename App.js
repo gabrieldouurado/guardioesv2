@@ -7,7 +7,7 @@ class Guardioes extends Component {
     return (
       
         
-        <Navegar.Drawer />
+        <Navegar.Authentication />
       
     );
   }
