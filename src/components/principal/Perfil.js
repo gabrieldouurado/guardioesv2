@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, AsyncStorage, ScrollView, TouchableOpacity, NetInfo, Alert } from 'react-native';
+import { View, StyleSheet, Text, AsyncStorage, ScrollView, TouchableOpacity, NetInfo, Alert, Modal, Button, Picker, TextInput } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { Avatar } from 'react-native-elements';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { scale } from '../scallingUtils';
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
 import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
+
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
+
+let today = y + "-" + m + "-" + d;
 
 class Perfil extends Component {
     static navigationOptions = {
@@ -15,7 +24,13 @@ class Perfil extends Component {
         super(props);
         this._getInfos();
         this.state = {
+            modalVisible: false,
+            cca2: 'BR',
         };
+    }
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
     }
 
     confirmDelete = () => {
@@ -60,7 +75,7 @@ class Perfil extends Component {
             })
     }
 
-    deleteHousehold = async () => {
+    deleteHousehold = () => {
         return fetch(`${API_URL}/households/${this.state.householdID}`, {
             method: 'DELETE',
             headers: {
@@ -73,11 +88,181 @@ class Perfil extends Component {
         })
     }
 
+    editHousehold = () => {
+        fetch(`${API_URL}/households/${this.state.householdID}`, {
+            method: 'PATCH',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+                {
+                    description: this.state.householdName,
+                    birthdate: this.state.householdDob,
+                    country: this.state.householdCountry,
+                    gender: this.state.householdGender,
+                    race: this.state.householdRace,
+                    kinship: this.state.kinship
+                }
+            )
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    console.warn(response.status)
+                    this.getHouseholds();
+                } else {
+                    console.warn(response.status)
+
+                }
+            })
+    }
+
+    getAllUserInfos = () => {
+        return fetch(`${API_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
+            }
+        }).then((response) => {
+            if (response.status == 200) {
+                console.warn(response.status)
+                return response.json()
+            } else {
+                alert("Algo deu errado");
+            }
+        }).then((responseJson) => {
+            console.warn(responseJson)
+        })
+    }
+
     render() {
         const { navigate } = this.props.navigation;
         const householdsData = this.state.data;
         return (
             <View style={styles.container}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        this.setModalVisible(!this.state.modalVisible); //Exit to modal view
+                    }}>
+                    <View style={styles.modalView}>
+                        <View style={{ paddingTop: 10 }}></View>
+                        <View style={styles.viewCommom}>
+                            <Text style={styles.commomText}>{translate("register.name")}</Text>
+                            <TextInput style={styles.formInput}
+                                placeholder={this.state.householdName}
+                                onChangeText={text => this.setState({ householdName: text })}
+                            />
+                        </View>
+
+                        <View style={styles.viewRow}>
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
+                                <Picker
+                                    selectedValue={this.state.householdGender}
+                                    style={styles.selectSexoRaca}
+                                    onValueChange={(itemValue) => this.setState({ householdGender: itemValue })}>
+                                    <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                                    <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
+                                </Picker>
+                            </View>
+
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>{translate("register.race")}</Text>
+                                <Picker
+                                    selectedValue={this.state.householdRace}
+                                    style={styles.selectSexoRaca}
+                                    onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
+                                    <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                                    <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                                    <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                                    <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                                    <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                                    <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                                    <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                                </Picker>
+                            </View>
+
+                        </View>
+
+                        <View style={styles.viewRow}>
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>Nascimento</Text>
+                                <DatePicker
+                                    style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
+                                    showIcon={false}
+                                    date={this.state.householdDob}
+                                    androidMode='spinner'
+                                    mode="date"
+                                    placeholder={translate("birthDetails.format")}
+                                    format="YYYY-MM-DD"
+                                    minDate="1918-01-01"
+                                    maxDate={today}
+                                    confirmBtnText={translate("birthDetails.confirmButton")}
+                                    cancelBtnText={translate("birthDetails.cancelButton")}
+                                    customStyles={{
+                                        dateInput: {
+                                            borderWidth: 0
+                                        },
+                                        dateText: {
+                                            marginBottom: 10,
+                                            fontFamily: 'roboto',
+                                            fontSize: 17
+                                        },
+                                        placeholderText: {
+                                            marginBottom: 15,
+                                            fontFamily: 'roboto',
+                                            fontSize: 15,
+                                            color: 'black'
+                                        }
+                                    }}
+                                    onDateChange={date => this.setState({ householdDob: date })}
+                                />
+                            </View>
+
+                            <View style={styles.viewChildPais}>
+                                <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
+                                <View>
+                                    <CountryPicker
+                                        onChange={value => {
+                                            this.setState({ cca2: value.cca2, householdCountry: value.name })
+                                        }}
+                                        cca2={this.state.cca2}
+                                        translation="eng"
+                                    />
+                                    <Text style={styles.textCountry}>{this.state.householdCountry}</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.viewCommom}>
+                            <Text style={styles.commomText}>Parentesco:</Text>
+                            <Picker
+                                selectedValue={this.state.kinship}
+                                style={{ width: "95%" }}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
+                                <Picker.Item label="Pai" value="Pai" />
+                                <Picker.Item label="Mãe" value="Mãe" />
+                                <Picker.Item label="Filhos" value="Filhos" />
+                                <Picker.Item label="Irmãos" value="Irmãos" />
+                                <Picker.Item label="Avós" value="Avós" />
+                                <Picker.Item label="Outros" value="Outros" />
+                            </Picker>
+                        </View>
+                        <View style={styles.buttonView}>
+                            <Button
+                                title="editar"
+                                color="#348EAC"
+                                onPress={() => {
+                                    this.editHousehold();
+                                    this.setModalVisible(!this.state.modalVisible);
+                                }} />
+                        </View>
+                    </View>
+                </Modal>
                 <View style={styles.viewTop}>
                     <View style={styles.userAvatar}>
                         <Avatar
@@ -99,6 +284,24 @@ class Perfil extends Component {
                                 35 anos
                             </Text>
                         </View>
+                    </View>
+                    <View style={{ alignSelf: 'center', marginRight: 10 }}>
+                        <TouchableOpacity onPress={async () => {
+                            this.getAllUserInfos();
+                            //await this.setState({
+                            //householdID: household.id,
+                            //householdName: household.description,
+                            //householdDob: household.birthdate,
+                            //householdCountry: household.country,
+                            //householdGender: household.gender,
+                            //householdRace: household.race,
+                            //kinship: household.kinship
+                            //})
+
+                            this.setModalVisible(true)
+                        }}>
+                            <FontAwesome name="edit" size={scale(25)} color='white' />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{ alignItems: 'center' }}>
@@ -122,7 +325,20 @@ class Perfil extends Component {
                                         <Text style={styles.householdKinship}>{household.kinship}</Text>
                                     </View>
                                     <View style={styles.viewButtons}>
-                                        <FontAwesome name="edit" size={scale(25)} color='rgba(22, 107, 135, 1)' />
+                                        <TouchableOpacity onPress={async () => {
+                                            await this.setState({
+                                                householdID: household.id,
+                                                householdName: household.description,
+                                                householdDob: household.birthdate,
+                                                householdCountry: household.country,
+                                                householdGender: household.gender,
+                                                householdRace: household.race,
+                                                kinship: household.kinship
+                                            });
+                                            this.setModalVisible(true);
+                                        }}>
+                                            <FontAwesome name="edit" size={scale(25)} color='rgba(22, 107, 135, 1)' />
+                                        </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             this.setState({ householdID: household.id });
                                             this.confirmDelete();
@@ -145,7 +361,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     viewTop: {
-        height: '18%',
+        height: scale(95),
+        justifyContent: 'space-between',
         flexDirection: 'row',
         backgroundColor: '#2298BF',
         borderColor: 'red',
@@ -158,6 +375,7 @@ const styles = StyleSheet.create({
         paddingRight: 15
     },
     userInfos: {
+        marginRight: scale(80),
         borderColor: 'green',
         //borderWidth: 1,
     },
@@ -200,6 +418,84 @@ const styles = StyleSheet.create({
     viewButtons: {
         justifyContent: 'space-between',
         padding: 5,
+    },
+    modalView: {
+        alignSelf: 'center',
+        width: '93%',
+        //height: '60%',
+        //padding: 15,
+        marginTop: '35%',
+        borderRadius: 20,
+        backgroundColor: 'white',
+        elevation: 15
+    },
+    viewCommom: {
+        width: '100%',
+        height: 65,
+        alignItems: 'center',
+    },
+    viewRow: {
+        width: '100%',
+        height: 65,
+        flexDirection: 'row',
+    },
+    viewChildSexoRaca: {
+        width: "50%",
+        height: 65,
+        alignItems: 'center',
+    },
+    viewChildPais: {
+        width: "50%",
+        height: 65,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    viewChildData: {
+        width: "50%",
+        height: 65,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        paddingLeft: '5%',
+    },
+    selectSexoRaca: {
+        width: "80%",
+    },
+    formInput: {
+        width: "90%",
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#348EAC',
+        paddingBottom: 0,
+        paddingTop: 2,
+    },
+    commomText: {
+        fontSize: 17,
+        fontFamily: 'roboto',
+        color: '#465F6C',
+        alignSelf: 'flex-start',
+        textAlign: 'left',
+        paddingLeft: "5%",
+    },
+    commomTextView: {
+        fontSize: 17,
+        fontFamily: 'roboto',
+        color: '#465F6C',
+        alignSelf: 'flex-start',
+        textAlign: 'left',
+        paddingLeft: '10%',
+    },
+    buttonView: {
+        width: "60%",
+        alignSelf: 'center',
+        marginTop: 20,
+        marginBottom: 10
+    },
+    textCountry: {
+        fontSize: 15,
+        fontFamily: 'roboto',
     }
 });
 

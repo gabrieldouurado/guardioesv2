@@ -83,117 +83,116 @@ class Registrar extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.scroll}>
-                    <View style={{ paddingTop: 10 }}></View>
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>{translate("register.name")}</Text>
-                        <TextInput style={styles.formInput}
-                            onChangeText={text => this.setState({ householdName: text })}
-                        />
-                    </View>
+                <View style={{ paddingTop: 10 }}></View>
+                <View style={styles.viewCommom}>
+                    <Text style={styles.commomText}>{translate("register.name")}</Text>
+                    <TextInput style={styles.formInput}
+                        onChangeText={text => this.setState({ householdName: text })}
+                    />
+                </View>
 
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
-                            <Picker
-                                selectedValue={this.state.householdGender}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ householdGender: itemValue })}>
-                                <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
-                                <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
-                            </Picker>
-                        </View>
-
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>{translate("register.race")}</Text>
-                            <Picker
-                                selectedValue={this.state.householdRace}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
-                                <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
-                                <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
-                                <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
-                                <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
-                            </Picker>
-                        </View>
-
-                    </View>
-
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>{translate("register.birth")}</Text>
-                            <DatePicker
-                                style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
-                                showIcon={false}
-                                date={this.state.householdDob}
-                                androidMode='spinner'
-                                mode="date"
-                                placeholder={translate("birthDetails.format")}
-                                format="YYYY-MM-DD"
-                                minDate="1918-01-01"
-                                maxDate={today}
-                                confirmBtnText={translate("birthDetails.confirmButton")}
-                                cancelBtnText={translate("birthDetails.cancelButton")}
-                                customStyles={{
-                                    dateInput: {
-                                        borderWidth: 0
-                                    },
-                                    dateText: {
-                                        marginBottom: 10,
-                                        fontFamily: 'roboto',
-                                        fontSize: 17
-                                    },
-                                    placeholderText: {
-                                        marginBottom: 15,
-                                        fontFamily: 'roboto',
-                                        fontSize: 15,
-                                        color: 'black'
-                                    }
-                                }}
-                                onDateChange={date => this.setState({ householdDob: date })}
-                            />
-                        </View>
-
-                        <View style={styles.viewChildPais}>
-                            <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
-                            <View>
-                                <CountryPicker
-                                    onChange={value => {
-                                        this.setState({ cca2: value.cca2, householdCountry: value.name })
-                                    }}
-                                    cca2={this.state.cca2}
-                                    translation="eng"
-                                />
-                                <Text style={styles.textCountry}>{this.state.householdCountry}</Text>
-                            </View>
-                        </View>
-                    </View>                    
-
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Parentesco:</Text>
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
                         <Picker
-                            selectedValue={this.state.kinship}
-                            style={{ width: "95%" }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
-                            <Picker.Item label="Pai" value="Pai" />
-                            <Picker.Item label="Mãe" value="Mãe" />
-                            <Picker.Item label="Filhos" value="Filhos" />
-                            <Picker.Item label="Irmãos" value="Irmãos" />
-                            <Picker.Item label="Avós" value="Avós" />
-                            <Picker.Item label="Outros" value="Outros" />
+                            selectedValue={this.state.householdGender}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ householdGender: itemValue })}>
+                            <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                            <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
                         </Picker>
                     </View>
-                    <View style={styles.buttonView}>
-                        <Button
-                            title="criar"
-                            color="#348EAC"
-                            onPress={this._isconnected} />
+
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.race")}</Text>
+                        <Picker
+                            selectedValue={this.state.householdRace}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
+                            <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                            <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                            <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                            <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                            <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                            <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                            <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                        </Picker>
                     </View>
 
                 </View>
+
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.birth")}</Text>
+                        <DatePicker
+                            style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
+                            showIcon={false}
+                            date={this.state.householdDob}
+                            androidMode='spinner'
+                            mode="date"
+                            placeholder={translate("birthDetails.format")}
+                            format="YYYY-MM-DD"
+                            minDate="1918-01-01"
+                            maxDate={today}
+                            confirmBtnText={translate("birthDetails.confirmButton")}
+                            cancelBtnText={translate("birthDetails.cancelButton")}
+                            customStyles={{
+                                dateInput: {
+                                    borderWidth: 0
+                                },
+                                dateText: {
+                                    marginBottom: 10,
+                                    fontFamily: 'roboto',
+                                    fontSize: 17
+                                },
+                                placeholderText: {
+                                    marginBottom: 15,
+                                    fontFamily: 'roboto',
+                                    fontSize: 15,
+                                    color: 'black'
+                                }
+                            }}
+                            onDateChange={date => this.setState({ householdDob: date })}
+                        />
+                    </View>
+
+                    <View style={styles.viewChildPais}>
+                        <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
+                        <View>
+                            <CountryPicker
+                                onChange={value => {
+                                    this.setState({ cca2: value.cca2, householdCountry: value.name })
+                                }}
+                                cca2={this.state.cca2}
+                                translation="eng"
+                            />
+                            <Text style={styles.textCountry}>{this.state.householdCountry}</Text>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.viewCommom}>
+                    <Text style={styles.commomText}>Parentesco:</Text>
+                    <Picker
+                        selectedValue={this.state.kinship}
+                        style={{ width: "95%" }}
+                        onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
+                        <Picker.Item label="Pai" value="Pai" />
+                        <Picker.Item label="Mãe" value="Mãe" />
+                        <Picker.Item label="Filhos" value="Filhos" />
+                        <Picker.Item label="Irmãos" value="Irmãos" />
+                        <Picker.Item label="Avós" value="Avós" />
+                        <Picker.Item label="Outros" value="Outros" />
+                    </Picker>
+                </View>
+                <View style={styles.buttonView}>
+                    <Button
+                        title="criar"
+                        color="#348EAC"
+                        onPress={this._isconnected} />
+                </View>
+
+
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
@@ -248,24 +247,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 550
-    },
-    titulo: {
-        color: 'white',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'center',
-        marginRight: '30%',
-    },
-    viewLogo: {
-        flex: 0.5,
-        width: '100%',
-        alignItems: 'center',
-    },
-    scroll: {
-        flex: 1,
-        width: '100%',
     },
     viewCommom: {
         width: '100%',
