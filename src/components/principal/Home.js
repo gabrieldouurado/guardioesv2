@@ -15,6 +15,7 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.getLocation();
         this.state = {
             modalVisible: false,
             userSelect: null,
@@ -61,44 +62,13 @@ class Home extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    async requestFineLocationPermission() { //User Location Request Function
-        try {
-            const granted = await PermissionsAndroid.request(
-                android.permission.ACCESS_FINE_LOCATION,
-                {
-                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
-                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
-                }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                this.componentDidMount
-            } else {
-                console.warn(translate("maps.locationRequest.requestDenied"))
-                this.props.navigation.navigate('Home')
-            }
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
         const { params = {} } = navOptions.state;
         params._openNav()
     }
 
     componentDidMount() {
-        this._getInfos()
-        navigator.geolocation.getCurrentPosition( //User get location
-            (position) => {
-                this.setState({
-                    userLatitude: position.coords.latitude,
-                    userLongitude: position.coords.longitude,
-                    error: null,
-                });
-            },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 50000 },
-        );
+        this.getInfos()
 
         this.props.navigation.setParams({ // rolê para acessar a drawer em uma função estática
             _onHeaderEventControl: this.onHeaderEventControl,
@@ -110,12 +80,27 @@ class Home extends Component {
         this.props.navigation.openDrawer();
     }
 
-    _getInfos = async () => { //Ger user infos
+    getLocation() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    userLatitude: position.coords.latitude,
+                    userLongitude: position.coords.longitude,
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
+        );
+    }
+
+    getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
         let userID = await AsyncStorage.getItem('userID');
         let userToken = await AsyncStorage.getItem('userToken');
         this.setState({ userName, userID, userToken });
-        this.setState({ userSelect: this.state.userName });
+        await this.setState({ userSelect: this.state.userName });
+        AsyncStorage.setItem('userSelected', this.state.userSelect);
         this.getHouseholds();
     }
 
@@ -136,7 +121,6 @@ class Home extends Component {
     }
 
     sendSurvey = async () => { //Send Survey GOOD CHOICE
-        this.requestFineLocationPermission
         this.showAlert();
         return fetch(`${API_URL}/surveys`, {
             method: 'POST',
@@ -228,9 +212,11 @@ class Home extends Component {
                                             rounded
                                             source={Imagem.imagemFather}
                                             activeOpacity={0.7}
-                                            onPress={() => {
-                                                this.setState({ householdID: null, userSelect: this.state.userName });
+                                            onPress={async() => {
+                                                await this.setState({ householdID: null, userSelect: this.state.userName });
                                                 this.setModalVisible(!this.state.modalVisible);
+                                                AsyncStorage.setItem('userSelected', this.state.userSelect);
+                                                AsyncStorage.removeItem('householdID');
                                             }}
                                         />
                                         <Text>{this.state.userName}</Text>
@@ -245,9 +231,11 @@ class Home extends Component {
                                                             rounded
                                                             source={Imagem.imagemMother}
                                                             activeOpacity={0.7}
-                                                            onPress={() => {
-                                                                this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description });
+                                                            onPress={async () => {
+                                                                await this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description });
                                                                 this.setModalVisible(!this.state.modalVisible);
+                                                                AsyncStorage.setItem('userSelected', this.state.userSelect);
+                                                                AsyncStorage.setItem('householdID', this.state.householdID.toString());
                                                             }}
                                                         />
                                                         <Text>{household.description}</Text>

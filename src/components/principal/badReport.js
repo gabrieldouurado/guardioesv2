@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { ImageBackground, ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
-import * as Imagem from '../../imgs/imageConst';
+import { ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import CountryPicker from 'react-native-country-picker-modal';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
-import { app_token } from '../../constUtils';
+import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
 
 let data = new Date();
@@ -24,31 +23,14 @@ class BadReport extends Component {
 
     constructor(props) {
         super(props);
+        this.getLocation();
         this.state = {
             cca2: 'BR',
             country: 'Brazil',
-            checked_1: false,
-            checked_2: false,
-            checked_3: false,
-            checked_4: false,
-            checked_5: false,
-            checked_6: false,
-            checked_7: false,
-            checked_8: false,
-            checked_9: false,
-            checked_10: false,
-            checked_11: false,
-            checked_12: false,
-            checked_13: false,
-            checked_14: false,
-            checked_15: false,
-            checked_16: false,
-            checked_17: false,
-            checked_18: false,
-            checked_19: false,
-            checked_20: false,
-            checked_21: false,
-            checked_22: false,
+            contactWithSymptom: false,
+            lookedForHospital: false,
+            hadTraveled: false,
+            symptoms: [],
             today_date: today,
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
@@ -75,13 +57,23 @@ class BadReport extends Component {
                 translate("noInternet.noInternetConnection"),
                 translate("noInternet.ohNo"),
                 [
-                    {text: translate("noInternet.alertAllRightMessage"), onPress: () => null}
+                    { text: translate("noInternet.alertAllRightMessage"), onPress: () => null }
                 ]
             )
         });
     }
 
-    componentDidMount() {
+    componentDidMount() {        
+        this.getSymptoms();
+        this.getInfos();
+    }
+    
+    componentWillUnmount() {
+        //Remover o HouseholdID afim de evitar possiveis erros no IOS
+        AsyncStorage.removeItem('householdID');
+    }
+
+    getLocation() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
@@ -95,82 +87,73 @@ class BadReport extends Component {
         );
     }
 
-    async requestFineLocationPermission() {
-        try {
-            const granted = await PermissionsAndroid.request(
-                android.permission.ACCESS_FINE_LOCATION,
-                {
-                    'title': translate("locationRequest.requestLocationMessageTitle"),
-                    'message': translate("locationRequest.requestLocationMessageMessage")
-                }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                this.componentDidMount
-            } else {
-                console.warn(translate("locationRequest.requestDenied"))
-            }
-        } catch (err) {
-            console.warn(err)
+    getSymptoms = () => {//Get Symptoms
+        return fetch(`${API_URL}/symptoms`, {
+            headers: {
+                Accept: 'application/vnd.api+json'
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    dataSource: responseJson.symptoms
+                })
+            })
+    }
+
+    getInfos = async () => { //Ger user infos
+        let userName = await AsyncStorage.getItem('userName');
+        let userSelected = await AsyncStorage.getItem('userSelected');
+        let userID = await AsyncStorage.getItem('userID');
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userName, userSelected, userID, userToken });
+
+        //Para não dar BO de variavel nula no IOS -- So puxa o async quando é um household
+        if (this.state.userSelected === this.state.userName) {
+            this.setState({ householdID: null })
+        } else {
+            let householdID = await AsyncStorage.getItem('householdID');
+            this.setState({ householdID })
         }
     }
 
-    //Function that creates a requisition to send the survey to the API
     sendSurvey = async () => {
-
-        this.requestFineLocationPermission
-
-        let UserID = await AsyncStorage.getItem('userID');
-        this.setState({ UserID: UserID })
-
-        fetch('https://guardianes.centeias.net/survey/create', {
+        return fetch(`${API_URL}/surveys`, {
             method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-                user_id: this.state.UserID,
-                houselhold_id: "",
-                lat: this.state.userLatitude,
-                lon: this.state.userLongitude,
-                no_symptom: "N",
-                week_of: this.state.date,
-                hadContagiousContact: this.state.checked_20,
-                hadHealthCare: this.state.checked_21,
-                hadTravlledAbroad: this.state.checked_22,
-                travelLocation: this.state.country,
-                app_token: app_token,
-                platform: "",
-                bolhasNoPe: this.state.checked_1,
-                congestaoNasal: this.state.checked_2,
-                diarreia: this.state.checked_3,
-                dificuldadeDeRespirar: this.state.checked_4,
-                doNasArticulacoes: this.state.checked_5,
-                headache: this.state.checked_6,
-                dorEstomago: this.state.checked_7,
-                bodypain: this.state.checked_8,
-                dorOlhos: this.state.checked_9,
-                calafrio: this.state.checked_10,
-                fever: this.state.checked_11,
-                fatigue: this.state.checked_12,
-                manchasVermelhas: this.state.checked_13,
-                nauseas: this.state.checked_14,
-                olhosVermelhos: this.state.checked_15,
-                pesOlhosAmarelados: this.state.checked_16,
-                sangramento: this.state.checked_17,
-                tosse: this.state.checked_18,
-                vomito: this.state.checked_19,
+                survey:
+                {
+                    user_id: this.state.userID,
+                    household_id: this.state.householdID,
+                    latitude: this.state.userLatitude,
+                    longitude: this.state.userLongitude,
+                    bad_since: this.state.today_date,
+                    symptom: this.state.symptoms
+                }
             })
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.error === false) {
-                    AsyncStorage.setItem('survey_id', responseJson.id);
-                    this.setState({ progressBarAlert: false });
+                if (responseJson !== null) {
+                    this.setState({ showProgressBar: false });
+                    console.warn("ENVIOU")
+                    this.props.navigation.navigate('Home')
+                } else {
+                    console.warn("NÂO ENVIOU")
+                    this.setState({ showProgressBar: false });
                 }
             })
     }
 
     render() {
         const { showAlert } = this.state;
+        const symptomsData = this.state.dataSource;
 
-        const viajou = (
+        const traveled = (
             <View>
                 <View><Text style={styles.commomTextView}>{translate("badReport.checkboxes.fourth")}</Text></View>
                 <CountryPicker
@@ -185,13 +168,17 @@ class BadReport extends Component {
             </View>
         )
 
-        let checked_22True;
-        if (this.state.checked_22 == true) {
-            checked_22True = viajou
+        let traveledTrue;
+        if (this.state.hadTraveled == true) {
+            traveledTrue = traveled
         }
+
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <View style={styles.container}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
+                    <Text style={{alignSelf: 'center'}}>
+                        Reportanto como: {this.state.userSelected}
+                    </Text>
                     <Text style={styles.dateText}>
                         {translate("badReport.sickAge")}
                     </Text>
@@ -229,301 +216,61 @@ class BadReport extends Component {
                             {translate("badReport.symptoms")}
                         </Text>
                     </View>
-                    <CheckBox
-                        title={translate("badReport.blisters")}
-                        checked={this.state.checked_1}
-                        onPress={() => {
-                            if (this.state.checked_1 == false) {
-                                this.setState({ checked_1: true })
-                            }
-
-                            else {
-                                this.setState({ checked_1: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.noseCongestion")}
-                        checked={this.state.checked_2}
-                        onPress={() => {
-                            if (this.state.checked_2 == false) {
-                                this.setState({ checked_2: true })
-                            }
-
-                            else {
-                                this.setState({ checked_2: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.diarrhea")}
-                        checked={this.state.checked_3}
-                        onPress={() => {
-                            if (this.state.checked_3 == false) {
-                                this.setState({ checked_3: true })
-                            }
-
-                            else {
-                                this.setState({ checked_3: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.breathingDifficulty")}
-                        checked={this.state.checked_4}
-                        onPress={() => {
-                            if (this.state.checked_4 == false) {
-                                this.setState({ checked_4: true })
-                            }
-
-                            else {
-                                this.setState({ checked_4: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.jointPain")}
-                        checked={this.state.checked_5}
-                        onPress={() => {
-                            if (this.state.checked_5 == false) {
-                                this.setState({ checked_5: true })
-                            }
-
-                            else {
-                                this.setState({ checked_5: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.headache")}
-                        checked={this.state.checked_6}
-                        onPress={() => {
-                            if (this.state.checked_6 == false) {
-                                this.setState({ checked_6: true })
-                            }
-
-                            else {
-                                this.setState({ checked_6: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.stomachAche")}
-                        checked={this.state.checked_7}
-                        onPress={() => {
-                            if (this.state.checked_7 == false) {
-                                this.setState({ checked_7: true })
-                            }
-
-                            else {
-                                this.setState({ checked_7: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.musclePain")}
-                        checked={this.state.checked_8}
-                        onPress={() => {
-                            if (this.state.checked_8 == false) {
-                                this.setState({ checked_8: true })
-                            }
-
-                            else {
-                                this.setState({ checked_8: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.eyePain")}
-                        checked={this.state.checked_9}
-                        onPress={() => {
-                            if (this.state.checked_9 == false) {
-                                this.setState({ checked_9: true })
-                            }
-
-                            else {
-                                this.setState({ checked_9: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.chills")}
-                        checked={this.state.checked_10}
-                        onPress={() => {
-                            if (this.state.checked_10 == false) {
-                                this.setState({ checked_10: true })
-                            }
-
-                            else {
-                                this.setState({ checked_10: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.fever")}
-                        checked={this.state.checked_11}
-                        onPress={() => {
-                            if (this.state.checked_11 == false) {
-                                this.setState({ checked_11: true })
-                            }
-
-                            else {
-                                this.setState({ checked_11: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.fellingIll")}
-                        checked={this.state.checked_12}
-                        onPress={() => {
-                            if (this.state.checked_12 == false) {
-                                this.setState({ checked_12: true })
-                            }
-
-                            else {
-                                this.setState({ checked_12: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.redSpots")}
-                        checked={this.state.checked_13}
-                        onPress={() => {
-                            if (this.state.checked_13 == false) {
-                                this.setState({ checked_13: true })
-                            }
-
-                            else {
-                                this.setState({ checked_13: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.sickness")}
-                        checked={this.state.checked_14}
-                        onPress={() => {
-                            if (this.state.checked_14 == false) {
-                                this.setState({ checked_14: true })
-                            }
-
-                            else {
-                                this.setState({ checked_14: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.redishEyes")}
-                        checked={this.state.checked_15}
-                        onPress={() => {
-                            if (this.state.checked_15 == false) {
-                                this.setState({ checked_15: true })
-                            }
-
-                            else {
-                                this.setState({ checked_15: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.feetEyeRedissh")}
-                        checked={this.state.checked_16}
-                        onPress={() => {
-                            if (this.state.checked_16 == false) {
-                                this.setState({ checked_16: true })
-                            }
-
-                            else {
-                                this.setState({ checked_16: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.bleeding")}
-                        checked={this.state.checked_17}
-                        onPress={() => {
-                            if (this.state.checked_17 == false) {
-                                this.setState({ checked_17: true })
-                            }
-
-                            else {
-                                this.setState({ checked_17: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.cough")}
-                        checked={this.state.checked_18}
-                        onPress={() => {
-                            if (this.state.checked_18 == false) {
-                                this.setState({ checked_18: true })
-                            }
-
-                            else {
-                                this.setState({ checked_18: false })
-                            }
-                        }}
-                    />
-                    <CheckBox
-                        title={translate("badReport.vomiting")}
-                        checked={this.state.checked_19}
-                        onPress={() => {
-                            if (this.state.checked_19 == false) {
-                                this.setState({ checked_19: true })
-                            }
-
-                            else {
-                                this.setState({ checked_19: false })
-                            }
-                        }}
-                    />
+                    {symptomsData != null ?
+                        symptomsData.map((symptom, index) => {
+                            return (
+                                <CheckBox
+                                    key={index}
+                                    title={symptom.description}
+                                    checked={this.state[symptom.code]}
+                                    onPress={async () => {
+                                        await this.setState({
+                                            [symptom.code]: !this.state[symptom.code]
+                                        })
+                                        if (this.state[symptom.code] == true) {
+                                            let symptomsClone = this.state.symptoms.slice(); //creates the clone of the state
+                                            symptomsClone[index] = symptom.code;
+                                            await this.setState({ symptoms: symptomsClone });
+                                            //console.warn(symptom.description + ": " + this.state[symptom.code])
+                                        } else {
+                                            let symptomsClone = this.state.symptoms.slice(); //creates the clone of the state
+                                            symptomsClone[index] = null;
+                                            await this.setState({ symptoms: symptomsClone });
+                                            //console.warn(symptom.description + ": " + this.state[symptom.code])
+                                        }
+                                    }}
+                                />
+                            )
+                        })
+                        : null}
                     <View style={styles.viewText}>
                         <Text style={styles.sintomasText}>{translate("badReport.answerQuestions")}</Text>
                     </View>
                     <CheckBox
                         title={translate("badReport.checkboxes.first")}
-                        checked={this.state.checked_20}
-                        onPress={() => {
-                            if (this.state.checked_20 == false) {
-                                this.setState({ checked_20: true })
-                            }
-
-                            else {
-                                this.setState({ checked_20: false })
-                            }
-                        }}
+                        checked={this.state.contactWithSymptom}
+                        onPress={async () => await this.setState({ contactWithSymptom: !this.state.contactWithSymptom })}
                     />
                     <CheckBox
                         title={translate("badReport.checkboxes.second")}
-                        checked={this.state.checked_21}
-                        onPress={() => {
-                            if (this.state.checked_21 == false) {
-                                this.setState({ checked_21: true })
-                            }
-
-                            else {
-                                this.setState({ checked_21: false })
-                            }
-                        }}
+                        checked={this.state.lookedForHospital}
+                        onPress={async () => await this.setState({ lookedForHospital: !this.state.lookedForHospital })}
                     />
                     <CheckBox
                         title={translate("badReport.checkboxes.third")}
-                        checked={this.state.checked_22}
-                        onPress={() => {
-                            if (this.state.checked_22 == false) {
-                                this.setState({ checked_22: true })
-                            }
-
-                            else {
-                                this.setState({ checked_22: false })
-                            }
-                        }}
+                        checked={this.state.hadTraveled}
+                        onPress={async () => await this.setState({ hadTraveled: !this.state.hadTraveled })}
                     />
-                    {checked_22True}
+                    {traveledTrue}
                     <View style={styles.buttonView}>
                         <Button title={translate("badReport.checkboxConfirm")} color="#348EAC" onPress={() => {
                             if (this.state.date !== null) {
-                                this.showAlert();
-                                this.sendSurvey();
+                                this.sendSurvey()
+                                //console.warn(this.state.today_date)
+                                //console.warn(this.state.symptoms)
+                                //console.warn("Viajou:" + this.state.hadTraveled)
+                                //console.warn("Procurou:" + this.state.lookedForHospital)
+                                //console.warn("Contato:" + this.state.contactWithSymptom)
                             }
                             else {
                                 alert(translate("badReport.checkboxDateConfirmation"));
@@ -552,7 +299,7 @@ class BadReport extends Component {
                     }}
                     onDismiss={() => this.props.navigation.navigate('Home')}
                 />
-            </ImageBackground>
+            </View>
         );
     }
 }
@@ -570,7 +317,7 @@ const emojis = [
             style={{ fontSize: scale(15) }}
         />
     )
-]               
+]
 
 // define your styles
 const styles = StyleSheet.create({

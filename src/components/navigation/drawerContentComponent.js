@@ -30,7 +30,9 @@ export default class drawerContentComponents extends Component {
     _logoutApp = async () => {
         AsyncStorage.removeItem('userName');
         AsyncStorage.removeItem('userID');
+        AsyncStorage.removeItem('householdID');
         AsyncStorage.removeItem('userToken');
+        AsyncStorage.removeItem('userSelected');
         this.props.navigation.navigate('TelaInicial')
     }
 

@@ -70,7 +70,7 @@ class Perfil extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    data: responseJson.user.households,
+                    dataSource: responseJson.user.households,
                 })
             })
     }
@@ -138,10 +138,10 @@ class Perfil extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
-        const householdsData = this.state.data;
+        const householdsData = this.state.dataSource;
         return (
             <View style={styles.container}>
-                <Modal
+                <Modal //Modal View for household
                     animationType="fade"
                     transparent={true}
                     visible={this.state.modalVisible}
