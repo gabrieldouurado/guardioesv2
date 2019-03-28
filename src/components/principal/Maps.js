@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, PermissionsAndroid, TouchableOpacity, Image, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
 
 class Maps extends Component {
@@ -10,7 +11,11 @@ class Maps extends Component {
 
     constructor(props) {
         super(props);
-
+        this.props.navigation.addListener('didFocus', payload => {
+            //console.warn(payload)
+            this.getSurvey();
+            this.getLocation();
+        });
         this.state = {
             userLatitude: null,
             userLongitude: null,
@@ -19,20 +24,18 @@ class Maps extends Component {
         }
     }
 
-    componentDidMount() {
-        fetch('https://guardianes.centeias.net/surveys/a')
+    getSurvey = () => {//Get Survey
+        return fetch(`${API_URL}/surveys`, {
+            headers: {
+                Accept: 'application/vnd.api+json'
+            },
+        })
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    isLoading: false,
-                    dataSource: responseJson.data,
-                });
-
+                    dataSource: responseJson.surveys
+                })
             })
-            .catch((error) => {
-                console.error(error);
-            });
-        this.getLocation();
     }
 
     getLocation() {
@@ -53,27 +56,7 @@ class Maps extends Component {
         );
     }
 
-    async requestFineLocationPermission() {
-        try {
-            const granted = await PermissionsAndroid.request(
-                android.permission.ACCESS_FINE_LOCATION,
-                {
-                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
-                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
-                }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                this.getLocation
-            } else {
-                console.warn(translate("maps.locationRequest.requestDenied"))
-                this.props.navigation.navigate('Home')
-            }
-        } catch (err) {
-        }
-    }
-
     render() {
-        this.requestFineLocationPermission;
         let markers = this.state.dataSource;
         return (
             <View style={styles.container}>
@@ -82,14 +65,14 @@ class Maps extends Component {
                     style={styles.map}
                 >
                     {markers.map((marker, index) => {
-                        let coordinates = { latitude: marker.lat, longitude: marker.lon }
-                        if (marker.no_symptom === "Y") {
+                        let coordinates = { latitude: marker.latitude, longitude: marker.longitude }
+                        if (marker.symptom && marker.symptom.length) {
                             return (
                                 <Marker
                                     key={index}
                                     coordinate={coordinates}
-                                    title={translate("maps.reportGood")}
-                                    pinColor='rgba(136,196,37, 1)'
+                                    description={marker.symptom.toString()}
+                                    title={translate("maps.reportBad")}
                                 />
                             )
                         }
@@ -97,7 +80,9 @@ class Maps extends Component {
                             <Marker
                                 key={index}
                                 coordinate={coordinates}
-                                title={translate("maps.reportBad")}
+                                title={translate("maps.reportGood")}
+                                pinColor='rgba(136,196,37, 1)'
+
                             />
                         )
                     }

@@ -68,10 +68,10 @@ class BadReport extends Component {
         this.getInfos();
     }
     
-    componentWillUnmount() {
+    //componentWillUnmount() {
         //Remover o HouseholdID afim de evitar possiveis erros no IOS
-        AsyncStorage.removeItem('householdID');
-    }
+        //AsyncStorage.removeItem('householdID');
+    //}
 
     getLocation() {
         navigator.geolocation.getCurrentPosition(
@@ -118,11 +118,13 @@ class BadReport extends Component {
     }
 
     sendSurvey = async () => {
-        return fetch(`${API_URL}/surveys`, {
+        this.showAlert();
+        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
             },
             body: JSON.stringify({
                 survey:

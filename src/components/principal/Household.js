@@ -75,7 +75,8 @@ class Registrar extends Component {
 
     getInfos = async () => {
         let userID = await AsyncStorage.getItem('userID');
-        this.setState({ userID });
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userID, userToken });
     }
 
     render() {
@@ -209,11 +210,12 @@ class Registrar extends Component {
 
     create = () => {
         this.showAlert();
-        fetch(`${API_URL}/households/`, {
+        fetch(`${API_URL}/user/${this.state.userID}/households`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
             },
             body: JSON.stringify(
                 {
@@ -230,12 +232,12 @@ class Registrar extends Component {
             .then((response) => {
                 this.setState({ statusCode: response.status })
                 if (this.state.statusCode == 201) {
-                    alert("CRIADO");
+                    console.warn("CRIADO");
                     this.hideAlert();
                     this.props.navigation.navigate('Home');
                 } else {
                     this.hideAlert();
-                    alert("Algo deu errado");
+                    console.warn("Algo deu errado");
                 }
             })
     }

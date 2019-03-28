@@ -10,6 +10,13 @@ import { API_URL } from '../../constUtils';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Avatar } from 'react-native-elements';
 
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
+
+let today = y + "-" + m + "-" + d;
+
 class Home extends Component {
     navOptions // rolê para acessar a drawer em uma função estática
 
@@ -106,7 +113,7 @@ class Home extends Component {
 
     getHouseholds = () => {//Get households
         //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
-        return fetch(`${API_URL}/user/${this.state.userID}`, {
+        return fetch(`${API_URL}/user/${this.state.userID}/households`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 Authorization: `${this.state.userToken}`
@@ -115,18 +122,19 @@ class Home extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    data: responseJson.user.households,
+                    data: responseJson.households,
                 })
             })
     }
 
     sendSurvey = async () => { //Send Survey GOOD CHOICE
         this.showAlert();
-        return fetch(`${API_URL}/surveys`, {
+        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
             },
             body: JSON.stringify({
                 survey:
@@ -135,6 +143,7 @@ class Home extends Component {
                     household_id: this.state.householdID,
                     latitude: this.state.userLatitude,
                     longitude: this.state.userLongitude,
+                    //bad_since: today,
                 }
             })
         })

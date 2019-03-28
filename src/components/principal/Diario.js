@@ -7,6 +7,7 @@ import * as Imagem from '../../imgs/imageConst';
 import { Dimensions } from 'react-native';
 import { LineChart } from "react-native-charts-wrapper";
 import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
 const GreenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
 
@@ -26,6 +27,10 @@ const chartDescriptionTranslated = { text: translate("diary.charts.chartDescript
 class Diario extends Component {
     constructor(props) {
         super(props);
+        this.props.navigation.addListener('didFocus', payload => {
+            //console.warn(payload)
+            this.getInfos();
+        });
         this.state = {
             data: [],
             x: 0,
@@ -38,6 +43,7 @@ class Diario extends Component {
             NoPlot: [{ y: 0, x: 0, marked: "" }]
         };
     }
+
 
     handleSelect(event) {
         let entry = event.nativeEvent;
@@ -54,50 +60,74 @@ class Diario extends Component {
         title: translate("diary.title")
     }
 
-    async GetUserData() {
-        let userID = await AsyncStorage.getItem('userID');
+    getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
-        let pic = await AsyncStorage.getItem('avatar');
-        this.setState({
-            userName,
-            userID,
-            pic
-        });
-        let url = `https://guardianes.centeias.net/user/surveys/${this.state.userID}`
-        return fetch(url
-            , {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                if (responseJson.error === false) {
-                    this.setState({ data: responseJson.data });
-                    this.defineMarkedDates()
-                }
-            })
+        let userSelected = await AsyncStorage.getItem('userSelected');
+        let userID = await AsyncStorage.getItem('userID');
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userName, userSelected, userID, userToken });
+
+        //Para não dar BO de variavel nula no IOS -- So puxa o async quando é um household
+        if (this.state.userSelected == this.state.userName) {
+            this.setState({ householdID: null })
+        } else {
+            let householdID = await AsyncStorage.getItem('householdID');
+            this.setState({ householdID })
+        }
+
+        this.getSurvey();
     }
 
-    componentDidMount() {
-        this.GetUserData();
+    getSurvey = () => {//Get Survey
+        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    dataSource: responseJson.surveys
+                })
+                this.defineMarkedDates()
+            })
     }
 
 
     defineMarkedDates = () => {
 
-        let dataAux = this.state.data
+        let surveyData = this.state.dataSource
         let markedDateNo = []
         let markedDate = []
 
-        dataAux.map((Survey, index) => {
-            if (Survey.no_symptom === 'Y') {
-                markedDateNo.push(Survey.createdAt.split('T')[0]);
-            }
-            else {
-                markedDate.push(Survey.createdAt.split('T')[0]);
+        surveyData.map((survey, index) => {
+            if (this.state.householdID == null) {//Condição para verificar se exise household
+                if (survey.household == null) {
+                    if (survey.symptom && survey.symptom.length) {
+                        markedDate.push(survey.bad_since);
+                        //console.warn("RUIM")
+                    }
+                    else {
+                        markedDateNo.push(survey.bad_since);
+                        //console.warn("BAO")
+                    }
+                }
 
+            } else {
+                if (survey.household != null) {
+                    if (survey.household.id == this.state.householdID) {
+                        if (survey.symptom && survey.symptom.length) {
+                            markedDate.push(survey.bad_since);
+                            //console.warn("RUIM")
+                        }
+                        else {
+                            markedDateNo.push(survey.bad_since);
+                            //console.warn("BAO")
+                        }
+                    }
+                }
             }
         })
 
@@ -121,7 +151,9 @@ class Diario extends Component {
         Object.assign(GoodReport, BadReport);
 
         this.setState({ datesMarked: GoodReport });
-        this.ChartData();
+
+        //console.warn(this.state.datesMarked)
+        //this.ChartData();
     }
 
     ChartData = () => {
@@ -268,7 +300,7 @@ class Diario extends Component {
                         </View>
                         <View style={styles.UserInfos}>
                             <Text style={styles.UserName}>
-                                {this.state.userName}
+                                {this.state.userSelected}
                             </Text>
                         </View>
                     </View>
