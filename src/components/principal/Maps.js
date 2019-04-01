@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, PermissionsAndroid, TouchableOpacity, Image, Text } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
@@ -13,7 +13,7 @@ class Maps extends Component {
         super(props);
         this.props.navigation.addListener('didFocus', payload => {
             //console.warn(payload)
-            this.getSurvey();
+            this.getInfos();
             this.getLocation();
         });
         this.state = {
@@ -24,10 +24,17 @@ class Maps extends Component {
         }
     }
 
+    getInfos = async () => {
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userToken });
+        this.getSurvey();
+    }
+
     getSurvey = () => {//Get Survey
-        return fetch(`${API_URL}/surveys`, {
+        return fetch(`${API_URL}/surveys/all_surveys`, {
             headers: {
-                Accept: 'application/vnd.api+json'
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
             },
         })
             .then((response) => response.json())

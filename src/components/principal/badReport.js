@@ -24,6 +24,7 @@ class BadReport extends Component {
     constructor(props) {
         super(props);
         this.getLocation();
+        this.getInfos();
         this.state = {
             cca2: 'BR',
             country: 'Brazil',
@@ -63,16 +64,6 @@ class BadReport extends Component {
         });
     }
 
-    componentDidMount() {        
-        this.getSymptoms();
-        this.getInfos();
-    }
-    
-    //componentWillUnmount() {
-        //Remover o HouseholdID afim de evitar possiveis erros no IOS
-        //AsyncStorage.removeItem('householdID');
-    //}
-
     getLocation() {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -90,7 +81,8 @@ class BadReport extends Component {
     getSymptoms = () => {//Get Symptoms
         return fetch(`${API_URL}/symptoms`, {
             headers: {
-                Accept: 'application/vnd.api+json'
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
             },
         })
             .then((response) => response.json())
@@ -115,11 +107,12 @@ class BadReport extends Component {
             let householdID = await AsyncStorage.getItem('householdID');
             this.setState({ householdID })
         }
+        this.getSymptoms();
     }
 
     sendSurvey = async () => {
         this.showAlert();
-        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/surveys`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -129,11 +122,12 @@ class BadReport extends Component {
             body: JSON.stringify({
                 survey:
                 {
-                    user_id: this.state.userID,
                     household_id: this.state.householdID,
                     latitude: this.state.userLatitude,
                     longitude: this.state.userLongitude,
                     bad_since: this.state.today_date,
+                    went_to_hospital: this.state.lookedForHospital,
+                    contact_with_symptom: this.state.contactWithSymptom,
                     symptom: this.state.symptoms
                 }
             })
@@ -268,11 +262,6 @@ class BadReport extends Component {
                         <Button title={translate("badReport.checkboxConfirm")} color="#348EAC" onPress={() => {
                             if (this.state.date !== null) {
                                 this.sendSurvey()
-                                //console.warn(this.state.today_date)
-                                //console.warn(this.state.symptoms)
-                                //console.warn("Viajou:" + this.state.hadTraveled)
-                                //console.warn("Procurou:" + this.state.lookedForHospital)
-                                //console.warn("Contato:" + this.state.contactWithSymptom)
                             }
                             else {
                                 alert(translate("badReport.checkboxDateConfirmation"));

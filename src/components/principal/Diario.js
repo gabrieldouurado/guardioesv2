@@ -79,7 +79,7 @@ class Diario extends Component {
     }
 
     getSurvey = () => {//Get Survey
-        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/surveys`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',

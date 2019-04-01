@@ -61,7 +61,7 @@ class Perfil extends Component {
 
     getHouseholds = () => {//Get households
         //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
-        return fetch(`${API_URL}/user/${this.state.userID}/households`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/households`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 Authorization: `${this.state.userToken}`
@@ -76,7 +76,7 @@ class Perfil extends Component {
     }
 
     deleteHousehold = () => {
-        return fetch(`${API_URL}/user/${this.state.userID}/households/${this.state.householdID}`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/households/${this.state.householdID}`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -89,7 +89,7 @@ class Perfil extends Component {
     }
 
     editHousehold = () => {
-        fetch(`${API_URL}/user/${this.state.userID}/households/${this.state.householdID}`, {
+        fetch(`${API_URL}/users/${this.state.userID}/households/${this.state.householdID}`, {
             method: 'PATCH',
             headers: {
                 Accept: 'application/vnd.api+json',

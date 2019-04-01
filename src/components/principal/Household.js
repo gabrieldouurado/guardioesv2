@@ -210,7 +210,7 @@ class Registrar extends Component {
 
     create = () => {
         this.showAlert();
-        fetch(`${API_URL}/user/${this.state.userID}/households`, {
+        fetch(`${API_URL}/users/${this.state.userID}/households`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -225,7 +225,6 @@ class Registrar extends Component {
                     gender: this.state.householdGender,
                     race: this.state.householdRace,
                     kinship: this.state.kinship,
-                    user_id: this.state.userID
                 }
             )
         })
