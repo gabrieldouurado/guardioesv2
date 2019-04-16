@@ -1,4 +1,3 @@
-//import liraries
 import React, { Component } from 'react';
 import { View, StyleSheet, WebView } from 'react-native';
 import translate from '../../../locales/i18n';
@@ -12,7 +11,7 @@ class Noticias extends Component {
         return (
             <View style={styles.container}>
                 <WebView
-                source = {{ uri: 'https://twitter.com/Proepi_' }}
+                    source={{ uri: 'https://twitter.com/Proepi_' }}
                 />
             </View>
         );

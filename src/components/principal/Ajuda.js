@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     marginHorizontal: scale(30),
   },
   btnOneTxt: {
-    fontFamily: 'roboto',
+    fontFamily: 'Roboto',
     fontSize: 18,
   }
 })

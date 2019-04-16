@@ -1,4 +1,9 @@
-import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { scale } from '../scallingUtils';
+import { createDrawerNavigator, createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+
+import Loading from '../telainicial/Loading';
 import TelaInicial from '../telainicial/TelaInicial';
 import Registrar from '../telainicial/Registrar';
 import Login from '../telainicial/Login';
@@ -26,12 +31,14 @@ import TermosPoliticas from '../principal/TermosPoliticas';
 import CopilotTest from '../principal/copilot';
 
 
+
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
     Registrar: { screen: Registrar },
     Login: { screen: Login },
     AddInfo: { screen: AddInfo },
-}, {
+},
+    {
         navigationOptions: {
             headerTintColor: '#ffffff',
             headerStyle: {
@@ -40,19 +47,53 @@ export const Cadastro = createStackNavigator({
             },
             headerTitleStyle: {
                 fontFamily: 'roboto',
-                
             }
         }
     })
 
-export const Stack = createStackNavigator({
+export const BottomMenu = createBottomTabNavigator({
     Home,
     Diario,
+    Mapa: { screen: Maps },
     Conselho,
     Noticias,
+},
+    {
+        initialRouteName: 'Home',
+        navigationOptions: ({ navigation }) => ({
+            tabBarIcon: ({ tintColor }) => {
+                const { routeName } = navigation.state;
+                let iconName;
+                if (routeName === 'Home') {
+                    iconName = 'home';
+                    return <FontAwesome name={iconName} size={scale(30)} color={tintColor} />;
+                } else if (routeName === 'Diario') {
+                    iconName = 'clipboard';
+                } else if (routeName === 'Mapa') {
+                    iconName = 'map';
+                } else if (routeName === 'Conselho') {
+                    iconName = 'heart';
+                } else if (routeName === 'Noticias') {
+                    iconName = 'envelope';
+                }
+
+                // You can return any component that you like here! We usually use an
+                // icon component from react-native-vector-icons
+                return <FontAwesome name={iconName} size={scale(25)} color={tintColor} />;
+            },
+        }),
+        tabBarOptions: {
+            style: { height: '9%', backgroundColor: '#348EAC' },
+            activeTintColor: '#013444',
+            inactiveTintColor: 'white',
+        },
+    }
+)
+
+export const Stack = createStackNavigator({
+    BottomMenu: { screen: BottomMenu, navigationOptions: { header: null } },
     Reportar,
     BadReport,
-    Mapa: { screen: Maps },
     Household,
     Perfil,
     Ajuda,
@@ -68,8 +109,9 @@ export const Stack = createStackNavigator({
     TermosPoliticas,
     CopilotTest,
 
-}, {
-        initialRouteName: 'Home',
+},
+    {
+        initialRouteName: 'BottomMenu',
         navigationOptions: {
             headerTintColor: '#ffffff',
             headerStyle: {
@@ -81,16 +123,26 @@ export const Stack = createStackNavigator({
                 fontFamily: 'roboto',
             }
         }
-    }, {
-        initialRouteName: 'Home'
     }
-
-
 )
 
 export const Drawer = createDrawerNavigator({
-    Cadastro: { screen: Cadastro, navigationOptions: { drawerLockMode: 'locked-closed' } },
-    Stacks: { screen: Stack },
+    Stacks: { screen: Stack }
 }, {
         contentComponent: drawerContentComponents
-    })
+    }
+);
+
+export const Authentication = createSwitchNavigator({
+    AuthLoading: { screen: Loading },
+    Cadastro: { screen: Cadastro },
+    Drawer
+},
+    {
+        initialRouteName: 'AuthLoading',
+    }
+)
+
+
+
+

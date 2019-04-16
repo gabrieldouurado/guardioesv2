@@ -140,7 +140,7 @@ class Report extends Component {
                         <Text style={styles.textoPergunta}>{translate("report.howHealth")}</Text>
                     </View>
                     <View style={styles.reportView}>
-                        <TouchableOpacity onPress={this.sendSurvey}>
+                        <TouchableOpacity onPress={this._isconnected}>
                             <Image style={{ width: 150, height: 150 }} source={Imagem.imagemGood} />
                             <Text style={styles.moodText}> {translate("report.goodChoice")} </Text>
                         </TouchableOpacity>
@@ -202,10 +202,10 @@ const styles = StyleSheet.create({
 
     },
     textoPerguntaView: {
+        marginTop: '7%',
         alignItems: 'center',
     },
     textoPergunta: {
-        marginTop: '7%',
         justifyContent: 'center',
         fontSize: 36,
         fontFamily: 'roboto',

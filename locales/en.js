@@ -50,7 +50,7 @@ export default {
         "gender": "Gênero:",
         "race": "Raça:",
         "birth": "Data de Nascimento:",
-        "country": "Pais:",
+        "coutry": "Pais:",
         "email": "Email:",
         "password": "Senha:",
         "signupButton": "Cadastrar",
@@ -70,7 +70,7 @@ export default {
     },
     "facebookRegister": {
         "title": "Informações Adicionais",
-        "hello": "Olá ",
+        "hello": "Hello ",
         "moreInformation": "Precisamos de algumas informações adicionais para completar o cadastro",
         "gender": "Sexo: ",
         "race": "Raça: ",
@@ -105,7 +105,7 @@ export default {
         "title": "O que está sentindo?",
         "sickAge": "Desde quando está se sentindo mal?",
         "symptoms": "Selecione abaixo os sintomas que voce está sentindo neste momento:",
-        "blisters": "Bolhas no pé",
+        "blisters": "Bolhas na Pele",
         "noseCongestion": "Congestão Nasal",
         "diarrhea": "Diarréia",
         "breathingDifficulty": "Dificuldade de respirar",
@@ -120,7 +120,7 @@ export default {
         "redSpots": "Manchas vermelhas no corpo",
         "sickness": "Náuseas",
         "redishEyes": "Olhos vermelhos",
-        "feetEyeRedissh": "Pés e olhos avermelhados",
+        "feetEyeRedissh": "Pele e olhos avermelhados",
         "bleeding": "Sangramentos",
         "cough": "Tosse",
         "vomiting": "Vômito",
@@ -128,9 +128,7 @@ export default {
         "checkboxes": {
             "first": "Teve contato com alguem que apresentava os mesmos sintomas?",
             "second": "Procurou algum serviço hospitalar?",
-            "third": "Deixou seu local de residência nos ultimos 14 dias?",
-            "fourth": "Para que país você viajou?",
-            "fifth": "Aperte na bandeira para selecionar!"
+            "third": "Deixou seu local de residência nos ultimos 14 dias?"
         },
         "checkboxConfirm": "Confirmar",
         "checkboxDateConfirmation": "A data deve ser preenchida",
@@ -203,11 +201,13 @@ export default {
         "toastAlertMessage": "Aperte mais uma vez para sair",
         "hello": "Olá",
         "nowAGuardian": "Agora você é um guardião da saúde!",
-        "howYouFelling": "Como está se sentindo hoje?",
+        "userHowYouFelling": "Como está se sentindo hoje?",
+        "householdHowYouFelling_part_1": "Como ",
+        "householdHowYouFelling_part_2": " se sente hoje?",
         "homeButtons": {
             "news": "Notícias",
-            "healthTips": "Dicas de Saúde",
-            "healthDiary": "Diário de Saúde",
+            "healthTips": "Dicas",
+            "healthDiary": "Diário",
             "healthMap": "Mapa da Saúde"
         }
     },
@@ -227,8 +227,8 @@ export default {
     "report": {
         "title": "Novo Relato",
         "howHealth": "Como você se sente?",
-        "goodChoice": "Bem",
-        "badChoice": "Mal",
+        "goodChoice": "BEM",
+        "badChoice": "MAL",
         "else": "Se a opção escolhida for 'MAL' poderá selecionar os sintomas na seguinte tela."
     },
     "about": {
@@ -270,6 +270,8 @@ export default {
         "toFacebook": "Facebook",
         "toHelp": "Ajuda",
         "toAbout": "Sobre",
-        "moreComing": "Temos mais vindo aí!"
+        "moreComing": "Temos mais vindo aí!",
+        "healthDiary": "Diário da Saúde",
+        "healthMap": "Mapa da Saúde"
     }
 }

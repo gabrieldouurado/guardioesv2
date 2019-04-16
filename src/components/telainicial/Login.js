@@ -6,6 +6,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
 
 class Login extends Component {
     static navigationOptions = {
@@ -14,12 +15,10 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userFirstName: null,
             userEmail: null,
             userPwd: null,
-            loginOnFB: null,
-            loginOnApp: null,
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
+            userToken: null,
+            statusCode: null,
             showAlert: false, //Custom Alerts
             showProgressBar: false //Custom Progress Bar
         }
@@ -46,84 +45,51 @@ class Login extends Component {
                 translate("login.noInternet.noInternetConnection"),
                 translate("login.noInternet.ohNo"),
                 [
-                    {text: translate("login.noInternet.alertAllRightMessage"), onPress: () => null}
+                    { text: translate("login.noInternet.alertAllRightMessage"), onPress: () => null }
                 ]
             )
         });
-    }
-    _responseInfoCallback = (error, result) => {
-        if (error) {
-            console.warn('Error fetching data: ' + error.toString());
-        } else {
-            this.setState({ userFirstName: result.first_name, userEmail: result.email, userPwd: result.id, pic: result.picture.data.url, loginOnFB: 'true' });
-            this.login()
-        }
     }
 
     render() {
         const { showAlert } = this.state;
         return (
-            <ScrollView>
-                <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
-                    <View style={styles.viewImage}>
-                        <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+            <View style={styles.container}>
+                <View style={styles.viewImage}>
+                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+                </View>
+                <View style={styles.viewForm}>
+                    <Text style={styles.commomText}>{translate('login.email')}</Text>
+                    <TextInput
+                        style={styles.formInput}
+                        autoCapitalize='none'
+                        returnKeyType='next'
+                        keyboardType='email-address'
+                        multiline={false} maxLength={33}
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                        onChangeText={(text) => this.setState({ userEmail: text })}
+                    />
+                    <Text style={styles.commomText}>{translate("login.password")}</Text>
+                    <TextInput
+                        style={styles.formInput}
+                        secureTextEntry={true}
+                        multiline={false}
+                        maxLength={15}
+                        ref={(input) => this.passwordInput = input}
+                        onChangeText={(text) => this.setState({ userPwd: text })}
+                    />
+                    <View style={styles.buttonView}>
+                        <Button
+                            title={translate("login.loginbutton")}
+                            color="#348EAC"
+                            onPress={() => this.login()} />
                     </View>
-                    <View style={styles.viewForm}>
-                        <Text style={styles.commomText}>{translate('login.email')}</Text>
-                        <TextInput
-                            style={styles.formInput}
-                            autoCapitalize='none'
-                            returnKeyType='next'
-                            keyboardType='email-address'
-                            multiline={false} maxLength={33}
-                            onSubmitEditing={() => this.passwordInput.focus()}
-                            onChangeText={(text) => this.setState({ userEmail: text })}
-                        />
-                        <Text style={styles.commomText}>{translate("login.password")}</Text>
-                        <TextInput
-                            style={styles.formInput}
-                            secureTextEntry={true}
-                            multiline={false}
-                            maxLength={15}
-                            ref={(input) => this.passwordInput = input}
-                            onChangeText={(text) => this.setState({ userPwd: text })}
-                        />
-                        <View style={styles.buttonView}>
-                            <Button
-                                title={translate("login.loginbutton")}
-                                color="#348EAC"
-                                //onPress={this._isconnected} //Retirado para conseguir usar o emulador IOS
-                                onPress={this.login}
-                                />
-                        </View>
-                        <View style={{ paddingTop: 20 }}>
-                            <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                                {translate("login.connectWithFacebook")}
-                    </Text>
-                            <LoginButton
-                                readPermissions={['public_profile', 'email']}
-                                onLoginFinished={
-                                    (error, result) => {
-                                        if (error) {
-                                            alert(translate("login.facebookLogin.error") + result.error);
-                                        } else {
-                                            AccessToken.getCurrentAccessToken().then(
-                                                (data) => {
-                                                    const infoRequest = new GraphRequest(
-                                                        '/me?fields=first_name,email,picture,id',
-                                                        null,
-                                                        this._responseInfoCallback
-                                                    );
-                                                    // Start the graph request.
-                                                    new GraphRequestManager().addRequest(infoRequest).start();
-                                                }
-                                            )
-                                        }
-                                    }
-                                }
-                                onLogoutFinished={() => { null }} />
-                        </View>
+                    <View style={{ paddingTop: 20 }}>
+                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
+                            {translate("login.connectWithFacebook")}
+                        </Text>
                     </View>
+                </View>
                 <AwesomeAlert
                     show={showAlert}
                     showProgress={this.state.showProgressBar ? true : false}
@@ -132,65 +98,48 @@ class Login extends Component {
                     closeOnHardwareBackPress={false}
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
-                    
+
                     confirmButtonColor="#DD6B55"
                 />
-                </ImageBackground>
-            </ScrollView>
+            </View>
         );
     }
 
+    //Login Function 
     login = () => {
-            this.showAlert();
-
-            fetch('https://guardianes.centeias.net/user/login', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
+        Keyboard.dismiss()
+        this.showAlert()
+        return fetch(`${API_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user:
+                {
                     email: this.state.userEmail,
                     password: this.state.userPwd
-                })
+                }
             })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    if (responseJson.error === false) {
-                        if (this.state.loginOnFB === 'true') {
-                            AsyncStorage.setItem('userID', responseJson.user.id);
-                            AsyncStorage.setItem('loginOnFB', this.state.loginOnFB);
-                            AsyncStorage.setItem('avatar', this.state.pic);
-                            AsyncStorage.setItem('userName', this.state.userFirstName);
-                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                            this.props.navigation.navigate('Home');
-                            // alert("Logado via Facebook")
-                        } else {
-                            Keyboard.dismiss()
-                            this.hideAlert()
-                            this.setState({ loginOnApp: 'true' })
-                            AsyncStorage.setItem('loginOnApp', this.state.loginOnApp);
-                            AsyncStorage.setItem('userID', responseJson.user.id);
-                            AsyncStorage.setItem('userToken', responseJson.token);
-                            AsyncStorage.setItem('userName', responseJson.user.firstname);
-                            AsyncStorage.setItem('userSurveys', responseJson.user.surveys);
-                            AsyncStorage.setItem('avatar', this.state.pic);
-                            AsyncStorage.setItem('userHousehold', JSON.stringify(responseJson.user.household));
-                            this.props.navigation.navigate('Home');
-                        }
-    
-    
-                    } else {
-                        if (this.state.loginOnFB === 'true') {
-                            alert(responseJson.message)
-                            this.setState({ userFirstName: null, userEmail: null, userPwd: null, pic: null, loginOnFB: null });
-                            LoginManager.logOut();
-                        } else {
-                            this.hideAlert()
-                            alert(responseJson.message)
-                        }
-                    }
-                })
+        })
+            .then((response) => {
+                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                if (this.state.statusCode == 200) {
+                    return response.json()
+                } else {
+                    alert("Algo deu errado");
+                    this.hideAlert();
+                }
+            })
+            .then((responseJson) => {
+                AsyncStorage.setItem('userID', responseJson.user.id.toString());
+                AsyncStorage.setItem('userName', responseJson.user.user_name);
+                AsyncStorage.setItem('userToken', this.state.userToken);
+
+                this.props.navigation.navigate('Home');
+                this.hideAlert();
+            })
     }
 }
 

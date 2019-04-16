@@ -61,6 +61,7 @@
 		D69DD247B74241E7BE206385 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB5B31CFDB684D1081B84B1E /* SimpleLineIcons.ttf */; };
 		D91ABEAECF9449CE86EC0F8F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B6C2C37FD144F3BA7E676D9 /* FontAwesome.ttf */; };
 		E17B218B854D88B443E71976 /* libPods-guardioesapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACB7E1CD620746B8BF4CD9AB /* libPods-guardioesapp.a */; };
+		F7121ADF22564F760014D6E6 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7121AB122564F0F0014D6E6 /* libBVLinearGradient.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,6 +380,20 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		F7121AB022564F0F0014D6E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7121AAB22564F0C0014D6E6 /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = BVLinearGradient;
+		};
+		F7121AB222564F0F0014D6E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7121AAB22564F0C0014D6E6 /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64AA15081EF7F30100718508;
+			remoteInfo = "BVLinearGradient-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -432,6 +447,7 @@
 		BEDC26BB647A0D0D0DAD6CA9 /* Pods-guardioesapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-guardioesapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-guardioesapp/Pods-guardioesapp.debug.xcconfig"; sourceTree = "<group>"; };
 		D33305CEA7324404A239C91F /* myriadpro.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = myriadpro.ttf; path = ../src/fontes/myriadpro.ttf; sourceTree = "<group>"; };
 		F24A4E1358B84631BBAEE919 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		F7121AAB22564F0C0014D6E6 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		F8B807F10B684566859177E7 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -448,6 +464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7121ADF22564F760014D6E6 /* libBVLinearGradient.a in Frameworks */,
 				1985F42B21B84CDB008DF795 /* libRNI18n.a in Frameworks */,
 				1985F3E921B83BD3008DF795 /* libRNSVG.a in Frameworks */,
 				1992FE8521AEEFE800F68C3E /* libRNVectorIcons.a in Frameworks */,
@@ -706,6 +723,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7121AAB22564F0C0014D6E6 /* BVLinearGradient.xcodeproj */,
 				1985F42221B84CCD008DF795 /* RNI18n.xcodeproj */,
 				1985F3B921B83BA9008DF795 /* RNSVG.xcodeproj */,
 				1992FE7F21AEEFBE00F68C3E /* RNVectorIcons.xcodeproj */,
@@ -768,6 +786,15 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7121AAC22564F0C0014D6E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F7121AB122564F0F0014D6E6 /* libBVLinearGradient.a */,
+				F7121AB322564F0F0014D6E6 /* libBVLinearGradient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -894,6 +921,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = F7121AAC22564F0C0014D6E6 /* Products */;
+					ProjectRef = F7121AAB22564F0C0014D6E6 /* BVLinearGradient.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -1269,6 +1300,20 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7121AB122564F0F0014D6E6 /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = F7121AB022564F0F0014D6E6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7121AB322564F0F0014D6E6 /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = F7121AB222564F0F0014D6E6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator, View, Linking } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { imagemFundo } from '../../imgs/imageConst';
 import { Redirect } from '../../constUtils';
 import translate from '../../../locales/i18n';
 
@@ -67,7 +66,6 @@ class Conselho extends Component {
         }
 
         return (
-            <ImageBackground source={imagemFundo} style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }}>
                 <ScrollView>
                     {/* Botao para prevencao */}
                     {
@@ -124,7 +122,7 @@ class Conselho extends Component {
                     </TouchableOpacity>
 
                 </ScrollView>
-            </ImageBackground>
+            
         );
     }
 }
@@ -156,7 +154,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: '#348EAC',
     },
-
 });
 
 //make this component available to the app

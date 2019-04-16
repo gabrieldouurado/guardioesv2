@@ -1,55 +1,72 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, ImageBackground, BackHandler, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, AsyncStorage, NetInfo, Alert, Modal, ScrollView } from 'react-native';
 import * as Imagem from '../../imgs/imageConst';
 import { scale } from '../scallingUtils';
-import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/Feather';
 import translate from "../../../locales/i18n";
+import Emoji from 'react-native-emoji';
+import { PermissionsAndroid } from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { API_URL } from '../../constUtils';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Avatar } from 'react-native-elements';
 
+let data = new Date();
+let d = data.getDate();
+let m = data.getMonth() + 1;
+let y = data.getFullYear();
 
-import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
+let today = y + "-" + m + "-" + d;
 
-const WalkthroughableText = walkthroughable(Text);
-const WalkthroughableImage = walkthroughable(Image);
-let cont = 0
 class Home extends Component {
-    static propTypes = {
-        start: PropTypes.func.isRequired,
-        copilotEvents: PropTypes.shape({
-            on: PropTypes.func.isRequired,
-
-        }).isRequired,
-    };
-
-    _didFocusSubscription;
-    _willBlurSubscription;
-
-
     navOptions // rolê para acessar a drawer em uma função estática
-    static navigationOptions = ({ navigation }) => {
-        navOptions = navigation; // rolê para acessar a drawer em uma função estática
-        const { params = {} } = navigation.state;
-        return {
-            title: translate("home.title"),
-            headerLeft: (
-                <Icon.Button name='menu' size={scale(30)} color='#fff' backgroundColor='transparent' onPress={() => params._onHeaderEventControl()} />
-            ),
-            headerTitleStyle: {
-                fontFamily: 'roboto',
-                fontWeight: '400' //fontWeight can't be higher than 400
-            }
-
-        }
-    }
 
     constructor(props) {
         super(props);
-        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton));
+        this.getLocation();
         this.state = {
-            userFirstName: null,
-            secondStepActive: true,
+            modalVisible: false,
+            userSelect: null,
+            userName: null,
+            userID: null,
+            userToken: null,
+            householdName: null,
+            householdID: null,
+            userLatitude: 'unknown',
+            userLongitude: 'unknown',
+            error: null,
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
+    }
+
+
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            showProgressBar: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
+    }
+
+    _isconnected = () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? this.sendSurvey() : Alert.alert(
+                translate("noInternet.noInternetConnection"),
+                translate("noInternet.ohNo"),
+                [
+                    { text: translate("noInternet.alertAllRightMessage"), onPress: () => null }
+                ]
+            )
+        });
+    }
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
     }
 
     onHeaderEventControl() { // rolê para acessar a drawer em uma função estática
@@ -58,212 +75,380 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this.getInfos()
 
-        this.runTutorial();
-
-        this.props.navigation.setParams({// rolê para acessar a drawer em uma função estática
-            _onHeaderEventControl: this.onHeaderEventControl,// rolê para acessar a drawer em uma função estática
-            _openNav: () => this.openDrawer()// rolê para acessar a drawer em uma função estática
+        this.props.navigation.setParams({ // rolê para acessar a drawer em uma função estática
+            _onHeaderEventControl: this.onHeaderEventControl,
+            _openNav: () => this.openDrawer()
         })
-        this._getInfos()
-
-        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-        
     }
 
-    runTutorial = async () =>{
-        let runTutorial = await AsyncStorage.getItem('RunTutorial');
-        this.setState({runTutorial: runTutorial});
-        if (this.state.runTutorial === 'true') {
-            this.props.copilotEvents.on('stepChange', this.handleStepChange);
-            this.props.start();
-            AsyncStorage.removeItem('RunTutorial');  
-        }
-    }
-
-    handleStepChange = (step) => {
-        console.log(`Current step is: ${step.name}`);
-        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton));
-    }
-
-    //componentWillUnmount() {
-    //    this._didFocusSubscription && this._didFocusSubscription.remove();
-    //    this._willBlurSubscription && this._willBlurSubscription.remove();
-    //}
-
-    handleBackButton() {
-
-        cont = cont + 1;
-
-        if (cont == 2) {
-            BackHandler.exitApp();
-            cont = 0;
-            this._didFocusSubscription && this._didFocusSubscription.remove();
-            this._willBlurSubscription && this._willBlurSubscription.remove();            
-        } else {
-            ToastAndroid.show(translate("home.toastAlertMessage"), ToastAndroid.SHORT);
-        }
-
-        return true;
-
-    }
-
-    openDrawer() {// rolê para acessar a drawer em uma função estática
+    openDrawer() { // rolê para acessar a drawer em uma função estática
         this.props.navigation.openDrawer();
-    }// rolê para acessar a drawer em uma função estática
+    }
 
-    _getInfos = async () => {
-        let valueName = await AsyncStorage.getItem('userName');
-        this.setState({ userFirstName: valueName })
+    getLocation() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    userLatitude: position.coords.latitude,
+                    userLongitude: position.coords.longitude,
+                    error: null,
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 50000 },
+        );
+    }
+
+    getInfos = async () => { //Ger user infos
+        let userName = await AsyncStorage.getItem('userName');
+        let userID = await AsyncStorage.getItem('userID');
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userName, userID, userToken });
+        await this.setState({ userSelect: this.state.userName });
+        AsyncStorage.setItem('userSelected', this.state.userSelect);
+        this.getHouseholds();
+    }
+
+    getHouseholds = () => {//Get households
+        //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
+        return fetch(`${API_URL}/user/${this.state.userID}/households`, {
+            headers: {
+                Accept: 'application/vnd.api+json',
+                Authorization: `${this.state.userToken}`
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    data: responseJson.households,
+                })
+            })
+    }
+
+    sendSurvey = async () => { //Send Survey GOOD CHOICE
+        this.showAlert();
+        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
+            },
+            body: JSON.stringify({
+                survey:
+                {
+                    user_id: this.state.userID,
+                    household_id: this.state.householdID,
+                    latitude: this.state.userLatitude,
+                    longitude: this.state.userLongitude,
+                    //bad_since: today,
+                }
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson !== null) {
+                    this.setState({ showProgressBar: false });
+                    console.warn("ENVIOU")
+                } else {
+                    console.warn("NÂO ENVIOU")
+                    this.setState({ showProgressBar: false });
+                }
+            })
     }
 
     render() {
-        const { topo, corpo, inferior, topoTexto1, topoTexto2, topoTexto3 } = styles;
+        const { showAlert } = this.state;
         const { navigate } = this.props.navigation;
-        const welcomeMessage = translate("home.hello") + " " + this.state.userFirstName + "\n " + translate("home.nowAGuardian")
+        const welcomeMessage = translate("home.hello") + this.state.userName;
+        const householdHowYouFellingText = translate("home.householdHowYouFelling_part_1") + this.state.householdName + translate("home.householdHowYouFelling_part_2");
+        const householdsData = this.state.data;
+
+        const userHowYouFelling = (
+            <Text style={styles.textFelling}>
+                {translate("home.userHowYouFelling")}
+            </Text>
+        )
+
+        const householdHowYouFelling = (
+            <Text style={styles.textFelling}>
+                {householdHowYouFellingText}
+            </Text>
+        )
+
+        let howYouFelling;
+        if (this.state.householdID !== null) {
+            howYouFelling = householdHowYouFelling
+        }
+        else {
+            howYouFelling = userHowYouFelling
+        }
+
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
-                <View style={topo}>
-                    <CopilotStep text="Agora você conhecerá nossas principais funções!" order={1} name="openApp">
-                        <WalkthroughableText style={topoTexto2}>
-                            {welcomeMessage}
-                        </WalkthroughableText>
-                    </CopilotStep>
+
+                <View style={styles.viewImage}>
+                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
                 </View>
 
-                <View style={corpo}>
-                    <TouchableOpacity
-                        style={{ borderRadius: 180 }}
-                        onPress={() => {
-                            navigate('Reportar')
-                        }}
-                    >
-                        <CopilotStep active={this.state.secondStepActive} text="Clicando aqui você poderá informar seu estado de saúde" order={2} name="secondText">
-                            <WalkthroughableImage
-                                source={Imagem.imagemReportar}
-                                style={{ height: scale(160), width: scale(160) }}
-                            />
-                        </CopilotStep>
-                    </TouchableOpacity>
+                <View style={styles.viewWelcome}>
+                    <Text style={styles.textHelloUser}>
+                        {welcomeMessage}
+                    </Text>
+
+                    <Text style={styles.textNewGuardion}>
+                        {translate("home.nowAGuardian")}
+                    </Text>
                 </View>
 
-                <Text style={topoTexto3}>
-                    {translate("home.howYouFelling")}
-                </Text>
-
-                <View style={inferior}>
-
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Noticias')}>
-                        <CopilotStep text="Aqui temos notícias quentinhas relacionadas à saúde" order={3} name="thirdText">
-                            <WalkthroughableImage source={Imagem.imagemNoticias} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.news")}
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Conselho')}>
-                        <CopilotStep text="Aqui você encontra diversas informações relacionadas à saúde" order={4} name="fourthText">
-                            <WalkthroughableImage source={Imagem.imagemConselho} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthTips")}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Diario')}>
-                        <CopilotStep text="Aqui você pode acompanhar seu diário da saúde" order={5} name="fifthText">
-                            <WalkthroughableImage source={Imagem.imagemDiarioSaude} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthDiary")}
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.inferiorBotoes}
-                        onPress={() => navigate('Mapa')}
-                    >
-                        <CopilotStep text="Aqui você pode acessar um mapa para ver como as pessoas estão ao seu redor" order={6} name="sixthText">
-                            <WalkthroughableImage source={Imagem.imagemMapaSaude} style={{ height: scale(45), width: scale(45) }} />
-                        </CopilotStep>
-                        <Text style={styles.BotoesTexto}>
-                            {translate("home.homeButtons.healthMap")}
-                        </Text>
-                    </TouchableOpacity>
-
+                <View style={styles.viewHousehold}>
+                    <View style={styles.viewHouseholdSelect}>
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                                this.setModalVisible(!this.state.modalVisible); //Exit to modal view
+                            }}>
+                            <View style={styles.modalView}>
+                                <View style={styles.modalViewTop}>
+                                    <View style={styles.viewAvatar}>
+                                        <Avatar
+                                            large
+                                            rounded
+                                            source={Imagem.imagemFather}
+                                            activeOpacity={0.7}
+                                            onPress={async() => {
+                                                await this.setState({ householdID: null, userSelect: this.state.userName });
+                                                this.setModalVisible(!this.state.modalVisible);
+                                                AsyncStorage.setItem('userSelected', this.state.userSelect);
+                                                AsyncStorage.removeItem('householdID');
+                                            }}
+                                        />
+                                        <Text>{this.state.userName}</Text>
+                                    </View>
+                                    <ScrollView horizontal={true}>
+                                        {householdsData != null ?
+                                            householdsData.map(household => {
+                                                return (
+                                                    <View style={styles.viewAvatar}>
+                                                        <Avatar
+                                                            large
+                                                            rounded
+                                                            source={Imagem.imagemMother}
+                                                            activeOpacity={0.7}
+                                                            onPress={async () => {
+                                                                await this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description });
+                                                                this.setModalVisible(!this.state.modalVisible);
+                                                                AsyncStorage.setItem('userSelected', this.state.userSelect);
+                                                                AsyncStorage.setItem('householdID', this.state.householdID.toString());
+                                                            }}
+                                                        />
+                                                        <Text>{household.description}</Text>
+                                                    </View>
+                                                )
+                                            })
+                                            : null}
+                                    </ScrollView>
+                                </View>
+                                <View style={styles.modalViewBottom}>
+                                    <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => {
+                                        navigate('Household');
+                                        this.setModalVisible(!this.state.modalVisible);
+                                    }
+                                    }>
+                                        <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
+                                        <Text>Adicionar Perfil</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                        <Text style={{ marginBottom: 7 }}>Selecione um Perfil:</Text>
+                        <Avatar
+                            large
+                            rounded
+                            source={Imagem.imagemFather}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                                this.getHouseholds();
+                                this.setModalVisible(true);
+                            }}
+                        />
+                        <Text>{this.state.userSelect}</Text>
+                    </View>
+                    <View style={styles.viewHouseholdAdd}>
+                        <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigate('Household')}>
+                            <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
+                            <Text>Adicionar Perfil</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </ImageBackground>
+                {howYouFelling}
+                <View style={styles.viewReport}>
+                    <View style={styles.viewChildGood}>
+                        <TouchableOpacity onPress={this._isconnected}>
+                            <Text style={styles.textChoiceButton}>{translate("report.goodChoice")}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.viewChildBad}>
+                        <TouchableOpacity onPress={() => navigate('BadReport')}>
+                            <Text style={styles.textChoiceButton}>{translate("report.badChoice")}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+                    message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("badReport.alertMessages.reportSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+                    closeOnTouchOutside={this.state.showProgressBar ? false : true}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
+                    confirmText={translate("badReport.alertMessages.confirmText")}
+                    confirmButtonColor="#DD6B55"
+                    onCancelPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onConfirmPressed={() => {
+                        this.hideAlert();
+                    }}
+                    onDismiss={() => this.hideAlert()}
+                />
+            </View>
         );
     }
 }
+
+
+const emojis = [
+    (
+        <Emoji //Emoji heart up
+            name='heart'
+            style={{ fontSize: scale(15) }}
+        />
+    ),
+    (
+        <Emoji //Emoji tada up
+            name='tada'
+            style={{ fontSize: scale(15) }}
+        />
+    )
+]
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: 550,
-        justifyContent: 'center',
+        backgroundColor: 'white',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    viewImage: {
+        flex: 1,
         alignItems: 'center',
+        justifyContent: 'center'
     },
-    topo: {
-        flex: 0.6,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
+    imageLogo: {
+        height: '75%',
+        resizeMode: 'center'
     },
-    topoTexto1: {
-        fontSize: 30,
-        fontFamily: 'roboto'
-    },
-    topoTexto2: {
-        fontSize: 20,
-        fontFamily: 'roboto',
-        alignSelf: 'center',
-        textAlign: 'center'
-    },
-    topoTexto3: {
-        fontSize: 20,
-        fontFamily: 'roboto',
-    },
-    corpo: {
-        flex: 1.5,
+    viewWelcome: {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center'
     },
-    inferior: {
-        flex: 2,
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'space-evenly'
-    },
-    inferiorBotoes: {
-        flexDirection: 'row',
-        backgroundColor: '#348EAC',
-        width: '80%',
-        borderBottomLeftRadius: 181,
-        borderTopLeftRadius: 181,
-        justifyContent: 'flex-start',
-    },
-    BotoesTexto: {
+    textHelloUser: {
+        fontSize: 40,
         fontFamily: 'roboto',
+        color: '#166B87',
         alignSelf: 'center',
-        textAlign: 'justify',
-        marginLeft: 40,
-        fontSize: 16,
+        textAlign: 'center'
+    },
+    textNewGuardion: {
+        fontSize: 20,
+        fontFamily: 'roboto',
+        color: '#166B87',
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
+    viewHousehold: {
+        flexDirection: 'row',
+        width: '85%',
+        height: '30%',
+    },
+    viewHouseholdSelect: {
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        //borderColor: 'green',
+        //borderWidth: 1
+    },
+    viewHouseholdAdd: {
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        //borderColor: 'blue',
+        //borderWidth: 1
+    },
+    textFelling: {
+        fontSize: 18,
+        fontFamily: 'roboto',
+        color: '#166B87'
+    },
+    viewReport: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '80%',
+        height: '10%',
+        marginTop: 5,
+        marginBottom: 20,
+    },
+    viewChildBad: {
+        width: '50%',
+        borderTopRightRadius: 90,
+        borderBottomRightRadius: 90,
+        backgroundColor: 'rgba(22, 107, 135, 0.25)',
+        justifyContent: 'center',
+    },
+    viewChildGood: {
+        width: '50%',
+        borderTopLeftRadius: 90,
+        borderBottomLeftRadius: 90,
+        backgroundColor: 'rgba(22, 107, 135, 1)',
+        justifyContent: 'center',
+    },
+    textChoiceButton: {
+        fontFamily: 'roboto',
         color: 'white',
+        fontSize: 27,
+        alignSelf: 'center'
+    },
+    modalView: {
+        alignSelf: 'center',
+        width: '93%',
+        marginTop: '60%',
+        borderRadius: 30,
+        backgroundColor: 'white',
+        elevation: 15
+    },
+    modalViewTop: {
+        flexDirection: 'row'
+    },
+    modalViewBottom: {
+        alignItems: 'center',
+        marginBottom: 17
+    },
+    viewAvatar: {
+        alignItems: 'center',
+        marginLeft: 5,
+        marginTop: 17,
+        marginBottom: 13
     }
 });
 
 //make this component available to the app
-export default copilot({
-    animated: true, // Can be true or false
-    overlay: 'svg', // Can be either view or svg
-})(Home);
+export default Home;

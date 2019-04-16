@@ -105,7 +105,7 @@ export default {
         "title": "¿Que estas sintiendo?",
         "sickAge": "¿Desde cuando se siente mal?",
         "symptoms": "Seleccione abajo los síntomas que usted está sintiendo en este momento:",
-        "blisters": "Burbujas en el pie",
+        "blisters": "Burbujas en el piel",
         "noseCongestion": "Congestión nasal",
         "diarrhea": "Diarrea",
         "breathingDifficulty": "Dificultad para respirar",
@@ -120,7 +120,7 @@ export default {
         "redSpots": "Manchas rojas en el cuerpo",
         "sickness": "Náusea",
         "redishEyes": "Ojos rojos",
-        "feetEyeRedissh": "Pies y ojos rojizos",
+        "feetEyeRedissh": "Piel y ojos rojizos",
         "bleeding": "Sangría",
         "cough": "Tos",
         "vomiting": "Vómito",
@@ -204,7 +204,9 @@ export default {
         "toastAlertMessage": "Apriete una vez más para salir",
         "hello": "¡Hola",
         "nowAGuardian": "¡Ahora usted es un guardián de la salud!",
-        "howYouFelling": "¿Cómo se siente hoy?",
+        "userHowYouFelling": "¿Cómo se siente hoy?",
+        "householdHowYouFelling_part_1": "¿Cómo se siente ",
+        "householdHowYouFelling_part_2": " hoy?",
         "homeButtons": {
             "news": "Noticias",
             "healthTips": "Consejos de Salud",
@@ -271,6 +273,8 @@ export default {
         "toFacebook": "Facebook",
         "toHelp": "Ayuda",
         "toAbout": "Acerca de",
-        "moreComing": "¡Tenemos más funciones en el futuro¡"
+        "moreComing": "¡Tenemos más funciones en el futuro¡",
+        "healthDiary": "Diario de Salud",
+        "healthMap": "Mapa de la Salud"
     }
 }

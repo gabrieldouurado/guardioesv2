@@ -3,248 +3,244 @@ import {
     StyleSheet,
     Text,
     View,
-    ImageBackground,
     TextInput,
-    ScrollView,
-    TouchableOpacity,
+    Button,
     Picker,
-    Keyboard
+    AsyncStorage,
+    NetInfo,
+    Alert
 } from 'react-native';
-import CountryPicker from 'react-native-country-picker-modal'
-import DatePicker from 'react-native-datepicker'
-import * as Imagem from '../../imgs/imageConst'
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker from 'react-native-datepicker';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { scale } from '../scallingUtils';
+import translate from '../../../locales/i18n';
+import { API_URL } from '../../constUtils';
 
 let data = new Date();
 let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
+
 let today = y + "-" + m + "-" + d;
 
-const fetchData = () => {
-    fetch("https://guardianes.centeias.net/user/household/5b6db008abbd4916002b97f0", {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-        .then( (response) => {
-            if (!response.ok) {
-                throw Error(response.error);
-            }
-            return response;
-        }).then( (response) => {
-            console.log(response);
-        }).catch( (error) => {
-            console.log(error);
-        });
-}
-
-class Household extends Component {
+class Registrar extends Component {
     static navigationOptions = {
-        header: null
+        title: "Adicionar Perfil"
     }
     constructor(props) {
         super(props);
+        this.getInfos();
         this.state = {
-            householdFirstName: null,
-            householdLastName: null,
-            parentesco: 'pai',
+            statusCode: null,
+            kinship: 'pai',
+            householdName: null,
             householdGender: 'Masculino',
+            householdCountry: 'Brazil',
             householdRace: 'Blanco',
             householdDob: null,
-            householdCountry: 'Brazil',
-            cca2: 'BR'
+            userID: null,
+            cca2: 'BR',
+            showAlert: false, //Custom Alerts
+            showProgressBar: false //Custom Progress Bar
         }
     }
 
-    _TesteVariaveis() {
-        console.warn("Nome: " + this.state.householdFirstName)
-        console.warn("Sobrenome: " + this.state.householdLastName)
-        console.warn("Parentesco: " + this.state.parentesco)
-        console.warn("Genero: " + this.state.householdGender)
-        console.warn("Raça: " + this.state.householdRace)
-        console.warn("Data de Nascimento: " + this.state.householdDob)
-        console.warn("Pais: " + this.state.householdCountry)
-        Keyboard.dismiss()
+    showAlert = () => {
+        this.setState({
+            showAlert: true,
+            showProgressBar: true
+        });
+    };
+
+    hideAlert = () => {
+        this.setState({
+            showAlert: false
+        })
     }
 
+    _isconnected = () => {
+        let validation = false
+        this.state.householdName && this.state.householdDob ? validation = true : validation = false
+        NetInfo.isConnected.fetch().then(isConnected => {
+            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+                translate("register.noInternet.noInternet"),
+                translate("register.noInternet.ohNo"),
+                [
+                    { text: translate("register.alertAllRightMessage"), onPress: () => null }
+                ]
+            )
+        });
+    }
 
-
-
+    getInfos = async () => {
+        let userID = await AsyncStorage.getItem('userID');
+        let userToken = await AsyncStorage.getItem('userToken');
+        this.setState({ userID, userToken });
+    }
 
     render() {
+        const { showAlert } = this.state;
+
         return (
-            <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'stretch' }} source={Imagem.imagemFundo}>
-                <View style={styles.marginTop}>
-                    <Text style={styles.titulo}>Preencha todos os campos abaixo para adicionar um novo membro</Text>
+            <View style={styles.container}>
+                <View style={{ paddingTop: 10 }}></View>
+                <View style={styles.viewCommom}>
+                    <Text style={styles.commomText}>{translate("register.name")}</Text>
+                    <TextInput style={styles.formInput}
+                        onChangeText={text => this.setState({ householdName: text })}
+                    />
                 </View>
-                <View style={{ width: '100%', height: 6, backgroundColor: '#C19036' }} />
 
-                <ScrollView style={styles.scroll}>
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Nome:</Text>
-                        <TextInput style={styles.formInput}
-                            returnKeyType='next'
-                            onSubmitEditing={() => this.sobrenomeInput.focus()}
-                            onChangeText={text => this.setState({ householdFirstName: text })}
-                        />
-                    </View>
-
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Sobrenome:</Text>
-                        <TextInput style={styles.formInput}
-                            ref={(input) => this.sobrenomeInput = input}
-                            onChangeText={text => this.setState({ householdLastName: text })}
-                        />
-                    </View>
-
-                    <View style={styles.viewCommom}>
-                        <Text style={styles.commomText}>Parentesco:</Text>
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
                         <Picker
-                            selectedValue={this.state.parentesco}
-                            style={{ width: "95%" }}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ parentesco: itemValue })}>
-                            <Picker.Item label="Pai" value="pai" />
-                            <Picker.Item label="Mãe" value="mae" />
-                            <Picker.Item label="Filho" value="filho" />
-                            <Picker.Item label="Irmão" value="irmao" />
-                            <Picker.Item label="Avô" value="avo" />
-                            <Picker.Item label="Neto" value="neto" />
-                            <Picker.Item label="Tio" value="tio" />
-                            <Picker.Item label="Sobrinho" value="sobrinho" />
-                            <Picker.Item label="Bisavô" value="bisavo" />
-                            <Picker.Item label="Bisneto" value="bisneto" />
-                            <Picker.Item label="Primo" value="primo" />
-                            <Picker.Item label="Sogro" value="sogro" />
-                            <Picker.Item label="Genro" value="genro" />
-                            <Picker.Item label="Nora" value="nora" />
-                            <Picker.Item label="Padastro" value="padastro" />
-                            <Picker.Item label="Madrastra" value="madastra" />
-                            <Picker.Item label="Enteado" value="enteado" />
-                            <Picker.Item label="Cônjugue" value="conjugue" />
-                            <Picker.Item label="Outros" value="outros" />
+                            selectedValue={this.state.householdGender}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ householdGender: itemValue })}>
+                            <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                            <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
                         </Picker>
                     </View>
 
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Sexo:</Text>
-                            <Picker
-                                selectedValue={this.state.householdGender}
-                                style={{ width: "80%" }}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ householdGender: itemValue })}>
-                                <Picker.Item label="Masculino" value="Masculino" />
-                                <Picker.Item label="Feminino" value="Femenino" />
-                            </Picker>
-                        </View>
-
-                        <View style={styles.viewChildSexoRaca}>
-                            <Text style={styles.commomTextView}>Raça:</Text>
-                            <Picker
-                                selectedValue={this.state.householdRace}
-                                style={{ width: "80%" }}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ householdRace: itemValue })}>
-                                <Picker.Item label="Branco" value="Blanco" />
-                                <Picker.Item label="Indigena" value="Indígena" />
-                                <Picker.Item label="Mestiço" value="Mestizo" />
-                                <Picker.Item label="Negro, mulato ou afrodescendente" value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label="Palenquero" value="Palenquero" />
-                                <Picker.Item label="Raizal" value="Raizal" />
-                                <Picker.Item label="Rom-Gitano" value="Rom-Gitano" />
-                            </Picker>
-                        </View>
-
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.race")}</Text>
+                        <Picker
+                            selectedValue={this.state.householdRace}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
+                            <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                            <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                            <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                            <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                            <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                            <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                            <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                        </Picker>
                     </View>
 
-                    <View style={styles.viewRow}>
-                        <View style={styles.viewChildData}>
-                            <DatePicker
-                                style={{ width: '80%' }}
-                                date={this.state.householdDob}
-                                androidMode='spinner'
-                                mode="date"
-                                placeholder="Nascimento"
-                                format="YYYY-MM-DD"
-                                minDate="1918-01-01"
-                                maxDate={today}
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateIcon: {
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 4,
-                                        marginLeft: 0
-                                    },
-                                    dateInput: {
-                                        marginLeft: 36
-                                    }
-                                }}
-                                onDateChange={date => this.setState({ householdDob: date })}
-                            />
-                        </View>
+                </View>
 
-                        <View style={styles.viewChildPais}>
-                            <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>País:</Text></View>
-                            <View><CountryPicker
+                <View style={styles.viewRow}>
+                    <View style={styles.viewChildSexoRaca}>
+                        <Text style={styles.commomTextView}>{translate("register.birth")}</Text>
+                        <DatePicker
+                            style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
+                            showIcon={false}
+                            date={this.state.householdDob}
+                            androidMode='spinner'
+                            mode="date"
+                            placeholder={translate("birthDetails.format")}
+                            format="YYYY-MM-DD"
+                            minDate="1918-01-01"
+                            maxDate={today}
+                            confirmBtnText={translate("birthDetails.confirmButton")}
+                            cancelBtnText={translate("birthDetails.cancelButton")}
+                            customStyles={{
+                                dateInput: {
+                                    borderWidth: 0
+                                },
+                                dateText: {
+                                    marginBottom: 10,
+                                    fontFamily: 'roboto',
+                                    fontSize: 17
+                                },
+                                placeholderText: {
+                                    marginBottom: 15,
+                                    fontFamily: 'roboto',
+                                    fontSize: 15,
+                                    color: 'black'
+                                }
+                            }}
+                            onDateChange={date => this.setState({ householdDob: date })}
+                        />
+                    </View>
+
+                    <View style={styles.viewChildPais}>
+                        <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
+                        <View>
+                            <CountryPicker
                                 onChange={value => {
                                     this.setState({ cca2: value.cca2, householdCountry: value.name })
                                 }}
                                 cca2={this.state.cca2}
                                 translation="eng"
-                            /></View>
+                            />
+                            <Text style={styles.textCountry}>{this.state.householdCountry}</Text>
                         </View>
                     </View>
+                </View>
 
-                    <View style={styles.buttonView}>
-                        <TouchableOpacity style={styles.enviar} onPress={() => this.create()}>
-                            <Text>Cadastrar</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.viewCommom}>
+                    <Text style={styles.commomText}>Parentesco:</Text>
+                    <Picker
+                        selectedValue={this.state.kinship}
+                        style={{ width: "95%" }}
+                        onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
+                        <Picker.Item label="Pai" value="Pai" />
+                        <Picker.Item label="Mãe" value="Mãe" />
+                        <Picker.Item label="Filhos" value="Filhos" />
+                        <Picker.Item label="Irmãos" value="Irmãos" />
+                        <Picker.Item label="Avós" value="Avós" />
+                        <Picker.Item label="Outros" value="Outros" />
+                    </Picker>
+                </View>
+                <View style={styles.buttonView}>
+                    <Button
+                        title="criar"
+                        color="#348EAC"
+                        onPress={this._isconnected} />
+                </View>
 
-                </ScrollView>
-            </ImageBackground>
+
+                <AwesomeAlert
+                    show={showAlert}
+                    showProgress={this.state.showProgressBar ? true : false}
+                    title={this.state.showProgressBar ? translate("register.awesomeAlert.registeringMessage") : null}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={false}
+                    showConfirmButton={this.state.showProgressBar ? false : true}
+                />
+            </View>
         );
 
     }
-     create = async () => {
 
-        let UserID = await AsyncStorage.getItem('userID');
-        this.setState({ UserID: UserID })
-        Keyboard.dismiss()
-        fetch('https://guardianes.centeias.net/household/create', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            user: this.state.UserID,
-            firstname: this.state.householdFirstName,
-            lastname: this.state.householdLastName,
-            relationship: this.state.parentesco,
-            gender: this.state.householdGender,
-            country: this.state.userCountry,
-            race: this.state.userRace,
-            dob: this.state.householdDob,
-            app: this.state.userApp,
-            race: this.state.householdRace,
-            country: this.state.householdCountry,
-            picture: "none",
-          })
+    create = () => {
+        this.showAlert();
+        fetch(`${API_URL}/user/${this.state.userID}/households`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
+            },
+            body: JSON.stringify(
+                {
+                    description: this.state.householdName,
+                    birthdate: this.state.householdDob,
+                    country: this.state.householdCountry,
+                    gender: this.state.householdGender,
+                    race: this.state.householdRace,
+                    kinship: this.state.kinship,
+                    user_id: this.state.userID
+                }
+            )
         })
-        .then((response) => response.json())
-        .then(response => {
-          if (response.error === false) {
-            this.props.navigation.navigate('Home');
-          }
-          else {
-            alert(response.message);
-          }
-        })
-    
-      }
+            .then((response) => {
+                this.setState({ statusCode: response.status })
+                if (this.state.statusCode == 201) {
+                    console.warn("CRIADO");
+                    this.hideAlert();
+                    this.props.navigation.navigate('Home');
+                } else {
+                    this.hideAlert();
+                    console.warn("Algo deu errado");
+                }
+            })
+    }
 }
 
 
@@ -252,26 +248,7 @@ class Household extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 680
-    },
-    marginTop: {
-        width: '100%',
-        backgroundColor: '#DFDFD0',
-        elevation: 11
-    },
-    titulo: {
-        justifyContent: 'center',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#9B6525',
-        marginTop: 15,
-        marginBottom: 15
-    },
-    scroll: {
-        flex: 1,
-        width: '100%',
-        paddingTop: 25,
+        height: 550
     },
     viewCommom: {
         width: '100%',
@@ -303,53 +280,45 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         paddingLeft: '5%',
     },
+    selectSexoRaca: {
+        width: "80%",
+    },
     formInput: {
         width: "90%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
-        paddingTop: 2,
-    },
-    formData: {
-        width: "80%",
-        fontSize: 20,
-        borderColor: 'gray',
-        borderBottomWidth: 2,
-        borderBottomColor: '#008080',
-        paddingBottom: 2,
+        height: 35,
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#348EAC',
+        paddingBottom: 0,
         paddingTop: 2,
     },
     commomText: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'roboto',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: "5%",
-        fontWeight: 'bold',
     },
     commomTextView: {
-        fontSize: 15,
+        fontSize: 17,
+        fontFamily: 'roboto',
+        color: '#465F6C',
         alignSelf: 'flex-start',
         textAlign: 'left',
         paddingLeft: '10%',
-        fontWeight: 'bold',
     },
     buttonView: {
-        height: '8%',
+        width: "60%",
         alignSelf: 'center',
         marginTop: 20,
-        marginBottom: 60,
-        width: "60%",
+        marginBottom: 10
     },
-    enviar: {
-        backgroundColor: 'skyblue',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
+    textCountry: {
+        fontSize: 15,
+        fontFamily: 'roboto',
     }
 });
 
 //make this component available to the app
-export default Household;
+export default Registrar;

@@ -6,7 +6,6 @@ import * as Imagem from '../../imgs/imageConst';
 import { LoginManager } from 'react-native-fbsdk';
 import { app_token } from '../../constUtils';
 import translate from '../../../locales/i18n';
-import ModalSelector from 'react-native-modal-selector';
 
 let data = new Date();
 let d = data.getDate();
@@ -14,6 +13,8 @@ let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
 let today = y + "-" + m + "-" + d;
+
+let minDate = (y - 13) + "-" + m + "-" + d;
 
 class AddInfo extends Component {
     static navigationOptions = {
@@ -60,21 +61,6 @@ class AddInfo extends Component {
     }
 
     render() {
-        const gender = [
-            { key: 'Masculino', label: translate("genderChoices.male")},
-            { key: 'Femenino', label: translate("genderChoices.female")},
-        ];
-
-        const race = [
-            { key: 'Blanco', label: translate("raceChoices.white")},
-            { key: 'Indígena', label: translate("raceChoices.indian")},
-            { key: 'Mestizo', label: translate("raceChoices.mix")},
-            { key: 'Negro, mulato o afrodescendiente', label: translate("raceChoices.black")},
-            { key: 'Palenquero', label: translate("raceChoices.palenquero")},
-            { key: 'Raizal', label: translate("raceChoices.raizal")},
-            { key: 'Rom-Gitano', label: translate("raceChoices.romGitano")}
-        ];
-
         return (
             <ImageBackground style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
 
@@ -86,22 +72,29 @@ class AddInfo extends Component {
                 <View style={styles.viewRow}>
                     <View style={styles.viewChildSexoRaca}>
                         <Text style={styles.commomTextView}>{translate("facebookRegister.gender")}</Text>
-                        <ModalSelector
-                                style={{width: '80%', height: '70%'}}
-                                data={gender}
-                                initValue={translate("genderChoices.male")}
-                                onChange={(option) => this.setState({ userGender: option.key })}
-                            />
+                        <Picker
+                            selectedValue={this.state.userGender}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
+                            <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                            <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
+                        </Picker>
                     </View>
 
                     <View style={styles.viewChildSexoRaca}>
                         <Text style={styles.commomTextView}>{translate("genderChoices.male")}</Text>
-                        <ModalSelector
-                                style={{width: '80%', height: '70%'}}
-                                data={race}
-                                initValue={translate("raceChoices.white")}
-                                onChange={(option) => this.setState({ userRace: option.key })}
-                            />
+                        <Picker
+                            selectedValue={this.state.userRace}
+                            style={styles.selectSexoRaca}
+                            onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
+                            <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                            <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                            <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                            <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                            <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                            <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                            <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                        </Picker>
                     </View>
 
                 </View>
@@ -118,7 +111,7 @@ class AddInfo extends Component {
                             placeholder={translate("birthDetails.format")}
                             format="YYYY-MM-DD"
                             minDate="1918-01-01"
-                            maxDate={today}
+                            maxDate={minDate}
                             confirmBtnText={translate("birthDetails.confirmButton")}
                             cancelBtnText={translate("birthDetails.cancelButton")}
                             customStyles={{
@@ -329,7 +322,7 @@ const styles = StyleSheet.create({
     },
     textCountry: {
         fontSize: 15,
-        fontFamily: 'roboto'
+        fontFamily: 'roboto',
     }
 });
 
