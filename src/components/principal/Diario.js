@@ -5,7 +5,6 @@ import moment from 'moment';
 import { Avatar } from 'react-native-elements';
 import * as Imagem from '../../imgs/imageConst';
 import { Dimensions } from 'react-native';
-import { LineChart } from "react-native-charts-wrapper";
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
 const GreenBlue = "rgb(26, 182, 151)";
@@ -79,7 +78,7 @@ class Diario extends Component {
     }
 
     getSurvey = () => {//Get Survey
-        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/surveys`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 'Content-Type': 'application/json',
@@ -332,113 +331,7 @@ class Diario extends Component {
                             markedDates={this.state.datesMarked}
                         />
                     </View>
-                    <View style={styles.chartView}>
-                        <View style={styles.ViewCalendario}><Text style={styles.Chart}>{translate("diary.timesPerMonth")}</Text></View>
-
-
-                        <LineChart
-                            style={styles.chart}
-                            data={{
-                                dataSets: [
-                                    {
-                                        values: NoPlotAux,
-                                        label: "BEM",
-                                        config: {
-                                            mode: "HORIZONTAL_BEZIER",
-                                            drawValues: false,
-                                            lineWidth: 5,
-                                            drawCircles: true,
-                                            circleColor: processColor(GreenBlue),
-                                            drawCircleHole: true,
-                                            circleRadius: 5,
-                                            highlightColor: processColor("transparent"),
-                                            color: processColor('#058B09'),
-                                            drawFilled: false,
-                                            valueTextSize: 15,
-
-                                        }
-                                    },
-                                    {
-                                        values: BadplotAux,
-                                        label: "MAL",
-                                        config: {
-                                            mode: "HORIZONTAL_BEZIER",
-                                            drawValues: false,
-                                            lineWidth: 5,
-                                            drawCircles: true,
-                                            circleColor: processColor(petrel),
-                                            drawCircleHole: true,
-                                            circleRadius: 5,
-                                            highlightColor: processColor("#fffffff"),
-                                            color: processColor('#BF092E'),
-                                            drawFilled: false,
-                                            valueTextSize: 15,
-
-                                        }
-                                    },
-
-
-                                ]
-                            }}
-                            chartDescription={chartDescriptionTranslated}
-                            legend={{
-                                enabled: true,
-
-                            }}
-                            marker={{
-                                enabled: true,
-                                markerColor: processColor('white'),
-                                textColor: processColor("black")
-                            }}
-                            xAxis={{
-                                enabled: true,
-                                granularity: 1,
-                                granularityEnabled: true,
-                                drawLabels: true,
-                                position: "BOTTOM",
-                                drawAxisLine: true,
-                                drawGridLines: true,
-                                fontFamily: "HelveticaNeue-Medium",
-                                fontWeight: "bold",
-                                textSize: 12,
-                                textColor: processColor("gray"),
-                                labelCount: 12,
-                                labelCountForce: true,
-                                valueFormatter: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-
-                            }}
-                            yAxis={{
-                                left: {
-                                    enabled: true
-                                },
-                                right: {
-                                    enabled: false
-                                }
-                            }}
-                            autoScaleMinMaxEnabled={true}
-                            animation={{
-                                durationX: 1500,
-                                durationY: 3000,
-                                easingY: "EaseInOutQuart",
-                                easingX: "EaseInOutQuart"
-                            }}
-                            drawGridBackground={false}
-                            drawBorders={false}
-                            touchEnabled={true}
-                            dragEnabled={false}
-                            scaleEnabled={false}
-                            scaleXEnabled={false}
-                            scaleYEnabled={false}
-                            pinchZoom={false}
-                            doubleTapToZoomEnabled={false}
-                            dragDecelerationEnabled={true}
-                            dragDecelerationFrictionCoef={0.99}
-                            keepPositionOnRotation={false}
-                            onSelect={this.handleSelect.bind(this)}
-                            onChange={event => console.log(event.nativeEvent)}
-                        />
-                    </View>
-                    <View styles={styles.footer}></View>
+                    
                 </ScrollView>
             </View>
         );

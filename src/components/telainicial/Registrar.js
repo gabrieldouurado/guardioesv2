@@ -22,6 +22,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
+import ModalSelector from 'react-native-modal-selector';
 
 let data = new Date();
 let d = data.getDate();
@@ -85,6 +86,21 @@ class Registrar extends Component {
     render() {
         const { showAlert } = this.state;
 
+        const gender = [
+            { key: 'Masculino', label: translate("genderChoices.male")},
+            { key: 'Femenino', label: translate("genderChoices.female")},
+        ];
+
+        const race = [
+            { key: 'Blanco', label: translate("raceChoices.white")},
+            { key: 'Indígena', label: translate("raceChoices.indian")},
+            { key: 'Mestizo', label: translate("raceChoices.mix")},
+            { key: 'Negro, mulato o afrodescendiente', label: translate("raceChoices.black")},
+            { key: 'Palenquero', label: translate("raceChoices.palenquero")},
+            { key: 'Raizal', label: translate("raceChoices.raizal")},
+            { key: 'Rom-Gitano', label: translate("raceChoices.romGitano")}
+        ];
+
         return (
             <View style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
                 <View style={styles.scroll}>
@@ -101,29 +117,22 @@ class Registrar extends Component {
                     <View style={styles.viewRow}>
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
-                            <Picker
-                                selectedValue={this.state.userGender}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
-                                <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
-                                <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
-                            </Picker>
+                            <ModalSelector
+                                style={{width: '80%', height: '70%'}}
+                                data={gender}
+                                initValue={translate("genderChoices.male")}
+                                onChange={(option) => this.setState({ userGender: option.key })}
+                            />
                         </View>
 
                         <View style={styles.viewChildSexoRaca}>
                             <Text style={styles.commomTextView}>{translate("register.race")}</Text>
-                            <Picker
-                                selectedValue={this.state.userRace}
-                                style={styles.selectSexoRaca}
-                                onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
-                                <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
-                                <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
-                                <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
-                                <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
-                                <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
-                            </Picker>
+                            <ModalSelector
+                                style={{width: '80%', height: '70%'}}
+                                data={race}
+                                initValue={translate("raceChoices.white")}
+                                onChange={(option) => this.setState({ userRace: option.key })}
+                            />
                         </View>
 
                     </View>

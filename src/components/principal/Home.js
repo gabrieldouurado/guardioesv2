@@ -113,7 +113,7 @@ class Home extends Component {
 
     getHouseholds = () => {//Get households
         //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
-        return fetch(`${API_URL}/user/${this.state.userID}/households`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/households`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 Authorization: `${this.state.userToken}`
@@ -129,7 +129,7 @@ class Home extends Component {
 
     sendSurvey = async () => { //Send Survey GOOD CHOICE
         this.showAlert();
-        return fetch(`${API_URL}/user/${this.state.userID}/surveys`, {
+        return fetch(`${API_URL}/users/${this.state.userID}/surveys`, {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
