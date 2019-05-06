@@ -22,6 +22,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
+import { CheckBox } from 'react-native-elements';
 
 let data = new Date();
 let d = data.getDate();
@@ -39,6 +40,7 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            residenceCountry: false,
             statusCode: null,
             userName: null,
             userEmail: null,
@@ -47,7 +49,7 @@ class Registrar extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            userApp: 1,
+            //userApp: 1,
             userToken: null,
             cca2: 'BR',
             showAlert: false, //Custom Alerts
@@ -72,7 +74,7 @@ class Registrar extends Component {
         let validation = false
         this.state.userEmail && this.state.userPwd && this.state.userName && this.state.userDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+            isConnected ? validation ? this.verifyAppID() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
                 translate("register.noInternet.ohNo"),
                 [
@@ -80,6 +82,21 @@ class Registrar extends Component {
                 ]
             )
         });
+    }
+
+    componentDidMount() {
+        return fetch(`${API_URL}/apps/`, {
+            headers: {
+                Accept: 'application/vnd.api+json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwic2NwIjoiYWRtaW4iLCJhdWQiOm51bGwsImlhdCI6MTU1NzE4MDY2MCwiZXhwIjoxNTU3Nzg1NDYwLCJqdGkiOiIxNWYzNjljNC05ZjcyLTRjMGEtOWRjMi1iNmUzN2VlN2EzMTcifQ.plKN-2D9r8263lgg_sJaUMeNHz5yqQ_7ZCLaXmiFO10'
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    dataSource: responseJson.apps,
+                })
+            })
     }
 
     render() {
@@ -178,6 +195,12 @@ class Registrar extends Component {
                         </View>
                     </View>
 
+                    <CheckBox
+                        title={this.state.userCountry + " é seu pais de residencia?"}
+                        checked={this.state.residenceCountry}
+                        onPress={() => this.setState({ residenceCountry: !this.state.residenceCountry })}
+                    />
+
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.email")}</Text>
                         <TextInput
@@ -199,17 +222,14 @@ class Registrar extends Component {
                         />
                     </View>
 
+
                     <View style={styles.buttonView}>
                         <Button
                             title={translate("register.signupButton")}
                             color="#348EAC"
-                            onPress={this._isconnected} />
-                    </View>
-
-                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
-                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                            {translate("register.signupWithFacebook")}
-                        </Text>
+                            //onPress={this._isconnected}
+                            onPress={() => { this.verifyAppID() }}
+                            />
                     </View>
 
                 </View>
@@ -226,6 +246,24 @@ class Registrar extends Component {
         );
 
     }
+
+    verifyAppID = () => {
+        const appsData = this.state.dataSource;
+        if (this.state.residenceCountry == true) { //Verifica se o pais de orgim é o mesmo de residencia
+            {appsData != null ?
+                appsData.map(async app => {
+                    if (app.owner_country == this.state.userCountry) { //Verfica se existe o pais de residencia na base da dados
+                    await this.setState({userApp: app.id})
+                    console.warn("Criei meu usuário")
+                    //this.create(); //Caso exista cria o usuário
+                    } else {
+                        console.warn("Create app id")
+                    }
+                })
+                : null}
+        }
+    }
+
     create = () => {
         Keyboard.dismiss()
         this.showAlert()
@@ -290,6 +328,7 @@ class Registrar extends Component {
                 AsyncStorage.setItem('userID', responseJson.user.id.toString());
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
                 AsyncStorage.setItem('userToken', this.state.userToken);
+                AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
 
                 this.props.navigation.navigate('Home');
                 this.hideAlert();

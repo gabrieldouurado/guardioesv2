@@ -34,10 +34,7 @@ class Diario extends Component {
         this.state = {
             data: [],
             x: 0,
-            datesMarked: {
-
-            },
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
+            datesMarked: {},
             BadData: [],
             BadPlot: [{ y: 0, x: 0, marked: "" }],
             NoPlot: [{ y: 0, x: 0, marked: "" }]
@@ -101,30 +98,29 @@ class Diario extends Component {
         let surveyData = this.state.dataSource
         let markedDateNo = []
         let markedDate = []
+        let markedDateAll = []
 
         surveyData.map((survey, index) => {
             if (this.state.householdID == null) {//Condição para verificar se exise household
                 if (survey.household == null) {
-                    if (survey.symptom && survey.symptom.length) {
+                    if (survey.symptom && survey.symptom.length) { //BadReport
                         markedDate.push(survey.bad_since);
-                        //console.warn("RUIM")
+                        markedDateAll.push(survey);
                     }
-                    else {
-                        markedDateNo.push(survey.bad_since);
-                        //console.warn("BAO")
+                    else { //GoodReport
+                        markedDateNo.push(survey.created_at.split("T", 1).toString());
                     }
                 }
 
             } else {
                 if (survey.household != null) {
                     if (survey.household.id == this.state.householdID) {
-                        if (survey.symptom && survey.symptom.length) {
+                        if (survey.symptom && survey.symptom.length) { //Household BadReport
                             markedDate.push(survey.bad_since);
-                            //console.warn("RUIM")
+                            markedDateAll.push(survey);
                         }
-                        else {
-                            markedDateNo.push(survey.bad_since);
-                            //console.warn("BAO")
+                        else { //Household GoodReport
+                            markedDateNo.push(survey.created_at.split("T", 1).toString());
                         }
                     }
                 }
@@ -142,6 +138,7 @@ class Diario extends Component {
             NummarkedDateNo: markedDateNo.length,
             NummarkedDate: markedDate.length,
             markedDate: markedDate,
+            markedDateAll: markedDateAll,
             markedDateNo: markedDateNo,
         })
 
@@ -152,8 +149,7 @@ class Diario extends Component {
 
         this.setState({ datesMarked: GoodReport });
 
-        //console.warn(this.state.datesMarked)
-        //this.ChartData();
+        this.ChartData();
     }
 
     ChartData = () => {
@@ -162,6 +158,7 @@ class Diario extends Component {
         let BadDataAux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         let NoDataAux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         badData.map((data, index) => {
+            //console.warn("Bad " + data)
             // YYYY-MM-DD
             switch (data.split("-")[1]) {
                 case "01":
@@ -217,6 +214,7 @@ class Diario extends Component {
             { y: BadDataAux[11], x: 11, marked: 'Dez: ' + BadDataAux[11] }]
 
         NoSymptomData.map((data, index) => {
+            //console.warn("Good " + data)
             // YYYY-MM-DD
             switch (data.split("-")[1]) {
                 case "01":
@@ -293,7 +291,7 @@ class Diario extends Component {
                             <Avatar
                                 large
                                 rounded
-                                source={{ uri: this.state.pic }}
+                                source={Imagem.imagemFather}
                                 activeOpacity={0.7}
                                 style={{ borderWidth: 1, borderColor: '#BF092E', margin: '10%' }}
                             />
@@ -330,6 +328,14 @@ class Diario extends Component {
                         <Calendar
                             current={_today}
                             markedDates={this.state.datesMarked}
+                            onDayPress={(day) => {
+                                let symptomDate = this.state.markedDateAll;
+                                symptomDate.map(symptomMarker => {
+                                    if(symptomMarker.bad_since == day.dateString){
+                                        console.warn(symptomMarker.symptom)
+                                    }
+                                })
+                            }}
                         />
                     </View>
                     <View style={styles.chartView}>

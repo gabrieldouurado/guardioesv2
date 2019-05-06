@@ -24,13 +24,18 @@ class Perfil extends Component {
         super(props);
         this._getInfos();
         this.state = {
-            modalVisible: false,
+            modalVisibleHousehold: false,
+            modalVisibleUser: false,
             cca2: 'BR',
         };
     }
 
     setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+        if (this.state.userModal == true) {
+            this.setState({ modalVisibleUser: visible });
+        } else{
+            this.setState({ modalVisibleHousehold: visible });
+        }
     }
 
     confirmDelete = () => {
@@ -118,6 +123,35 @@ class Perfil extends Component {
             })
     }
 
+    editUser = () => {
+        fetch(`${API_URL}/users/${this.state.userID}`, {
+            method: 'PATCH',
+            headers: {
+                Accept: 'application/vnd.api+json',
+                'Content-Type': 'application/json',
+                Authorization: `${this.state.userToken}`
+            },
+            body: JSON.stringify(
+                {
+                    user_name: this.state.userName,
+                    birthdate: this.state.userDob,
+                    country: this.state.userCountry,
+                    gender: this.state.userGender,
+                    race: this.state.userRace
+                }
+            )
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    console.warn(response.status)
+                    //this.getHouseholds();
+                } else {
+                    console.warn(response.status)
+
+                }
+            })
+    }
+
     getAllUserInfos = () => {
         return fetch(`${API_URL}/user/login`, {
             method: 'POST',
@@ -142,12 +176,121 @@ class Perfil extends Component {
         const householdsData = this.state.dataSource;
         return (
             <View style={styles.container}>
+                <Modal //Modal View for User
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.modalVisibleUser}
+                    onRequestClose={() => {
+                        this.setModalVisible(!this.state.modalVisibleUser); //Exit to modal view
+                        this.setState({userModal: false});
+                    }}>
+                    <View style={styles.modalView}>
+                        <View style={{ paddingTop: 10 }}></View>
+                        <View style={styles.viewCommom}>
+                            <Text style={styles.commomText}>{translate("register.name")}</Text>
+                            <TextInput style={styles.formInput}
+                                placeholder={this.state.userName}
+                                onChangeText={text => this.setState({ userName: text })}
+                            />
+                        </View>
+
+                        <View style={styles.viewRow}>
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
+                                <Picker
+                                    selectedValue={this.state.userGender}
+                                    style={styles.selectSexoRaca}
+                                    onValueChange={(itemValue) => this.setState({ userGender: itemValue })}>
+                                    <Picker.Item label={translate("genderChoices.male")} value="Masculino" />
+                                    <Picker.Item label={translate("genderChoices.female")} value="Femenino" />
+                                </Picker>
+                            </View>
+
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>{translate("register.race")}</Text>
+                                <Picker
+                                    selectedValue={this.state.userRace}
+                                    style={styles.selectSexoRaca}
+                                    onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
+                                    <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
+                                    <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
+                                    <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
+                                    <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                                    <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
+                                    <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
+                                    <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
+                                </Picker>
+                            </View>
+
+                        </View>
+
+                        <View style={styles.viewRow}>
+                            <View style={styles.viewChildSexoRaca}>
+                                <Text style={styles.commomTextView}>Nascimento</Text>
+                                <DatePicker
+                                    style={{ width: '80%', height: scale(25), backgroundColor: 'rgba(135, 150, 151, 0.55)', borderRadius: 20, marginTop: 5 }}
+                                    showIcon={false}
+                                    date={this.state.userDob}
+                                    androidMode='spinner'
+                                    mode="date"
+                                    placeholder={translate("birthDetails.format")}
+                                    format="YYYY-MM-DD"
+                                    minDate="1918-01-01"
+                                    maxDate={today}
+                                    confirmBtnText={translate("birthDetails.confirmButton")}
+                                    cancelBtnText={translate("birthDetails.cancelButton")}
+                                    customStyles={{
+                                        dateInput: {
+                                            borderWidth: 0
+                                        },
+                                        dateText: {
+                                            marginBottom: 10,
+                                            fontFamily: 'roboto',
+                                            fontSize: 17
+                                        },
+                                        placeholderText: {
+                                            marginBottom: 15,
+                                            fontFamily: 'roboto',
+                                            fontSize: 15,
+                                            color: 'black'
+                                        }
+                                    }}
+                                    onDateChange={date => this.setState({ userDob: date })}
+                                />
+                            </View>
+
+                            <View style={styles.viewChildPais}>
+                                <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
+                                <View>
+                                    <CountryPicker
+                                        onChange={value => {
+                                            this.setState({ cca2: value.cca2, userCountry: value.name })
+                                        }}
+                                        cca2={this.state.cca2}
+                                        translation="eng"
+                                    />
+                                    <Text style={styles.textCountry}>{this.state.userCountry}</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.buttonView}>
+                            <Button
+                                title="editar"
+                                color="#348EAC"
+                                onPress={() => {
+                                    this.editUser();
+                                    this.setState({userModal: false});
+                                    this.setModalVisible(!this.state.modalVisibleUser);
+                                }} />
+                        </View>
+                    </View>
+                </Modal>
                 <Modal //Modal View for household
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.modalVisible}
+                    visible={this.state.modalVisibleHousehold}
                     onRequestClose={() => {
-                        this.setModalVisible(!this.state.modalVisible); //Exit to modal view
+                        this.setModalVisible(!this.state.modalVisibleHousehold); //Exit to modal view
                     }}>
                     <View style={styles.modalView}>
                         <View style={{ paddingTop: 10 }}></View>
@@ -259,7 +402,7 @@ class Perfil extends Component {
                                 color="#348EAC"
                                 onPress={() => {
                                     this.editHousehold();
-                                    this.setModalVisible(!this.state.modalVisible);
+                                    this.setModalVisible(!this.state.modalVisibleHousehold);
                                 }} />
                         </View>
                     </View>
@@ -288,6 +431,7 @@ class Perfil extends Component {
                     </View>
                     <View style={{ alignSelf: 'center', marginRight: 10 }}>
                         <TouchableOpacity onPress={async () => {
+                            await this.setState({userModal: true})
                             this.getAllUserInfos();
                             //await this.setState({
                             //householdID: household.id,

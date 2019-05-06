@@ -53,15 +53,15 @@ class BadReport extends Component {
     }
 
     _isconnected = () => {
-        NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? this.sendSurvey() : Alert.alert(
-                translate("noInternet.noInternetConnection"),
-                translate("noInternet.ohNo"),
-                [
-                    { text: translate("noInternet.alertAllRightMessage"), onPress: () => null }
-                ]
-            )
-        });
+            NetInfo.isConnected.fetch().then(isConnected => {
+                isConnected ? this.sendSurvey() : Alert.alert(
+                    translate("noInternet.noInternetConnection"),
+                    translate("noInternet.ohNo"),
+                    [
+                        { text: translate("noInternet.alertAllRightMessage"), onPress: () => null }
+                    ]
+                )
+            });        
     }
 
     getLocation() {
@@ -172,7 +172,7 @@ class BadReport extends Component {
         return (
             <View style={styles.container}>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
-                    <Text style={{alignSelf: 'center'}}>
+                    <Text style={{ alignSelf: 'center' }}>
                         Reportanto como: {this.state.userSelected}
                     </Text>
                     <Text style={styles.dateText}>
@@ -261,7 +261,7 @@ class BadReport extends Component {
                     <View style={styles.buttonView}>
                         <Button title={translate("badReport.checkboxConfirm")} color="#348EAC" onPress={() => {
                             if (this.state.date !== null) {
-                                this.sendSurvey()
+                                this._isconnected();
                             }
                             else {
                                 alert(translate("badReport.checkboxDateConfirmation"));
