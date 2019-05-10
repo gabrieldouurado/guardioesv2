@@ -3,9 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
-    ImageBackground,
     TextInput,
-    ScrollView,
     Button,
     Picker,
     AsyncStorage,
@@ -15,9 +13,6 @@ import {
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
-import * as Imagem from '../../imgs/imageConst';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import { app_token } from '../../constUtils';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
@@ -29,9 +24,9 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = y + "-" + m + "-" + d;
+// let today = y + "-" + m + "-" + d;
 let minDate = (y - 13) + "-" + m + "-" + d;
-let tomorrow = y + "-" + m + "-" + (d + 1)
+// let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -40,7 +35,8 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            residenceCountry: false,
+            residence: '',
+            residenceCountryCheckbox: true,
             statusCode: null,
             userName: null,
             userEmail: null,
@@ -49,7 +45,6 @@ class Registrar extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            //userApp: 1,
             userToken: null,
             cca2: 'BR',
             showAlert: false, //Custom Alerts
@@ -84,26 +79,26 @@ class Registrar extends Component {
         });
     }
 
-    componentDidMount() {
-        return fetch(`${API_URL}/apps/`, {
-            headers: {
-                Accept: 'application/vnd.api+json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwic2NwIjoiYWRtaW4iLCJhdWQiOm51bGwsImlhdCI6MTU1NzE4MDY2MCwiZXhwIjoxNTU3Nzg1NDYwLCJqdGkiOiIxNWYzNjljNC05ZjcyLTRjMGEtOWRjMi1iNmUzN2VlN2EzMTcifQ.plKN-2D9r8263lgg_sJaUMeNHz5yqQ_7ZCLaXmiFO10'
-            },
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    dataSource: responseJson.apps,
-                })
-            })
-    }
+    // componentDidMount() {
+    //     return fetch(`${API_URL}/apps/`, {
+    //         headers: {
+    //             Accept: 'application/vnd.api+json',
+    //             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwic2NwIjoiYWRtaW4iLCJhdWQiOm51bGwsImlhdCI6MTU1NzE4MDY2MCwiZXhwIjoxNTU3Nzg1NDYwLCJqdGkiOiIxNWYzNjljNC05ZjcyLTRjMGEtOWRjMi1iNmUzN2VlN2EzMTcifQ.plKN-2D9r8263lgg_sJaUMeNHz5yqQ_7ZCLaXmiFO10'
+    //         },
+    //     })
+    //         .then((response) => response.json())
+    //         .then((responseJson) => {
+    //             this.setState({
+    //                 dataSource: responseJson.apps,
+    //             })
+    //         })
+    // }
 
     render() {
         const { showAlert } = this.state;
 
         return (
-            <View style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <View style={styles.container}>
                 <View style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -182,7 +177,7 @@ class Registrar extends Component {
 
                         <View style={styles.viewChildPais}>
                             <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
-                            <View>
+                            <View style={{ alignSelf: 'center' }}>
                                 <CountryPicker
                                     onChange={value => {
                                         this.setState({ cca2: value.cca2, userCountry: value.name })
@@ -195,11 +190,26 @@ class Registrar extends Component {
                         </View>
                     </View>
 
-                    <CheckBox
-                        title={this.state.userCountry + " é seu pais de residencia?"}
-                        checked={this.state.residenceCountry}
-                        onPress={() => this.setState({ residenceCountry: !this.state.residenceCountry })}
-                    />
+                    <View>
+                        <CheckBox
+                            title={this.state.userCountry + translate("register.originCountry")}
+                            checked={this.state.residenceCountryCheckbox}
+                            onPress={() => {
+                                this.setState({ residence: '' })
+                                this.setState({ residenceCountryCheckbox: !this.state.residenceCountryCheckbox })
+                            }}
+                        />
+                        <View>
+                            {!this.state.residenceCountryCheckbox ? 
+                                <TextInput 
+                                    placeholder="País de residência"
+                                    style={{ width: '90%', borderBottomWidth: 0.7, borderColor: '#348EAC', alignSelf: 'center' }}
+                                    onChangeText={residence => this.setState({ residence })}
+                                />
+                                : null
+                            }
+                        </View>
+                    </View>
 
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.email")}</Text>
@@ -228,7 +238,10 @@ class Registrar extends Component {
                             title={translate("register.signupButton")}
                             color="#348EAC"
                             //onPress={this._isconnected}
-                            onPress={() => { this.verifyAppID() }}
+                            onPress={() => { 
+                                this.create();
+                                console.log("Variaveis de estado", this.state);
+                             }}
                             />
                     </View>
 
@@ -247,27 +260,27 @@ class Registrar extends Component {
 
     }
 
-    verifyAppID = () => {
-        const appsData = this.state.dataSource;
-        if (this.state.residenceCountry == true) { //Verifica se o pais de orgim é o mesmo de residencia
-            {appsData != null ?
-                appsData.map(async app => {
-                    if (app.owner_country == this.state.userCountry) { //Verfica se existe o pais de residencia na base da dados
-                    await this.setState({userApp: app.id})
-                    console.warn("Criei meu usuário")
-                    //this.create(); //Caso exista cria o usuário
-                    } else {
-                        console.warn("Create app id")
-                    }
-                })
-                : null}
-        }
-    }
+    // verifyAppID = () => {
+    //     const appsData = this.state.dataSource;
+    //     if (this.state.residenceCountryCheckbox == true) { //Verifica se o pais de orgim é o mesmo de residencia
+    //         {appsData != null ?
+    //             appsData.map(async app => {
+    //                 if (app.owner_country == this.state.userCountry) { //Verfica se existe o pais de residencia na base da dados
+    //                 await this.setState({userApp: app.id})
+    //                 console.warn("Criei meu usuário")
+    //                 //this.create(); //Caso exista cria o usuário
+    //                 } else {
+    //                     console.warn("Create app id")
+    //                 }
+    //             })
+    //             : null}
+    //     }
+    // }
 
     create = () => {
         Keyboard.dismiss()
         this.showAlert()
-        fetch(`${API_URL}/user/signup`, {
+        fetch(API_URL + '/user/signup', {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -276,6 +289,7 @@ class Registrar extends Component {
             body: JSON.stringify({
                 "user":
                 {
+                    residence: this.state.residence,
                     user_name: this.state.userName,
                     email: this.state.userEmail,
                     password: this.state.userPwd,
@@ -283,17 +297,18 @@ class Registrar extends Component {
                     country: this.state.userCountry,
                     race: this.state.userRace,
                     birthdate: this.state.userDob,
-                    app_id: this.state.userApp,
                 }
             })
         })
             .then((response) => {
-                this.setState({ statusCode: response.status })
-                if (this.state.statusCode == 200) {
+                console.log("Resposta", response);
+                console.log("Status da resposta", response.status);
+                // this.setState({ statusCode: response.status })
+                if (response.status === 200) {
                     this.loginAfterCreate();
                 } else {
-                    alert("Algo deu errado");
                     this.hideAlert();
+                    alert("Algo deu errado");
                 }
             })
     }
@@ -301,7 +316,7 @@ class Registrar extends Component {
     //Login Function 
     loginAfterCreate = () => {
         console.warn("TESTE")
-        return fetch(`${API_URL}/user/login`, {
+        return fetch(API_URL + '/user/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -315,9 +330,15 @@ class Registrar extends Component {
                 }
             })
         })
-            .then((response) => {
-                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
-                if (this.state.statusCode == 200) {
+            .then(async response => {
+                // this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                if (response.status == 200) {
+                    try {
+                        AsyncStorage.setItem('userToken', response.headers.map.authorization);
+                    } catch (error) {
+                        console.log(error);
+                    }
+
                     return response.json()
                 } else {
                     alert("Algo deu errado");
@@ -327,7 +348,6 @@ class Registrar extends Component {
             .then((responseJson) => {
                 AsyncStorage.setItem('userID', responseJson.user.id.toString());
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
-                AsyncStorage.setItem('userToken', this.state.userToken);
                 AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
 
                 this.props.navigation.navigate('Home');
@@ -341,25 +361,11 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 550
-    },
-    titulo: {
-        color: 'white',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'center',
-        marginRight: '30%',
-    },
-    viewLogo: {
-        flex: 0.5,
-        width: '100%',
-        alignItems: 'center',
     },
     scroll: {
         flex: 1,
         width: '100%',
+        justifyContent: 'space-between'
     },
     viewCommom: {
         width: '100%',
@@ -379,9 +385,11 @@ const styles = StyleSheet.create({
     viewChildPais: {
         width: "50%",
         height: 65,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        // alignItems: 'center'
+        // flexDirection: 'row',
+        // justifyContent: 'flex-start',
+        // alignItems: 'center',
     },
     viewChildData: {
         width: "50%",

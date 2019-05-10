@@ -50,7 +50,8 @@ export default {
         "gender": "Género:",
         "race": "Raza:",
         "birth": "Fecha de nacimiento:",
-        "country": "Pais:",
+        "country": "País de origen:",
+        "originCountry": "es su país de residencia?",
         "email": "Email:",
         "password": "Contraseña:",
         "signupButton": "Registro",
@@ -75,7 +76,7 @@ export default {
         "gender": "Sexo: ",
         "race": "Raza: ",
         "birthday": "Fecha de nacimiento:",
-        "country": "Pais:",
+        "country": "Pais de origem:",
         "finishRegistering": "Finalizar Registro"
     },
     "ajuda": {

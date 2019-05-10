@@ -306,7 +306,7 @@ class Home extends Component {
                     closeOnHardwareBackPress={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
                     confirmText={translate("badReport.alertMessages.confirmText")}
-                    confirmButtonColor="#DD6B55"
+                    confirmButtonColor='green'
                     onCancelPressed={() => {
                         this.hideAlert();
                     }}
