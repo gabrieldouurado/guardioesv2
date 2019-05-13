@@ -36,6 +36,7 @@ class Registrar extends Component {
         super(props);
         this.state = {
             residence: '',
+            residenceText: 'Brazil', //So that the residence picker isn't filled when it shoulnd't
             residenceCountryCheckbox: true,
             statusCode: null,
             userName: null,
@@ -48,7 +49,8 @@ class Registrar extends Component {
             userToken: null,
             cca2: 'BR',
             showAlert: false, //Custom Alerts
-            showProgressBar: false //Custom Progress Bar
+            showProgressBar: false, //Custom Progress Bar
+            residenceCCA2: 'BR'
         }
     }
 
@@ -78,21 +80,6 @@ class Registrar extends Component {
             )
         });
     }
-
-    // componentDidMount() {
-    //     return fetch(`${API_URL}/apps/`, {
-    //         headers: {
-    //             Accept: 'application/vnd.api+json',
-    //             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwic2NwIjoiYWRtaW4iLCJhdWQiOm51bGwsImlhdCI6MTU1NzE4MDY2MCwiZXhwIjoxNTU3Nzg1NDYwLCJqdGkiOiIxNWYzNjljNC05ZjcyLTRjMGEtOWRjMi1iNmUzN2VlN2EzMTcifQ.plKN-2D9r8263lgg_sJaUMeNHz5yqQ_7ZCLaXmiFO10'
-    //         },
-    //     })
-    //         .then((response) => response.json())
-    //         .then((responseJson) => {
-    //             this.setState({
-    //                 dataSource: responseJson.apps,
-    //             })
-    //         })
-    // }
 
     render() {
         const { showAlert } = this.state;
@@ -200,12 +187,22 @@ class Registrar extends Component {
                             }}
                         />
                         <View>
-                            {!this.state.residenceCountryCheckbox ? 
-                                <TextInput 
-                                    placeholder="País de residência"
-                                    style={{ width: '90%', borderBottomWidth: 0.7, borderColor: '#348EAC', alignSelf: 'center' }}
-                                    onChangeText={residence => this.setState({ residence })}
-                                />
+                            {!this.state.residenceCountryCheckbox ?
+                                <View>
+                                    <CountryPicker
+                                        style={{ height: '15%' }}
+                                        onChange={value => {
+                                            this.setState({ 
+                                                residenceCCA2: value.cca2, 
+                                                residence: value.name,
+                                                residenceText: value.name,
+                                             })
+                                        }}
+                                        cca2={this.state.residenceCCA2}
+                                        translation="eng"
+                                    />
+                                    <Text style={{ alignSelf: 'center' }}>{this.state.residenceText}</Text>
+                                </View>
                                 : null
                             }
                         </View>
@@ -238,11 +235,11 @@ class Registrar extends Component {
                             title={translate("register.signupButton")}
                             color="#348EAC"
                             //onPress={this._isconnected}
-                            onPress={() => { 
+                            onPress={() => {
                                 this.create();
                                 console.log("Variaveis de estado", this.state);
-                             }}
-                            />
+                            }}
+                        />
                     </View>
 
                 </View>
@@ -259,23 +256,6 @@ class Registrar extends Component {
         );
 
     }
-
-    // verifyAppID = () => {
-    //     const appsData = this.state.dataSource;
-    //     if (this.state.residenceCountryCheckbox == true) { //Verifica se o pais de orgim é o mesmo de residencia
-    //         {appsData != null ?
-    //             appsData.map(async app => {
-    //                 if (app.owner_country == this.state.userCountry) { //Verfica se existe o pais de residencia na base da dados
-    //                 await this.setState({userApp: app.id})
-    //                 console.warn("Criei meu usuário")
-    //                 //this.create(); //Caso exista cria o usuário
-    //                 } else {
-    //                     console.warn("Create app id")
-    //                 }
-    //             })
-    //             : null}
-    //     }
-    // }
 
     create = () => {
         Keyboard.dismiss()

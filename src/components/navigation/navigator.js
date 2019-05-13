@@ -29,8 +29,7 @@ import Phones from '../conselhos/phones';
 import ChooseReporter from '../principal/ChooseReporter';
 import TermosPoliticas from '../principal/TermosPoliticas';
 import CopilotTest from '../principal/copilot';
-
-
+import Rumor from '../principal/Rumor';
 
 export const Cadastro = createStackNavigator({
     TelaInicial: { screen: TelaInicial },
@@ -108,7 +107,7 @@ export const Stack = createStackNavigator({
     ChooseReporter,
     TermosPoliticas,
     CopilotTest,
-
+    Rumor,
 },
     {
         initialRouteName: 'BottomMenu',
@@ -136,10 +135,10 @@ export const Drawer = createDrawerNavigator({
 export const Authentication = createSwitchNavigator({
     AuthLoading: { screen: Loading },
     Cadastro: { screen: Cadastro },
-    Drawer
+    Drawer,
 },
     {
-        initialRouteName: 'AuthLoading',
+        initialRouteName: 'Drawer',
     }
 )
 

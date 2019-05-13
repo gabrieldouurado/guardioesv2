@@ -8,6 +8,7 @@ import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
+import {userLocation} from '../../constUtils';
 
 let data = new Date();
 let d = data.getDate();

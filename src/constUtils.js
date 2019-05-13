@@ -18,3 +18,17 @@ export const Redirect = (titulo, message, url) => {
         ]
     )
 }
+
+export const userLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            this.setState({
+                userLatitude: position.coords.latitude,
+                userLongitude: position.coords.longitude,
+                error: null,
+            });
+        },
+        (error) => this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 50000 },
+    );
+}
