@@ -138,7 +138,7 @@ export const Authentication = createSwitchNavigator({
     Drawer,
 },
     {
-        initialRouteName: 'Drawer',
+        initialRouteName: 'AuthLoading',
     }
 )
 
