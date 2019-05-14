@@ -1,18 +1,10 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Text, View, StyleSheet, TouchableOpacity, Modal, Dimensions, TextInput } from 'react-native';
-=======
 import { Text, View, StyleSheet, TouchableOpacity, Modal, Dimensions, TextInput, AsyncStorage } from 'react-native';
->>>>>>> DiarioSaude
 import MapView, { Marker } from 'react-native-maps';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { API_URL } from '../../constUtils';
 
-<<<<<<< HEAD
-
-=======
->>>>>>> DiarioSaude
 const { height, width } = Dimensions.get('window');
 
 let markerLat = 0;
@@ -40,11 +32,8 @@ export class Rumor extends Component {
 
 
       description: '',
-<<<<<<< HEAD
-=======
       confirmed_cases: 0,
       confirmed_deaths: 0,
->>>>>>> DiarioSaude
       title: ''
     }
   }
@@ -88,16 +77,6 @@ export class Rumor extends Component {
 
   _createRumor = async () => {
     const user_token = await AsyncStorage.getItem('userToken');
-<<<<<<< HEAD
-    const { title, event_description, confirmed_cases, confirmed_deaths } = this.state;
-
-    try {
-      fetch(API_URL + "rumors", {
-        method: 'POST',
-        header: {
-          Accept: 'application/vnd.api+json',
-          'Content-Type': 'application/vnd.api+json',
-=======
     const { title, description, confirmed_cases, confirmed_deaths } = this.state;
 
     try {
@@ -106,7 +85,6 @@ export class Rumor extends Component {
         headers: {
           Accept: 'application/vnd.api+json',
           'Content-Type': 'application/json',
->>>>>>> DiarioSaude
           Authorization: user_token
         },
         body: JSON.stringify({
@@ -118,8 +96,6 @@ export class Rumor extends Component {
           }
         })
       })
-<<<<<<< HEAD
-=======
         .then(res => {
           console.log("Res -> ", res);
           return res.json();
@@ -128,7 +104,6 @@ export class Rumor extends Component {
           console.log("ResJson -> ", resJson);
           console.log("Data -> ", resJson.data)
         })
->>>>>>> DiarioSaude
     } catch (error) {
       console.log(error);
     }
@@ -226,15 +201,6 @@ export class Rumor extends Component {
           />
           {/* </View> */}
 
-<<<<<<< HEAD
-          <TouchableOpacity
-            style={styles.openMapBtn}
-            onPress={() => this._setModalVisible()}
-          >
-            <Text>Marque no mapa</Text>
-            {this.state.showMarker ? checked : unchecked}
-          </TouchableOpacity>
-=======
           <View style={{
             flexDirection: 'row', 
             justifyContent: 'space-around',
@@ -260,7 +226,6 @@ export class Rumor extends Component {
               {this.state.showMarker ? checked : unchecked}
             </TouchableOpacity>
           </View>
->>>>>>> DiarioSaude
 
         </View>
 
@@ -286,11 +251,6 @@ const styles = StyleSheet.create({
   body: {
     marginTop: height * 0.10,
     paddingVertical: height * 0.10,
-<<<<<<< HEAD
-    borderColor: 'red',
-    borderWidth: 1
-=======
->>>>>>> DiarioSaude
   },
   map: {
     flex: 1
@@ -328,14 +288,9 @@ const styles = StyleSheet.create({
     height: height * 0.08,
     justifyContent: 'center',
     alignItems: 'center',
-<<<<<<< HEAD
-    borderColor: 'red',
-    borderWidth: 1
-=======
     borderColor: '#166B87',
     borderWidth: 1,
     borderRadius: 10
->>>>>>> DiarioSaude
   }
 })
 
