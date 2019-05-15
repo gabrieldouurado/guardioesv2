@@ -221,6 +221,7 @@ class Registrar extends Component {
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.password")}</Text>
                         <TextInput style={styles.formInput}
+                            autoCapitalize='none'
                             returnKeyType='next'
                             secureTextEntry={true}
                             onChangeText={text => this.setState({ userPwd: text })}
