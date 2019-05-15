@@ -23,7 +23,8 @@ export default class drawerContentComponents extends Component {
     //Funcao responsavel por pegar as variaveis do Facebook e salva-las em variaveis de estado 
     getInfo = async () => {
         let userName = await AsyncStorage.getItem('userName');
-        this.setState({ userName })
+        let userAvatar = await AsyncStorage.getItem('userAvatar');
+        this.setState({ userName, userAvatar })
     }
 
     //Funcao responsavel por apagar as variaveis de login do app salvas no celular ao encerrar uma sessão
@@ -32,7 +33,9 @@ export default class drawerContentComponents extends Component {
         AsyncStorage.removeItem('userID');
         AsyncStorage.removeItem('householdID');
         AsyncStorage.removeItem('userToken');
+        AsyncStorage.removeItem('appID');
         AsyncStorage.removeItem('userSelected');
+        AsyncStorage.removeItem('avatarSelected');
         this.props.navigation.navigate('TelaInicial')
     }
 
@@ -49,7 +52,7 @@ export default class drawerContentComponents extends Component {
                             <Avatar
                                 xlarge
                                 rounded
-                                source={Imagem.imagemFather}
+                                source={Imagem[this.state.userAvatar]}
                                 activeOpacity={0.7}
                             />
                         </View>

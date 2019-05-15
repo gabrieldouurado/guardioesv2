@@ -60,9 +60,10 @@ class Diario extends Component {
     getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
         let userSelected = await AsyncStorage.getItem('userSelected');
+        let avatarSelect = await AsyncStorage.getItem('avatarSelected');
         let userID = await AsyncStorage.getItem('userID');
         let userToken = await AsyncStorage.getItem('userToken');
-        this.setState({ userName, userSelected, userID, userToken });
+        this.setState({ userName, userSelected, userID, userToken, avatarSelect });
 
         //Para não dar BO de variavel nula no IOS -- So puxa o async quando é um household
         if (this.state.userSelected == this.state.userName) {
@@ -291,7 +292,7 @@ class Diario extends Component {
                             <Avatar
                                 large
                                 rounded
-                                source={Imagem.imagemFather}
+                                source={Imagem[this.state.avatarSelect]}
                                 activeOpacity={0.7}
                                 style={{ borderWidth: 1, borderColor: '#BF092E', margin: '10%' }}
                             />

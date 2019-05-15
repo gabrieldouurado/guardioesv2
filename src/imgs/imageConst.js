@@ -19,6 +19,14 @@ export const imgTermos = require('./termos.png');
 export const imgTutorial = require('./tutorial.png');
 export const imagemFundoInicio = require('./fundoTelaInicial.png');
 
+//Avatar
+export const Father = require('./avatar/father.png');
+export const Mother = require('./avatar/mother.png');
+export const Grandfather = require('./avatar/grandfather.png');
+export const Grandmother = require('./avatar/grandmother.png');
+export const Sister = require('./avatar/sister.png');
+export const Brother = require('./avatar/brother.png');
+export const Son = require('./avatar/son.png');
+export const Daughter = require('./avatar/daughter.png');
 
-export const imagemFather = require('./avatar/perfil_06.png');
-export const imagemMother = require('./avatar/perfil_12.png');
+

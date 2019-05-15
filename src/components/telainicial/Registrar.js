@@ -71,7 +71,7 @@ class Registrar extends Component {
         let validation = false
         this.state.userEmail && this.state.userPwd && this.state.userName && this.state.userDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.verifyAppID() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+            isConnected ? validation ? this.avatarSelector() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
                 translate("register.noInternet.ohNo"),
                 [
@@ -92,7 +92,6 @@ class Registrar extends Component {
                         <Text style={styles.commomText}>{translate("register.name")}</Text>
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
-                            onSubmitEditing={() => this.sobrenomeInput.focus()}
                             onChangeText={text => this.setState({ userName: text })}
                         />
                     </View>
@@ -192,11 +191,11 @@ class Registrar extends Component {
                                     <CountryPicker
                                         style={{ height: '15%' }}
                                         onChange={value => {
-                                            this.setState({ 
-                                                residenceCCA2: value.cca2, 
+                                            this.setState({
+                                                residenceCCA2: value.cca2,
                                                 residence: value.name,
                                                 residenceText: value.name,
-                                             })
+                                            })
                                         }}
                                         cca2={this.state.residenceCCA2}
                                         translation="eng"
@@ -234,11 +233,11 @@ class Registrar extends Component {
                         <Button
                             title={translate("register.signupButton")}
                             color="#348EAC"
-                            //onPress={this._isconnected}
-                            onPress={() => {
-                                this.create();
-                                console.log("Variaveis de estado", this.state);
-                            }}
+                            onPress={this._isconnected}
+                            //onPress={() => {
+                            //    this.create();
+                             //   console.log("Variaveis de estado", this.state);
+                            //}}
                         />
                     </View>
 
@@ -257,7 +256,17 @@ class Registrar extends Component {
 
     }
 
+    avatarSelector = async () => {
+        if (this.state.userGender == "Masculino") {
+            await this.setState({ picture: "Father" });
+        } else {
+            await this.setState({ picture: "Mother" });
+        }
+        this.create();
+    }
+
     create = () => {
+        console.warn(this.state.picture)
         Keyboard.dismiss()
         this.showAlert()
         fetch(API_URL + '/user/signup', {
@@ -277,6 +286,7 @@ class Registrar extends Component {
                     country: this.state.userCountry,
                     race: this.state.userRace,
                     birthdate: this.state.userDob,
+                    picture: this.state.picture,
                 }
             })
         })
@@ -329,6 +339,7 @@ class Registrar extends Component {
                 AsyncStorage.setItem('userID', responseJson.user.id.toString());
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
                 AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
+                AsyncStorage.setItem('userAvatar', responseJson.user.picture);
 
                 this.props.navigation.navigate('Home');
                 this.hideAlert();

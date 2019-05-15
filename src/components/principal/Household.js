@@ -33,7 +33,7 @@ class Registrar extends Component {
         this.getInfos();
         this.state = {
             statusCode: null,
-            kinship: 'pai',
+            kinship: 'Pai',
             householdName: null,
             householdGender: 'Masculino',
             householdCountry: 'Brazil',
@@ -63,7 +63,7 @@ class Registrar extends Component {
         let validation = false
         this.state.householdName && this.state.householdDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+            isConnected ? validation ? this.avatarSelector() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
                 translate("register.noInternet.ohNo"),
                 [
@@ -208,7 +208,44 @@ class Registrar extends Component {
 
     }
 
+    avatarSelector = async () => {
+        if (this.state.householdGender == "Masculino") {
+            switch (this.state.kinship) {
+                case "Pai":
+                    await this.setState({ picture: "Father" });
+                    break;
+                case "Avós":
+                    await this.setState({ picture: "Grandfather" });
+                    break;
+                case "Filhos":
+                    await this.setState({ picture: "Son" });
+                    break;
+                case "Irmãos":
+                    await this.setState({ picture: "Brother" });
+                    break;
+            }
+        } else {
+            switch (this.state.kinship) {
+                case "Mãe":
+                    await this.setState({ picture: "Mother" });
+                    break;
+                case "Avós":
+                    await this.setState({ picture: "Grandmother" });
+                    break;
+                case "Filhos":
+                    await this.setState({ picture: "Daughter" });
+                    break;
+                case "Irmãos":
+                    await this.setState({ picture: "Sister" });
+                    break;
+            }
+        }
+
+        this.create();
+    }
+
     create = () => {
+        console.warn(this.state.picture)
         this.showAlert();
         fetch(`${API_URL}/users/${this.state.userID}/households`, {
             method: 'POST',
@@ -225,6 +262,7 @@ class Registrar extends Component {
                     gender: this.state.householdGender,
                     race: this.state.householdRace,
                     kinship: this.state.kinship,
+                    picture: this.state.picture,
                 }
             )
         })

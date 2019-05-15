@@ -104,9 +104,12 @@ class Home extends Component {
     let userName = await AsyncStorage.getItem('userName');
     let userID = await AsyncStorage.getItem('userID');
     let userToken = await AsyncStorage.getItem('userToken');
-    this.setState({ userName, userID, userToken });
-    await this.setState({ userSelect: this.state.userName });
+    let userAvatar = await AsyncStorage.getItem('userAvatar')
+    this.setState({ userName, userID, userToken, userAvatar });
+
+    await this.setState({ userSelect: this.state.userName, avatarSelect: this.state.userAvatar });
     AsyncStorage.setItem('userSelected', this.state.userSelect);
+    AsyncStorage.setItem('avatarSelected', this.state.avatarSelect);
     this.getHouseholds();
   }
 
@@ -216,12 +219,13 @@ class Home extends Component {
                     <Avatar
                       large
                       rounded
-                      source={Imagem.imagemFather}
+                      source={Imagem[this.state.userAvatar]}
                       activeOpacity={0.7}
                       onPress={async () => {
-                        await this.setState({ householdID: null, userSelect: this.state.userName });
+                        await this.setState({ householdID: null, userSelect: this.state.userName, avatarSelect: this.state.userAvatar });
                         this.setModalVisible(!this.state.modalVisible);
                         AsyncStorage.setItem('userSelected', this.state.userSelect);
+                        AsyncStorage.setItem('avatarSelected', this.state.avatarSelect);
                         AsyncStorage.removeItem('householdID');
                       }}
                     />
@@ -235,12 +239,13 @@ class Home extends Component {
                             <Avatar
                               large
                               rounded
-                              source={Imagem.imagemMother}
+                              source={Imagem[household.picture]}
                               activeOpacity={0.7}
                               onPress={async () => {
-                                await this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description });
+                                await this.setState({ householdID: household.id, householdName: household.description, userSelect: household.description, avatarSelect: household.picture });
                                 this.setModalVisible(!this.state.modalVisible);
                                 AsyncStorage.setItem('userSelected', this.state.userSelect);
+                                AsyncStorage.setItem('avatarSelected', this.state.avatarSelect);
                                 AsyncStorage.setItem('householdID', this.state.householdID.toString());
                               }}
                             />
@@ -267,7 +272,7 @@ class Home extends Component {
             <Avatar
               large
               rounded
-              source={Imagem.imagemFather}
+              source={Imagem[this.state.avatarSelect]}
               activeOpacity={0.7}
               onPress={() => {
                 this.getHouseholds();

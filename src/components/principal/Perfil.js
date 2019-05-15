@@ -59,7 +59,8 @@ class Perfil extends Component {
     let userName = await AsyncStorage.getItem('userName');
     let userID = await AsyncStorage.getItem('userID');
     let userToken = await AsyncStorage.getItem('userToken');
-    this.setState({ userName, userID, userToken });
+    let userAvatar = await AsyncStorage.getItem('userAvatar')
+    this.setState({ userName, userID, userToken, userAvatar });
     this.setState({ userSelect: this.state.userName });
     this.getHouseholds();
   }
@@ -93,6 +94,41 @@ class Perfil extends Component {
     })
   }
 
+  avatarHouseholdSelector = async () => {
+    if (this.state.householdGender == "Masculino") {
+        switch (this.state.kinship) {
+            case "Pai":
+                await this.setState({ picture: "Father" });
+                break;
+            case "Avós":
+                await this.setState({ picture: "Grandfather" });
+                break;
+            case "Filhos":
+                await this.setState({ picture: "Son" });
+                break;
+            case "Irmãos":
+                await this.setState({ picture: "Brother" });
+                break;
+        }
+    } else {
+        switch (this.state.kinship) {
+            case "Mãe":
+                await this.setState({ picture: "Mother" });
+                break;
+            case "Avós":
+                await this.setState({ picture: "Grandmother" });
+                break;
+            case "Filhos":
+                await this.setState({ picture: "Daughter" });
+                break;
+            case "Irmãos":
+                await this.setState({ picture: "Sister" });
+                break;
+        }
+    }
+
+    this.editHousehold();
+}
   editHousehold = () => {
     fetch(`${API_URL}/users/${this.state.userID}/households/${this.state.householdID}`, {
       method: 'PATCH',
@@ -108,7 +144,8 @@ class Perfil extends Component {
           country: this.state.householdCountry,
           gender: this.state.householdGender,
           race: this.state.householdRace,
-          kinship: this.state.kinship
+          kinship: this.state.kinship,
+          picture: this.state.picture
         }
       )
     })
@@ -401,7 +438,7 @@ class Perfil extends Component {
                 title="editar"
                 color="#348EAC"
                 onPress={() => {
-                  this.editHousehold();
+                  this.avatarHouseholdSelector();
                   this.setModalVisible(!this.state.modalVisibleHousehold);
                 }} />
             </View>
@@ -412,7 +449,7 @@ class Perfil extends Component {
             <Avatar
               large
               rounded
-              source={Imagem.imagemFather}
+              source={Imagem[this.state.userAvatar]}
               activeOpacity={0.7}
             />
           </View>
@@ -462,7 +499,7 @@ class Perfil extends Component {
                   <Avatar
                     large
                     rounded
-                    source={Imagem.imagemMother}
+                    source={Imagem[household.picture]}
                     activeOpacity={0.7}
                   />
                   <View style={{ flexDirection: 'column', marginLeft: 10, width: scale(220) }}>
