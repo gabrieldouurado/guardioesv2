@@ -9,7 +9,8 @@ import {
     AsyncStorage,
     Keyboard,
     NetInfo,
-    Alert
+    Alert,
+    ScrollView
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
@@ -35,6 +36,7 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isProfessional: false,
             residence: '',
             residenceText: 'Brazil', //So that the residence picker isn't filled when it shoulnd't
             residenceCountryCheckbox: true,
@@ -85,7 +87,7 @@ class Registrar extends Component {
         const { showAlert } = this.state;
 
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
@@ -205,6 +207,13 @@ class Registrar extends Component {
                                 : null
                             }
                         </View>
+                        <CheckBox
+                            title={"Voce é um profissional da Saude"}
+                            checked={this.state.isProfessional}
+                            onPress={() => {
+                                this.setState({ isProfessional: !this.state.isProfessional })
+                            }}
+                        />
                     </View>
 
                     <View style={styles.viewCommom}>
@@ -252,7 +261,7 @@ class Registrar extends Component {
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
                 />
-            </View>
+            </ScrollView>
         );
 
     }
@@ -267,7 +276,6 @@ class Registrar extends Component {
     }
 
     create = () => {
-        console.warn(this.state.picture)
         Keyboard.dismiss()
         this.showAlert()
         fetch(API_URL + '/user/signup', {
@@ -288,6 +296,7 @@ class Registrar extends Component {
                     race: this.state.userRace,
                     birthdate: this.state.userDob,
                     picture: this.state.picture,
+                    is_professional: this.state.isProfessional
                 }
             })
         })
@@ -306,7 +315,6 @@ class Registrar extends Component {
 
     //Login Function 
     loginAfterCreate = () => {
-        console.warn("TESTE")
         return fetch(API_URL + '/user/login', {
             method: 'POST',
             headers: {
@@ -341,6 +349,7 @@ class Registrar extends Component {
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
                 AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
                 AsyncStorage.setItem('userAvatar', responseJson.user.picture);
+                AsyncStorage.setItem('isProfessional', responseJson.user.is_professional.toString());
 
                 this.props.navigation.navigate('Home');
                 this.hideAlert();
