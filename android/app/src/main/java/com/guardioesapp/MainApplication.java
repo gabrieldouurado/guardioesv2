@@ -3,16 +3,6 @@ package com.guardioesapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.horcrux.svg.SvgPackage;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
-import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.github.wuxudong.rncharts.MPAndroidChartPackage;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
@@ -55,23 +45,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new VectorIconsPackage(),
-            new SvgPackage(),
-            new ReactNativePushNotificationPackage(),
-            new MapsPackage(),
-            new LinearGradientPackage(),
-            new RNI18nPackage(),
-            new RNFusedLocationPackage(),
-            new FBSDKPackage(),
-            new MPAndroidChartPackage(),
-            new AsyncStoragePackage(),
-            new LinearGradientPackage(),
-            new RNI18nPackage(),
-            new MPAndroidChartPackage(),
-            new SvgPackage(),
-            new RNFusedLocationPackage(),
-            new MapsPackage(),
-            new FBSDKPackage(mCallbackManager)
+          new LinearGradientPackage(),
+          new RNI18nPackage(),
+          new MPAndroidChartPackage(),
+          new SvgPackage(),
+          new RNFusedLocationPackage(),
+          new MapsPackage(),
+          new FBSDKPackage(mCallbackManager)
       );
     }
 
