@@ -62,7 +62,6 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new RNI18nPackage(),
             new RNFusedLocationPackage(),
-            new FBSDKPackage(),
             new MPAndroidChartPackage(),
             new AsyncStoragePackage(),
             new LinearGradientPackage(),
