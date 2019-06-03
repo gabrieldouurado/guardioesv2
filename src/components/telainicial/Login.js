@@ -53,10 +53,27 @@ class Login extends Component {
 
     render() {
         const { showAlert } = this.state;
+
+        const logoBR = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoCBR} />
+          )
+      
+          const logoES = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+          )
+      
+          let imageType;
+          if (translate("initialscreen.title") === "Guardianes de la Salud") {
+            imageType = logoES
+          }
+          else {
+            imageType = logoBR
+          }
+
         return (
             <View style={styles.container}>
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+                    {imageType}
                 </View>
                 <View style={styles.viewForm}>
                     <Text style={styles.commomText}>{translate('login.email')}</Text>

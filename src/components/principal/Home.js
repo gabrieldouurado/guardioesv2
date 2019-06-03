@@ -167,6 +167,22 @@ class Home extends Component {
         const householdHowYouFellingText = translate("home.householdHowYouFelling_part_1") + this.state.householdName + translate("home.householdHowYouFelling_part_2");
         const householdsData = this.state.data;
 
+        const logoBR = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoCBR} />
+          )
+      
+          const logoES = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+          )
+      
+          let imageType;
+          if (translate("initialscreen.title") === "Guardianes de la Salud") {
+            imageType = logoES
+          }
+          else {
+            imageType = logoBR
+          }
+
         const userIsProfessional = (
             <View style={styles.rumorView}>
                 <TouchableOpacity
@@ -223,7 +239,7 @@ class Home extends Component {
                 <StatusBar backgroundColor='#348EAC' />
 
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+                    {imageType}
                 </View>
 
                 <View style={styles.viewWelcome}>

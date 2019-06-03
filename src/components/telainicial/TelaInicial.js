@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, AsyncStorage, StatusBar, Alert, ImageBackground } from 'react-native';
-import { imagemEntrar, imagemLogo, imagemRegistar, imagemFundoInicio } from '../../imgs/imageConst';
+import { imagemEntrar, imagemLogo, imagemRegistar, imagemFundoInicio, imagemLogoBR } from '../../imgs/imageConst';
 import translate from '../../../locales/i18n';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -28,7 +28,7 @@ class TelaInicial extends Component {
     //Funcao responsavel por verificar se o usuario está logado e ser redirecionado automaticamente para Home
     _loadInitialState = async () => {
         let UserID = await AsyncStorage.getItem('userID');
-        this.props.navigation.navigate(UserID? 'BottomMenu' : 'Cadastro');
+        this.props.navigation.navigate(UserID ? 'BottomMenu' : 'Cadastro');
     }
 
 
@@ -36,20 +36,36 @@ class TelaInicial extends Component {
         const { navigate } = this.props.navigation
         const statusColor = (<StatusBar backgroundColor='#348EAC' />)
 
+        const logoBR = (
+            <Image style={styles.imageLogo} source={imagemLogoBR} />
+        )
+
+        const logoES = (
+            <Image style={styles.imageLogo} source={imagemLogo} />
+        )
+
+        let imageType;
+        if (translate("initialscreen.title") === "Guardianes de la Salud") {
+            imageType = logoES
+        }
+        else {
+            imageType = logoBR
+        }
+
         return (
             <LinearGradient style={styles.container} colors={['#348EAC', '#013444']} start={{ x: 1.5, y: 0.6 }} end={{ x: -0.2, y: 1.4 }}>
                 {statusColor}
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={imagemLogo} />
+                    {imageType}
                 </View>
                 <View style={styles.viewButton}>
                     <View style={styles.viewChildRegistar}>
-                    <TouchableOpacity onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation = this.props.navigation)}>
+                        <TouchableOpacity onPress={() => Redirect(textos.tituloTermosDeUso, textos.mensagem, navigation = this.props.navigation)}>
                             <Text style={styles.textButton}>REGISTRAR</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.viewChildEntrar}>
-                    <TouchableOpacity onPress={() => navigate('Login')}>
+                        <TouchableOpacity onPress={() => navigate('Login')}>
                             <Text style={styles.textButton}>ENTRAR</Text>
                         </TouchableOpacity>
                     </View>
@@ -102,7 +118,7 @@ const styles = StyleSheet.create({
     textButton: {
         fontFamily: 'roboto',
         color: '#013444',
-        fontSize: 17,        
+        fontSize: 17,
         alignSelf: 'center',
         fontWeight: 'bold'
     }

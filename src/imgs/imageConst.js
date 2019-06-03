@@ -1,6 +1,8 @@
 export const imagemFundo = require('./Icones/300ppi/Fundo-logo/logo-marca-dagua.png');
 export const imagemLogo = require('./Icones/300ppi/Fundo-logo/logo.png');
 export const imagemLogoC = require('./Icones/300ppi/Fundo-logo/logoC.png');
+export const imagemLogoBR = require('./Icones/300ppi/Fundo-logo/logoBR.png');
+export const imagemLogoCBR = require('./Icones/300ppi/Fundo-logo/logoCBR.png');
 //export const imagemReportar = require('./Icones/300ppi/icones-home/001.png');
 export const imagemDrawer = require('./bgDrawer.png');
 export const imagemInicio = require('./Icones/300ppi/icones-home/Home.png');
