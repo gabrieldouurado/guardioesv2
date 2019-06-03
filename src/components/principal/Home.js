@@ -170,16 +170,16 @@ class Home extends Component {
         const userIsProfessional = (
             <View style={styles.rumorView}>
                 <TouchableOpacity
-                    style={{ marginRight: '4%', padding: '3%' }}
+                    style={{marginRight: '4%', padding: '3%'}}
                     onPress={() => navigate("Rumor")}
                 >
-                    <Text style={{ color: 'blue', borderBottomWidth: 0.5, borderBottomColor: 'blue' }}>Relatar rumor</Text>
+                    <Text style={{ color: 'white', fontFamily: 'roboto' }}>Relatar rumor</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => Alert.alert('', 'Relatar um rumor de alguma coisa bla bla bla', [{ text: 'Ok', onPress: () => null }])}
                 >
                     {/* <Text style={{ fontSize: 18, padding: '2%'}}> */}
-                    <FontAwesome name="info-circle" size={25} color="black" />
+                    <FontAwesome name="info-circle" size={25} color="white" />
                     {/* </Text> */}
                 </TouchableOpacity>
             </View>
@@ -194,7 +194,8 @@ class Home extends Component {
         if (this.state.isProfessional == "true") {
             isProfessionalTrue = userIsProfessional
         } else {
-            isProfessionalTrue = userNotProfessional
+            //isProfessionalTrue = userNotProfessional
+            isProfessionalTrue = userIsProfessional
         }
 
         const userHowYouFelling = (
@@ -479,15 +480,16 @@ const styles = StyleSheet.create({
         marginBottom: 13
     },
     rumorView: {
+        backgroundColor: '#348EAC',
+        borderRadius: 90,
         flexDirection: 'row',
-        height: '6.%',
+        marginTop: 10,
+        marginBottom: 10,
+        height: '5%',
         justifyContent: 'center',
-        width: '100%',
+        width: '35%',
         alignItems: 'center',
     },
-    rumorBtn: {
-
-    }
 });
 
 //make this component available to the app

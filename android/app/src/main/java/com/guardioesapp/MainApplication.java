@@ -45,24 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-<<<<<<< HEAD
-            new VectorIconsPackage(),
-            new SvgPackage(),
-            new ReactNativePushNotificationPackage(),
-            new MapsPackage(),
-            new LinearGradientPackage(),
-            new RNI18nPackage(),
-            new RNFusedLocationPackage(),
-            new MPAndroidChartPackage(),
-            new AsyncStoragePackage(),
-            new LinearGradientPackage(),
-            new RNI18nPackage(),
-            new MPAndroidChartPackage(),
-            new SvgPackage(),
-            new RNFusedLocationPackage(),
-            new MapsPackage(),
-            new FBSDKPackage(mCallbackManager)
-=======
           new LinearGradientPackage(),
           new RNI18nPackage(),
           new MPAndroidChartPackage(),
@@ -70,7 +52,6 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFusedLocationPackage(),
           new MapsPackage(),
           new FBSDKPackage(mCallbackManager)
->>>>>>> b9ffd5599b3d131e8f8d0c800101afc5912ae72e
       );
     }
 

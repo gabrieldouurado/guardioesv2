@@ -72,6 +72,7 @@ class Login extends Component {
                     <Text style={styles.commomText}>{translate("login.password")}</Text>
                     <TextInput
                         style={styles.formInput}
+                        autoCapitalize='none'
                         secureTextEntry={true}
                         multiline={false}
                         maxLength={15}
@@ -83,11 +84,6 @@ class Login extends Component {
                             title={translate("login.loginbutton")}
                             color="#348EAC"
                             onPress={this._isconnected} />
-                    </View>
-                    <View style={{ paddingTop: 20 }}>
-                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                            {translate("login.connectWithFacebook")}
-                        </Text>
                     </View>
                 </View>
                 <AwesomeAlert

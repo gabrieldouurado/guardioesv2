@@ -74,8 +74,10 @@ class Conselho extends Component {
                         this.setModalVisible(!this.state.modalVisible); //Exit to modal view
                     }}>
                     <View style={styles.modalView}>
-                        <Text>{this.state.contentTitle}</Text>
-                        <Text>{this.state.contentBody}</Text>
+                        <View style={styles.modalTitle}>
+                            <Text style={styles.modalTextTitle}>{this.state.contentTitle}</Text>
+                        </View>
+                        <Text style={styles.modalBodyText}>{this.state.contentBody}</Text>
                     </View>
                 </Modal>
 
@@ -107,14 +109,16 @@ const styles = StyleSheet.create({
     selector: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 10,
+        margin: 7,
         elevation: 5,
         backgroundColor: '#fff',
-        padding: 10
+        padding: 10,
+        borderRadius: 5
     },
     textSelector: {
         fontFamily: 'roboto',
-        fontSize: 16,
+        fontSize: 18,
+        //fontWeight: 'bold',
         marginLeft: 12,
         alignSelf: 'center',
         color: '#348EAC'
@@ -122,13 +126,32 @@ const styles = StyleSheet.create({
     modalView: {
         alignSelf: 'center',
         width: '93%',
-        height: '88%',
+        //height: '88%',
         marginTop: '3%',
         padding: '5%',
         borderRadius: 15,
         backgroundColor: 'white',
         elevation: 15
     },
+    modalTitle: {
+        borderBottomWidth: 2,
+        borderColor: '#348EAC',
+    },
+    modalTextTitle: {
+        fontFamily: 'roboto',
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 3,
+        marginLeft: 5,
+        color: '#348EAC'
+    },
+    modalBodyText: {
+        textAlign: 'justify',
+        fontSize: 16,
+        marginTop: 7,
+        marginLeft: 5,
+        color: '#348EAC'
+    }
 });
 
 //make this component available to the app
