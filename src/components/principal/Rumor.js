@@ -103,6 +103,9 @@ export class Rumor extends Component {
         .then(resJson => {
           console.log("ResJson -> ", resJson);
           console.log("Data -> ", resJson.data)
+          if(resJson.message == "Sucesso"){
+            this.props.navigation.navigate('Home');
+          }
         })
     } catch (error) {
       console.log(error);
@@ -165,7 +168,7 @@ export class Rumor extends Component {
 
                 setTimeout(() => {
                   this._setModalVisible();
-                }, 3000);
+                }, 500);
               }}
             >
               {this.state.showMarker ? marker : null}
@@ -178,19 +181,24 @@ export class Rumor extends Component {
               <Text style={styles.exitModalText}>X</Text>
             </TouchableOpacity>
           </Modal>
-
+          <View>
+            <Text style={styles.normalTexts}>Título:</Text>
+          </View>
           <View>
             <TextInput
-              placeholder="Título"
+              placeholder="Título do Rumor"
               style={styles.textInput}
               onChangeText={title => this.setState({ title })}
               value={this.state.title}
             />
           </View>
+          <View>
+            <Text style={styles.normalTexts}>Descriçao:</Text>
+          </View>
 
           {/* <View> */}
           <TextInput
-            placeholder="Mensagem descrevendo os eventos"
+            placeholder="Mensagem descrevendo os eventos"            
             multiline={true}
             maxLength={300}
             style={[styles.textInput, newStyle]}
@@ -202,22 +210,24 @@ export class Rumor extends Component {
           {/* </View> */}
 
           <View style={{
-            flexDirection: 'row', 
-            justifyContent: 'space-around',
-            borderColor: 'red',
-            borderWidth: 1
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            //borderColor: 'red',
+            //borderWidth: 1
           }}>
-
-            <View style={{
-              width: '15%',
-              borderColor: 'red',
-              borderWidth: 1
-            }}>
+            <View style={styles.viewCasos}>
+              <Text style={styles.normalTexts}>Numero de Casos:</Text>
               <TextInput
                 placeholder="Casos"
+                keyboardType={"number-pad"}
+                style={{
+                  marginLeft: '4%',
+                  borderColor: 'lightgray',
+                  borderWidth: 1,
+                  width: '22%'
+                }}
               />
             </View>
-
             <TouchableOpacity
               style={styles.openMapBtn}
               onPress={() => this._setModalVisible()}
@@ -234,7 +244,7 @@ export class Rumor extends Component {
             onPress={() => this._createRumor()}
             style={styles.sendBtn}
           >
-            <Text>Ola</Text>
+            <Text>Enviar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -249,8 +259,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   body: {
-    marginTop: height * 0.10,
-    paddingVertical: height * 0.10,
   },
   map: {
     flex: 1
@@ -279,8 +287,8 @@ const styles = StyleSheet.create({
     width: '40%',
     padding: '2%',
     alignItems: 'center',
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
+    //borderBottomColor: 'lightgray',
+    //borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
@@ -297,6 +305,19 @@ const styles = StyleSheet.create({
     borderColor: '#166B87',
     borderWidth: 1,
     borderRadius: 10
+  },
+  normalTexts: {
+    marginBottom: 5,
+    fontSize: 15,
+    fontFamily: 'roboto',
+    color: '#166B87',
+    fontWeight: 'bold'
+  },
+  viewCasos: {
+    flexDirection: 'row',
+    alignItems: 'center'
+    //borderColor: 'green',
+    //borderWidth: 1,
   }
 })
 

@@ -170,24 +170,24 @@ class Home extends Component {
 
         const logoBR = (
             <Image style={styles.imageLogo} source={Imagem.imagemLogoCBR} />
-          )
-      
-          const logoES = (
+        )
+
+        const logoES = (
             <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
-          )
-      
-          let imageType;
-          if (translate("initialscreen.title") === "Guardianes de la Salud") {
+        )
+
+        let imageType;
+        if (translate("initialscreen.title") === "Guardianes de la Salud") {
             imageType = logoES
-          }
-          else {
+        }
+        else {
             imageType = logoBR
-          }
+        }
 
         const userIsProfessional = (
             <View style={styles.rumorView}>
                 <TouchableOpacity
-                    style={{marginRight: '4%', padding: '3%'}}
+                    style={{ marginRight: '4%', padding: '3%' }}
                     onPress={() => navigate("Rumor")}
                 >
                     <Text style={{ color: 'white', fontFamily: 'roboto' }}>Relatar rumor</Text>
@@ -203,16 +203,22 @@ class Home extends Component {
         )
 
         const userNotProfessional = (
-            <View style={styles.rumorView}>
-            </View>
+            <View style={{
+                flexDirection: 'row',
+                marginTop: 10,
+                marginBottom: 10,
+                height: '5%',
+                justifyContent: 'center',
+                width: '35%',
+            }}></View>
         )
 
         let isProfessionalTrue
         if (this.state.isProfessional == "true") {
             isProfessionalTrue = userIsProfessional
         } else {
-            //isProfessionalTrue = userNotProfessional
-            isProfessionalTrue = userIsProfessional
+            isProfessionalTrue = userNotProfessional
+            //isProfessionalTrue = userIsProfessional //Para aparecer sempre
         }
 
         const userHowYouFelling = (
