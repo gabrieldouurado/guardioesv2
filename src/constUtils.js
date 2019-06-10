@@ -4,9 +4,9 @@ export const app_token = 'd41d8cd98f00b204e9800998ecf8427e';
 
 //export const API_URL = 'http://192.168.0.10:3001';
 //export const API_URL = 'http://192.168.43.41:3001';  //UnB 
-export const API_URL = 'https://apiguardioes.herokuapp.com'; //Heroku
+//export const API_URL = 'https://apiguardioes.herokuapp.com'; //Heroku
 //export const API_URL = 'http://10.0.2.2:3001';
-//export const API_URL = 'http://gds.proepi.org.br'; //Heroku
+export const API_URL = 'http://gds.proepi.org.br'; //Heroku
 
 
 export const Redirect = (titulo, message, url) => {

@@ -118,8 +118,7 @@ class Registrar extends Component {
                                 onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
                                 <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
                                 <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                                <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                                <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                                <Picker.Item label={translate("raceChoices.black")} value="Negro" />
                                 <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
                                 <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
                                 <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />

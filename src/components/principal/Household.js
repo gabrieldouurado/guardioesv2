@@ -112,8 +112,7 @@ class Registrar extends Component {
                             onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
                             <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
                             <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                            <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                            <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                            <Picker.Item label={translate("raceChoices.black")} value="Negro" />
                             <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
                             <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
                             <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
@@ -180,6 +179,7 @@ class Registrar extends Component {
                         onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
                         <Picker.Item label="Pai" value="Pai" />
                         <Picker.Item label="Mãe" value="Mãe" />
+                        <Picker.Item label="Cônjuge" value="conjuge" />
                         <Picker.Item label="Filhos" value="Filhos" />
                         <Picker.Item label="Irmãos" value="Irmãos" />
                         <Picker.Item label="Avós" value="Avós" />
@@ -214,6 +214,9 @@ class Registrar extends Component {
                 case "Pai":
                     await this.setState({ picture: "Father" });
                     break;
+                case "conjuge":
+                    await this.setState({ picture: "Father" });
+                    break;
                 case "Avós":
                     await this.setState({ picture: "Grandfather" });
                     break;
@@ -227,6 +230,9 @@ class Registrar extends Component {
         } else {
             switch (this.state.kinship) {
                 case "Mãe":
+                    await this.setState({ picture: "Mother" });
+                    break;
+                case "conjuge":
                     await this.setState({ picture: "Mother" });
                     break;
                 case "Avós":

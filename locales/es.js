@@ -7,7 +7,7 @@ export default {
         "white": "Blanco",
         "indian": "Indio",
         "mix": "Mestizo",
-        "black": "Negro, Mulato ou afrodescendiente",
+        "black": "Negro",
         "palenquero": "Palenquero",
         "raizal": "Raizal",
         "romGitano": "Rom-Gitano"

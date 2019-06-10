@@ -136,7 +136,7 @@ export class Rumor extends Component {
             transparent={true}
             visible={this.state.modalVisibility}
             onRequestClose={() => {
-              alert('Modal has been closed.');
+              this._setModalVisible();
             }}
           >
             <MapView
@@ -257,17 +257,23 @@ const styles = StyleSheet.create({
   },
   exitModalBtn: {
     position: 'absolute',
-    top: width * 0.06,
-    left: width * 0.06,
+    top: width * 0.05,
+    left: width * 0.05,
+    height: 40,
+    width: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '#348EAC',
     borderColor: 'white',
-    borderWidth: 1
+    borderWidth: 1,
+    borderRadius: 90,
+    elevation: 10
   },
   exitModalText: {
-    padding: '3%',
-    fontSize: 18
+    //padding: '3%',
+    fontSize: 'bold',
+    color: 'white',
+    fontSize: 21
   },
   openMapBtn: {
     width: '40%',

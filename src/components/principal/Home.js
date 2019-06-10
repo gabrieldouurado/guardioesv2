@@ -127,6 +127,7 @@ class Home extends Component {
                 this.setState({
                     data: responseJson.households,
                 })
+                console.warn(this.state.data)
             })
     }
 

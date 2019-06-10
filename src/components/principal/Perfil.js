@@ -96,39 +96,45 @@ class Perfil extends Component {
 
   avatarHouseholdSelector = async () => {
     if (this.state.householdGender == "Masculino") {
-        switch (this.state.kinship) {
-            case "Pai":
-                await this.setState({ picture: "Father" });
-                break;
-            case "Avós":
-                await this.setState({ picture: "Grandfather" });
-                break;
-            case "Filhos":
-                await this.setState({ picture: "Son" });
-                break;
-            case "Irmãos":
-                await this.setState({ picture: "Brother" });
-                break;
-        }
+      switch (this.state.kinship) {
+        case "Pai":
+          await this.setState({ picture: "Father" });
+          break;
+        case "conjuge":
+          await this.setState({ picture: "Father" });
+          break;
+        case "Avós":
+          await this.setState({ picture: "Grandfather" });
+          break;
+        case "Filhos":
+          await this.setState({ picture: "Son" });
+          break;
+        case "Irmãos":
+          await this.setState({ picture: "Brother" });
+          break;
+      }
     } else {
-        switch (this.state.kinship) {
-            case "Mãe":
-                await this.setState({ picture: "Mother" });
-                break;
-            case "Avós":
-                await this.setState({ picture: "Grandmother" });
-                break;
-            case "Filhos":
-                await this.setState({ picture: "Daughter" });
-                break;
-            case "Irmãos":
-                await this.setState({ picture: "Sister" });
-                break;
-        }
+      switch (this.state.kinship) {
+        case "Mãe":
+          await this.setState({ picture: "Mother" });
+          break;
+        case "conjuge":
+          await this.setState({ picture: "Mother" });
+          break;
+        case "Avós":
+          await this.setState({ picture: "Grandmother" });
+          break;
+        case "Filhos":
+          await this.setState({ picture: "Daughter" });
+          break;
+        case "Irmãos":
+          await this.setState({ picture: "Sister" });
+          break;
+      }
     }
 
     this.editHousehold();
-}
+  }
   editHousehold = () => {
     fetch(`${API_URL}/users/${this.state.userID}/households/${this.state.householdID}`, {
       method: 'PATCH',
@@ -251,8 +257,7 @@ class Perfil extends Component {
                   onValueChange={(itemValue) => this.setState({ userRace: itemValue })}>
                   <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
                   <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                  <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                  <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                  <Picker.Item label={translate("raceChoices.black")} value="Negro" />
                   <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
                   <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
                   <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
@@ -359,8 +364,7 @@ class Perfil extends Component {
                   onValueChange={(itemValue) => this.setState({ householdRace: itemValue })}>
                   <Picker.Item label={translate("raceChoices.white")} value="Blanco" />
                   <Picker.Item label={translate("raceChoices.indian")} value="Indígena" />
-                  <Picker.Item label={translate("raceChoices.mix")} value="Mestizo" />
-                  <Picker.Item label={translate("raceChoices.black")} value="Negro, mulato o afrodescendiente" />
+                  <Picker.Item label={translate("raceChoices.black")} value="Negro" />
                   <Picker.Item label={translate("raceChoices.palenquero")} value="Palenquero" />
                   <Picker.Item label={translate("raceChoices.raizal")} value="Raizal" />
                   <Picker.Item label={translate("raceChoices.romGitano")} value="Rom-Gitano" />
@@ -427,6 +431,7 @@ class Perfil extends Component {
                 onValueChange={(itemValue, itemIndex) => this.setState({ kinship: itemValue })}>
                 <Picker.Item label="Pai" value="Pai" />
                 <Picker.Item label="Mãe" value="Mãe" />
+                <Picker.Item label="Cônjuge" value="conjuge" />
                 <Picker.Item label="Filhos" value="Filhos" />
                 <Picker.Item label="Irmãos" value="Irmãos" />
                 <Picker.Item label="Avós" value="Avós" />
