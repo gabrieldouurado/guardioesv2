@@ -492,9 +492,7 @@ class Perfil extends Component {
           </View>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ fontSize: 20 }}>
-            Familiares
-                    </Text>
+          <Text style={{ fontSize: 20 }}>{translate("profiles.households")}</Text>
         </View>
         <ScrollView>
           {householdsData != null ?

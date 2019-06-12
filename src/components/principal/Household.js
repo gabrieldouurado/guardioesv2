@@ -26,7 +26,7 @@ let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
-        title: "Adicionar Perfil"
+        title: translate("home.addProfile")
     }
     constructor(props) {
         super(props);

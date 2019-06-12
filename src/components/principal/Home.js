@@ -235,16 +235,16 @@ class Home extends Component {
         const userIsProfessional = (
             <View style={styles.rumorView}>
                 <TouchableOpacity
-                    style={{ marginRight: '4%', padding: '3%' }}
+                    //style={{ marginRight: '4%' }}
                     onPress={() => navigate("Rumor")}
                 >
-                    <Text style={{ color: 'white', fontFamily: 'roboto' }}>Relatar rumor</Text>
+                    <Text style={{ color: 'white', fontFamily: 'roboto', marginLeft: '6%' }}>{translate("home.reportRumor")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => Alert.alert('', 'Relatar um rumor de alguma coisa bla bla bla', [{ text: 'Ok', onPress: () => null }])}
+                    onPress={() => Alert.alert('', translate("home.reportRumorMessage"), [{ text: 'Ok', onPress: () => null }])}
                 >
                     {/* <Text style={{ fontSize: 18, padding: '2%'}}> */}
-                    <FontAwesome name="info-circle" size={25} color="white" />
+                    <FontAwesome style={{ marginRight: '2%'}} name="info-circle" size={25} color="white" />
                     {/* </Text> */}
                 </TouchableOpacity>
             </View>
@@ -366,12 +366,12 @@ class Home extends Component {
                                     }
                                     }>
                                         <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
-                                        <Text>Adicionar Perfil</Text>
+                                        <Text>{translate("home.addProfile")}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
-                        <Text style={{ marginBottom: 7 }}>Selecione um Perfil:</Text>
+                        <Text style={{ marginBottom: 7 }}>{translate("home.selectProfile")}</Text>
                         <Avatar
                             large
                             rounded
@@ -387,7 +387,7 @@ class Home extends Component {
                     <View style={styles.viewHouseholdAdd}>
                         <TouchableOpacity style={{ alignItems: 'center' }} onPress={() => navigate('Household')}>
                             <FontAwesome name="plus-circle" size={scale(30)} color='rgba(22, 107, 135, 1)' />
-                            <Text>Adicionar Perfil</Text>
+                            <Text>{translate("home.addProfile")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -558,7 +558,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         height: '5%',
         justifyContent: 'center',
-        width: '35%',
+        //width: '35%',
         alignItems: 'center',
     },
 });
