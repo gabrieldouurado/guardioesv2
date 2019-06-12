@@ -8,6 +8,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import { API_URL } from '../../constUtils';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Avatar } from 'react-native-elements';
+import { PermissionsAndroid } from 'react-native';
 
 let data = new Date();
 let d = data.getDate();
@@ -54,7 +55,7 @@ class Home extends Component {
 
     _isconnected = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? this.sendSurvey() : Alert.alert(
+            isConnected ? this.verifyLocalization() : Alert.alert(
                 translate("noInternet.noInternetConnection"),
                 translate("noInternet.ohNo"),
                 [
@@ -130,6 +131,53 @@ class Home extends Component {
                 console.warn(this.state.data)
             })
     }
+
+    verifyLocalization = async () => {
+        if(this.state.userLatitude == 0 || this.state.userLongitude == 0 || this.state.userLatitude == null || this.state.userLongitude == null){
+            this.requestLocalization();
+        } else{
+            this.sendSurvey();
+        }
+    }
+
+    async requestFineLocationPermission() {
+        console.warn("PERMITIR LOCALIZAÇÂO")
+        try {
+            const granted = await PermissionsAndroid.request(
+                android.permission.ACCESS_FINE_LOCATION,
+                {
+                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
+                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
+                }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.getLocation();
+                console.warn("PERMISSÂO")
+            } else {
+                console.warn(translate("maps.locationRequest.requestDenied"))
+                onsole.warn("SEM PERMISSÂO")
+                this.props.navigation.navigate('Home')
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    requestLocalization = () => {
+        Alert.alert(
+          "Erro Na Localização",
+          "Permita a localização para prosseguir",
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'Premitir', onPress: () => this.requestFineLocationPermission() },
+          ],
+          { cancelable: false },
+        );
+      }
 
     sendSurvey = async () => { //Send Survey GOOD CHOICE
         this.showAlert();

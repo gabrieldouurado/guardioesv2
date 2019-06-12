@@ -52,7 +52,6 @@ class Perfil extends Component {
       ],
       { cancelable: false },
     );
-
   }
 
   _getInfos = async () => { //Ger user infos
@@ -135,6 +134,7 @@ class Perfil extends Component {
 
     this.editHousehold();
   }
+
   editHousehold = () => {
     fetch(`${API_URL}/users/${this.state.userID}/households/${this.state.householdID}`, {
       method: 'PATCH',
