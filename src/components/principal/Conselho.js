@@ -77,7 +77,9 @@ class Conselho extends Component {
                         <View style={styles.modalTitle}>
                             <Text style={styles.modalTextTitle}>{this.state.contentTitle}</Text>
                         </View>
-                        <Text style={styles.modalBodyText}>{this.state.contentBody}</Text>
+                        <ScrollView>
+                            <Text style={styles.modalBodyText}>{this.state.contentBody}</Text>
+                        </ScrollView>
                     </View>
                 </Modal>
 
@@ -99,9 +101,34 @@ class Conselho extends Component {
                         }
                     })
                     : null}
+                    <TouchableOpacity
+                        style={styles.selector}
+                        onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=hospitais')}
+                    >
+                        <Text style={styles.textSelector}>
+                            {translate("advices.buttons.healthInst")}
+                        </Text>
+                    </TouchableOpacity>
+
+                    {/* Farmacias */}
+                    <TouchableOpacity
+                        style={styles.selector}
+                        onPress={() => Redirect(textoRedirect.hospitais.texto1, textoRedirect.hospitais.texto2, 'https://www.google.com/maps/search/?api=1&query=farmacias')}
+                    >
+                        <Text style={styles.textSelector}>
+                        {translate("advices.buttons.pharmacy")}
+                        </Text>
+                    </TouchableOpacity>
             </View>
 
         );
+    }
+}
+
+const textoRedirect = {
+    hospitais: {
+        texto1: translate("advices.buttons.messages.title"),
+        texto2: translate("advices.buttons.messages.subtitle")
     }
 }
 
@@ -117,7 +144,7 @@ const styles = StyleSheet.create({
     },
     textSelector: {
         fontFamily: 'roboto',
-        fontSize: 18,
+        fontSize: 19,
         //fontWeight: 'bold',
         marginLeft: 12,
         alignSelf: 'center',

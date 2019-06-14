@@ -83,13 +83,13 @@ export default class drawerContentComponents extends Component {
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.healthDiary")}</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
+                    {/*<TouchableOpacity
                         style={styles.itemsContainer}
                         onPress={() => navigate('Home')}
                     >
                         <FontAwesome name='bell' size={verticalScale(25)} style={styles.iconStyle} />
                         <Text style={styles.drawerItemsTxt}>Eventos Massivos</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
 
                     <TouchableOpacity
                         style={styles.itemsContainer}
@@ -107,7 +107,7 @@ export default class drawerContentComponents extends Component {
                         <Text style={styles.drawerItemsTxt}>{translate("drawer.toHelp")}</Text>
                     </TouchableOpacity>
 
-                    <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 55 }]}>
+                    <View style={[{ flexDirection: 'row', justifyContent: 'center', padding: 8, marginTop: 85 }]}>
                         <Text style={[styles.drawerItemsTxt, { fontSize: 20, fontWeight: 'bold' }]} onPress={this._logoutApp}>
                             {translate("drawer.logOut")}
                         </Text>

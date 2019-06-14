@@ -26,7 +26,7 @@ let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
-        title: "Adicionar Perfil"
+        title: translate("home.addProfile")
     }
     constructor(props) {
         super(props);
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     viewChildPais: {
         width: "50%",
         height: 65,
-        flexDirection: 'row',
+        //flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
