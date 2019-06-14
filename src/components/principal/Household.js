@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     viewChildPais: {
         width: "50%",
         height: 65,
-        flexDirection: 'row',
+        //flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },

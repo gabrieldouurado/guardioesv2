@@ -235,6 +235,14 @@ class Registrar extends Component {
                             onChangeText={text => this.setState({ userPwd: text })}
                             ref={(input) => this.passwordInput = input}
                         />
+                        <Text style={{
+                            fontSize: 13,
+                            fontFamily: 'roboto',
+                            color: '#465F6C',
+                            alignSelf: 'flex-start',
+                            textAlign: 'left',
+                            paddingLeft: "5%",
+                        }}>{translate("register.passwordCondition")}</Text>
                     </View>
 
 
@@ -243,10 +251,10 @@ class Registrar extends Component {
                             title={translate("register.signupButton")}
                             color="#348EAC"
                             onPress={this._isconnected}
-                            //onPress={() => {
-                            //    this.create();
-                             //   console.log("Variaveis de estado", this.state);
-                            //}}
+                        //onPress={() => {
+                        //    this.create();
+                        //   console.log("Variaveis de estado", this.state);
+                        //}}
                         />
                     </View>
 
@@ -307,7 +315,8 @@ class Registrar extends Component {
                     this.loginAfterCreate();
                 } else {
                     this.hideAlert();
-                    alert("Algo deu errado");
+
+                    alert(response._bodyInit.errors);
                 }
             })
     }

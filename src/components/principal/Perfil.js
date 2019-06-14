@@ -462,17 +462,17 @@ class Perfil extends Component {
             <Text style={styles.userName}>
               {this.state.userName}
             </Text>
-            <View style={{ flexDirection: 'row' }}>
+            {/*<View style={{ flexDirection: 'row' }}>
               <Text style={styles.userDobText}>
                 Idade:
                             </Text>
               <Text style={styles.userDob}>
                 35 anos
                             </Text>
-            </View>
+              </View>*/}
           </View>
           <View style={{ alignSelf: 'center', marginRight: 10 }}>
-            <TouchableOpacity onPress={async () => {
+            {/*<TouchableOpacity onPress={async () => {
               await this.setState({ userModal: true })
               this.getAllUserInfos();
               //await this.setState({
@@ -488,7 +488,7 @@ class Perfil extends Component {
               this.setModalVisible(true)
             }}>
               <FontAwesome name="edit" size={scale(25)} color='white' />
-            </TouchableOpacity>
+          </TouchableOpacity>*/}
           </View>
         </View>
         <View style={{ alignItems: 'center' }}>
@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
   viewChildPais: {
     width: "50%",
     height: 65,
-    flexDirection: 'row',
+    //flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },

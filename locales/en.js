@@ -54,6 +54,7 @@ export default {
         "originCountry": " é seu pais de residência?",
         "email": "Email:",
         "password": "Senha:",
+        "passwordCondition": "A senha deve conter no mínimo 8 caracteres",
         "signupButton": "Cadastrar",
         "signupWithFacebook": "Cadastrar com Facebook",
         "awesomeAlert": {

@@ -54,6 +54,7 @@ export default {
         "originCountry": "es su país de residencia?",
         "email": "Email:",
         "password": "Contraseña:",
+        "passwordCondition": "La contraseña debe contener un mínimo de 8 caracteres",
         "signupButton": "Registro",
         "signupWithFacebook": "Regístrese con Facebook",
         "awesomeAlert": {

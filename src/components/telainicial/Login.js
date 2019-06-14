@@ -137,11 +137,11 @@ class Login extends Component {
             })
         })
             .then((response) => {
-                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status, errorMessage: response._bodyText })
                 if (this.state.statusCode == 200) {
                     return response.json()
                 } else {
-                    alert("Algo deu errado");
+                    alert(this.state.errorMessage);
                     this.hideAlert();
                 }
             })
