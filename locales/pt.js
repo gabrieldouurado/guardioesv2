@@ -286,5 +286,8 @@ export default {
         "moreComing": "Temos mais vindo aí!",
         "healthDiary": "Diário da Saúde",
         "healthMap": "Mapa da Saúde"
+    },
+    "rumor": {
+        "rumorSent": "Rumor registrado! "
     }
 }

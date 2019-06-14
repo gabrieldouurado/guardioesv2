@@ -8,11 +8,6 @@ class Ajuda extends Component {
   static navigationOptions = {
     title: translate("ajuda.title")
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
 
   render() {
     const { navigate } = this.props.navigation;

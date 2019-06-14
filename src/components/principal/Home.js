@@ -266,7 +266,7 @@ class Home extends Component {
             isProfessionalTrue = userIsProfessional
         } else {
             isProfessionalTrue = userNotProfessional
-            //isProfessionalTrue = userIsProfessional //Para aparecer sempre
+            // isProfessionalTrue = userIsProfessional //Para aparecer sempre
         }
 
         const userHowYouFelling = (

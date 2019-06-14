@@ -4,6 +4,10 @@ import MapView, { Marker } from 'react-native-maps';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { API_URL } from '../../constUtils';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import translate from "../../../locales/i18n";
+import Emoji from 'react-native-emoji';
+import { scale } from '../scallingUtils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -21,6 +25,8 @@ export class Rumor extends Component {
     this.getLocation(); //Get user location
 
     this.state = {
+      showAlert: false,
+      showProgressBar: false, //Custom Progress Bar
       userLatitude: 0,
       userLongitude: 0,
       userLatitudeDelta: 0.0222,
@@ -36,6 +42,19 @@ export class Rumor extends Component {
       confirmed_deaths: 0,
       title: ''
     }
+  }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true,
+      showProgressBar: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    })
   }
 
   getLocation() {
@@ -103,8 +122,10 @@ export class Rumor extends Component {
         .then(resJson => {
           console.log("ResJson -> ", resJson);
           console.log("Data -> ", resJson.data)
-          if(resJson.message == "Sucesso"){
-            this.props.navigation.navigate('Home');
+          if (resJson.message == "Sucesso") {
+            // this.props.navigation.navigate('Home');
+            // this.hideAlert();
+            this.setState({ showProgressBar: false })
           }
         })
     } catch (error) {
@@ -124,8 +145,6 @@ export class Rumor extends Component {
     const marker = (
       <Marker
         coordinate={{
-          // latitude: this.state.userLatitude,
-          // longitude: this.state.userLongitude,
           latitude: markerLat,
           longitude: markerLon
         }}
@@ -198,7 +217,7 @@ export class Rumor extends Component {
 
           {/* <View> */}
           <TextInput
-            placeholder="Mensagem descrevendo os eventos"            
+            placeholder="Mensagem descrevendo os eventos"
             multiline={true}
             maxLength={300}
             style={[styles.textInput, newStyle]}
@@ -212,10 +231,37 @@ export class Rumor extends Component {
           <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            //borderColor: 'red',
-            //borderWidth: 1
+            width: '100%',
+            marginBottom: '5%'
           }}>
-            <View style={styles.viewCasos}>
+            <View style={{ width: '48%' }}>
+              <TextInput
+                placeholder="Casos"
+                style={{
+                  width: '100%',
+                  borderBottomWidth: 1,
+                  borderBottomColor: 'lightgray'
+                }}
+                keyboardType='number-pad'
+                value={this.state.confirmed_cases}
+                onChangeText={(confirmed_cases) => this.setState({ confirmed_cases })}
+              />
+            </View>
+
+            <View style={{ width: '48%' }}>
+              <TextInput
+                placeholder="Mortes"
+                style={{
+                  width: '100%',
+                  borderBottomWidth: 1,
+                  borderBottomColor: 'lightgray'
+                }}
+                keyboardType='number-pad'
+                value={this.state.confirmed_deaths}
+                onChangeText={(confirmed_deaths) => this.setState({ confirmed_deaths })}
+              />
+            </View>
+            {/* <View style={styles.viewCasos}>
               <Text style={styles.normalTexts}>Numero de Casos:</Text>
               <TextInput
                 placeholder="Casos"
@@ -227,30 +273,71 @@ export class Rumor extends Component {
                   width: '22%'
                 }}
               />
-            </View>
-            <TouchableOpacity
-              style={styles.openMapBtn}
-              onPress={() => this._setModalVisible()}
-            >
-              <Text>Local</Text>
-              {this.state.showMarker ? checked : unchecked}
-            </TouchableOpacity>
+            </View> */}
           </View>
+          <TouchableOpacity
+            style={styles.openMapBtn}
+            onPress={() => this._setModalVisible()}
+          >
+            <Text>Local</Text>
+            {this.state.showMarker ? checked : unchecked}
+          </TouchableOpacity>
 
         </View>
 
         <View>
           <TouchableOpacity
-            onPress={() => this._createRumor()}
+            onPress={() => {
+              this.showAlert();
+              this._createRumor();
+            }}
             style={styles.sendBtn}
           >
-            <Text>Enviar</Text>
+            <Text style={{
+              fontSize: scale(15),
+              fontWeight: '500',
+              color: 'black'
+            }}>Enviar</Text>
           </TouchableOpacity>
         </View>
+
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={this.state.showProgressBar ? true : false}
+          title={this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+          message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("rumor.rumorSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+          closeOnTouchOutside={this.state.showProgressBar ? false : true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={this.state.showProgressBar ? false : true}
+          confirmText={translate("badReport.alertMessages.confirmText")}
+          confirmButtonColor='green'
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+          onDismiss={() => this.hideAlert()}
+        />
       </View>
     )
   }
 }
+
+const emojis = [
+  (
+      <Emoji //Emoji heart up
+          name='heart'
+          style={{ fontSize: scale(15) }}
+      />
+  ),
+  (
+      <Emoji //Emoji tada up
+          name='tada'
+          style={{ fontSize: scale(15) }}
+      />
+  )
+]
 
 const styles = StyleSheet.create({
   container: {
@@ -287,8 +374,8 @@ const styles = StyleSheet.create({
     width: '40%',
     padding: '2%',
     alignItems: 'center',
-    //borderBottomColor: 'lightgray',
-    //borderBottomWidth: 1,
+    borderBottomColor: 'lightgray',
+    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
