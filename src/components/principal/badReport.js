@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button, AsyncStorage, NetInfo, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -8,6 +8,10 @@ import Emoji from 'react-native-emoji';
 import { scale } from '../scallingUtils';
 import { API_URL } from '../../constUtils';
 import translate from '../../../locales/i18n';
+import { Avatar } from 'react-native-elements';
+import * as Imagem from '../../imgs/imageConst';
+import { userLocation } from '../../constUtils';
+import { PermissionsAndroid } from 'react-native';
 
 let data = new Date();
 let d = data.getDate();
@@ -54,7 +58,7 @@ class BadReport extends Component {
 
     _isconnected = () => {
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? this.sendSurvey() : Alert.alert(
+            isConnected ? this.verifyLocalization() : Alert.alert(
                 translate("noInternet.noInternetConnection"),
                 translate("noInternet.ohNo"),
                 [
@@ -65,6 +69,7 @@ class BadReport extends Component {
     }
 
     getLocation() {
+        this.requestFineLocationPermission();
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
@@ -96,9 +101,10 @@ class BadReport extends Component {
     getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
         let userSelected = await AsyncStorage.getItem('userSelected');
+        let avatarSelect = await AsyncStorage.getItem('avatarSelected');
         let userID = await AsyncStorage.getItem('userID');
         let userToken = await AsyncStorage.getItem('userToken');
-        this.setState({ userName, userSelected, userID, userToken });
+        this.setState({ userName, userSelected, avatarSelect, userID, userToken });
 
         //Para não dar BO de variavel nula no IOS -- So puxa o async quando é um household
         if (this.state.userSelected === this.state.userName) {
@@ -109,6 +115,50 @@ class BadReport extends Component {
         }
         this.getSymptoms();
     }
+
+    verifyLocalization = async () => {
+        if(this.state.userLatitude == 0 || this.state.userLongitude == 0 || this.state.userLatitude == null || this.state.userLongitude == null){
+            this.requestLocalization();
+        } else{
+            this.sendSurvey();
+        }
+    }
+
+    async requestFineLocationPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                android.permission.ACCESS_FINE_LOCATION,
+                {
+                    'title': translate("maps.locationRequest.requestLocationMessageTitle"),
+                    'message': translate("maps.locationRequest.requestLocationMessageMessage")
+                }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                this.componentDidMount
+            } else {
+                console.warn(translate("maps.locationRequest.requestDenied"))
+                this.props.navigation.navigate('Home')
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    requestLocalization = () => {
+        Alert.alert(
+          "Erro Na Localização",
+          "Permita a localização para prosseguir",
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'Premitir', onPress: () => this.requestFineLocationPermission() },
+          ],
+          { cancelable: false },
+        );
+      }
 
     sendSurvey = async () => {
         this.showAlert();
@@ -171,15 +221,28 @@ class BadReport extends Component {
 
         return (
             <View style={styles.container}>
+                <View style={styles.Top}>
+                    <View style={styles.userAvatar}>
+                        <Avatar
+                            large
+                            rounded
+                            source={Imagem[this.state.avatarSelect]}
+                            activeOpacity={0.7}
+                            style={{ borderWidth: 1, borderColor: '#BF092E', margin: '10%' }}
+                        />
+                    </View>
+                    <View style={styles.UserInfos}>
+                        <Text style={styles.UserName}>
+                            {this.state.userSelected}
+                        </Text>
+                    </View>
+                </View>
                 <View style={{ width: '100%', alignSeft: 'center', marginBottom: '2%', marginTop: '2%' }}>
-                    <Text style={{alignSelf: 'center'}}>
-                        Reportanto como: {this.state.userSelected}
-                    </Text>
                     <Text style={styles.dateText}>
                         {translate("badReport.sickAge")}
                     </Text>
                     <DatePicker
-                        style={{ width: '94%', marginLeft: '3%', backgroundColor: '#a9cedb', borderRadius: 20 }}
+                        style={{ width: '94%', marginLeft: '3%', backgroundColor: '#a9cedb', borderRadius: 5 }}
                         date={this.state.today_date}
                         mode="date"
                         placeholder={translate("badReport.datePlaceHolder")}
@@ -217,6 +280,8 @@ class BadReport extends Component {
                             return (
                                 <CheckBox
                                     key={index}
+                                    textStyle={{ color: '#348EAC', fontFamily: 'roboto' }}
+                                    checkedColor={'#348EAC'}
                                     title={symptom.description}
                                     checked={this.state[symptom.code]}
                                     onPress={async () => {
@@ -244,16 +309,22 @@ class BadReport extends Component {
                     </View>
                     <CheckBox
                         title={translate("badReport.checkboxes.first")}
+                        textStyle={{ color: '#348EAC', fontFamily: 'roboto' }}
+                        checkedColor={'#348EAC'}
                         checked={this.state.contactWithSymptom}
                         onPress={async () => await this.setState({ contactWithSymptom: !this.state.contactWithSymptom })}
                     />
                     <CheckBox
                         title={translate("badReport.checkboxes.second")}
+                        textStyle={{ color: '#348EAC', fontFamily: 'roboto' }}
+                        checkedColor={'#348EAC'}
                         checked={this.state.lookedForHospital}
                         onPress={async () => await this.setState({ lookedForHospital: !this.state.lookedForHospital })}
                     />
                     <CheckBox
                         title={translate("badReport.checkboxes.third")}
+                        textStyle={{ color: '#348EAC', fontFamily: 'roboto' }}
+                        checkedColor={'#348EAC'}
                         checked={this.state.hadTraveled}
                         onPress={async () => await this.setState({ hadTraveled: !this.state.hadTraveled })}
                     />
@@ -261,7 +332,8 @@ class BadReport extends Component {
                     <View style={styles.buttonView}>
                         <Button title={translate("badReport.checkboxConfirm")} color="#348EAC" onPress={() => {
                             if (this.state.date !== null) {
-                                this.sendSurvey()
+                                //this._isconnected();
+                                this.verifyLocalization();
                             }
                             else {
                                 alert(translate("badReport.checkboxDateConfirmation"));
@@ -318,26 +390,54 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start'
     },
+    Top: {
+        height: '15%',
+        width: '100%',
+        flexDirection: 'row',
+        backgroundColor: '#2298BF',
+        borderColor: 'red',
+        //borderWidth: 1,
+    },
+    userAvatar: {
+        justifyContent: 'center',
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+    UserInfos: {
+        borderColor: 'green',
+        //borderWidth: 1,
+    },
+    UserName: {
+        fontFamily: 'roboto',
+        fontSize: 24,
+        color: 'white',
+        marginTop: 15,
+    },
     scroll: {
         paddingRight: '5%'
     },
     sintomasText: {
-        textAlign: 'center',
-        marginTop: 10,
-        marginBottom: 12,
-        fontSize: 20,
+        textAlign: 'left',
+        fontWeight: 'bold',
+        marginTop: 5,
+        marginLeft: 5,
+        fontSize: 17,
         fontFamily: 'roboto',
-        color: '#465F6C'
+        color: '#348EAC'
     },
     dateText: {
         textAlign: 'center',
+        fontWeight: 'bold',
         marginBottom: 5,
-        fontSize: 20,
+        fontSize: 17,
         fontFamily: 'roboto',
-        color: '#465F6C'
+        color: '#348EAC'
     },
     viewText: {
-        backgroundColor: '#A0B1B2'
+        borderTopWidth: 2,
+        alignSelf: 'center',
+        width: '95%',
+        borderTopColor: '#348EAC',
     },
     buttonView: {
         alignSelf: 'center',

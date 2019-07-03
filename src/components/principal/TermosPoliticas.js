@@ -16,8 +16,7 @@ class TermosPoliticas extends Component {
         this.state = {
             userID: null,
             userToken: null,
-            householdID: null,
-            dataSource: null
+            householdID: null
         };
     }
 
@@ -26,51 +25,49 @@ class TermosPoliticas extends Component {
         let userToken = await AsyncStorage.getItem('userToken');
         this.setState({ userID: userID, userToken: userToken });
         this.getHouseholds();
-        //this.git();
     }
 
     //TESTING HOUSEHOLDS
-    getHouseholds = () => {//Get households
-        console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
-        return fetch(`${API_URL}/user/${this.state.userID}/households`, {
+    getHouseholds = () => {
+        //console.warn("UserID " + this.state.userID + " Token " + this.state.userToken)
+        return fetch(`${API_URL}/user/${this.state.userID}`, {
             headers: {
                 Accept: 'application/vnd.api+json',
                 Authorization: `${this.state.userToken}`
             },
         })
-            .then((response) => {
-                console.warn(response)
-                return response.json()})
+            .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    dataSource: responseJson.households,
+                    data: responseJson.user.households,
                 })
             })
     }
 
-    git = () => {
-        return fetch('https://facebook.github.io/react-native/movies.json')
-    .then((response) => response.json())
-    .then((responseJson) => {
-        this.setState({
-            dataSource: responseJson.movies,
-        })
-      
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    }
-
 
     render() {
+        const householdsData = this.state.data;
+
         return (
             <View style={styles.container}>
-            <TouchableOpacity onPress={()=>{
-                console.warn(this.state.dataSource)
-            }}>
-                <Text>Bla</Text>
-            </TouchableOpacity>
+                {householdsData != null ?
+                    householdsData.map(household => {
+                        return (
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setState({ householdID: household.id })
+                                    }
+                                }>
+                                <Text style={{ fontSize: 20, alignSelf: 'center', margin: 20 }}>{household.id}</Text>
+                                </TouchableOpacity>
+                                <Text>{this.state.householdID}</Text>
+                            </View>
+                        )
+
+                    })
+                    : null}
+
             </View>
         );
     }

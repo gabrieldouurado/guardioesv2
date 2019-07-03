@@ -7,7 +7,7 @@ export default {
         "white": "Branco",
         "indian": "Indígena",
         "mix": "Mestiço",
-        "black": "Negro, Mulato ou afrodescendente",
+        "black": "Negro",
         "palenquero": "Palenquero",
         "raizal": "Raizal",
         "romGitano": "Rom-Gitano"
@@ -50,9 +50,11 @@ export default {
         "gender": "Gênero:",
         "race": "Raça:",
         "birth": "Data de Nascimento:",
-        "country": "Pais:",
+        "country": "Pais de origem:",
+        "originCountry": " é seu pais de residência?",
         "email": "Email:",
         "password": "Senha:",
+        "passwordCondition": "A senha deve conter no mínimo 8 caracteres",
         "signupButton": "Cadastrar",
         "signupWithFacebook": "Cadastrar com Facebook",
         "awesomeAlert": {
@@ -204,6 +206,10 @@ export default {
         "toastAlertMessage": "Aperte mais uma vez para sair",
         "hello": "Olá ",
         "nowAGuardian": "Agora você é um guardião da saúde!",
+        "selectProfile": "Selecione um Perfil:",
+        "addProfile": "Adicionar Perfil",
+        "reportRumor": "Relatar Rumor",
+        "reportRumorMessage": "Relatar um rumor de alguma coisa bla bla bla",
         "userHowYouFelling": "Como está se sentindo hoje?",
         "householdHowYouFelling_part_1": "Como ",
         "householdHowYouFelling_part_2": " se sente hoje?",
@@ -213,6 +219,10 @@ export default {
             "healthDiary": "Diário",
             "healthMap": "Mapa da Saúde"
         }
+    },
+    "profiles": {
+        "profile": "Perfil",
+        "households": "Familiares",
     },
     "locationRequest": {
         "requestLocationMessageTitle": "Permitir o uso de sua localização",
@@ -276,5 +286,8 @@ export default {
         "moreComing": "Temos mais vindo aí!",
         "healthDiary": "Diário da Saúde",
         "healthMap": "Mapa da Saúde"
+    },
+    "rumor": {
+        "rumorSent": "Rumor registrado! "
     }
 }

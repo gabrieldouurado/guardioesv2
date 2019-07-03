@@ -1,102 +1,103 @@
 export default {
     "genderChoices": {
-        "male": "Masculino",
-        "female": "Feminino"
+        "male": "Male",
+        "female": "Female"
     },
     "raceChoices": {
-        "white": "Branco",
-        "indian": "Indígena",
-        "mix": "Mestiço",
-        "black": "Negro, Mulato ou afrodescendente",
+        "white": "White",
+        "indian": "Indigenous",
+        "mix": "Mestizo",
+        "black": "Afrodescendant",
         "palenquero": "Palenquero",
         "raizal": "Raizal",
         "romGitano": "Rom-Gitano"
     },
     "birthDetails": {
-        "format": "DD/MM/AAAA",
-        "confirmButton": "Confirmar",
-        "cancelButton": "Cancelar"
+        "format": "DD/MM/YYYY",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
     },
     "initialscreen": {
         "title": "Guardiões da Saúde",
-        "welcome": "Bem Vindo!",
-        "subwelcome": "Pronto para ser um guardião da saúde?",
-        "signup": "Cadastre-se",
-        "login": "Entrar"
+        "welcome": "Welcome!",
+        "subwelcome": "Ready to become a Health Guardian?",
+        "signup": "Sign up",
+        "login": "Login"
     },
     "login": {
-        "title": "Entrar",
+        "title": "Login",
         "email": "Email:",
-        "password": "Senha:",
-        "loginbutton": "Entrar",
-        "connectWithFacebook": "Conectar com Facebook",
+        "password": "Password:",
+        "loginbutton": "Login",
+        "connectWithFacebook": "Login with Facebook",
         "facebookLogin": {
-            "error": "Erro ao entrar: ",
-            "canceled": "Cancelado"
+            "error": "Erro on login: ",
+            "canceled": "Canceled"
         },
         "awesomeAlert": {
-            "accessing": "Entrando..."
+            "accessing": "Working..."
         },
         "errorMessages": {
-            "emailPwdWrong": "Email ou senha invalidos",
-            "emailPwdCantBeBlank": "Email/senha nao podem estar em branco",
+            "emailPwdWrong": "Email or password invalid",
+            "emailPwdCantBeBlank": "Email or password can't be blank",
 
         }
     },
     "register": {
-        "title": "Cadastre-se",
-        "name": "Nome:",
-        "lastname": "Sobrenome:",
-        "gender": "Gênero:",
-        "race": "Raça:",
-        "birth": "Data de Nascimento:",
-        "coutry": "Pais:",
+        "title": "Sign up",
+        "name": "Name:",
+        "lastname": "Last name:",
+        "gender": "Gender:",
+        "race": "Race:",
+        "birth": "Birthdate:",
+        "country": "Birth country:",
+        "originCountry": " is your home country?",
         "email": "Email:",
-        "password": "Senha:",
-        "signupButton": "Cadastrar",
-        "signupWithFacebook": "Cadastrar com Facebook",
+        "password": "Password:",
+        "passwordCondition": "Password must be at leats 8 characters long.",
+        "signupButton": "Sign up",
+        "signupWithFacebook": "Sign up with Facebook",
         "awesomeAlert": {
-            "registeringMessage": "Cadastrando..."
+            "registeringMessage": "Working..."
         },
         "errorMessages": {
-            "error": "Erro",
-            "allFieldsAreFilled": "Todos os campos devem ser preenchidos"
+            "error": "Error",
+            "allFieldsAreFilled": "All fields must be filled."
         }
     },
     "noInternet": {
-        "noInternetConnection": "Sem Internet!",
-        "ohNo": "Poxa parece que voce nao tem internet, tenta de novo mais tarde ok",
-        "alertAllRightMessage": "Ok, vou tentar mais tarde."
+        "noInternetConnection": "No internet access.",
+        "ohNo": "Oh sorry, it seems that you don't have access to internet right now, try again soon, ok.",
+        "alertAllRightMessage": "Ok, i'll try later."
     },
     "facebookRegister": {
-        "title": "Informações Adicionais",
+        "title": "Adicional Information.",
         "hello": "Hello ",
-        "moreInformation": "Precisamos de algumas informações adicionais para completar o cadastro",
-        "gender": "Sexo: ",
-        "race": "Raça: ",
-        "birthday": "Data de Nascimento:",
-        "country": "País:",
-        "finishRegistering": "Finalizar Cadastro"
+        "moreInformation": "We need a few more info to finish registering.",
+        "gender": "Gender: ",
+        "race": "Race: ",
+        "birthday": "Birthday:",
+        "country": "Country:",
+        "finishRegistering": "Finish"
     },
     "ajuda": {
-        "title": "Ajuda",
-        "useTermsBtn": "Termos e Políticas",
+        "title": "Help",
+        "useTermsBtn": "Use terms and policies",
         "tutorialBtn": "Tutorial"
     },
     "ajudaBtn2": {
         "title": "Tutorial",
-        "tutorial": "Tutorial de como usar o app",
-        "howToUse": "\nPara usar o aplicativo basta clicar no ícone de reportar na tela inicial:",
-        "howToUse2": "Em seguida, escolha como reportar, bem ou mal. \
-        Caso escolha mal você poderá escolher os sintomas e desde quando se sente mal. Pronto, esse é o uso básico do aplicativo, caso queria aprender mais continue lendo para ver algumas dicas e outras funcionalidades",
-        "news": "Tela de Notícias",
-        "newsCont": "A tela de notícias é uma das funções que você acha na tela inicial, ela fica ligada no perfil do Twitter do Ministério da Saúde e lá você pode ver muitas informações pois eles sempre atualizam essa página. \
-        Já que você está por aqui dê uma passadinha lá. ",
-        "newsPs": "Ps: você não precisa ter conta no Twitter e você não recebe nenhum tipo de notificação/email.",
-        "advices": "Conselhos de Saúde",
-        "advicesCont": "Aqui você encontra algumas informações importantes pra dar uma olhada, como Dengue Chicungunya e Zyca, telefones úteis e também, com auxílio do Google Maps você tem acesso à hospitais e farmácias perto de você.",
-        "diary": "Diário da Saúde",
-        "diaryCont": "Essa é uma das telas mais importantes, aqui você consegue visualizar todos os envios que você tenha feito e também tem um calendário caso você precise desses dados para esclarecer algo em um consulta médica, por exemplo.",
+        "tutorial": "How to use the app",
+        "howToUse": "\nTo use the main functionality of the app, click the Good or Bad button on the home screen:",
+        "howToUse2": "If you choose Bad, you'll be able to choose symptoms and when it started. That's it, this is the core of it, if you want to learn more keep reading, we have other tips and functionalities.",
+        "news": "News",
+        "newsCont": "Is where you'll read about all that's happening is this big world, it's a Twitter page so, if you have an account, you can interact with professionals. \
+        Since you're here, try checking it out. ",
+        "newsPs": "Ps: You don't need a Twitter account to see it and you won't get any notifications or email, we got you covered.",
+        "advices": "Health Advices",
+        "advicesCont": "Here you find some important information to check out like Dengue fever, Chicungunya and Zyca and, with Google Maps help you have quick access to a map with hospitals and pharmacies near you.",
+        "diary": "Health Diary",
+        "diaryCont": "This is one the most important features, it's where you find information about all reports you've done, so you can check it out if you need to tell a doctor when symptons began, for example.",
         "healthMap": "Mapa da Saúde",
         "healthMapCont": "No Mapa da Saúde se tem acesso à todos os envios feitos na sua região, isso, é claro, sem expor nenhum dado sensível dos usuários. Essa função ajuda o usuário a ter uma visão de como anda a saúde das pessoas a sua volta para que ela consiga até se prevenir. \
         Por exemplo, se você ver que em uma certa área tem muitos relatos de sintomas de gripe você pode tomar um suco de laranja, ou se tiver sintomas de Dengue você pode evitar passar no lugar."
@@ -201,6 +202,10 @@ export default {
         "toastAlertMessage": "Aperte mais uma vez para sair",
         "hello": "Olá",
         "nowAGuardian": "Agora você é um guardião da saúde!",
+        "selectProfile": "Selecione um Perfil:",
+        "addProfile": "Adicionar Perfil",
+        "reportRumor": "Report Rumor",
+        "reportRumorMessage": "Relatar um rumor de alguma coisa bla bla bla",
         "userHowYouFelling": "Como está se sentindo hoje?",
         "householdHowYouFelling_part_1": "Como ",
         "householdHowYouFelling_part_2": " se sente hoje?",
@@ -210,6 +215,10 @@ export default {
             "healthDiary": "Diário",
             "healthMap": "Mapa da Saúde"
         }
+    },
+    "profiles": {
+        "profile": "Perfil",
+        "households": "Familiares",
     },
     "locationRequest": {
         "requestLocationMessageTitle": "Permitir o uso de sua localização",
@@ -265,13 +274,16 @@ export default {
         }
     },
     "drawer": {
-        "logOut": "Sair",
-        "toHome": "Início",
+        "logOut": "Logout",
+        "toHome": "Home",
         "toFacebook": "Facebook",
-        "toHelp": "Ajuda",
-        "toAbout": "Sobre",
-        "moreComing": "Temos mais vindo aí!",
-        "healthDiary": "Diário da Saúde",
-        "healthMap": "Mapa da Saúde"
+        "toHelp": "Help",
+        "toAbout": "About",
+        "moreComing": "We have more comming",
+        "healthDiary": "Health Diary",
+        "healthMap": "Health Map"
+    },
+    "rumor": {
+        "rumorSent": "Rumor registered! "
     }
 }

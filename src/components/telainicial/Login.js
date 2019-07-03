@@ -53,10 +53,27 @@ class Login extends Component {
 
     render() {
         const { showAlert } = this.state;
+
+        const logoBR = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoCBR} />
+          )
+      
+          const logoES = (
+            <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+          )
+      
+          let imageType;
+          if (translate("initialscreen.title") === "Guardianes de la Salud") {
+            imageType = logoES
+          }
+          else {
+            imageType = logoBR
+          }
+
         return (
             <View style={styles.container}>
                 <View style={styles.viewImage}>
-                    <Image style={styles.imageLogo} source={Imagem.imagemLogoC} />
+                    {imageType}
                 </View>
                 <View style={styles.viewForm}>
                     <Text style={styles.commomText}>{translate('login.email')}</Text>
@@ -72,6 +89,7 @@ class Login extends Component {
                     <Text style={styles.commomText}>{translate("login.password")}</Text>
                     <TextInput
                         style={styles.formInput}
+                        autoCapitalize='none'
                         secureTextEntry={true}
                         multiline={false}
                         maxLength={15}
@@ -82,12 +100,9 @@ class Login extends Component {
                         <Button
                             title={translate("login.loginbutton")}
                             color="#348EAC"
-                            onPress={() => this.login()} />
-                    </View>
-                    <View style={{ paddingTop: 20 }}>
-                        <Text style={{ textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                            {translate("login.connectWithFacebook")}
-                        </Text>
+                            //onPress={this._isconnected}
+                            onPress={() => this.login()}
+                            />
                     </View>
                 </View>
                 <AwesomeAlert
@@ -124,11 +139,11 @@ class Login extends Component {
             })
         })
             .then((response) => {
-                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status, errorMessage: response._bodyText })
                 if (this.state.statusCode == 200) {
                     return response.json()
                 } else {
-                    alert("Algo deu errado");
+                    alert(this.state.errorMessage);
                     this.hideAlert();
                 }
             })
@@ -136,6 +151,9 @@ class Login extends Component {
                 AsyncStorage.setItem('userID', responseJson.user.id.toString());
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
                 AsyncStorage.setItem('userToken', this.state.userToken);
+                AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
+                AsyncStorage.setItem('userAvatar', responseJson.user.picture);
+                AsyncStorage.setItem('isProfessional', responseJson.user.is_professional.toString());
 
                 this.props.navigation.navigate('Home');
                 this.hideAlert();

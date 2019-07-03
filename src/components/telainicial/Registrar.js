@@ -3,25 +3,22 @@ import {
     StyleSheet,
     Text,
     View,
-    ImageBackground,
     TextInput,
-    ScrollView,
     Button,
     Picker,
     AsyncStorage,
     Keyboard,
     NetInfo,
-    Alert
+    Alert,
+    ScrollView
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
 import DatePicker from 'react-native-datepicker';
-import * as Imagem from '../../imgs/imageConst';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import { app_token } from '../../constUtils';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { scale } from '../scallingUtils';
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
+import { CheckBox } from 'react-native-elements';
 import ModalSelector from 'react-native-modal-selector';
 
 let data = new Date();
@@ -29,9 +26,9 @@ let d = data.getDate();
 let m = data.getMonth() + 1;
 let y = data.getFullYear();
 
-let today = y + "-" + m + "-" + d;
+// let today = y + "-" + m + "-" + d;
 let minDate = (y - 13) + "-" + m + "-" + d;
-let tomorrow = y + "-" + m + "-" + (d + 1)
+// let tomorrow = y + "-" + m + "-" + (d + 1)
 
 class Registrar extends Component {
     static navigationOptions = {
@@ -40,6 +37,10 @@ class Registrar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isProfessional: false,
+            residence: '',
+            residenceText: 'Brazil', //So that the residence picker isn't filled when it shoulnd't
+            residenceCountryCheckbox: true,
             statusCode: null,
             userName: null,
             userEmail: null,
@@ -48,11 +49,11 @@ class Registrar extends Component {
             userCountry: 'Brazil',
             userRace: 'Blanco',
             userDob: null,
-            userApp: 1,
             userToken: null,
             cca2: 'BR',
             showAlert: false, //Custom Alerts
-            showProgressBar: false //Custom Progress Bar
+            showProgressBar: false, //Custom Progress Bar
+            residenceCCA2: 'BR'
         }
     }
 
@@ -73,7 +74,7 @@ class Registrar extends Component {
         let validation = false
         this.state.userEmail && this.state.userPwd && this.state.userName && this.state.userDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+            isConnected ? validation ? this.avatarSelector() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
                 translate("register.noInternet.ohNo"),
                 [
@@ -102,14 +103,13 @@ class Registrar extends Component {
         ];
 
         return (
-            <View style={styles.container} imageStyle={{ resizeMode: 'center', marginLeft: '5%', marginRight: '5%' }} source={Imagem.imagemFundo}>
+            <ScrollView style={styles.container}>
                 <View style={styles.scroll}>
                     <View style={{ paddingTop: 10 }}></View>
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.name")}</Text>
                         <TextInput style={styles.formInput}
                             returnKeyType='next'
-                            onSubmitEditing={() => this.sobrenomeInput.focus()}
                             onChangeText={text => this.setState({ userName: text })}
                         />
                     </View>
@@ -174,7 +174,7 @@ class Registrar extends Component {
 
                         <View style={styles.viewChildPais}>
                             <View style={{ marginRight: '10%' }} ><Text style={styles.commomTextView}>{translate("register.country")}</Text></View>
-                            <View>
+                            <View style={{ alignSelf: 'center' }}>
                                 <CountryPicker
                                     onChange={value => {
                                         this.setState({ cca2: value.cca2, userCountry: value.name })
@@ -185,6 +185,44 @@ class Registrar extends Component {
                                 <Text style={styles.textCountry}>{this.state.userCountry}</Text>
                             </View>
                         </View>
+                    </View>
+
+                    <View>
+                        <CheckBox
+                            title={this.state.userCountry + translate("register.originCountry")}
+                            checked={this.state.residenceCountryCheckbox}
+                            onPress={() => {
+                                this.setState({ residence: '' })
+                                this.setState({ residenceCountryCheckbox: !this.state.residenceCountryCheckbox })
+                            }}
+                        />
+                        <View>
+                            {!this.state.residenceCountryCheckbox ?
+                                <View>
+                                    <CountryPicker
+                                        style={{ height: '15%' }}
+                                        onChange={value => {
+                                            this.setState({
+                                                residenceCCA2: value.cca2,
+                                                residence: value.name,
+                                                residenceText: value.name,
+                                            })
+                                        }}
+                                        cca2={this.state.residenceCCA2}
+                                        translation="eng"
+                                    />
+                                    <Text style={{ alignSelf: 'center' }}>{this.state.residenceText}</Text>
+                                </View>
+                                : null
+                            }
+                        </View>
+                        <CheckBox
+                            title={"Voce é um profissional da Saude"}
+                            checked={this.state.isProfessional}
+                            onPress={() => {
+                                this.setState({ isProfessional: !this.state.isProfessional })
+                            }}
+                        />
                     </View>
 
                     <View style={styles.viewCommom}>
@@ -201,24 +239,30 @@ class Registrar extends Component {
                     <View style={styles.viewCommom}>
                         <Text style={styles.commomText}>{translate("register.password")}</Text>
                         <TextInput style={styles.formInput}
+                            autoCapitalize='none'
                             returnKeyType='next'
                             secureTextEntry={true}
                             onChangeText={text => this.setState({ userPwd: text })}
                             ref={(input) => this.passwordInput = input}
                         />
+                        <Text style={{
+                            fontSize: 13,
+                            fontFamily: 'roboto',
+                            color: '#465F6C',
+                            alignSelf: 'flex-start',
+                            textAlign: 'left',
+                            paddingLeft: "5%",
+                        }}>{translate("register.passwordCondition")}</Text>
                     </View>
+
 
                     <View style={styles.buttonView}>
                         <Button
                             title={translate("register.signupButton")}
                             color="#348EAC"
-                            onPress={this._isconnected} />
-                    </View>
-
-                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 10 }}>
-                        <Text style={{ paddingBottom: 10, paddingTop: 10, textAlign: 'center', paddingBottom: 5, fontFamily: 'roboto', fontSize: 15, color: '#465F6C' }}>
-                            {translate("register.signupWithFacebook")}
-                        </Text>
+                            //onPress={this._isconnected}
+                            onPress={() => this.avatarSelector()}
+                        />
                     </View>
 
                 </View>
@@ -231,14 +275,24 @@ class Registrar extends Component {
                     showCancelButton={false}
                     showConfirmButton={this.state.showProgressBar ? false : true}
                 />
-            </View>
+            </ScrollView>
         );
 
     }
+
+    avatarSelector = async () => {
+        if (this.state.userGender == "Masculino") {
+            await this.setState({ picture: "Father" });
+        } else {
+            await this.setState({ picture: "Mother" });
+        }
+        this.create();
+    }
+
     create = () => {
         Keyboard.dismiss()
         this.showAlert()
-        fetch(`${API_URL}/user/signup`, {
+        fetch(API_URL + '/user/signup', {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -247,6 +301,7 @@ class Registrar extends Component {
             body: JSON.stringify({
                 "user":
                 {
+                    residence: this.state.residence,
                     user_name: this.state.userName,
                     email: this.state.userEmail,
                     password: this.state.userPwd,
@@ -254,25 +309,28 @@ class Registrar extends Component {
                     country: this.state.userCountry,
                     race: this.state.userRace,
                     birthdate: this.state.userDob,
-                    app_id: this.state.userApp,
+                    picture: this.state.picture,
+                    is_professional: this.state.isProfessional
                 }
             })
         })
             .then((response) => {
-                this.setState({ statusCode: response.status })
-                if (this.state.statusCode == 200) {
+                console.log("Resposta", response);
+                console.log("Status da resposta", response.status);
+                // this.setState({ statusCode: response.status })
+                if (response.status === 200) {
                     this.loginAfterCreate();
                 } else {
-                    alert("Algo deu errado");
                     this.hideAlert();
+
+                    alert(response._bodyInit.errors);
                 }
             })
     }
 
     //Login Function 
     loginAfterCreate = () => {
-        console.warn("TESTE")
-        return fetch(`${API_URL}/user/login`, {
+        return fetch(API_URL + '/user/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/vnd.api+json',
@@ -286,9 +344,15 @@ class Registrar extends Component {
                 }
             })
         })
-            .then((response) => {
-                this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
-                if (this.state.statusCode == 200) {
+            .then(async response => {
+                // this.setState({ userToken: response.headers.map.authorization, statusCode: response.status })
+                if (response.status == 200) {
+                    try {
+                        AsyncStorage.setItem('userToken', response.headers.map.authorization);
+                    } catch (error) {
+                        console.log(error);
+                    }
+
                     return response.json()
                 } else {
                     alert("Algo deu errado");
@@ -298,7 +362,9 @@ class Registrar extends Component {
             .then((responseJson) => {
                 AsyncStorage.setItem('userID', responseJson.user.id.toString());
                 AsyncStorage.setItem('userName', responseJson.user.user_name);
-                AsyncStorage.setItem('userToken', this.state.userToken);
+                AsyncStorage.setItem('appID', responseJson.user.app.id.toString());
+                AsyncStorage.setItem('userAvatar', responseJson.user.picture);
+                AsyncStorage.setItem('isProfessional', responseJson.user.is_professional.toString());
 
                 this.props.navigation.navigate('Home');
                 this.hideAlert();
@@ -311,25 +377,11 @@ class Registrar extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 550
-    },
-    titulo: {
-        color: 'white',
-        justifyContent: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-        fontSize: 30,
-        alignSelf: 'center',
-        marginRight: '30%',
-    },
-    viewLogo: {
-        flex: 0.5,
-        width: '100%',
-        alignItems: 'center',
     },
     scroll: {
         flex: 1,
         width: '100%',
+        justifyContent: 'space-between'
     },
     viewCommom: {
         width: '100%',
@@ -349,9 +401,11 @@ const styles = StyleSheet.create({
     viewChildPais: {
         width: "50%",
         height: 65,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
+        // alignItems: 'center'
+        // flexDirection: 'row',
+        // justifyContent: 'flex-start',
+        // alignItems: 'center',
     },
     viewChildData: {
         width: "50%",

@@ -39,23 +39,22 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>https://apiguardioes.herokuapp.com</key>
+			<key>http://gds.proepi.org.br</key>
 			<dict>
-      			<!--Include to allow subdomains-->
-      			<key>NSIncludesSubdomains</key>
-      			<true/>
-      			<!--Include to allow HTTP requests-->
-      			<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-      			<true/>
-      			<!--Include to specify minimum TLS version-->
-      			<key>NSTemporaryExceptionMinimumTLSVersion</key>
-      		<string>TLSv1.1</string>
-    		</dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+			</dict>
 			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

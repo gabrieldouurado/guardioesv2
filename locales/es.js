@@ -7,7 +7,7 @@ export default {
         "white": "Blanco",
         "indian": "Indio",
         "mix": "Mestizo",
-        "black": "Negro, Mulato ou afrodescendiente",
+        "black": "Negro",
         "palenquero": "Palenquero",
         "raizal": "Raizal",
         "romGitano": "Rom-Gitano"
@@ -50,9 +50,11 @@ export default {
         "gender": "Género:",
         "race": "Raza:",
         "birth": "Fecha de nacimiento:",
-        "country": "Pais:",
+        "country": "País de origen:",
+        "originCountry": "es su país de residencia?",
         "email": "Email:",
         "password": "Contraseña:",
+        "passwordCondition": "La contraseña debe contener un mínimo de 8 caracteres",
         "signupButton": "Registro",
         "signupWithFacebook": "Regístrese con Facebook",
         "awesomeAlert": {
@@ -75,7 +77,7 @@ export default {
         "gender": "Sexo: ",
         "race": "Raza: ",
         "birthday": "Fecha de nacimiento:",
-        "country": "Pais:",
+        "country": "Pais de origem:",
         "finishRegistering": "Finalizar Registro"
     },
     "ajuda": {
@@ -204,6 +206,10 @@ export default {
         "toastAlertMessage": "Apriete una vez más para salir",
         "hello": "¡Hola",
         "nowAGuardian": "¡Ahora usted es un guardián de la salud!",
+        "selectProfile": "Seleccione un Perfil:",
+        "addProfile": "Añadir Perfil",
+        "reportRumor": "Reportar Rumor",
+        "reportRumorMessage": "Relatar um rumor de alguma coisa bla bla ",
         "userHowYouFelling": "¿Cómo se siente hoy?",
         "householdHowYouFelling_part_1": "¿Cómo se siente ",
         "householdHowYouFelling_part_2": " hoy?",
@@ -213,6 +219,10 @@ export default {
             "healthDiary": "Diario de Salud",
             "healthMap": "Mapa de la Salud"
         }
+    },
+    "profiles": {
+        "profile": "Perfil",
+        "households": "Familia",
     },
     "locationRequest": {
         "requestLocationMessageTitle": "Permitir el uso de su ubicación",

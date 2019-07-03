@@ -27,14 +27,14 @@ let today = y + "-" + m + "-" + d;
 
 class Registrar extends Component {
     static navigationOptions = {
-        title: "Adicionar Perfil"
+        title: translate("home.addProfile")
     }
     constructor(props) {
         super(props);
         this.getInfos();
         this.state = {
             statusCode: null,
-            kinship: 'pai',
+            kinship: 'Pai',
             householdName: null,
             householdGender: 'Masculino',
             householdCountry: 'Brazil',
@@ -64,7 +64,7 @@ class Registrar extends Component {
         let validation = false
         this.state.householdName && this.state.householdDob ? validation = true : validation = false
         NetInfo.isConnected.fetch().then(isConnected => {
-            isConnected ? validation ? this.create() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
+            isConnected ? validation ? this.avatarSelector() : Alert.alert(translate("register.errorMessages.error"), translate("register.errorMessages.allFieldsAreFilled")) : Alert.alert(
                 translate("register.noInternet.noInternet"),
                 translate("register.noInternet.ohNo"),
                 [
@@ -82,7 +82,7 @@ class Registrar extends Component {
 
     render() {
         const { showAlert } = this.state;
-        
+
         const gender = [
             { key: 'Masculino', label: translate("genderChoices.male")},
             { key: 'Femenino', label: translate("genderChoices.female")},
@@ -106,7 +106,6 @@ class Registrar extends Component {
             { key: 'Avós', label: "Avós"},
             { key: 'Outros', label: "Outros"}
         ];
-        
 
         return (
             <View style={styles.container}>
@@ -204,7 +203,8 @@ class Registrar extends Component {
                     <Button
                         title="criar"
                         color="#348EAC"
-                        onPress={this._isconnected} />
+                        //onPress={this._isconnected}
+                        onPress={() => this.avatarSelector()}/>
                 </View>
 
 
@@ -222,7 +222,50 @@ class Registrar extends Component {
 
     }
 
+    avatarSelector = async () => {
+        if (this.state.householdGender == "Masculino") {
+            switch (this.state.kinship) {
+                case "Pai":
+                    await this.setState({ picture: "Father" });
+                    break;
+                case "conjuge":
+                    await this.setState({ picture: "Father" });
+                    break;
+                case "Avós":
+                    await this.setState({ picture: "Grandfather" });
+                    break;
+                case "Filhos":
+                    await this.setState({ picture: "Son" });
+                    break;
+                case "Irmãos":
+                    await this.setState({ picture: "Brother" });
+                    break;
+            }
+        } else {
+            switch (this.state.kinship) {
+                case "Mãe":
+                    await this.setState({ picture: "Mother" });
+                    break;
+                case "conjuge":
+                    await this.setState({ picture: "Mother" });
+                    break;
+                case "Avós":
+                    await this.setState({ picture: "Grandmother" });
+                    break;
+                case "Filhos":
+                    await this.setState({ picture: "Daughter" });
+                    break;
+                case "Irmãos":
+                    await this.setState({ picture: "Sister" });
+                    break;
+            }
+        }
+
+        this.create();
+    }
+
     create = () => {
+        console.warn(this.state.picture)
         this.showAlert();
         fetch(`${API_URL}/users/${this.state.userID}/households`, {
             method: 'POST',
@@ -239,7 +282,7 @@ class Registrar extends Component {
                     gender: this.state.householdGender,
                     race: this.state.householdRace,
                     kinship: this.state.kinship,
-                    user_id: this.state.userID
+                    picture: this.state.picture,
                 }
             )
         })
@@ -282,7 +325,7 @@ const styles = StyleSheet.create({
     viewChildPais: {
         width: "50%",
         height: 65,
-        flexDirection: 'row',
+        //flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
     },

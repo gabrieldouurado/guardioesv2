@@ -8,11 +8,6 @@ class Ajuda extends Component {
   static navigationOptions = {
     title: translate("ajuda.title")
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -54,7 +49,7 @@ const styles = StyleSheet.create({
     marginHorizontal: scale(30),
   },
   btnOneTxt: {
-    fontFamily: 'Roboto',
+    fontFamily: 'poiretOne',
     fontSize: 18,
   }
 })

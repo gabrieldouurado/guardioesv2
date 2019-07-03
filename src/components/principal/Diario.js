@@ -33,10 +33,7 @@ class Diario extends Component {
         this.state = {
             data: [],
             x: 0,
-            datesMarked: {
-
-            },
-            pic: "http://www.politize.com.br/wp-content/uploads/2016/08/imagem-sem-foto-de-perfil-do-facebook-1348864936180_956x5001.jpg",
+            datesMarked: {},
             BadData: [],
             BadPlot: [{ y: 0, x: 0, marked: "" }],
             NoPlot: [{ y: 0, x: 0, marked: "" }]
@@ -62,9 +59,10 @@ class Diario extends Component {
     getInfos = async () => { //Ger user infos
         let userName = await AsyncStorage.getItem('userName');
         let userSelected = await AsyncStorage.getItem('userSelected');
+        let avatarSelect = await AsyncStorage.getItem('avatarSelected');
         let userID = await AsyncStorage.getItem('userID');
         let userToken = await AsyncStorage.getItem('userToken');
-        this.setState({ userName, userSelected, userID, userToken });
+        this.setState({ userName, userSelected, userID, userToken, avatarSelect });
 
         //Para não dar BO de variavel nula no IOS -- So puxa o async quando é um household
         if (this.state.userSelected == this.state.userName) {
@@ -100,30 +98,29 @@ class Diario extends Component {
         let surveyData = this.state.dataSource
         let markedDateNo = []
         let markedDate = []
+        let markedDateAll = []
 
         surveyData.map((survey, index) => {
             if (this.state.householdID == null) {//Condição para verificar se exise household
                 if (survey.household == null) {
-                    if (survey.symptom && survey.symptom.length) {
+                    if (survey.symptom && survey.symptom.length) { //BadReport
                         markedDate.push(survey.bad_since);
-                        //console.warn("RUIM")
+                        markedDateAll.push(survey);
                     }
-                    else {
-                        markedDateNo.push(survey.bad_since);
-                        //console.warn("BAO")
+                    else { //GoodReport
+                        markedDateNo.push(survey.created_at.split("T", 1).toString());
                     }
                 }
 
             } else {
                 if (survey.household != null) {
                     if (survey.household.id == this.state.householdID) {
-                        if (survey.symptom && survey.symptom.length) {
+                        if (survey.symptom && survey.symptom.length) { //Household BadReport
                             markedDate.push(survey.bad_since);
-                            //console.warn("RUIM")
+                            markedDateAll.push(survey);
                         }
-                        else {
-                            markedDateNo.push(survey.bad_since);
-                            //console.warn("BAO")
+                        else { //Household GoodReport
+                            markedDateNo.push(survey.created_at.split("T", 1).toString());
                         }
                     }
                 }
@@ -141,6 +138,7 @@ class Diario extends Component {
             NummarkedDateNo: markedDateNo.length,
             NummarkedDate: markedDate.length,
             markedDate: markedDate,
+            markedDateAll: markedDateAll,
             markedDateNo: markedDateNo,
         })
 
@@ -150,133 +148,6 @@ class Diario extends Component {
         Object.assign(GoodReport, BadReport);
 
         this.setState({ datesMarked: GoodReport });
-
-        //console.warn(this.state.datesMarked)
-        //this.ChartData();
-    }
-
-    ChartData = () => {
-        let badData = this.state.markedDate;
-        let NoSymptomData = this.state.markedDateNo
-        let BadDataAux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        let NoDataAux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        badData.map((data, index) => {
-            // YYYY-MM-DD
-            switch (data.split("-")[1]) {
-                case "01":
-                    BadDataAux[0]++
-                    break;
-                case "02":
-                    BadDataAux[1]++
-                    break;
-                case "03":
-                    BadDataAux[2]++
-                    break;
-                case "04":
-                    BadDataAux[3]++
-                    break;
-                case "05":
-                    BadDataAux[4]++
-                    break;
-                case "06":
-                    BadDataAux[5]++
-                    break;
-                case "07":
-                    BadDataAux[6]++
-                    break;
-                case "08":
-                    BadDataAux[7]++
-                    break;
-                case "09":
-                    BadDataAux[8]++
-                    break;
-                case "10":
-                    BadDataAux[9]++
-                    break;
-                case "11":
-                    BadDataAux[10]++
-                    break;
-                case "12":
-                    BadDataAux[11]++
-                    break;
-            }
-        })
-        var BadPlotAux = [
-            { y: BadDataAux[0], x: 0, marked: 'Jan: ' + BadDataAux[0] },
-            { y: BadDataAux[1], x: 1, marked: 'Fev: ' + BadDataAux[1] },
-            { y: BadDataAux[2], x: 2, marked: 'Mar: ' + BadDataAux[2] },
-            { y: BadDataAux[3], x: 3, marked: 'Abr: ' + BadDataAux[3] },
-            { y: BadDataAux[4], x: 4, marked: 'Mai: ' + BadDataAux[4] },
-            { y: BadDataAux[5], x: 5, marked: 'Jun: ' + BadDataAux[5] },
-            { y: BadDataAux[6], x: 6, marked: 'Jul: ' + BadDataAux[6] },
-            { y: BadDataAux[7], x: 7, marked: 'Ago: ' + BadDataAux[7] },
-            { y: BadDataAux[8], x: 8, marked: 'Set: ' + BadDataAux[8] },
-            { y: BadDataAux[9], x: 9, marked: 'Out: ' + BadDataAux[9] },
-            { y: BadDataAux[10], x: 10, marked: 'Nov: ' + BadDataAux[10] },
-            { y: BadDataAux[11], x: 11, marked: 'Dez: ' + BadDataAux[11] }]
-
-        NoSymptomData.map((data, index) => {
-            // YYYY-MM-DD
-            switch (data.split("-")[1]) {
-                case "01":
-                    NoDataAux[0]++
-                    break;
-                case "02":
-                    NoDataAux[1]++
-                    break;
-                case "03":
-                    NoDataAux[2]++
-                    break;
-                case "04":
-                    NoDataAux[3]++
-                    break;
-                case "05":
-                    NoDataAux[4]++
-                    break;
-                case "06":
-                    NoDataAux[5]++
-                    break;
-                case "07":
-                    NoDataAux[6]++
-                    break;
-                case "08":
-                    NoDataAux[7]++
-                    break;
-                case "09":
-                    NoDataAux[8]++
-                    break;
-                case "10":
-                    NoDataAux[9]++
-                    break;
-                case "11":
-                    NoDataAux[10]++
-                    break;
-                case "12":
-                    NoDataAux[11]++
-                    break;
-            }
-        })
-
-        var NoPlotAux = [
-            { y: NoDataAux[0], x: 0, marked: "Jan: " + NoDataAux[0] },
-            { y: NoDataAux[1], x: 1, marked: 'Fev: ' + NoDataAux[1] },
-            { y: NoDataAux[2], x: 2, marked: 'Mar: ' + NoDataAux[2] },
-            { y: NoDataAux[3], x: 3, marked: 'Abr: ' + NoDataAux[3] },
-            { y: NoDataAux[4], x: 4, marked: 'Mai: ' + NoDataAux[4] },
-            { y: NoDataAux[5], x: 5, marked: 'Jun: ' + NoDataAux[5] },
-            { y: NoDataAux[6], x: 6, marked: 'Jul: ' + NoDataAux[6] },
-            { y: NoDataAux[7], x: 7, marked: 'Ago ' + NoDataAux[7] },
-            { y: NoDataAux[8], x: 8, marked: 'Set: ' + NoDataAux[8] },
-            { y: NoDataAux[9], x: 9, marked: 'Out: ' + NoDataAux[9] },
-            { y: NoDataAux[10], x: 10, marked: 'Nov ' + NoDataAux[10] },
-            { y: NoDataAux[11], x: 11, marked: 'Dez ' + NoDataAux[11] }]
-
-
-        this.setState({
-            BadData: BadDataAux,
-            BadPlot: BadPlotAux,
-            NoPlot: NoPlotAux
-        });
     }
 
     render() {
@@ -292,7 +163,7 @@ class Diario extends Component {
                             <Avatar
                                 large
                                 rounded
-                                source={{ uri: this.state.pic }}
+                                source={Imagem[this.state.avatarSelect]}
                                 activeOpacity={0.7}
                                 style={{ borderWidth: 1, borderColor: '#BF092E', margin: '10%' }}
                             />
@@ -329,9 +200,16 @@ class Diario extends Component {
                         <Calendar
                             current={_today}
                             markedDates={this.state.datesMarked}
+                            onDayPress={(day) => {
+                                let symptomDate = this.state.markedDateAll;
+                                symptomDate.map(symptomMarker => {
+                                    if(symptomMarker.bad_since == day.dateString){
+                                        console.warn(symptomMarker.symptom)
+                                    }
+                                })
+                            }}
                         />
                     </View>
-                    
                 </ScrollView>
             </View>
         );

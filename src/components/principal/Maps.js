@@ -17,8 +17,8 @@ class Maps extends Component {
             this.getLocation();
         });
         this.state = {
-            userLatitude: null,
-            userLongitude: null,
+            userLatitude: 0,
+            userLongitude: 0,
             isLoading: true,
             dataSource: [],
         }
