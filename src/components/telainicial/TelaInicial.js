@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 90,
         backgroundColor: 'white',
         justifyContent: 'center',
+        borderColor: 'white',
+        borderWidth: 1
     },
     viewChildRegistar: {
         width: '49.5%',
@@ -114,6 +116,8 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 90,
         backgroundColor: 'white',
         justifyContent: 'center',
+        borderColor: 'white',
+        borderWidth: 1
     },
     textButton: {
         fontFamily: 'roboto',

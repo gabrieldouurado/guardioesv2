@@ -458,11 +458,16 @@ const styles = StyleSheet.create({
     viewImage: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        //margin: '10%',
+        //paddingLeft: '25%',
+        //paddingRight: '25%',
+        //borderColor: 'red',
+        //borderWidth: 1,
     },
     imageLogo: {
-        height: '75%',
-        resizeMode: 'center'
+        height: scale(128),
+        resizeMode: 'contain',
     },
     viewWelcome: {
         width: '100%',
@@ -510,6 +515,8 @@ const styles = StyleSheet.create({
         width: '80%',
         height: '10%',
         marginTop: 5,
+        //borderColor: 'red',
+        //borderWidth: 1
     },
     viewChildBad: {
         width: '50%',
@@ -517,6 +524,8 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 90,
         backgroundColor: 'rgba(22, 107, 135, 0.25)',
         justifyContent: 'center',
+        borderColor: 'rgba(22, 107, 135, 0.25)',
+        borderWidth: 1
     },
     viewChildGood: {
         width: '50%',
@@ -524,6 +533,8 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 90,
         backgroundColor: 'rgba(22, 107, 135, 1)',
         justifyContent: 'center',
+        borderColor: 'rgba(22, 107, 135, 1)',
+        borderWidth: 1
     },
     textChoiceButton: {
         fontFamily: 'roboto',
@@ -534,10 +545,16 @@ const styles = StyleSheet.create({
     modalView: {
         alignSelf: 'center',
         width: '93%',
-        marginTop: '60%',
+        marginTop: scale(210),
         borderRadius: 30,
         backgroundColor: 'white',
-        elevation: 15
+        shadowColor: 'gray',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0
     },
     modalViewTop: {
         flexDirection: 'row'

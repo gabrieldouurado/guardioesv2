@@ -5,6 +5,7 @@ import {
 import { imagemLogo, imagemLogoBR } from '../../imgs/imageConst';
 import LinearGradient from 'react-native-linear-gradient';
 import translate from '../../../locales/i18n';
+import { scale } from '../scallingUtils';
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
   },
   imageLogo: {
     marginBottom: 20,
-    height: '35%',
-    resizeMode: 'center',
+    height: scale(235),
+    resizeMode: 'contain',
   }
 });
 

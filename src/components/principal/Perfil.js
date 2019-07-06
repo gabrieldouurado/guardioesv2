@@ -620,7 +620,13 @@ const styles = StyleSheet.create({
     marginTop: '35%',
     borderRadius: 20,
     backgroundColor: 'white',
-    elevation: 15
+    shadowColor: 'gray',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0
   },
   viewCommom: {
     width: '100%',

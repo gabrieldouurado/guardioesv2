@@ -7,6 +7,7 @@ import * as Imagem from '../../imgs/imageConst';
 import { Dimensions } from 'react-native';
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
+import { scale } from '../scallingUtils';
 const GreenBlue = "rgb(26, 182, 151)";
 const petrel = "rgb(59, 145, 153)";
 
@@ -221,7 +222,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     Top: {
-        height: '9%',
+        paddingTop: scale(15),
+        height: '16%',
         flexDirection: 'row',
         backgroundColor: '#2298BF',
         borderColor: 'red',

@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 import { Redirect } from '../../constUtils';
 import translate from '../../../locales/i18n';
 import { API_URL } from '../../constUtils';
+import { scale } from '../scallingUtils';
 
 
 class Conselho extends Component {
@@ -65,7 +66,7 @@ class Conselho extends Component {
         }
 
         return (
-            <View>
+            <View style={styles.container}>
                 <Modal
                     animationType="fade"
                     transparent={true}
@@ -76,6 +77,9 @@ class Conselho extends Component {
                     <View style={styles.modalView}>
                         <View style={styles.modalTitle}>
                             <Text style={styles.modalTextTitle}>{this.state.contentTitle}</Text>
+                            <TouchableOpacity onPress={() => this.setModalVisible(!this.state.modalVisible)}>
+                                <Text style={styles.modalTextTitle}>X</Text>
+                            </TouchableOpacity>
                         </View>
                         <ScrollView>
                             <Text style={styles.modalBodyText}>{this.state.contentBody}</Text>
@@ -133,6 +137,9 @@ const textoRedirect = {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        paddingTop: scale(15),
+    },
     selector: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -154,13 +161,23 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: '93%',
         //height: '88%',
-        marginTop: '3%',
-        padding: '5%',
+        marginTop: '6%',
+        marginBottom: '10%',
+        paddingTop: '5%',
+        paddingHorizontal: '5%',
         borderRadius: 15,
         backgroundColor: 'white',
-        elevation: 15
+        shadowColor: 'gray',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0
     },
     modalTitle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         borderBottomWidth: 2,
         borderColor: '#348EAC',
     },
@@ -177,7 +194,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 7,
         marginLeft: 5,
-        color: '#348EAC'
+        color: '#348EAC',
     }
 });
 
