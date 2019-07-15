@@ -292,6 +292,7 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
+                <FontAwesome name="bars" onPress={() => this.props.navigation.openDrawer()} size={scale(30)} color='rgba(22, 107, 135, 0.2)' style={{alignSelf: 'flex-start', marginLeft: '3%', marginTop: '8%'}}/>
 
                 <View style={styles.viewImage}>
                     {imageType}

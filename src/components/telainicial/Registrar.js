@@ -231,6 +231,7 @@ class Registrar extends Component {
                             autoCapitalize='none'
                             style={styles.formInput}
                             keyboardType='email-address'
+                            returnKeyType='next'
                             onChangeText={email => this.setState({ userEmail: email })}
                             onSubmitEditing={() => this.passwordInput.focus()}
                         />
@@ -240,10 +241,11 @@ class Registrar extends Component {
                         <Text style={styles.commomText}>{translate("register.password")}</Text>
                         <TextInput style={styles.formInput}
                             autoCapitalize='none'
-                            returnKeyType='next'
+                            
                             secureTextEntry={true}
                             onChangeText={text => this.setState({ userPwd: text })}
                             ref={(input) => this.passwordInput = input}
+                            onSubmitEditing={() => this.avatarSelector()}
                         />
                         <Text style={{
                             fontSize: 13,

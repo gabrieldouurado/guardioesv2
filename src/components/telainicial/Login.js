@@ -71,7 +71,8 @@ class Login extends Component {
           }
 
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
+                <View style={styles.scroll}>
                 <View style={styles.viewImage}>
                     {imageType}
                 </View>
@@ -95,6 +96,7 @@ class Login extends Component {
                         maxLength={15}
                         ref={(input) => this.passwordInput = input}
                         onChangeText={(text) => this.setState({ userPwd: text })}
+                        onSubmitEditing={() => this.login()}
                     />
                     <View style={styles.buttonView}>
                         <Button
@@ -117,6 +119,7 @@ class Login extends Component {
                     confirmButtonColor="#DD6B55"
                 />
             </View>
+            </ScrollView>
         );
     }
 
@@ -179,6 +182,9 @@ const emojis = [
 // define your styles
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+    scroll: {
         flex: 1,
         height: 550,
         alignItems: 'center',

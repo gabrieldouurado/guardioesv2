@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Modal, Dimensions, TextInput, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Modal, Dimensions, TextInput, AsyncStorage, Keyboard, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Feather from 'react-native-vector-icons/Feather';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -95,6 +95,7 @@ export class Rumor extends Component {
   }
 
   _createRumor = async () => {
+    Keyboard.dismiss();
     const user_token = await AsyncStorage.getItem('userToken');
     const { title, description, confirmed_cases, confirmed_deaths } = this.state;
 
@@ -153,7 +154,7 @@ export class Rumor extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
           <Modal
             transparent={true}
             visible={this.state.modalVisibility}
@@ -200,125 +201,99 @@ export class Rumor extends Component {
               <Text style={styles.exitModalText}>X</Text>
             </TouchableOpacity>
           </Modal>
-          <View>
-            <Text style={styles.normalTexts}>Título:</Text>
-          </View>
-          <View>
-            <TextInput
-              placeholder="Título do Rumor"
-              style={styles.textInput}
-              onChangeText={title => this.setState({ title })}
+          <View style={styles.viewCommom}>
+            <Text style={styles.commomText}>Título:</Text>
+            <TextInput style={styles.formInput}
               value={this.state.title}
+              onSubmitEditing={() => this.eventInput.focus()}
+              onChangeText={title => this.setState({ title })}
             />
           </View>
-          <View>
-            <Text style={styles.normalTexts}>Descriçao:</Text>
+          <View style={styles.viewCommom}>
+            <Text style={styles.commomText}>Descrição:</Text>
+
+
+            <TextInput style={styles.formInput}
+              multiline={true}
+              maxLength={300}
+              onChangeText={description => this.setState({ description })}
+              value={description}
+              ref={(input) => this.eventInput = input}
+              onSubmitEditing={() => this.casesInput.focus()}
+              onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
+            />
           </View>
-
-          {/* <View> */}
-          <TextInput
-            placeholder="Mensagem descrevendo os eventos"
-            multiline={true}
-            maxLength={300}
-            style={[styles.textInput, newStyle]}
-            onChangeText={description => this.setState({ description })}
-            value={description}
-            onSubmitEditing={() => console.log("Texto -> ", this.state)}
-            onContentSizeChange={(e) => this.updateSize(e.nativeEvent.contentSize.height)}
-          />
-          {/* </View> */}
-
-          <View style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            marginBottom: '5%'
-          }}>
-            <View style={{ width: '48%' }}>
-              <TextInput
-                placeholder="Casos"
-                style={{
-                  width: '100%',
-                  borderBottomWidth: 1,
-                  borderBottomColor: 'lightgray'
-                }}
+          <View style={styles.viewRow}>
+            <View style={styles.viewChild}>
+              <Text style={styles.commomTextView}>Número de Casos:</Text>
+              <TextInput style={styles.formInputChild}
                 keyboardType='number-pad'
                 value={this.state.confirmed_cases}
+                ref={(input) => this.casesInput = input}
+                onSubmitEditing={() => this.deathsInput.focus()}
                 onChangeText={(confirmed_cases) => this.setState({ confirmed_cases })}
               />
             </View>
 
-            <View style={{ width: '48%' }}>
-              <TextInput
-                placeholder="Mortes"
-                style={{
-                  width: '100%',
-                  borderBottomWidth: 1,
-                  borderBottomColor: 'lightgray'
-                }}
+            <View style={styles.viewChild}>
+              <Text style={styles.commomTextView}>Número de Mortes:</Text>
+              <TextInput style={styles.formInputChild}
                 keyboardType='number-pad'
                 value={this.state.confirmed_deaths}
+                ref={(input) => this.deathsInput = input}
                 onChangeText={(confirmed_deaths) => this.setState({ confirmed_deaths })}
               />
             </View>
-            {/* <View style={styles.viewCasos}>
-              <Text style={styles.normalTexts}>Numero de Casos:</Text>
-              <TextInput
-                placeholder="Casos"
-                keyboardType={"number-pad"}
-                style={{
-                  marginLeft: '4%',
-                  borderColor: 'lightgray',
-                  borderWidth: 1,
-                  width: '22%'
-                }}
-              />
-            </View> */}
+
           </View>
-          <TouchableOpacity
-            style={styles.openMapBtn}
-            onPress={() => this._setModalVisible()}
-          >
-            <Text>Local</Text>
-            {this.state.showMarker ? checked : unchecked}
-          </TouchableOpacity>
 
-        </View>
+          <View style={styles.viewRow}>
+            <View style={styles.viewChild}>
+            <Text style={styles.commomTextView}>Localização:</Text>
+              <TouchableOpacity style={styles.openMapBtn}
+                onPress={() => { this._setModalVisible(); Keyboard.dismiss(); }}
+              >
+                <Text>Marcar no Mapa</Text>
+                {this.state.showMarker ? checked : unchecked}
+              </TouchableOpacity>
+            </View>
+          </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              this.showAlert();
-              this._createRumor();
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                this.showAlert();
+                this._createRumor();
+              }}
+              style={styles.sendBtn}
+            >
+              <Text style={{
+                fontSize: scale(15),
+                fontWeight: '500',
+                color: 'black'
+              }}>Enviar</Text>
+            </TouchableOpacity>
+          </View>
+
+          <AwesomeAlert
+            show={this.state.showAlert}
+            showProgress={this.state.showProgressBar ? true : false}
+            title={this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
+            message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("rumor.rumorSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
+            closeOnTouchOutside={this.state.showProgressBar ? false : true}
+            closeOnHardwareBackPress={false}
+            showConfirmButton={this.state.showProgressBar ? false : true}
+            confirmText={translate("badReport.alertMessages.confirmText")}
+            confirmButtonColor='green'
+            onCancelPressed={() => {
+              this.hideAlert();
             }}
-            style={styles.sendBtn}
-          >
-            <Text style={{
-              fontSize: scale(15),
-              fontWeight: '500',
-              color: 'black'
-            }}>Enviar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <AwesomeAlert
-          show={this.state.showAlert}
-          showProgress={this.state.showProgressBar ? true : false}
-          title={this.state.showProgressBar ? translate("badReport.alertMessages.sending") : <Text>{translate("badReport.alertMessages.thanks")} {emojis[1]}{emojis[1]}{emojis[1]}</Text>}
-          message={this.state.showProgressBar ? null : <Text style={{ alignSelf: 'center' }}>{translate("rumor.rumorSent")} {emojis[0]}{emojis[0]}{emojis[0]}</Text>}
-          closeOnTouchOutside={this.state.showProgressBar ? false : true}
-          closeOnHardwareBackPress={false}
-          showConfirmButton={this.state.showProgressBar ? false : true}
-          confirmText={translate("badReport.alertMessages.confirmText")}
-          confirmButtonColor='green'
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-          onDismiss={() => this.hideAlert()}
-        />
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+            onDismiss={() => this.hideAlert()}
+          />
+        </ScrollView>
       </View>
     )
   }
@@ -326,26 +301,27 @@ export class Rumor extends Component {
 
 const emojis = [
   (
-      <Emoji //Emoji heart up
-          name='heart'
-          style={{ fontSize: scale(15) }}
-      />
+    <Emoji //Emoji heart up
+      name='heart'
+      style={{ fontSize: scale(15) }}
+    />
   ),
   (
-      <Emoji //Emoji tada up
-          name='tada'
-          style={{ fontSize: scale(15) }}
-      />
+    <Emoji //Emoji tada up
+      name='tada'
+      style={{ fontSize: scale(15) }}
+    />
   )
 ]
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: '3%',
+    //padding: '3%',
     justifyContent: 'space-between',
   },
   body: {
+    paddingTop: "5%"
   },
   map: {
     flex: 1
@@ -365,19 +341,19 @@ const styles = StyleSheet.create({
     elevation: 10
   },
   exitModalText: {
-    //padding: '3%',
     fontSize: 'bold',
     color: 'white',
     fontSize: 21
   },
   openMapBtn: {
-    width: '40%',
-    padding: '2%',
     alignItems: 'center',
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
+    justifyContent: 'space-around',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    width: "80%",
+    height: 35,
+    fontSize: 16,
+    paddingBottom: 0,
+    paddingTop: 2,
   },
   textInput: {
     borderColor: 'lightgray',
@@ -391,7 +367,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#166B87',
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 10,
+    marginHorizontal: "5%",
   },
   normalTexts: {
     marginBottom: 5,
@@ -403,9 +380,56 @@ const styles = StyleSheet.create({
   viewCasos: {
     flexDirection: 'row',
     alignItems: 'center'
-    //borderColor: 'green',
-    //borderWidth: 1,
-  }
+  },
+  formInput: {
+    width: "90%",
+    height: 35,
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#348EAC',
+    paddingBottom: 0,
+    paddingTop: 2,
+  },
+  formInputChild: {
+    width: "80%",
+    height: 35,
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#348EAC',
+    paddingBottom: 0,
+    paddingTop: 2,
+  },
+  commomText: {
+    fontSize: 17,
+    fontFamily: 'roboto',
+    color: '#465F6C',
+    alignSelf: 'flex-start',
+    textAlign: 'left',
+    paddingLeft: "5%",
+  },
+  viewCommom: {
+    width: '100%',
+    height: 65,
+    alignItems: 'center',
+  },
+  commomTextView: {
+    fontSize: 17,
+    fontFamily: 'roboto',
+    color: '#465F6C',
+    alignSelf: 'flex-start',
+    textAlign: 'left',
+    paddingLeft: '10%',
+  },
+  viewRow: {
+    width: '100%',
+    height: 65,
+    flexDirection: 'row',
+  },
+  viewChild: {
+    width: "50%",
+    height: 65,
+    alignItems: 'center',
+  },
 })
 
 export default Rumor;
