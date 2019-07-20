@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     Top: {
-        paddingTop: scale(15),
+        //paddingTop: scale(15),
         height: '16%',
         flexDirection: 'row',
         backgroundColor: '#2298BF',

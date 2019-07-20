@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import * as Navegar from './src/components/navigation/navigator';
 
 class Guardioes extends Component {
   render() {
     return (
-      
-        
+      <SafeAreaView style={{flex: 1, backgroundColor: '#348EAC'}}>        
         <Navegar.Authentication />
-      
+        </SafeAreaView>
     );
   }
 }

@@ -128,7 +128,7 @@ class Home extends Component {
                 this.setState({
                     data: responseJson.households,
                 })
-                console.warn(this.state.data)
+                //console.warn(this.state.data)
             })
     }
 
@@ -292,7 +292,7 @@ class Home extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor='#348EAC' />
-                <FontAwesome name="bars" onPress={() => this.props.navigation.openDrawer()} size={scale(30)} color='rgba(22, 107, 135, 0.2)' style={{alignSelf: 'flex-start', marginLeft: '3%', marginTop: '8%'}}/>
+                <FontAwesome name="bars" onPress={() => this.props.navigation.openDrawer()} size={scale(30)} color='rgba(22, 107, 135, 0.2)' style={{alignSelf: 'flex-start', marginLeft: '3%', marginTop: '2%'}}/>
 
                 <View style={styles.viewImage}>
                     {imageType}

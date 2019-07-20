@@ -325,7 +325,8 @@ class Registrar extends Component {
                 } else {
                     this.hideAlert();
 
-                    alert(response._bodyInit.errors);
+                    //alert(response._bodyInit.errors);
+                    alert("Algo deu errado");
                 }
             })
     }
