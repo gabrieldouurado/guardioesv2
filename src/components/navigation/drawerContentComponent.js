@@ -36,7 +36,9 @@ export default class drawerContentComponents extends Component {
         AsyncStorage.removeItem('appID');
         AsyncStorage.removeItem('userSelected');
         AsyncStorage.removeItem('avatarSelected');
-        this.props.navigation.navigate('TelaInicial')
+        AsyncStorage.removeItem('userEmail');
+        AsyncStorage.removeItem('appPwd');
+        this.props.navigation.navigate('TelaInicial');
     }
 
     render() {
