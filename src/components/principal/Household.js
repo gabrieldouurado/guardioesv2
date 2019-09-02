@@ -84,27 +84,27 @@ class Registrar extends Component {
         const { showAlert } = this.state;
 
         const gender = [
-            { key: 'Masculino', label: translate("genderChoices.male")},
-            { key: 'Femenino', label: translate("genderChoices.female")},
+            { key: 'Masculino', label: translate("genderChoices.male") },
+            { key: 'Femenino', label: translate("genderChoices.female") },
         ];
 
         const race = [
-            { key: 'Blanco', label: translate("raceChoices.white")},
-            { key: 'Indígena', label: translate("raceChoices.indian")},
-            { key: 'Mestizo', label: translate("raceChoices.mix")},
-            { key: 'Negro, mulato o afrodescendiente', label: translate("raceChoices.black")},
-            { key: 'Palenquero', label: translate("raceChoices.palenquero")},
-            { key: 'Raizal', label: translate("raceChoices.raizal")},
-            { key: 'Rom-Gitano', label: translate("raceChoices.romGitano")}
+            { key: 'Blanco', label: translate("raceChoices.white") },
+            { key: 'Indígena', label: translate("raceChoices.indian") },
+            { key: 'Mestizo', label: translate("raceChoices.mix") },
+            { key: 'Negro, mulato o afrodescendiente', label: translate("raceChoices.black") },
+            { key: 'Palenquero', label: translate("raceChoices.palenquero") },
+            { key: 'Raizal', label: translate("raceChoices.raizal") },
+            { key: 'Rom-Gitano', label: translate("raceChoices.romGitano") }
         ];
 
         const household = [
-            { key: 'Pai', label: "Pai"},
-            { key: 'Mãe', label: "Mãe"},
-            { key: 'Filhos', label: "Filhos"},
-            { key: 'Irmaãos', label: "Irmãos"},
-            { key: 'Avós', label: "Avós"},
-            { key: 'Outros', label: "Outros"}
+            { key: 'Pai', label: "Pai" },
+            { key: 'Mãe', label: "Mãe" },
+            { key: 'Filhos', label: "Filhos" },
+            { key: 'Irmaãos', label: "Irmãos" },
+            { key: 'Avós', label: "Avós" },
+            { key: 'Outros', label: "Outros" }
         ];
 
         return (
@@ -121,21 +121,21 @@ class Registrar extends Component {
                     <View style={styles.viewChildSexoRaca}>
                         <Text style={styles.commomTextView}>{translate("register.gender")}</Text>
                         <ModalSelector
-                                style={{width: '80%', height: '70%'}}
-                                data={gender}
-                                initValue={translate("genderChoices.male")}
-                                onChange={(option) => this.setState({ householdGender: option.key })}
-                            />
+                            style={{ width: '80%', height: '70%' }}
+                            data={gender}
+                            initValue={translate("genderChoices.male")}
+                            onChange={(option) => this.setState({ householdGender: option.key })}
+                        />
                     </View>
 
                     <View style={styles.viewChildSexoRaca}>
                         <Text style={styles.commomTextView}>{translate("register.race")}</Text>
                         <ModalSelector
-                                style={{width: '80%', height: '70%'}}
-                                data={race}
-                                initValue={translate("raceChoices.white")}
-                                onChange={(option) => this.setState({ householdRace: option.key })}
-                            />
+                            style={{ width: '80%', height: '70%' }}
+                            data={race}
+                            initValue={translate("raceChoices.white")}
+                            onChange={(option) => this.setState({ householdRace: option.key })}
+                        />
                     </View>
 
                 </View>
@@ -193,18 +193,18 @@ class Registrar extends Component {
                 <View style={styles.viewCommom}>
                     <Text style={styles.commomText}>Parentesco:</Text>
                     <ModalSelector
-                                style={{width: '95%', height: '70%'}}
-                                data={household}
-                                initValue={this.state.kinship}
-                                onChange={(option) => this.setState({ kinship: option.key })}
-                            />
+                        style={{ width: '95%', height: '70%' }}
+                        data={household}
+                        initValue={this.state.kinship}
+                        onChange={(option) => this.setState({ kinship: option.key })}
+                    />
                 </View>
                 <View style={styles.buttonView}>
                     <Button
                         title="criar"
                         color="#348EAC"
                         //onPress={this._isconnected}
-                        onPress={() => this.avatarSelector()}/>
+                        onPress={() => this.avatarSelector()} />
                 </View>
 
 
@@ -228,6 +228,9 @@ class Registrar extends Component {
                 case "Pai":
                     await this.setState({ picture: "Father" });
                     break;
+                case "Mãe":
+                    await this.setState({ picture: "Mother" });
+                    break;
                 case "conjuge":
                     await this.setState({ picture: "Father" });
                     break;
@@ -245,6 +248,9 @@ class Registrar extends Component {
             switch (this.state.kinship) {
                 case "Mãe":
                     await this.setState({ picture: "Mother" });
+                    break;
+                case "Pai":
+                    await this.setState({ picture: "Father" });
                     break;
                 case "conjuge":
                     await this.setState({ picture: "Mother" });
